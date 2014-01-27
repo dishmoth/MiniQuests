@@ -1,0 +1,601 @@
+Sample
+"r8PgxLVn3Tbu9oh1Fhn8LrtCRxzLX55SeIBZjJHapINmvWTt1gZ07Uf5DwlDJkrHP9xQVp3"
+Quest A stats
+Room A01, 0 dead, 7 sec
+Room A02, 0 dead, 9 sec
+Room A03, 0 dead, 24 sec
+Room A04, 0 dead, 11 sec
+Room A05, 0 dead, 15 sec
+Room A03, 0 dead, 15 sec
+Room A06, 0 dead, 17 sec
+Room A07, 1 dead, 24 sec
+Room A08, 0 dead, 19 sec
+Room A03, 0 dead, 12 sec
+Room A09, 0 dead, 20 sec
+Room A10, 0 dead, 24 sec
+Room A11, 0 dead, 6 sec
+Room A10, 0 dead, 28 sec
+Room A12, 0 dead, 10 sec
+Room A10, 0 dead, 29 sec
+Room A13, 0 dead, 3 sec
+Total time: 273 seconds
+Total deaths: 1
+
+Sample
+"Tk2IZ37PfGDWlRJdrEPkzhVr3Xbu9Yh4FsnBLhtJR9zNXx5SdwBZj9HipDNlvFTq1LZ17Sf8EEl"
+Quest B stats
+Room B01, 0 dead, 13 sec
+Room B02, 0 dead, 20 sec
+Room B03, 0 dead, 25 sec
+Room B04, 0 dead, 6 sec
+Room B05, 2 dead, 29 sec
+Room B06, 0 dead, 13 sec
+Room B03, 0 dead, 8 sec
+Room B07, 0 dead, 22 sec
+Room B08, 0 dead, 5 sec
+Room B10, 0 dead, 27 sec
+Room B08, 0 dead, 9 sec
+Room B07, 0 dead, 2 sec
+Room B08, 0 dead, 9 sec
+Room B11, 0 dead, 7 sec
+Room B08, 0 dead, 3 sec
+Room B07, 0 dead, 3 sec
+Room B12, 0 dead, 4 sec
+Room B13, 1 dead, 46 sec
+Total time: 251 seconds
+Total deaths: 3
+
+From yuma (JGO)
+"DUm2Jss9RiyGZM5Nb39SjwGZnULew0SlzWXq5eexBpj2Hsp7NzvCTl1JZ97Qj6EXlIJcsZRjxoVq40bxBJh0FtnAL9tHRozOXx5Td2BbjYHfpBNoxzTr1PZy7Pf3DclBJbrFPhxNVn3Rby9Yh1FdnALlvyRpzKXw5Od1BajAHbpDNfvMTn1PZv7Uf7Dbl3JgrAPnxGVs3Lbz9Th6FcnBLgtJRlzNXs5WdyBZjJHepFNlvITu2nZx7Rf6Djl9JfrHPkxLVq3Qbx9Xh1FenKLjtERoziXq6idzBTj2HlpCORvJT11RZb7VfxDdl4JhrGPqxGVt3Lb29Uh5FdnCLdtHRlzMXq5TdyBaj1HfpCNnvJTr1NZ07df3DblAJcrFPkxMVn3Rbx9ZhlFdn9LmtHRpzKXu5Pd5BXjCOIs"
+Quest B stats
+Room B01, 0 dead, 80 sec
+Room B02, 2 dead, 64 sec
+Room B03, 4 dead, 160 sec
+Room B04, 0 dead, 11 sec
+Room B03, 2 dead, 122 sec
+Room B04, 0 dead, 26 sec
+Room B03, 3 dead, 114 sec
+Room B04, 0 dead, 16 sec
+Room B03, 0 dead, 80 sec
+Room B04, 0 dead, 23 sec
+Room B03, 0 dead, 20 sec
+Room B02, 0 dead, 21 sec
+Room B01, 0 dead, 1 sec
+Room B02, 0 dead, 19 sec
+Room B03, 4 dead, 72 sec
+Room B04, 0 dead, 16 sec
+Room B03, 1 dead, 151 sec
+Room B04, 0 dead, 36 sec
+Room B05, 1 dead, 42 sec
+Room B06, 2 dead, 55 sec
+Room B03, 0 dead, 23 sec
+Room B07, 0 dead, 33 sec
+Room B08, 0 dead, 6 sec
+Room B09, 0 dead, 9 sec
+Room B08, 0 dead, 8 sec
+Room B10, 0 dead, 34 sec
+Room B08, 0 dead, 5 sec
+Room B11, 2 dead, 49 sec
+Room B08, 0 dead, 7 sec
+Room B09, 0 dead, 1 sec
+Room B08, 0 dead, 8 sec
+Room B10, 0 dead, 1 sec
+Room B08, 0 dead, 1 sec
+Room B10, 0 dead, 1 sec
+Room B08, 0 dead, 6 sec
+Room B09, 0 dead, 3 sec
+Room B08, 0 dead, 6 sec
+Room B10, 2 dead, 50 sec
+Room B08, 0 dead, 4 sec
+Room B09, 0 dead, 2 sec
+Room B08, 0 dead, 8 sec
+Room B11, 0 dead, 3 sec
+Room B08, 0 dead, 1 sec
+Room B11, 0 dead, 3 sec
+Room B08, 0 dead, 5 sec
+Room B07, 0 dead, 11 sec
+Room B08, 0 dead, 1 sec
+Room B07, 0 dead, 2 sec
+Room B08, 0 dead, 2 sec
+Room B07, 0 dead, 1 sec
+Room B08, 0 dead, 3 sec
+Room B09, 0 dead, 6 sec
+Room B08, 0 dead, 4 sec
+Room B10, 0 dead, 3 sec
+Room B08, 0 dead, 4 sec
+Room B11, 0 dead, 4 sec
+Room B08, 0 dead, 19 sec
+Room B07, 0 dead, 9 sec
+Room B08, 0 dead, 6 sec
+Room B11, 1 dead, 31 sec
+Room B08, 0 dead, 3 sec
+Room B11, 0 dead, 15 sec
+Room B08, 0 dead, 5 sec
+Room B10, 0 dead, 4 sec
+Room B08, 0 dead, 4 sec
+Room B07, 0 dead, 5 sec
+Room B08, 0 dead, 3 sec
+Room B09, 0 dead, 16 sec
+Room B08, 0 dead, 4 sec
+Room B07, 0 dead, 28 sec
+Room B03, 1 dead, 22 sec
+Room B06, 0 dead, 1 sec
+Room B03, 0 dead, 13 sec
+Room B07, 1 dead, 49 sec
+Room B08, 0 dead, 17 sec
+Room B10, 0 dead, 47 sec
+Room B08, 0 dead, 1 sec
+Room B10, 0 dead, 2 sec
+Room B08, 0 dead, 8 sec
+Room B11, 0 dead, 2 sec
+Room B08, 0 dead, 1 sec
+Room B11, 0 dead, 4 sec
+Room B08, 0 dead, 7 sec
+Room B09, 0 dead, 1 sec
+Room B08, 0 dead, 3 sec
+Room B07, 0 dead, 2 sec
+Room B08, 0 dead, 4 sec
+Room B09, 0 dead, 1 sec
+Room B08, 0 dead, 6 sec
+Room B10, 0 dead, 7 sec
+Room B08, 0 dead, 5 sec
+Room B11, 0 dead, 15 sec
+Room B08, 0 dead, 7 sec
+Room B09, 0 dead, 2 sec
+Room B08, 0 dead, 4 sec
+Room B09, 0 dead, 1 sec
+Room B08, 0 dead, 5 sec
+Room B10, 0 dead, 49 sec
+Room B08, 0 dead, 5 sec
+Room B11, 0 dead, 7 sec
+Room B08, 0 dead, 4 sec
+Room B07, 0 dead, 3 sec
+Room B12, 0 dead, 5 sec
+Room B13, 7 dead, 232 sec
+Total time: 2141 seconds
+Total deaths: 33
+
+From yuma (JGO)
+"p6NevITl1RZs7nfzEwl6JbrBPhxIV43Mbt9UhzFYnSLhtTRoznXv5fdwBnj8JEpFPMvMV01Re98ZfjFdnFKmrBP"
+Quest A stats
+Room A01, 0 dead, 6 sec
+Room A02, 0 dead, 9 sec
+Room A03, 0 dead, 25 sec
+Room A04, 1 dead, 28 sec
+Room A05, 0 dead, 1 sec
+Room A04, 0 dead, 1 sec
+Room A05, 0 dead, 18 sec
+Room A03, 0 dead, 1 sec
+Room A05, 0 dead, 1 sec
+Room A03, 0 dead, 24 sec
+Room A06, 0 dead, 19 sec
+Room A07, 0 dead, 33 sec
+Room A08, 0 dead, 19 sec
+Room A03, 0 dead, 21 sec
+Room A09, 2 dead, 42 sec
+Room A10, 2 dead, 44 sec
+Room A11, 2 dead, 16 sec
+Room A10, 5 dead, 81 sec
+Room A12, 0 dead, 173 sec
+Room A10, 2 dead, 75 sec
+Room A13, 0 dead, 3 sec
+Total time: 640 seconds
+Total deaths: 14
+
+Beta
+"Qh0FWz4Mc3BRi3GYocMfvVSm0ZY169e"
+Room C01, 0 dead, 12 sec
+Room C02, 0 dead, 72 sec
+Room C01, 0 dead, 4 sec
+Room C02, 0 dead, 33 sec
+Room C03, 1 dead, 20 sec
+Room C04, 0 dead, 18 sec
+Room C13, 0 dead, 48 sec
+Total time: 207 seconds
+Total deaths: 1
+
+Beta
+"p6PevKTl1paq7mfxD3l2Jbr9PhyEVq3"
+Quest C stats
+Room C01, 0 dead, 8 sec
+Room C02, 0 dead, 95 sec
+Room C01, 0 dead, 24 sec
+Room C02, 0 dead, 35 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 63 sec
+Room C01, 0 dead, 4 sec
+Total time: 230 seconds
+Total deaths: 0
+
+Beta
+"duDSj8HZpdOevaTl1rZq7PfxDVm2Jfr9PsxEVn3Lb7A"
+Quest C stats
+Room C01, 0 dead, 8 sec
+Room C02, 0 dead, 95 sec
+Room C01, 0 dead, 24 sec
+Room C02, 0 dead, 35 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 63 sec
+Room C01, 0 dead, 5 sec
+Room C02, 0 dead, 12 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 77 sec
+Total time: 321 seconds
+Total deaths: 0
+
+Beta
+"uBUj0MYq6ZevCVk2I9q7OkwEUK3JaI8QgLFXmHKesPQtyQWq4OcxDEi4GvpBMmuJV60OZc6"
+Quest C stats
+Room C01, 0 dead, 5 sec
+Room C02, 0 dead, 12 sec
+Room C01, 0 dead, 2 sec
+Room C02, 0 dead, 36 sec
+Room C01, 0 dead, 5 sec
+Room C02, 0 dead, 97 sec
+Room C01, 0 dead, 27 sec
+Room C02, 0 dead, 86 sec
+Room C03, 0 dead, 14 sec
+Room C04, 0 dead, 16 sec
+Room C13, 0 dead, 11 sec
+Room C04, 0 dead, 3 sec
+Room C05, 3 dead, 49 sec
+Room C06, 0 dead, 86 sec
+Room C07, 0 dead, 9 sec
+Room C09, 3 dead, 23 sec
+Room C08, 1 dead, 49 sec
+Total time: 530 seconds
+Total deaths: 7
+
+Beta
+"OfyDUq2Ka38PgzEWmdKbsEQiyoXn4mcuApj1Glo8MtuNSu0KYs6RhiCYkPJfqGOnzaUs4Bbx8Tg5ErmCQAwJTIzLWu4WeeAdiaGioBMjuFSo0IYv6Oe0C0k5JgqCOgwHWC2Mav8bg2EYmRKotXQkyRW04jc7BziEGnoJNnuQSk0VZh6cewChkpIoqFO"
+Quest C stats
+Room C01, 0 dead, 5 sec
+Room C02, 0 dead, 12 sec
+Room C01, 0 dead, 2 sec
+Room C02, 0 dead, 36 sec
+Room C01, 0 dead, 5 sec
+Room C02, 0 dead, 97 sec
+Room C01, 0 dead, 27 sec
+Room C02, 0 dead, 86 sec
+Room C03, 0 dead, 14 sec
+Room C04, 0 dead, 16 sec
+Room C13, 0 dead, 11 sec
+Room C04, 0 dead, 3 sec
+Room C05, 3 dead, 49 sec
+Room C06, 0 dead, 86 sec
+Room C07, 0 dead, 9 sec
+Room C09, 3 dead, 23 sec
+Room C08, 2 dead, 116 sec
+Room C07, 0 dead, 4 sec
+Room C09, 0 dead, 22 sec
+Room C10, 6 dead, 283 sec
+Room C11, 3 dead, 99 sec
+Room C07, 0 dead, 7 sec
+Room C12, 2 dead, 47 sec
+Room C13, 0 dead, 37 sec
+Room C12, 0 dead, 6 sec
+Room C07, 0 dead, 4 sec
+Room C06, 0 dead, 1 sec
+Room C07, 0 dead, 1 sec
+Room C06, 0 dead, 33 sec
+Room C05, 1 dead, 7 sec
+Room C06, 0 dead, 1 sec
+Room C05, 2 dead, 27 sec
+Room C04, 0 dead, 4 sec
+Room C13, 0 dead, 5 sec
+Room C04, 0 dead, 24 sec
+Room C14, 1 dead, 24 sec
+Room C04, 0 dead, 12 sec
+Room C14, 0 dead, 24 sec
+Room C15, 1 dead, 34 sec
+Room C16, 0 dead, 16 sec
+Room C15, 1 dead, 10 sec
+Room C16, 0 dead, 1 sec
+Room C15, 1 dead, 54 sec
+Room C16, 0 dead, 1 sec
+Room C15, 0 dead, 50 sec
+Room C16, 0 dead, 8 sec
+Total time: 1443 seconds
+Total deaths: 26
+(Two stars)
+
+Beta
+"l2LarEPhxmVm3Zbt97hyF5n5L4uARjzHXp5MdvBTjfHYp7NfvmTk1UZr7WfwDVl3J7r8PhxFVU3"
+Quest C stats
+Room C01, 0 dead, 6 sec
+Room C02, 0 dead, 34 sec
+Room C01, 0 dead, 15 sec
+Room C02, 0 dead, 43 sec
+Room C01, 0 dead, 35 sec
+Room C02, 0 dead, 90 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 1 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 41 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 36 sec
+Room C01, 0 dead, 12 sec
+Room C02, 0 dead, 8 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 33 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 44 sec
+Total time: 403 seconds
+Total deaths: 0
+
+Beta
+"wDWl2Pas8xgxEkm4KIs9QGyGWF5LcuASi0GXo6MeuqSj0IYq6xevCfk2Ihq7OgwEUI2Jas8QgZFXmCKesJQlyGWq4Nc5Ati2Glo9QDuESk0Lco6SeGDZk2IeqHOlwEUq2Lax8ag4Fcm9KesHRsyMWo5Te9AXi5Gep7NjuHSr0IYv6Qe2CUk7IdqFOmwJUm2Rb28Wg1Edm4KisAQpyJWt4Sc0ASi5GaoDO4uISk0Pb56TewCbnfIiqIOnwDUu22bz8Pg6FMnDQvuFQlyPWn4RcwAckLGjo8MoxPSv0RY07We1CUkCJsqDOgwOWy2VaG8ag1Ebm6KgsGQnyFWs4kcxBoi2GaoHMiuESo0TYp6QeECglGIcqFOswYUz2Za68agBG3oIKis"
+Quest C stats
+Room C01, 0 dead, 6 sec
+Room C02, 0 dead, 34 sec
+Room C01, 0 dead, 15 sec
+Room C02, 0 dead, 43 sec
+Room C01, 0 dead, 35 sec
+Room C02, 0 dead, 90 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 1 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 41 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 36 sec
+Room C01, 0 dead, 12 sec
+Room C02, 0 dead, 8 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 33 sec
+Room C01, 0 dead, 1 sec
+Room C02, 0 dead, 100 sec
+Room C03, 0 dead, 9 sec
+Room C04, 0 dead, 10 sec
+Room C05, 0 dead, 1 sec
+Room C04, 0 dead, 2 sec
+Room C13, 0 dead, 28 sec
+Room C04, 0 dead, 14 sec
+Room C05, 4 dead, 36 sec
+Room C04, 0 dead, 1 sec
+Room C05, 4 dead, 61 sec
+Room C06, 0 dead, 83 sec
+Room C07, 0 dead, 1 sec
+Room C06, 0 dead, 10 sec
+Room C07, 0 dead, 1 sec
+Room C06, 0 dead, 2 sec
+Room C07, 0 dead, 11 sec
+Room C08, 1 dead, 7 sec
+Room C07, 0 dead, 3 sec
+Room C09, 1 dead, 11 sec
+Room C08, 0 dead, 63 sec
+Room C09, 2 dead, 16 sec
+Room C07, 0 dead, 6 sec
+Room C08, 1 dead, 64 sec
+Room C07, 0 dead, 6 sec
+Room C09, 0 dead, 1 sec
+Room C07, 0 dead, 3 sec
+Room C08, 0 dead, 1 sec
+Room C07, 0 dead, 4 sec
+Room C09, 0 dead, 7 sec
+Room C07, 0 dead, 1 sec
+Room C09, 1 dead, 11 sec
+Room C08, 0 dead, 4 sec
+Room C09, 0 dead, 1 sec
+Room C08, 0 dead, 1 sec
+Room C09, 0 dead, 4 sec
+Room C07, 0 dead, 7 sec
+Room C08, 0 dead, 1 sec
+Room C07, 0 dead, 3 sec
+Room C09, 2 dead, 27 sec
+Room C08, 0 dead, 1 sec
+Room C09, 3 dead, 16 sec
+Room C07, 0 dead, 1 sec
+Room C09, 3 dead, 40 sec
+Room C10, 0 dead, 11 sec
+Room C09, 0 dead, 0 sec
+Room C10, 0 dead, 107 sec
+Room C09, 0 dead, 0 sec
+Room C10, 1 dead, 115 sec
+Room C11, 6 dead, 144 sec
+Room C07, 0 dead, 4 sec
+Room C11, 0 dead, 0 sec
+Room C07, 0 dead, 3 sec
+Room C12, 2 dead, 22 sec
+Room C13, 0 dead, 3 sec
+Room C12, 3 dead, 14 sec
+Room C13, 0 dead, 10 sec
+Room C12, 1 dead, 9 sec
+Room C07, 0 dead, 1 sec
+Room C12, 1 dead, 19 sec
+Room C07, 0 dead, 1 sec
+Room C12, 2 dead, 13 sec
+Room C13, 0 dead, 25 sec
+Room C12, 0 dead, 4 sec
+Room C07, 0 dead, 3 sec
+Room C06, 0 dead, 7 sec
+Room C07, 0 dead, 0 sec
+Room C06, 0 dead, 25 sec
+Room C05, 1 dead, 23 sec
+Room C04, 0 dead, 3 sec
+Room C13, 0 dead, 5 sec
+Room C04, 0 dead, 5 sec
+Room C13, 0 dead, 0 sec
+Room C04, 0 dead, 19 sec
+Room C14, 1 dead, 15 sec
+Room C04, 0 dead, 8 sec
+Room C14, 0 dead, 21 sec
+Room C15, 0 dead, 16 sec
+Room C16, 0 dead, 11 sec
+Room C15, 2 dead, 158 sec
+Room C16, 0 dead, 7 sec
+Total time: 1870 seconds
+Total deaths: 42
+(One star)
+
+"Ul4Jaz8QgvEVm7KcsYQjyGWo4McvAei2GloHM6uESn0LZL6SeIC"
+Quest C stats
+Room C01, 0 dead, 8 sec
+Room C02, 0 dead, 60 sec
+Room C01, 0 dead, 4 sec
+Room C02, 0 dead, 25 sec
+Room C03, 0 dead, 1 sec
+Room C02, 0 dead, 1 sec
+Room C03, 0 dead, 13 sec
+Room C04, 0 dead, 14 sec
+Room C13, 0 dead, 29 sec
+Room C04, 0 dead, 4 sec
+Room C05, 1 dead, 32 sec
+Room C06, 0 dead, 23 sec
+Total time: 214 seconds
+Total deaths: 1
+
+"Wn6Lc1ASi5HZoEMguESv0dYs6VezEuk6IPqDOqwKWv2Pau8Xg4EcndKjthQoyzWt4Oc1ASi5GboCMmuJTq0NYt6UeICZk4IeqROjyVUo2Qa38Yg0EXm7LtsEQyyLWt4Sc1AZkAGdo8MkuKSr5NZv6Qe2Cak7IcqFOxwMVM3Tcm8YgyEfmMKhsDQs1nWz4qc4AVi5GaoAMyuFTs0KYr6Ze0CWkLImqUOtzUV02Za59ngCEXmHKSsOQpy"
+Quest C stats
+Room C01, 0 dead, 8 sec
+Room C02, 0 dead, 68 sec
+Room C03, 0 dead, 9 sec
+Room C04, 0 dead, 3 sec
+Room C13, 0 dead, 22 sec
+Room C04, 0 dead, 8 sec
+Room C05, 2 dead, 27 sec
+Room C06, 0 dead, 52 sec
+Room C07, 0 dead, 11 sec
+Room C08, 2 dead, 10 sec
+Room C07, 0 dead, 3 sec
+Room C09, 0 dead, 7 sec
+Room C08, 1 dead, 36 sec
+Room C09, 1 dead, 34 sec
+Room C08, 0 dead, 46 sec
+Room C07, 0 dead, 3 sec
+Room C09, 0 dead, 1 sec
+Room C07, 0 dead, 4 sec
+Room C08, 0 dead, 9 sec
+Room C09, 1 dead, 7 sec
+Room C07, 0 dead, 4 sec
+Room C08, 0 dead, 23 sec
+Room C07, 0 dead, 3 sec
+Room C06, 0 dead, 20 sec
+Room C05, 2 dead, 18 sec
+Room C04, 0 dead, 7 sec
+Room C13, 0 dead, 9 sec
+Room C04, 0 dead, 2 sec
+Room C05, 1 dead, 18 sec
+Room C06, 0 dead, 17 sec
+Room C07, 0 dead, 6 sec
+Room C08, 0 dead, 8 sec
+Room C09, 2 dead, 11 sec
+Room C07, 0 dead, 3 sec
+Room C08, 0 dead, 9 sec
+Room C09, 5 dead, 68 sec
+Room C07, 0 dead, 3 sec
+Room C08, 0 dead, 7 sec
+Room C07, 0 dead, 3 sec
+Room C09, 0 dead, 18 sec
+Room C10, 1 dead, 99 sec
+Room C11, 2 dead, 57 sec
+Room C10, 0 dead, 1 sec
+Room C11, 0 dead, 19 sec
+Room C07, 0 dead, 4 sec
+Room C12, 3 dead, 34 sec
+Room C13, 0 dead, 31 sec
+Room C12, 0 dead, 4 sec
+Room C07, 0 dead, 3 sec
+Room C06, 0 dead, 21 sec
+Room C05, 1 dead, 9 sec
+Room C04, 0 dead, 2 sec
+Room C13, 0 dead, 5 sec
+Room C04, 0 dead, 20 sec
+Room C14, 0 dead, 23 sec
+Room C15, 3 dead, 79 sec
+Room C16, 0 dead, 16 sec
+Room C15, 1 dead, 24 sec
+Room C16, 0 dead, 2 sec
+Room C15, 0 dead, 53 sec
+Room C16, 0 dead, 8 sec
+Total time: 1139 seconds
+Total deaths: 28
+
+"yFYn4RcuAxizGeo6MlvDSw0KY56ZejCWk4Id3KQkwOVr2VayAgg3EamBNvsGRPyNWo4SkxCXi2GcoCMjuGS"
+Quest C stats
+Room C01, 0 dead, 6 sec
+Room C02, 0 dead, 32 sec
+Room C01, 0 dead, 7 sec
+Room C02, 0 dead, 70 sec
+Room C03, 0 dead, 13 sec
+Room C04, 0 dead, 16 sec
+Room C13, 0 dead, 50 sec
+Room C04, 0 dead, 3 sec
+Room C05, 13 dead, 137 sec
+Room C06, 0 dead, 73 sec
+Room C07, 0 dead, 12 sec
+Room C08, 2 dead, 17 sec
+Room C07, 0 dead, 5 sec
+Room C09, 3 dead, 20 sec
+Room C08, 1 dead, 44 sec
+Room C09, 0 dead, 1 sec
+Room C08, 8 dead, 128 sec
+Room C07, 0 dead, 3 sec
+Room C06, 0 dead, 7 sec
+Room C07, 0 dead, 5 sec
+Total time: 649 seconds
+Total deaths: 27
+
+"GXq5MkuCSI0JY16QeCCfkaIcqBOjwRUq2ZavAlg0EWm7KcsCQkyRW14OcHAdiBGao7MhxiSo0HZv6Oe0CYk7ImqFOhwJUp2Qbx8Vg0Edm6KhsAQpyKWu5Ec1Bfi6GZoDNguISj0PYu6TeyCakkIhq8OmwXUr2Naz8dg6GQnDKMsFQlyQcj4XcOAci3Gdo8MiuZSn0TYs6Qe7CXk4IuqKO4wRUz2YaC8diPFkm4KpsHQwyOW"
+Quest C stats
+Room C01, 0 dead, 7 sec
+Room C02, 0 dead, 35 sec
+Room C03, 0 dead, 12 sec
+Room C04, 0 dead, 17 sec
+Room C13, 0 dead, 35 sec
+Room C04, 0 dead, 4 sec
+Room C05, 0 dead, 14 sec
+Room C06, 0 dead, 16 sec
+Room C05, 2 dead, 22 sec
+Room C04, 0 dead, 1 sec
+Room C05, 0 dead, 1 sec
+Room C04, 0 dead, 3 sec
+Room C13, 0 dead, 14 sec
+Room C04, 0 dead, 24 sec
+Room C13, 0 dead, 12 sec
+Room C04, 0 dead, 2 sec
+Room C05, 3 dead, 33 sec
+Room C06, 0 dead, 62 sec
+Room C07, 0 dead, 1 sec
+Room C06, 0 dead, 5 sec
+Room C07, 0 dead, 13 sec
+Room C09, 0 dead, 2 sec
+Room C07, 0 dead, 4 sec
+Room C08, 1 dead, 6 sec
+Room C07, 0 dead, 3 sec
+Room C09, 0 dead, 3 sec
+Room C07, 0 dead, 1 sec
+Room C09, 0 dead, 5 sec
+Room C08, 1 dead, 55 sec
+Room C09, 1 dead, 14 sec
+Room C08, 0 dead, 2 sec
+Room C09, 1 dead, 3 sec
+Room C08, 0 dead, 0 sec
+Room C09, 0 dead, 5 sec
+Room C07, 0 dead, 3 sec
+Room C08, 0 dead, 45 sec
+Room C09, 0 dead, 1 sec
+Room C08, 0 dead, 20 sec
+Room C07, 0 dead, 4 sec
+Room C09, 0 dead, 14 sec
+Room C10, 2 dead, 119 sec
+Room C11, 0 dead, 47 sec
+Room C07, 0 dead, 4 sec
+Room C12, 6 dead, 58 sec
+Room C13, 0 dead, 31 sec
+Room C12, 0 dead, 4 sec
+Room C07, 0 dead, 3 sec
+Room C06, 0 dead, 24 sec
+Room C05, 0 dead, 12 sec
+Room C04, 0 dead, 3 sec
+Room C13, 0 dead, 4 sec
+Room C04, 0 dead, 21 sec
+Room C14, 0 dead, 25 sec
+Room C15, 0 dead, 14 sec
+Room C16, 0 dead, 21 sec
+Room C15, 2 dead, 90 sec
+Room C16, 0 dead, 1 sec
+Room C15, 0 dead, 8 sec
+Room C16, 0 dead, 9 sec
+Total time: 1021 seconds
+Total deaths: 19
+
