@@ -20,6 +20,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "B06"
 public class RoomB06 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B06";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0000     0",
                                                 "         0",
@@ -41,8 +44,8 @@ public class RoomB06 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.UP,    2,2, "#s",1, -1, RoomB05.class, 1), 
-              new Exit(Env.RIGHT, 6,2, "#s",1, -1, RoomB03.class, 3) };
+          = { new Exit(Env.UP,    2,2, "#s",1, -1, RoomB05.NAME, 1), 
+              new Exit(Env.RIGHT, 6,2, "#s",1, -1, RoomB03.NAME, 3) };
 
   // width of a tile square
   private static final int kSquareSize = 4,
@@ -84,6 +87,8 @@ public class RoomB06 extends Room {
   
   // constructor
   public RoomB06() {
+
+    super(NAME);
 
   } // constructor
 

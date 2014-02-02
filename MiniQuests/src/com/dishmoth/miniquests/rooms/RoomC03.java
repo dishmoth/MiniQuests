@@ -23,6 +23,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "C03"
 public class RoomC03 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C03";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "    0     ",
                                                 " 21111    ",
@@ -64,8 +67,8 @@ public class RoomC03 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 4,8, "#Y",1, 0, RoomC02.class, 1), 
-              new Exit(Env.UP,    4,4, "#Y",1, 0, RoomC04.class, 0) };
+          = { new Exit(Env.RIGHT, 4,8, "#Y",1, 0, RoomC02.NAME, 1), 
+              new Exit(Env.UP,    4,4, "#Y",1, 0, RoomC04.NAME, 0) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -92,6 +95,8 @@ public class RoomC03 extends Room {
   
   // constructor
   public RoomC03() {
+
+    super(NAME);
 
   } // constructor
 

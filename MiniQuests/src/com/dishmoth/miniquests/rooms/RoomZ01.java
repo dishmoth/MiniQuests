@@ -23,6 +23,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // training room "Z01"
 public class RoomZ01 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "Z01";
+
   // main blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0000000000",
@@ -86,7 +89,7 @@ public class RoomZ01 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { // note: dummy exit at index 0
-              new Exit(Env.UP, 2,8, "#N",0, -1, RoomZ02.class, 0) };
+              new Exit(Env.UP, 2,8, "#N",0, -1, RoomZ02.NAME, 0) };
 
   // time until the door unlocks
   private static final int kDoorDelay = 10;
@@ -106,6 +109,8 @@ public class RoomZ01 extends Room {
   
   // constructor
   public RoomZ01() {
+
+    super(NAME);
 
   } // constructor
 

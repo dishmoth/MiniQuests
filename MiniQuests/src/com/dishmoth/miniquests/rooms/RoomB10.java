@@ -29,6 +29,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "B10"
 public class RoomB10 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B10";
+  
   // blocks for beneath the room
   private static final String kLowerBlocks[][] = { { "0000000000",
                                                      "0000000000",
@@ -60,7 +63,7 @@ public class RoomB10 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 5,10, "#k",1, 0, RoomB08.class, 3) };
+          = { new Exit(Env.RIGHT, 5,10, "#k",1, 0, RoomB08.NAME, 3) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -120,10 +123,12 @@ public class RoomB10 extends Room {
   // constructor
   public RoomB10() {
 
+    super(NAME);
+
     mUpperActivated = false;
     mLowerActivated = false;
 
-    mSwitchStates = kSwitchStatesStart.clone();
+    mSwitchStates = Env.copyOf(kSwitchStatesStart);
 
     mCritterDead = false;
     

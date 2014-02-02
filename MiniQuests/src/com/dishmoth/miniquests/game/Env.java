@@ -183,6 +183,40 @@ public class Env {
   static public float foldNearTo(float a, float target, float modSize) {
     return ( target + fold(a-target+0.5f*modSize, modSize) - 0.5f*modSize );
   } // foldNearTo()
+
+  // assorted functions for copying arrays (can't use Arrays.copyOf due to GWT)
+  static public byte[] copyOf(byte array[]) {
+    
+    if ( array == null ) return null;
+    byte copy[] = new byte[array.length];
+    for ( int k = 0 ; k < array.length ; k++ ) copy[k] = array[k];
+    return copy;
+    
+  } // copyOf(byte[])
+  static public int[] copyOf(int array[]) {
+    
+    if ( array == null ) return null;
+    int copy[] = new int[array.length];
+    for ( int k = 0 ; k < array.length ; k++ ) copy[k] = array[k];
+    return copy;
+    
+  } // copyOf(int[])
+  static public float[] copyOf(float array[]) {
+    
+    if ( array == null ) return null;
+    float copy[] = new float[array.length];
+    for ( int k = 0 ; k < array.length ; k++ ) copy[k] = array[k];
+    return copy;
+    
+  } // copyOf(float[])
+  static public String[] copyOf(String array[]) {
+    
+    if ( array == null ) return null;
+    String copy[] = new String[array.length];
+    for ( int k = 0 ; k < array.length ; k++ ) copy[k] = array[k];
+    return copy;
+    
+  } // copyOf(String[])
   
   // send a log message back to HQ
   static public void report(String string) {

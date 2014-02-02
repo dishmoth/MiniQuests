@@ -6,7 +6,6 @@
 
 package com.dishmoth.miniquests.game;
 
-import java.util.Collections;
 import java.util.LinkedList;
 
 // a monster
@@ -295,12 +294,12 @@ public class Critter extends Sprite3D implements Obstacle {
         for ( int dir = 0 ; dir < 4 ; dir++ ) {
           if ( dir != mDirecFrom && zDests[dir] != null ) randomDirec.add(dir);
         }
-        Collections.shuffle(randomDirec);
+        shuffle(randomDirec);
         if ( zDests[mDirecFrom] != null ) randomDirec.add(mDirecFrom);
         if ( randomDirec.size() > 0 ) {
           direc = randomDirec.getFirst();          
         } else {
-          direc = (mDirec + Env.randomInt(3) ) % 4;
+          direc = (mDirec + Env.randomInt(3)) % 4;
         }
       }
 
@@ -353,6 +352,18 @@ public class Critter extends Sprite3D implements Obstacle {
 
   } // Sprite.advance()
 
+  // utility to rearrange the list (can't use Collections.shuffle() due to GWT)
+  static private void shuffle(LinkedList<Integer> list) {
+
+    for ( int k = list.size() - 1 ; k >= 0 ; k-- ) {
+      int i = Env.randomInt(k+1);
+      int temp = list.get(k);
+      list.set(k, list.get(i));
+      list.set(i, temp);
+    }
+    
+  } // shuffle()
+  
   // check isPlatform() on all obstacles
   private boolean checkIsPlatform(int x, int y, int z) {
     

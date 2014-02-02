@@ -351,12 +351,12 @@ public class TinyStory extends Story {
     
   } // Story.advance()
 
-  // retrieve a room based on its class
-  private Room findRoom(Class<?> roomClass) {
+  // retrieve a room based on its uniquename
+  private Room findRoom(String roomName) {
 
     Room foundRoom = null;
     for ( Room room : mRoomList ) {
-      if ( roomClass.isInstance(room) ) {
+      if ( room.name().equals(roomName)  ) {
         assert( foundRoom == null );
         foundRoom = room;
       }

@@ -143,25 +143,13 @@ public class EgaImage {
   final public byte[] pixels() { return mPixels; }
   
   // clone of the pixel array
-  final public byte[] pixelsCopy() {
-    
-    byte copy[] = new byte[ mPixels.length ];
-    for ( int k = 0 ; k < mPixels.length ; k++ ) copy[k] = mPixels[k];
-    return copy;
-    
-  } // pixelsCopy()
+  final public byte[] pixelsCopy() { return Env.copyOf(mPixels); }
   
   // access to the pixel depths
   final public float[] depths() { return mDepths; }
   
   // clone of the pixel depths
-  final public float[] depthsCopy() {
-    
-    float copy[] = new float[ mDepths.length ];
-    for ( int k = 0 ; k < mDepths.length ; k++ ) copy[k] = mDepths[k];
-    return copy;
-    
-  } // depthsCopy()
+  final public float[] depthsCopy() { return Env.copyOf(mDepths); }
   
   // colour an individual pixel (ignoring depth)
   public void plot(int x, int y, byte colour) {

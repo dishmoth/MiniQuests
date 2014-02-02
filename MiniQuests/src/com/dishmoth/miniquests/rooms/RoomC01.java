@@ -21,6 +21,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "C01"
 public class RoomC01 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C01";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "       000",
                                                 "        00",
@@ -115,7 +118,7 @@ public class RoomC01 extends Room {
   // details of exit/entry points for the room
   private static final Exit kExits[] 
           = { // note: dummy exit at index 0
-              new Exit(Env.DOWN, 3,0, "tB",0, -1, RoomC02.class, 0) }; 
+              new Exit(Env.DOWN, 3,0, "tB",0, -1, RoomC02.NAME, 0) }; 
   
   // parameters controlling the lift
   private static final int kLiftZMin  = -18,
@@ -130,6 +133,8 @@ public class RoomC01 extends Room {
 
   // constructor
   public RoomC01() {
+
+    super(NAME);
 
   } // constructor
 

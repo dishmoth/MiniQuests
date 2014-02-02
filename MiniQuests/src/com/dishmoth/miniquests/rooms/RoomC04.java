@@ -26,6 +26,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "C04"
 public class RoomC04 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C04";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "000000000           ",
                                                 "001111200           ",
@@ -59,9 +62,9 @@ public class RoomC04 extends Room {
   // details of exit/entry points for the room 
   // (plus special cases: 3 => respawn at top of lift, 4 => ride up on lift)
   private static final Exit kExits[] 
-          = { new Exit(0,0, Env.DOWN, 2,0, "lL",0, -1, RoomC03.class, 1),
-              new Exit(0,0, Env.LEFT, 5,0, "#f",0, -1, RoomC13.class, 1),
-              new Exit(0,0, Env.UP,   2,0, "#L",0, -1, RoomC05.class, 0) };
+          = { new Exit(0,0, Env.DOWN, 2,0, "lL",0, -1, RoomC03.NAME, 1),
+              new Exit(0,0, Env.LEFT, 5,0, "#f",0, -1, RoomC13.NAME, 1),
+              new Exit(0,0, Env.UP,   2,0, "#L",0, -1, RoomC05.NAME, 0) };
 
   // glowing pathways
   private static final String kGlowPath1[] = { "   +++++",
@@ -119,6 +122,8 @@ public class RoomC04 extends Room {
   // constructor
   public RoomC04() {
     
+    super(NAME);
+
     mPathDone1 = mPathDone2 = false;
 
     mLiftAtTop = false;
@@ -171,7 +176,7 @@ public class RoomC04 extends Room {
       mLift.setPos(mLift.getXPos(), mLift.getYPos(), 
                    (mLiftAtTop ? kLiftZMax : kLiftZMin));
     } else {
-      RoomC14 roomBelow = (RoomC14)findRoom(RoomC14.class);
+      RoomC14 roomBelow = (RoomC14)findRoom(RoomC14.NAME);
       assert( roomBelow != null );
       if ( entryPoint == kExits.length ) {
         // special case: 3 => respawn at top of lift
@@ -235,7 +240,7 @@ public class RoomC04 extends Room {
     spriteManager.addSprite(new Fence(9,0,0, 5, Env.UP, 1));
     spriteManager.addSprite(new Fence(9,6,0, 4, Env.UP, 1));
 
-    RoomC13 roomLeft = (RoomC13)findRoom(RoomC13.class);
+    RoomC13 roomLeft = (RoomC13)findRoom(RoomC13.NAME);
     assert( roomLeft != null );
     boolean pathsAvailable = roomLeft.pathComplete();
     
@@ -271,7 +276,7 @@ public class RoomC04 extends Room {
     
     if ( mBlocks != null ) spriteManager.removeSprite(mBlocks);
 
-    mBlockColours = kBlockColours.clone();
+    mBlockColours = Env.copyOf(kBlockColours);
     if ( mPathDone1 ) mBlockColours[2] = "J#";
     if ( mPathDone2 ) mBlockColours[3] = "J#";
     
@@ -303,7 +308,7 @@ public class RoomC04 extends Room {
       return;
     }
     if ( !mLiftAtTop && mPlayer != null && mPlayer.getZPos() == kLiftZMin+4 ) {
-      storyEvents.add(new EventRoomChange(RoomC14.class, 1));
+      storyEvents.add(new EventRoomChange(RoomC14.NAME, 1));
       recordLiftChangeInfo(mPlayer.getXPos()-mLift.getXPos(), 
                            mPlayer.getYPos()-mLift.getYPos(),
                            mPlayer.getDirec());

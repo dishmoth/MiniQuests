@@ -25,6 +25,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "A02"
 public class RoomA02 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A02";
+  
   // all visible blocks for the room
   private static final String kBlocks[][] = { { "          ",
                                                 "          ",
@@ -98,8 +101,8 @@ public class RoomA02 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 3,6, "#c",1, -1, RoomA01.class, 1),
-              new Exit(Env.UP,    4,0, "#c",1, -1, RoomA03.class, 0) };
+          = { new Exit(Env.RIGHT, 3,6, "#c",1, -1, RoomA01.NAME, 1),
+              new Exit(Env.UP,    4,0, "#c",1, -1, RoomA03.NAME, 0) };
 
   // height range for the lava
   private static final int kLavaMinHeight = -12,
@@ -122,6 +125,8 @@ public class RoomA02 extends Room {
   
   // constructor
   public RoomA02() {
+
+    super(NAME);
 
     mSwitchDone = false;
     

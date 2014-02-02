@@ -25,7 +25,7 @@ public class Exit {
   final public int  mFloorDrop;
   
   // which room the exit leads to, and the entry point in that room
-  final public Class<? extends Room> mDestination;
+  final public String mDestination;
   final public int mEntryPoint;
   
   // which level the camera should be on if the player enters the room here
@@ -38,7 +38,7 @@ public class Exit {
   public Exit(int wallSide, 
               int doorXYPos, int doorZPos, String floorColour, int floorDrop,
               int cameraLevel,
-              Class<? extends Room> destination, int entryPoint) {
+              String destination, int entryPoint) {
     
     mZoneX = 0;
     mZoneY = 0;
@@ -70,7 +70,7 @@ public class Exit {
   public Exit(int zoneX, int zoneY, int wallSide, 
               int doorXYPos, int doorZPos, String floorColour, int floorDrop,
               int cameraLevel,
-              Class<? extends Room> destination, int entryPoint) {
+              String destination, int entryPoint) {
     
     mZoneX = zoneX;
     mZoneY = zoneY;

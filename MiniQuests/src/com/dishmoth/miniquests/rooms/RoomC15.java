@@ -28,6 +28,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "C15"
 public class RoomC15 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C15";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0       00",
                                                 "0 0 0 0 00",
@@ -54,8 +57,8 @@ public class RoomC15 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(0,1, Env.LEFT,  5,0, "VZ",0, -1, RoomC14.class, 0),
-              new Exit(0,1, Env.RIGHT, 5,0, "#:",0, -1, RoomC16.class, 0) };
+          = { new Exit(0,1, Env.LEFT,  5,0, "VZ",0, -1, RoomC14.NAME, 0),
+              new Exit(0,1, Env.RIGHT, 5,0, "#:",0, -1, RoomC16.NAME, 0) };
 
   // glowing path
   private static final String kGlowPath[] = { "+++++++",
@@ -106,6 +109,8 @@ public class RoomC15 extends Room {
   
   // constructor
   public RoomC15() {
+
+    super(NAME);
 
     mSwitchesDone = false;
     mBossDone = false;

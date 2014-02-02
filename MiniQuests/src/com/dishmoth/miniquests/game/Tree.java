@@ -35,7 +35,7 @@ public class Tree extends Sprite3D implements Obstacle {
                 refYPos = height - 1;
     final float depth   = -0.01f;
     kImage = new EgaImage(refXPos, refYPos, width, height,
-                          pic.pixels().clone(), depth);
+                          pic.pixelsCopy(), depth);
     
   } // initialize()
   

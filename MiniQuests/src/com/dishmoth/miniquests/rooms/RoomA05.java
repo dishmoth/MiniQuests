@@ -25,6 +25,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "A05"
 public class RoomA05 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A05";
+  
   // all visible blocks for the room
   private static final String kBlocksAll[][] = { { "1001001001",
                                                    "0000000000",
@@ -73,8 +76,8 @@ public class RoomA05 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN,  6,0, "#h",0, -1, RoomA04.class, 1), 
-              new Exit(Env.RIGHT, 6,8, "#h",1, -1, RoomA03.class, 3) };
+          = { new Exit(Env.DOWN,  6,0, "#h",0, -1, RoomA04.NAME, 1), 
+              new Exit(Env.RIGHT, 6,8, "#h",1, -1, RoomA03.NAME, 3) };
 
   // time for which the death blocks appear for
   private static final int kDeathTime = 20;
@@ -96,6 +99,8 @@ public class RoomA05 extends Room {
   
   // constructor
   public RoomA05() {
+
+    super(NAME);
 
     mCompleted = false;
     

@@ -25,6 +25,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "C07"
 public class RoomC07 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C07";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0        0",
@@ -55,11 +58,11 @@ public class RoomC07 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 2,0, "#T",0, -1, RoomC06.class, 1),
-              new Exit(Env.RIGHT, 7,0, "#T",0, -1, RoomC08.class, 0),
-              new Exit(Env.UP,    2,0, "#T",0, -1, RoomC09.class, 0),
-              new Exit(Env.LEFT,  4,0, "#T",0, -1, RoomC11.class, 1),
-              new Exit(Env.DOWN,  4,0, "zT",0, -1, RoomC12.class, 0) }; 
+          = { new Exit(Env.RIGHT, 2,0, "#T",0, -1, RoomC06.NAME, 1),
+              new Exit(Env.RIGHT, 7,0, "#T",0, -1, RoomC08.NAME, 0),
+              new Exit(Env.UP,    2,0, "#T",0, -1, RoomC09.NAME, 0),
+              new Exit(Env.LEFT,  4,0, "#T",0, -1, RoomC11.NAME, 1),
+              new Exit(Env.DOWN,  4,0, "zT",0, -1, RoomC12.NAME, 0) }; 
   
   // colour of the glowing path
   private static final char kPathColour = 'z';
@@ -96,6 +99,8 @@ public class RoomC07 extends Room {
   
   // constructor
   public RoomC07() {
+
+    super(NAME);
 
     mFirstDoorOpen = false;
     mSecondDoorOpen = false;
@@ -171,7 +176,7 @@ public class RoomC07 extends Room {
       }
     }
     
-    RoomC08 roomRight = (RoomC08)findRoom(RoomC08.class);
+    RoomC08 roomRight = (RoomC08)findRoom(RoomC08.NAME);
     assert( roomRight != null );
     boolean firstPathAvailable = roomRight.pathComplete();
     if ( firstPathAvailable ) {
@@ -182,7 +187,7 @@ public class RoomC07 extends Room {
       spriteManager.addSprite(mFirstPath);
     }
     
-    RoomC11 roomLeft = (RoomC11)findRoom(RoomC11.class);
+    RoomC11 roomLeft = (RoomC11)findRoom(RoomC11.NAME);
     assert( roomLeft != null );
     boolean secondPathAvailable = roomLeft.pathComplete();
     if ( secondPathAvailable ) {

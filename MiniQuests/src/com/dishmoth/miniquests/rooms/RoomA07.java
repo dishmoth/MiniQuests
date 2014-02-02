@@ -21,6 +21,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "A07"
 public class RoomA07 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A07";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "1         ",
                                                 "0         ",
@@ -56,8 +59,8 @@ public class RoomA07 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT, 7,2, "Ng",1, -1, RoomA06.class, 1), 
-              new Exit(Env.LEFT, 1,2, "Ng",1, -1, RoomA08.class, 0) };
+          = { new Exit(Env.LEFT, 7,2, "Ng",1, -1, RoomA06.NAME, 1), 
+              new Exit(Env.LEFT, 1,2, "Ng",1, -1, RoomA08.NAME, 0) };
 
   // positions of block chunks (x, y, 1/2 for horizontal/vertical)  
   private static final int kChunkDetails[][] = { {0,0,1}, {3,0,1}, {6,0,1},
@@ -106,6 +109,8 @@ public class RoomA07 extends Room {
   
   // constructor
   public RoomA07() {
+
+    super(NAME);
 
   } // constructor
 

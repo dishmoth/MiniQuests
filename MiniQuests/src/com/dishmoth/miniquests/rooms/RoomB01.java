@@ -33,6 +33,9 @@ import com.dishmoth.miniquests.game.WallRight;
 // the room "B01"
 public class RoomB01 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B01";
+  
   // main blocks for the floor
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0000000000",
@@ -140,8 +143,8 @@ public class RoomB01 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { // note: dummy exit at index 0
-              new Exit(1,1, Env.UP,    4,6,  "#k",1, -1, RoomB02.class, 2),
-              new Exit(0,2, Env.RIGHT, 7,-2, "SS",0, -1, RoomB02.class, 0) };
+              new Exit(1,1, Env.UP,    4,6,  "#k",1, -1, RoomB02.NAME, 2),
+              new Exit(0,2, Env.RIGHT, 7,-2, "SS",0, -1, RoomB02.NAME, 0) };
 
   // time delay before the entrance gate closes
   private static final int kTimeEntranceGate = 45;
@@ -167,6 +170,8 @@ public class RoomB01 extends Room {
   
   // constructor
   public RoomB01() {
+
+    super(NAME);
 
     mSwitchDone = false;
     
@@ -424,7 +429,7 @@ public class RoomB01 extends Room {
     
     // other stuff
     
-    RoomB02 roomInside = (RoomB02)findRoom(RoomB02.class);
+    RoomB02 roomInside = (RoomB02)findRoom(RoomB02.NAME);
     assert( roomInside != null );
     if ( !roomInside.doorsUnlocked() ) {
       kExits[0].mDoor.setClosed(true);

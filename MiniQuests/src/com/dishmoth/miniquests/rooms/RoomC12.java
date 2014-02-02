@@ -23,6 +23,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "C12"
 public class RoomC12 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C12";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0     0  0",
@@ -52,8 +55,8 @@ public class RoomC12 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.UP,  4,0, "#c",0, -1, RoomC07.class, 4),
-              new Exit(Env.DOWN,4,0, "#c",0, -1, RoomC13.class, 0) }; 
+          = { new Exit(Env.UP,  4,0, "#c",0, -1, RoomC07.NAME, 4),
+              new Exit(Env.DOWN,4,0, "#c",0, -1, RoomC13.NAME, 0) }; 
   
   // colour of the glowing path
   private static final char kPathColour = 's';
@@ -97,6 +100,8 @@ public class RoomC12 extends Room {
 
   // constructor
   public RoomC12() {
+
+    super(NAME);
 
     mPathDone = false;
     

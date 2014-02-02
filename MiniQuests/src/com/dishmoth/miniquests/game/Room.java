@@ -13,9 +13,9 @@ abstract public class Room {
 
   // story event: the player changes room
   public class EventRoomChange extends StoryEvent {
-    public Class<?> mNewRoom;
+    public String mNewRoom;
     public int mEntryPoint;
-    public EventRoomChange(Class<?> r, int entryPoint) {
+    public EventRoomChange(String r, int entryPoint) {
       mNewRoom = r; mEntryPoint = entryPoint;
     }
   } // class Room.EventRoomChange
@@ -49,6 +49,9 @@ abstract public class Room {
   // number of blocks along the edge of a room (or zone in a multi-zone room)
   public static final int kSize = 10;
 
+  // tag identifying the room
+  final protected String mName;
+  
   // reference to the camera object
   protected Camera mCamera;
 
@@ -62,8 +65,10 @@ abstract public class Room {
   protected Room mRoomList[];
   
   // constructor
-  public Room() {
+  public Room(String name) {
 
+    mName = name;
+    
     mPlayer = null;
     mCamera = null;
     mCameraLevel = -1;
@@ -77,6 +82,9 @@ abstract public class Room {
   // de-serialize the room state from the bits in the buffer 
   // (returns false if the version is not supported, or something goes wrong)
   public boolean restore(int version, BitBuffer buffer) { return true; } 
+
+  // unique identifier for the room
+  public String name() { return mName; }
   
   // identify the game's camera object
   public void setCamera(Camera camera) { mCamera = camera; }
@@ -161,10 +169,10 @@ abstract public class Room {
   public void setRoomList(Room list[]) { mRoomList = list; }
 
   // retrieve a reference to one of the game's other rooms
-  public Room findRoom(Class<? extends Room> cl) {
+  public Room findRoom(String name) {
     
     for ( Room room : mRoomList ) {
-      if ( room.getClass() == cl ) return room;
+      if ( room.mName == name ) return room;
     }
     assert( false );
     return null;

@@ -82,7 +82,7 @@ public class Mural extends Sprite3D {
     final int refXPos = (mWallSide == Env.UP) ? 0 : (width-1),
               refYPos = height - 1;
     
-    byte pixels[] = sourcePic.pixels().clone();
+    byte pixels[] = sourcePic.pixelsCopy();
 
     float depths[] = new float[width*height];
     if ( mWallSide == Env.UP ) {

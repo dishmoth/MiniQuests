@@ -26,7 +26,10 @@ import com.dishmoth.miniquests.game.WallLeft;
 
 // the room "B04"
 public class RoomB04 extends Room {
-
+  
+  // unique identifier for this room
+  public static final String NAME = "B04";
+  
   // blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0000000000",
@@ -56,8 +59,8 @@ public class RoomB04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN, 8,0, "Bx",0, -1, RoomB03.class, 1),
-              new Exit(Env.LEFT, 3,0, "Bx",0, -1, RoomB05.class, 0) };
+          = { new Exit(Env.DOWN, 8,0, "Bx",0, -1, RoomB03.NAME, 1),
+              new Exit(Env.LEFT, 3,0, "Bx",0, -1, RoomB05.NAME, 0) };
 
   // time delay until statues react
   private static final int kTimeStatues = 25;
@@ -79,6 +82,8 @@ public class RoomB04 extends Room {
   
   // constructor
   public RoomB04() {
+
+    super(NAME);
 
     mCompleted = false;
 

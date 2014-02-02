@@ -21,6 +21,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "A11"
 public class RoomA11 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A11";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "     0    ",
                                                 "     0    ",
@@ -39,8 +42,8 @@ public class RoomA11 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT, 4,0, "#o",0, -1, RoomA10.class, 2),
-              new Exit(Env.UP,   5,0, "#o",1, -1, RoomA10.class, 5) };
+          = { new Exit(Env.LEFT, 4,0, "#o",0, -1, RoomA10.NAME, 2),
+              new Exit(Env.UP,   5,0, "#o",1, -1, RoomA10.NAME, 5) };
 
   // flame details
   private static final int   kFlameNum         = 4;
@@ -51,6 +54,8 @@ public class RoomA11 extends Room {
  
   // constructor
   public RoomA11() {
+
+    super(NAME);
 
   } // constructor
 

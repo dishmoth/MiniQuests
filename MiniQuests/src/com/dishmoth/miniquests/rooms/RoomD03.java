@@ -19,6 +19,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "D03"
 public class RoomD03 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "D03";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0000000000",
@@ -44,15 +47,15 @@ public class RoomD03 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  5,0, "#l",0, -1, RoomD03.class, 2), 
-              new Exit(Env.DOWN,  5,0, "#l",0, -1, RoomD03.class, 3), 
-              new Exit(Env.RIGHT, 5,0, "#l",0, -1, RoomD03.class, 0), 
-              new Exit(Env.UP,    5,0, "#l",0, -1, RoomD03.class, 1) };
+          = { new Exit(Env.LEFT,  5,0, "#l",0, -1, RoomD03.NAME, 2), 
+              new Exit(Env.DOWN,  5,0, "#l",0, -1, RoomD03.NAME, 3), 
+              new Exit(Env.RIGHT, 5,0, "#l",0, -1, RoomD03.NAME, 0), 
+              new Exit(Env.UP,    5,0, "#l",0, -1, RoomD03.NAME, 1) };
               
   // dummy exit objects for the true maze exits 
   private static final Exit kMazeExits[] 
-          = { new Exit(0,0,0,"  ",0,0, RoomD02.class, 1),
-              new Exit(0,0,0,"  ",0,0, RoomD04.class, 0) };
+          = { new Exit(0,0,0,"  ",0,0, RoomD02.NAME, 1),
+              new Exit(0,0,0,"  ",0,0, RoomD04.NAME, 0) };
 
   // track whether the player is currently in the maze
   private boolean mInMaze;
@@ -63,6 +66,8 @@ public class RoomD03 extends Room {
   
   // constructor
   public RoomD03() {
+
+    super(NAME);
 
     mInMaze = false;
     

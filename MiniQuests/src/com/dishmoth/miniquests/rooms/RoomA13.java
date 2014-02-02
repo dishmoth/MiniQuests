@@ -24,6 +24,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "A13"
 public class RoomA13 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A13";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "          ",
                                                 "  0     0 ",
@@ -86,7 +89,7 @@ public class RoomA13 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN, 5,0, "#x",0, -1, RoomA10.class, 4) };
+          = { new Exit(Env.DOWN, 5,0, "#x",0, -1, RoomA10.NAME, 4) };
 
   // times at which things happen
   private static final int kGameEndsDelay   = 50,
@@ -101,6 +104,8 @@ public class RoomA13 extends Room {
   
   // constructor
   public RoomA13() {
+
+    super(NAME);
 
   } // constructor
 

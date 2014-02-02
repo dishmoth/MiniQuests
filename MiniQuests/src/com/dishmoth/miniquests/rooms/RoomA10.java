@@ -33,6 +33,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "A10"
 public class RoomA10 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A10";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "0        0",
                                                 "0        0",
@@ -56,12 +59,12 @@ public class RoomA10 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit( 0,0, Env.DOWN,  1,0, "#c",0, -1, RoomA09.class, 1),
-              new Exit( 0,0, Env.LEFT,  4,0, "#c",0, -1, RoomA12.class, 1),
-              new Exit( 0,0, Env.RIGHT, 4,0, "#c",1, -1, RoomA11.class, 0),
-              new Exit(-1,1, Env.DOWN,  4,0, "#c",0, -1, RoomA12.class, 0),
-              new Exit( 0,1, Env.UP,    5,0, "#c",0, -1, RoomA13.class, 0),
-              new Exit( 1,1, Env.DOWN,  5,0, "#c",0, -1, RoomA11.class, 1) };
+          = { new Exit( 0,0, Env.DOWN,  1,0, "#c",0, -1, RoomA09.NAME, 1),
+              new Exit( 0,0, Env.LEFT,  4,0, "#c",0, -1, RoomA12.NAME, 1),
+              new Exit( 0,0, Env.RIGHT, 4,0, "#c",1, -1, RoomA11.NAME, 0),
+              new Exit(-1,1, Env.DOWN,  4,0, "#c",0, -1, RoomA12.NAME, 0),
+              new Exit( 0,1, Env.UP,    5,0, "#c",0, -1, RoomA13.NAME, 0),
+              new Exit( 1,1, Env.DOWN,  5,0, "#c",0, -1, RoomA11.NAME, 1) };
 
   // moving path after first switch
   private static final String kPath1[] = { "             U  ",
@@ -169,6 +172,8 @@ public class RoomA10 extends Room {
   // constructor
   public RoomA10() {
   
+    super(NAME);
+
     mNumSwitchesDone = 0;
     mWallSwitchesDone = false;
     mDragonKilled = false;

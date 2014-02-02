@@ -26,6 +26,9 @@ import com.dishmoth.miniquests.game.WallUp;
 // the room "B12"
 public class RoomB12 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B12";
+  
   // blocks for the room
   private static final String kBlocks[][] = { { "00000     ",
                                                 "00000     ",
@@ -76,8 +79,8 @@ public class RoomB12 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN, 3,0, "#k",0, -1, RoomB07.class, 3),
-              new Exit(Env.UP,   2,6, "#k",1, -1, RoomB13.class, 0) };
+          = { new Exit(Env.DOWN, 3,0, "#k",0, -1, RoomB07.NAME, 3),
+              new Exit(Env.UP,   2,6, "#k",1, -1, RoomB13.NAME, 0) };
   
   // changing water colours (1 => light, 2 => dark)
   private static final byte   kWaterColour1    = 43,
@@ -119,6 +122,8 @@ public class RoomB12 extends Room {
   
   // constructor
   public RoomB12() {
+
+    super(NAME);
 
     initialize();
 

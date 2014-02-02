@@ -20,6 +20,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "B08"
 public class RoomB08 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B08";
+  
   // blocks for the room
   private static final String kBlocks[][] = { { "3    00   ",
                                                 "0         ",
@@ -40,11 +43,11 @@ public class RoomB08 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 3,10, "#T",1, 0, RoomB07.class, 1),
-              new Exit(Env.RIGHT, 7,10, "#T",1, 0, RoomB07.class, 2),
-              new Exit(Env.DOWN,  5,10, "VT",1, 0, RoomB09.class, 0),
-              new Exit(Env.LEFT,  5,10, "VT",1, 0, RoomB10.class, 0),
-              new Exit(Env.UP,    5,10, "#T",1, 0, RoomB11.class, 0) };
+          = { new Exit(Env.RIGHT, 3,10, "#T",1, 0, RoomB07.NAME, 1),
+              new Exit(Env.RIGHT, 7,10, "#T",1, 0, RoomB07.NAME, 2),
+              new Exit(Env.DOWN,  5,10, "VT",1, 0, RoomB09.NAME, 0),
+              new Exit(Env.LEFT,  5,10, "VT",1, 0, RoomB10.NAME, 0),
+              new Exit(Env.UP,    5,10, "#T",1, 0, RoomB11.NAME, 0) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -55,6 +58,8 @@ public class RoomB08 extends Room {
   
   // constructor
   public RoomB08() {
+
+    super(NAME);
 
   } // constructor
 
@@ -80,7 +85,7 @@ public class RoomB08 extends Room {
     updateBridgeRight(spriteManager);
     
     // check the blocks from the room to the left
-    RoomB10 roomLeft = (RoomB10)findRoom(RoomB10.class);
+    RoomB10 roomLeft = (RoomB10)findRoom(RoomB10.NAME);
     assert( roomLeft != null );
     if ( roomLeft.upperBlocksActived() ) {
       final String blocks[][] = {{"3333"}};
@@ -92,7 +97,7 @@ public class RoomB08 extends Room {
     }
     
     // check the blocks from the room above
-    RoomB11 roomUp = (RoomB11)findRoom(RoomB11.class);
+    RoomB11 roomUp = (RoomB11)findRoom(RoomB11.NAME);
     assert( roomUp != null );
     int extent = roomUp.bridgeExtent();
     if ( extent > 0 ) {
@@ -119,7 +124,7 @@ public class RoomB08 extends Room {
   // create or move the bridge extending from the room to the right
   private void updateBridgeRight(SpriteManager spriteManager) {
 
-    RoomB07 roomRight = (RoomB07)findRoom(RoomB07.class);
+    RoomB07 roomRight = (RoomB07)findRoom(RoomB07.NAME);
     assert( roomRight != null );
     int extent = 8 - roomRight.bridgeExtent();
     assert( extent >= 0 );
@@ -154,7 +159,7 @@ public class RoomB08 extends Room {
     }
 
     // update the bridge extending from the room to the right
-    RoomB07 roomRight = (RoomB07)findRoom(RoomB07.class);
+    RoomB07 roomRight = (RoomB07)findRoom(RoomB07.NAME);
     assert( roomRight != null );
     if ( roomRight.updateBridge() ) {
       updateBridgeRight(spriteManager);
