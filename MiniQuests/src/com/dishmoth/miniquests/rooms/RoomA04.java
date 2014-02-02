@@ -26,6 +26,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "A04"
 public class RoomA04 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A04";
+  
   // all visible blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0  0  0  0",
@@ -77,8 +80,8 @@ public class RoomA04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 3,4, "#w",2, -1, RoomA03.class, 1), 
-              new Exit(Env.UP,    6,4, "#w",2, -1, RoomA05.class, 0) };
+          = { new Exit(Env.RIGHT, 3,4, "#w",2, -1, RoomA03.NAME, 1), 
+              new Exit(Env.UP,    6,4, "#w",2, -1, RoomA05.NAME, 0) };
 
   // paths followed by enemies in this room
   private static final CritterTrack kCritterTrack[] 
@@ -137,6 +140,8 @@ public class RoomA04 extends Room {
 
   // constructor
   public RoomA04() {
+
+    super(NAME);
 
     mDoorOpen = false;
 

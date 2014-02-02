@@ -23,6 +23,9 @@ import com.dishmoth.miniquests.game.Triffid;
 // the room "B05"
 public class RoomB05 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B05";
+  
   // blocks for the room
   private static final String kBlocks[][] = { { "          ",
                                                 "000000000 ",
@@ -40,8 +43,8 @@ public class RoomB05 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 3,13, "#d",1, 0, RoomB04.class, 1),
-              new Exit(Env.DOWN,  1,13, "#d",1, 0, RoomB06.class, 0) };
+          = { new Exit(Env.RIGHT, 3,13, "#d",1, 0, RoomB04.NAME, 1),
+              new Exit(Env.DOWN,  1,13, "#d",1, 0, RoomB06.NAME, 0) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -56,6 +59,8 @@ public class RoomB05 extends Room {
   
   // constructor
   public RoomB05() {
+
+    super(NAME);
 
     mDoneTop = false;
     mDoneBottom = false;

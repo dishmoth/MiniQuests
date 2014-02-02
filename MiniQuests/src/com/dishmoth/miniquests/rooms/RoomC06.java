@@ -28,6 +28,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "C06"
 public class RoomC06 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C06";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "          ",
                                                 "          ",
@@ -46,8 +49,8 @@ public class RoomC06 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN, 7,0, "Kk",0, 0, RoomC05.class, 1),
-              new Exit(Env.LEFT, 7,8, "Kk",4, 0, RoomC07.class, 0) }; 
+          = { new Exit(Env.DOWN, 7,0, "Kk",0, 0, RoomC05.NAME, 1),
+              new Exit(Env.LEFT, 7,8, "Kk",4, 0, RoomC07.NAME, 0) }; 
   
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -77,6 +80,8 @@ public class RoomC06 extends Room {
   
   // constructor
   public RoomC06() {
+
+    super(NAME);
 
     mCritterKilled = false;
     

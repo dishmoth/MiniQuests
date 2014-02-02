@@ -27,6 +27,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "B11"
 public class RoomB11 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B11";
+  
   // blocks for beneath the room
   private static final String kLowerBlocks[][] = { { "0000000000",
                                                      "0000000000",
@@ -70,7 +73,7 @@ public class RoomB11 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN, 5,10, "#d",1, 0, RoomB08.class, 4) };
+          = { new Exit(Env.DOWN, 5,10, "#d",1, 0, RoomB08.NAME, 4) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -108,6 +111,8 @@ public class RoomB11 extends Room {
 
   // constructor
   public RoomB11() {
+
+    super(NAME);
 
     mBridgeState = 0;
 
@@ -243,7 +248,7 @@ public class RoomB11 extends Room {
       // the switch has been shot
       if ( event instanceof WallSwitch.EventStateChange ) {
         if ( mBridgeState == 0 ) {
-          RoomB07 roomDiag = (RoomB07)findRoom(RoomB07.class);
+          RoomB07 roomDiag = (RoomB07)findRoom(RoomB07.NAME);
           assert( roomDiag != null );
           boolean barrier = ( roomDiag.bridgeExtent() == 0 );
           mBridgeState = ( barrier ? 1 : 2 ); 

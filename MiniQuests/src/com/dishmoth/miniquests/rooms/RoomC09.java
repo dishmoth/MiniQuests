@@ -26,6 +26,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "C09"
 public class RoomC09 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C09";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "2222212222",
                                                 "2000010002",
@@ -45,9 +48,9 @@ public class RoomC09 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN,  2,0, "#c",0, -1, RoomC07.class, 2),
-              new Exit(Env.LEFT,  3,0, "sc",0, -1, RoomC10.class, 0),
-              new Exit(Env.RIGHT, 3,0, "#V",0, -1, RoomC08.class, 1) }; 
+          = { new Exit(Env.DOWN,  2,0, "#c",0, -1, RoomC07.NAME, 2),
+              new Exit(Env.LEFT,  3,0, "sc",0, -1, RoomC10.NAME, 0),
+              new Exit(Env.RIGHT, 3,0, "#V",0, -1, RoomC08.NAME, 1) }; 
   
   // colour of the glowing path
   private static final char kPathColour = 's';
@@ -102,6 +105,8 @@ public class RoomC09 extends Room {
   // constructor
   public RoomC09() {
 
+    super(NAME);
+
     mPathDone = false;
     
   } // constructor
@@ -153,12 +158,12 @@ public class RoomC09 extends Room {
 
     spriteManager.addSprite(new BlockArray(kBlocks, kBlockColours, 0,0,0));
 
-    RoomC08 roomRight = (RoomC08)findRoom(RoomC08.class);
+    RoomC08 roomRight = (RoomC08)findRoom(RoomC08.NAME);
     assert( roomRight != null );
     boolean doorLocked = roomRight.pathComplete();
     if ( doorLocked ) kExits[2].mDoor.setClosed(true);
     
-    RoomC07 roomDown = (RoomC07)findRoom(RoomC07.class);
+    RoomC07 roomDown = (RoomC07)findRoom(RoomC07.NAME);
     assert( roomDown != null );
     boolean pathAvailable = roomDown.firstPathComplete();
     if ( pathAvailable || mPathDone ) {

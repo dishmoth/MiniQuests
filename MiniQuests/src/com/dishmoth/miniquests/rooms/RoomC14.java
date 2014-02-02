@@ -28,6 +28,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "C14"
 public class RoomC14 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C14";
+  
   // blocks by the door
   private static final String kDoorBlocks[][] = { { "00" } };
 
@@ -89,7 +92,7 @@ public class RoomC14 extends Room {
   // details of exit/entry points for the room 
   // (plus special case: 1 => ride down on lift)
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 4,10, "#L",1, 0, RoomC15.class, 0) };
+          = { new Exit(Env.RIGHT, 4,10, "#L",1, 0, RoomC15.NAME, 0) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -156,6 +159,8 @@ public class RoomC14 extends Room {
   // constructor
   public RoomC14() {
 
+    super(NAME);
+
     mComplete = false;
     
   } // constructor
@@ -199,7 +204,7 @@ public class RoomC14 extends Room {
       mLiftAtTop = false;
       mLift.setPos(mLift.getXPos(), mLift.getYPos(), 
                    (mComplete ? kLiftZMax : kLiftZTop));
-      RoomC04 roomAbove = (RoomC04)findRoom(RoomC04.class);
+      RoomC04 roomAbove = (RoomC04)findRoom(RoomC04.NAME);
       assert( roomAbove != null );
       int x = roomAbove.liftChangeXPos()+mLift.getXPos(),
           y = roomAbove.liftChangeYPos()+mLift.getYPos(),
@@ -304,8 +309,8 @@ public class RoomC14 extends Room {
       return;
     }
     if ( mLiftAtTop && mLift.getZPos() == kLiftZMax ) {
-      storyEvents.add(new EventRoomChange(RoomC04.class, 4));
-      RoomC04 roomAbove = (RoomC04)findRoom(RoomC04.class);
+      storyEvents.add(new EventRoomChange(RoomC04.NAME, 4));
+      RoomC04 roomAbove = (RoomC04)findRoom(RoomC04.NAME);
       assert( roomAbove != null );
       roomAbove.recordLiftChangeInfo(mPlayer.getXPos()-mLift.getXPos(), 
                                      mPlayer.getYPos()-mLift.getYPos(),
@@ -387,7 +392,7 @@ public class RoomC14 extends Room {
     if ( mPlayerDeathTimer > 0 ) {
       if ( --mPlayerDeathTimer == 0 ) {
         assert( mPlayer == null );
-        storyEvents.add(new EventRoomChange(RoomC04.class, 3));
+        storyEvents.add(new EventRoomChange(RoomC04.NAME, 3));
       }
     }
     

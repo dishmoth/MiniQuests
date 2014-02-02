@@ -22,9 +22,12 @@ import com.dishmoth.miniquests.game.TinyStory;
 import com.dishmoth.miniquests.game.Triffid;
 import com.dishmoth.miniquests.game.WallSwitch;
 
-// the room "B04"
+// the room "B03"
 public class RoomB03 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B03";
+  
   // main blocks for the room
   private static final String kBlocks0[][] = { { "1111111111",
                                                  "1111111111",
@@ -103,14 +106,14 @@ public class RoomB03 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  3,12, "#k",0, 0, RoomB02.class, 1),
-              new Exit(Env.UP,    8,54, "#w",0, 3, RoomB04.class, 0),
-              new Exit(Env.RIGHT, 2,54, "#w",0, 3, RoomB07.class, 0),
-              new Exit(Env.LEFT,  5,54, "#w",1, 3, RoomB06.class, 1) };
+          = { new Exit(Env.LEFT,  3,12, "#k",0, 0, RoomB02.NAME, 1),
+              new Exit(Env.UP,    8,54, "#w",0, 3, RoomB04.NAME, 0),
+              new Exit(Env.RIGHT, 2,54, "#w",0, 3, RoomB07.NAME, 0),
+              new Exit(Env.LEFT,  5,54, "#w",1, 3, RoomB06.NAME, 1) };
 
   // not real exits, but used as restart points
   private static final Exit kFakeExits[] 
-          = { new Exit(Env.LEFT,  9,54, "xx",0, 3, RoomB03.class, 0) };
+          = { new Exit(Env.LEFT,  9,54, "xx",0, 3, RoomB03.NAME, 0) };
   
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -136,6 +139,8 @@ public class RoomB03 extends Room {
   
   // constructor
   public RoomB03() {
+
+    super(NAME);
 
     mPopupTriffidState = 0;
     mBarrierTriffidState = 0;

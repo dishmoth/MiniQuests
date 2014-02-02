@@ -24,6 +24,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // training room "Z02"
 public class RoomZ02 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "Z02";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "          ",
                                                 "          ",
@@ -112,8 +115,8 @@ public class RoomZ02 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN,  2,0, "#k",0, -1, RoomZ01.class, 1),
-              new Exit(Env.RIGHT, 3,8, "#k",0, -1, RoomZ03.class, 0) };
+          = { new Exit(Env.DOWN,  2,0, "#k",0, -1, RoomZ01.NAME, 1),
+              new Exit(Env.RIGHT, 3,8, "#k",0, -1, RoomZ03.NAME, 0) };
 
   // how fast the stairs move
   private static final int kStairsDelay = 4;
@@ -149,6 +152,8 @@ public class RoomZ02 extends Room {
   
   // constructor
   public RoomZ02() {
+
+    super(NAME);
 
     mNumSwitchesDone = 0;
     

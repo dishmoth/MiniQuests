@@ -20,6 +20,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "C05"
 public class RoomC05 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C05";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0  0  0  0",
@@ -37,8 +40,8 @@ public class RoomC05 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.DOWN, 4,0, "VZ",0, -1, RoomC04.class, 2),
-              new Exit(Env.UP,   5,0, "#Z",0, -1, RoomC06.class, 0) }; 
+          = { new Exit(Env.DOWN, 4,0, "VZ",0, -1, RoomC04.NAME, 2),
+              new Exit(Env.UP,   5,0, "#Z",0, -1, RoomC06.NAME, 0) }; 
   
   // length of time spinners delay for
   // (fiddly: some track edges are one pixel longer than others) 
@@ -59,6 +62,8 @@ public class RoomC05 extends Room {
   
   // constructor
   public RoomC05() {
+
+    super(NAME);
 
   } // constructor
 

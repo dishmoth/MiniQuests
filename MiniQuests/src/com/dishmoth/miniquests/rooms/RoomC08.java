@@ -30,6 +30,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "C08"
 public class RoomC08 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C08";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { " 11111    ",
                                                 " 1   1    ",
@@ -62,8 +65,8 @@ public class RoomC08 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT, 1,4, "#S",1, -1, RoomC07.class, 1),
-              new Exit(Env.LEFT, 7,4, "Sk",1, -1, RoomC09.class, 2) }; 
+          = { new Exit(Env.LEFT, 1,4, "#S",1, -1, RoomC07.NAME, 1),
+              new Exit(Env.LEFT, 7,4, "Sk",1, -1, RoomC09.NAME, 2) }; 
   
   // path followed by enemies in this room
   private static final CritterTrack kCritterTrack 
@@ -154,6 +157,8 @@ public class RoomC08 extends Room {
   
   // constructor
   public RoomC08() {
+
+    super(NAME);
 
     mSwitchDone = false;
     mFlameDone = false;

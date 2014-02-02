@@ -28,6 +28,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "C11"
 public class RoomC11 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C11";
+  
   // the blocks for the room, in several layers
   private static final String kBlocks[][][] = { { { "  111     ",
                                                     "          ",
@@ -90,8 +93,8 @@ public class RoomC11 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.UP,   4,0, "#2",0, -1, RoomC10.class, 1),
-              new Exit(Env.RIGHT,6,0, "I2",0, -1, RoomC07.class, 3) }; 
+          = { new Exit(Env.UP,   4,0, "#2",0, -1, RoomC10.NAME, 1),
+              new Exit(Env.RIGHT,6,0, "I2",0, -1, RoomC07.NAME, 3) }; 
   
   // colour of the glowing path
   private static final char kPathColour = 'I';
@@ -163,6 +166,8 @@ public class RoomC11 extends Room {
 
   // constructor
   public RoomC11() {
+
+    super(NAME);
 
     mPathDone = false;
     

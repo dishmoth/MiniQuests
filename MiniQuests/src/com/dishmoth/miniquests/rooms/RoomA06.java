@@ -28,6 +28,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "A06"
 public class RoomA06 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A06";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { " 00000000 ",
                                                 "          ",
@@ -88,8 +91,8 @@ public class RoomA06 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  5,0, "#h",0, -1, RoomA03.class, 4), 
-              new Exit(Env.RIGHT, 5,2, "#h",2, -1, RoomA07.class, 0) };
+          = { new Exit(Env.LEFT,  5,0, "#h",0, -1, RoomA03.NAME, 4), 
+              new Exit(Env.RIGHT, 5,2, "#h",2, -1, RoomA07.NAME, 0) };
 
   // paths followed by enemies
   private static final CritterTrack 
@@ -140,6 +143,8 @@ public class RoomA06 extends Room {
   
   // constructor
   public RoomA06() {
+
+    super(NAME);
 
     mSwitchesDone = false;
     mButtonsDone = false;

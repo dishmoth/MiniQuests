@@ -32,6 +32,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "A01"
 public class RoomA03 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A03";
+  
   // main blocks for the floor
   private static final String kFloorBlocks[] = { "00000000000000000000",
                                                  "00000000000000000000",
@@ -81,12 +84,12 @@ public class RoomA03 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(0,0, Env.DOWN,  1,0, "#k",0, -1, RoomA02.class, 1), 
-              new Exit(0,0, Env.LEFT,  3,0, "#k",0, -1, RoomA04.class, 0), 
-              new Exit(1,0, Env.RIGHT, 5,6, "#V",2, -1, RoomA08.class, 1), 
-              new Exit(0,1, Env.LEFT,  8,8, "BV",1, -1, RoomA05.class, 1), 
-              new Exit(1,1, Env.RIGHT, 3,8, "#V",1, -1, RoomA06.class, 0),
-              new Exit(1,1, Env.UP,    1,0, "#k",0, -1, RoomA09.class, 0) };
+          = { new Exit(0,0, Env.DOWN,  1,0, "#k",0, -1, RoomA02.NAME, 1), 
+              new Exit(0,0, Env.LEFT,  3,0, "#k",0, -1, RoomA04.NAME, 0), 
+              new Exit(1,0, Env.RIGHT, 5,6, "#V",2, -1, RoomA08.NAME, 1), 
+              new Exit(0,1, Env.LEFT,  8,8, "BV",1, -1, RoomA05.NAME, 1), 
+              new Exit(1,1, Env.RIGHT, 3,8, "#V",1, -1, RoomA06.NAME, 0),
+              new Exit(1,1, Env.UP,    1,0, "#k",0, -1, RoomA09.NAME, 0) };
 
   // angular speed of flames (radians per frame)
   private static final float kFlameAngSpeed = 0.010f;
@@ -147,6 +150,8 @@ public class RoomA03 extends Room {
   // constructor
   public RoomA03() {
     
+    super(NAME);
+
     if ( kMuralImage == null ) {
       kMuralImage = Env.resources().loadEgaImage("MuralX03.png");
     }

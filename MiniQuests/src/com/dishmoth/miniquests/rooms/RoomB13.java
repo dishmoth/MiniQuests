@@ -29,6 +29,9 @@ import com.dishmoth.miniquests.game.TriffidBoss;
 // the room "B13"
 public class RoomB13 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B13";
+  
   // blocks for beneath the room
   private static final String kFloorBlocks[][] = { { "0000000000",
                                                      "0000000000",
@@ -129,7 +132,7 @@ public class RoomB13 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(0,0, Env.DOWN, 4,10, "NB",1, 0, RoomB12.class, 1) };
+          = { new Exit(0,0, Env.DOWN, 4,10, "NB",1, 0, RoomB12.NAME, 1) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -180,6 +183,8 @@ public class RoomB13 extends Room {
   // constructor
   public RoomB13() {
     
+    super(NAME);
+
     mBossDone = false;
     mChestAppeared = false;
     

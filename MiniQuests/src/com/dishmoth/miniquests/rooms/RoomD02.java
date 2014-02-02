@@ -19,6 +19,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "D02"
 public class RoomD02 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "D02";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "   0000   ",
                                                 "          ",
@@ -37,8 +40,8 @@ public class RoomD02 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  2,0, "tc",0, -1, RoomD01.class, 1), 
-              new Exit(Env.RIGHT, 5,2, "tc",0, -1, RoomD03.class, 0) };
+          = { new Exit(Env.LEFT,  2,0, "tc",0, -1, RoomD01.NAME, 1), 
+              new Exit(Env.RIGHT, 5,2, "tc",0, -1, RoomD03.NAME, 0) };
 
   // rate at which the floor tiles update
   private static final int kUpdateTime = 3;
@@ -63,6 +66,8 @@ public class RoomD02 extends Room {
 
   // constructor
   public RoomD02() {
+
+    super(NAME);
 
   } // constructor
 

@@ -182,7 +182,7 @@ public class Liquid extends Sprite3D {
     if ( xScroll == 0 && yScroll == 0 ) return;
     
     byte pixels[] = mImage.pixels();
-    byte oldPixels[] = pixels.clone();
+    byte oldPixels[] = Env.copyOf(pixels);
     
     int dx = 2*yScroll - 2*xScroll,
         dy = xScroll + yScroll;

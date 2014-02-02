@@ -25,6 +25,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "C10"
 public class RoomC10 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C10";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0111111000",
@@ -43,8 +46,8 @@ public class RoomC10 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 5,0, "BF",0, -1, RoomC09.class, 1), 
-              new Exit(Env.DOWN,  4,0, "BF",0, -1, RoomC11.class, 0) };
+          = { new Exit(Env.RIGHT, 5,0, "BF",0, -1, RoomC09.NAME, 1), 
+              new Exit(Env.DOWN,  4,0, "BF",0, -1, RoomC11.NAME, 0) };
               
   // glowing path
   private static final String kGlowPath[] = { "           ",
@@ -79,6 +82,8 @@ public class RoomC10 extends Room {
   
   // constructor
   public RoomC10() {
+
+    super(NAME);
 
     mPathDone = false;
     

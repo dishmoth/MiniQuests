@@ -22,6 +22,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // the room "A01"
 public class RoomA01 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "A01";
+  
   // all visible blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0000000000",
@@ -150,11 +153,13 @@ public class RoomA01 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { // note: dummy exit at index 0
-              new Exit(Env.LEFT, 4,0, "td",0, -1, RoomA02.class, 0) };
+              new Exit(Env.LEFT, 4,0, "td",0, -1, RoomA02.NAME, 0) };
 
   // constructor
   public RoomA01() {
 
+    super(NAME);
+    
   } // constructor
 
   // create the player at the specified entry point to the room

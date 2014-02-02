@@ -72,13 +72,13 @@ public class Chest extends Sprite3D implements Obstacle {
                                     width, height, pixels1, depths);
     
     kImageOpenDown = new EgaImage(kRefXPos, kRefYPos, width, height,
-                                  pixels2, depths.clone());
+                                  pixels2, Env.copyOf(depths));
     
     kImageClosedLeft = new EgaImage(kRefXPos, kRefYPos, 
                                     width, height, pixelsFlip1, depths);
     
     kImageOpenLeft = new EgaImage(kRefXPos, kRefYPos, width, height,
-                                  pixelsFlip2, depths.clone());
+                                  pixelsFlip2, Env.copyOf(depths));
     
   } // initialize()
   

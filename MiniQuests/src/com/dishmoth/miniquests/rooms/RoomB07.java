@@ -26,6 +26,9 @@ import com.dishmoth.miniquests.game.WallSwitch;
 // the room "B07"
 public class RoomB07 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B07";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "          ",
                                                 "          ",
@@ -199,10 +202,10 @@ public class RoomB07 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  2,10, "NY",1, 0, RoomB03.class, 2),
-              new Exit(Env.LEFT,  3,38, "lT",1, 2, RoomB08.class, 0),
-              new Exit(Env.LEFT,  7,38, "lT",1, 2, RoomB08.class, 1),
-              new Exit(Env.UP,    3,38, "#T",1, 2, RoomB12.class, 0) };
+          = { new Exit(Env.LEFT,  2,10, "NY",1, 0, RoomB03.NAME, 2),
+              new Exit(Env.LEFT,  3,38, "lT",1, 2, RoomB08.NAME, 0),
+              new Exit(Env.LEFT,  7,38, "lT",1, 2, RoomB08.NAME, 1),
+              new Exit(Env.UP,    3,38, "#T",1, 2, RoomB12.NAME, 0) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -240,6 +243,8 @@ public class RoomB07 extends Room {
   
   // constructor
   public RoomB07() {
+
+    super(NAME);
 
     mBridgeState = 1;
     mBridgeExtent = 0;
@@ -352,7 +357,7 @@ public class RoomB07 extends Room {
     }    
     
     WallSwitch ws;
-    RoomB11 roomDiag = (RoomB11)findRoom(RoomB11.class);
+    RoomB11 roomDiag = (RoomB11)findRoom(RoomB11.NAME);
     assert( roomDiag != null );
     if ( roomDiag.bridgeExtent() < 9 ) {
       ws = new WallSwitch(Env.RIGHT, 3, 40, new String[]{"ou","zu"}, true);

@@ -23,6 +23,9 @@ import com.dishmoth.miniquests.game.StoryEvent;
 // training room "Z03"
 public class RoomZ03 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "Z03";
+  
   // main blocks for the room
   private static final String kBlocks[][] = { { "          ",
                                                 "          ",
@@ -98,8 +101,8 @@ public class RoomZ03 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT, 4,2, "Vh",1, -1, RoomZ02.class, 1),
-              new Exit(Env.UP,   5,6, "#h",0, -1, RoomZ03.class, 99) };
+          = { new Exit(Env.LEFT, 4,2, "Vh",1, -1, RoomZ02.NAME, 1),
+              new Exit(Env.UP,   5,6, "#h",0, -1, RoomZ03.NAME, 99) };
 
   // where the critters can walk
   private static final CritterTrack kCritterTrack =
@@ -119,6 +122,8 @@ public class RoomZ03 extends Room {
   
   // constructor
   public RoomZ03() {
+
+    super(NAME);
 
   } // constructor
 

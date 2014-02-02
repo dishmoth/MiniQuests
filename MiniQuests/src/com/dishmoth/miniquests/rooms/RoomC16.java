@@ -24,6 +24,9 @@ import com.dishmoth.miniquests.game.TinyStory;
 // the room "C16"
 public class RoomC16 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "C16";
+  
   // main blocks for the room
   private static final String kLowerBlocks[] = { "0000000000",
                                                  "0000000000",
@@ -91,7 +94,7 @@ public class RoomC16 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT, 8,0, "#A",0, -1, RoomC15.class, 1) };
+          = { new Exit(Env.LEFT, 8,0, "#A",0, -1, RoomC15.NAME, 1) };
 
   // the blocks for the room's lift
   private static final String kLiftLayer[] = { "33333", "33333", "33333",
@@ -132,6 +135,8 @@ public class RoomC16 extends Room {
   
   // constructor
   public RoomC16() {
+
+    super(NAME);
 
     mPathDone = false;
     
@@ -182,7 +187,7 @@ public class RoomC16 extends Room {
     mChest = new Chest(5, 2, liftZ+4, Env.LEFT);
     spriteManager.addSprite(mChest);
     
-    RoomC15 roomLeft = (RoomC15)findRoom(RoomC15.class);
+    RoomC15 roomLeft = (RoomC15)findRoom(RoomC15.NAME);
     assert( roomLeft != null );
     boolean pathAvailable = roomLeft.pathComplete();
     if ( pathAvailable ) {

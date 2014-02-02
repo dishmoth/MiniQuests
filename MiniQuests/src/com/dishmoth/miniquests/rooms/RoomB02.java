@@ -23,6 +23,9 @@ import com.dishmoth.miniquests.game.Triffid;
 // the room "B02"
 public class RoomB02 extends Room {
 
+  // unique identifier for this room
+  public static final String NAME = "B02";
+  
   // blocks for the room (except for the main floor)
   private static final String kBlocks[][] = { { "0         ",
                                                 "0         ",
@@ -120,9 +123,9 @@ public class RoomB02 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  5, 0, "ES",0, -1, RoomB01.class, 2),
-              new Exit(Env.RIGHT, 4,12, "ES",3, -1, RoomB03.class, 0),
-              new Exit(Env.DOWN,  5, 6, "ES",0, -1, RoomB01.class, 1) };
+          = { new Exit(Env.LEFT,  5, 0, "ES",0, -1, RoomB01.NAME, 2),
+              new Exit(Env.RIGHT, 4,12, "ES",3, -1, RoomB03.NAME, 0),
+              new Exit(Env.DOWN,  5, 6, "ES",0, -1, RoomB01.NAME, 1) };
 
   // positions the triffids appear at (x, y, z)
   private static final int kTriffidPos[][] = { { 6, 4, 6 },
@@ -158,6 +161,8 @@ public class RoomB02 extends Room {
   
   // constructor
   public RoomB02() {
+
+    super(NAME);
 
     mNumTriffidsDone = 0;
     

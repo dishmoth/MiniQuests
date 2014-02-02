@@ -24,7 +24,10 @@ import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "C13"
 public class RoomC13 extends Room {
-
+  
+  // unique identifier for this room
+  public static final String NAME = "C13";
+  
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "00200     ",
                                                 "00200     ",
@@ -116,8 +119,8 @@ public class RoomC13 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.UP,   2,8, "#h",1, -1, RoomC12.class, 1),
-              new Exit(Env.RIGHT,2,0, "#h",1, -1, RoomC04.class, 1) }; 
+          = { new Exit(Env.UP,   2,8, "#h",1, -1, RoomC12.NAME, 1),
+              new Exit(Env.RIGHT,2,0, "#h",1, -1, RoomC04.NAME, 1) }; 
   
   // parameters controlling for lift
   private static final int kLiftZMin  = -10,
@@ -157,6 +160,8 @@ public class RoomC13 extends Room {
 
   // constructor
   public RoomC13() {
+
+    super(NAME);
 
     mPathDone = 0;
     mLiftState = 0;
@@ -262,7 +267,7 @@ public class RoomC13 extends Room {
     spriteManager.addSprite(mSwitchLow);
     spriteManager.addSprite(mSwitchHigh);
         
-    RoomC12 roomUp = (RoomC12)findRoom(RoomC12.class);
+    RoomC12 roomUp = (RoomC12)findRoom(RoomC12.NAME);
     assert( roomUp != null );
     boolean pathAvailable = roomUp.pathComplete();
     if ( pathAvailable ) {
