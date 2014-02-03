@@ -107,8 +107,9 @@ public class MainGame implements ApplicationListener {
     mGameManager.advance();
     
     mScreenBatch = new SpriteBatch();
-    mScreenPixmap = new Pixmap(Env.screenWidth(), Env.screenHeight(), 
-                               Format.RGB565);
+    mScreenPixmap = new Pixmap(MathUtils.nextPowerOfTwo(Env.screenWidth()), 
+                               MathUtils.nextPowerOfTwo(Env.screenHeight()),
+                               Format.RGB888);
 
     mTimeSince = 0.0;
     
@@ -186,8 +187,8 @@ public class MainGame implements ApplicationListener {
 
     int pixIndex = 0;
     byte pixels[] = mGameScreen.pixels();
-    for ( int iy = 0 ; iy < mScreenPixmap.getHeight() ; iy++ ) {
-      for ( int ix = 0 ; ix < mScreenPixmap.getWidth() ; ix++ ) {
+    for ( int iy = 0 ; iy < Env.screenHeight() ; iy++ ) {
+      for ( int ix = 0 ; ix < Env.screenWidth() ; ix++ ) {
         int col = EgaTools.EGA_PALETTE[ pixels[pixIndex++] ];
         int r = (col >> 16) & 0xFF,
             g = (col >>  8) & 0xFF,
@@ -198,13 +199,26 @@ public class MainGame implements ApplicationListener {
     }
 
     if ( mScreenTexture == null ) {
-      mScreenTexture = new Texture(
-                           MathUtils.nextPowerOfTwo(mScreenPixmap.getWidth()), 
-                           MathUtils.nextPowerOfTwo(mScreenPixmap.getHeight()),
-                           Format.RGB565);
+      mScreenTexture = new Texture( mScreenPixmap.getWidth(), 
+                                    mScreenPixmap.getHeight(),
+                                    Format.RGB888 );
     }
-    mScreenTexture.draw(mScreenPixmap, 0, 0);
 
+    if ( Env.platform() == Env.Platform.HTML ) {
+      // Texture.draw() uses glTexSubImage2D(), which won't run in WebGL
+      // for some reason, so we hack around it instead
+      mScreenTexture.bind();
+      Gdx.gl.glTexImage2D(GL10.GL_TEXTURE_2D, 0, 
+                          mScreenPixmap.getGLInternalFormat(), 
+                          mScreenPixmap.getWidth(), mScreenPixmap.getHeight(), 
+                          0,
+                          mScreenPixmap.getGLFormat(), 
+                          mScreenPixmap.getGLType(), 
+                          mScreenPixmap.getPixels());
+    } else {
+      mScreenTexture.draw(mScreenPixmap, 0, 0);
+    }
+  
   } // drawScreenToTexture()
     
   // draw the game screen
@@ -217,10 +231,10 @@ public class MainGame implements ApplicationListener {
 
     KeyMonitorGdx keyMonitor = (KeyMonitorGdx)Env.keys();
     
-    int xScale = (int)Math.floor( shrink * Gdx.graphics.getWidth() / 
-                                  (float)mScreenPixmap.getWidth() ),
-        yScale = (int)Math.floor( shrink * Gdx.graphics.getHeight() / 
-                                  (float)mScreenPixmap.getHeight() );
+    int xScale = (int)Math.floor( shrink * Gdx.graphics.getWidth() 
+                                  / (float)Env.screenWidth() ),
+        yScale = (int)Math.floor( shrink * Gdx.graphics.getHeight() 
+                                  / (float)Env.screenHeight() );
     int scale = Math.min(xScale, yScale);
     
     if ( keyMonitor.usingButtons() ) {
@@ -228,18 +242,16 @@ public class MainGame implements ApplicationListener {
           maxHeight = Gdx.graphics.getHeight() - 2*keyMonitor.buttonsYSize();
       maxWidth = Math.max(maxWidth, Gdx.graphics.getWidth()/3);
       maxHeight = Math.max(maxHeight, Gdx.graphics.getHeight()/3);
-      int xScale2 = (int)Math.floor( maxWidth / 
-                                     (float)mScreenPixmap.getWidth() ),
-          yScale2 = (int)Math.floor( maxHeight / 
-                                     (float)mScreenPixmap.getHeight() );
+      int xScale2 = (int)Math.floor( maxWidth / (float)Env.screenWidth() ),
+          yScale2 = (int)Math.floor( maxHeight / (float)Env.screenHeight() );
       scale = Math.min(scale, Math.max(xScale2, yScale2));
     }
 
     scale = Math.max(1, scale);
     keyMonitor.setScreenScaleFactor(scale);
     
-    int xSize   = scale*mScreenPixmap.getWidth(), 
-        ySize   = scale*mScreenPixmap.getHeight();
+    int xSize   = scale*Env.screenWidth(), 
+        ySize   = scale*Env.screenHeight();
     int xOffset = (Gdx.graphics.getWidth() - xSize)/2,
         yOffset = (Gdx.graphics.getHeight() - ySize)/2;
     
@@ -249,7 +261,7 @@ public class MainGame implements ApplicationListener {
     ((KeyMonitorGdx)Env.keys()).displayButtons(mScreenBatch);
     mScreenBatch.draw(mScreenTexture, 
                       xOffset, yOffset, xSize, ySize,
-                      0, 0, mScreenPixmap.getWidth(), mScreenPixmap.getHeight(), 
+                      0, 0, Env.screenWidth(), Env.screenHeight(), 
                       false, false);
     mScreenBatch.end();
     

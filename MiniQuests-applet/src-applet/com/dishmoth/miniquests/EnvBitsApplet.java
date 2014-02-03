@@ -44,12 +44,6 @@ public class EnvBitsApplet implements EnvBits {
   // which platform we're running on
   public Env.Platform platform() { return Env.Platform.APPLET; }
   
-  // whether we are running on an Android device
-  public boolean isAndroid() { return false; }
-  
-  // whether we are on a console/non-touchscreen (e.g. Ouya)
-  public boolean onTelly() { return false; }
-  
   // terminate the program
   public void exit() {
 
