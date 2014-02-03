@@ -199,7 +199,7 @@ public class MapStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
-        if ( Env.platform() == Env.platform().ANDROID ) {
+        if ( Env.platform() == Env.Platform.ANDROID ) {
           Env.exit();
           mTimer = 300; // delay while the 'exit' takes hold
         }

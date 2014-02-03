@@ -34,7 +34,8 @@ public class Env {
   public enum Platform { APPLET,  // pure java applet 
                          DESKTOP, // libgdx, PC application
                          ANDROID, // libgdx, Android phone or tablet
-                         OUYA };  // libgdx, Android console
+                         OUYA,    // libgdx, Android console
+                         HTML };  // HTML5/WebGL through GWT
   
   // whether to display debug messages, timing statistics, etc.
   static private boolean kDebugMode = true;
@@ -100,9 +101,10 @@ public class Env {
   // colour for unused pixels 
   static public byte backgroundColour() { 
   
-    if ( Env.platform() == Env.Platform.ANDROID
-      || Env.platform() == Env.Platform.OUYA ) return (byte)0; 
-    else                                       return (byte)63;
+    return ( Env.platform() == Env.Platform.DESKTOP
+          || Env.platform() == Env.Platform.ANDROID
+          || Env.platform() == Env.Platform.OUYA ) ? (byte)0 
+                                                   : (byte)63;
     
   } // backgroundColour()
   

@@ -35,7 +35,9 @@ public class EnvBitsGdx implements EnvBits {
     
     if ( Gdx.app.getType() == ApplicationType.Desktop ) {
       mPlatform = Env.Platform.DESKTOP;
-    } else {
+    } else if ( Gdx.app.getType() == ApplicationType.WebGL ) {
+      mPlatform = Env.Platform.HTML;
+    } else if ( Gdx.app.getType() == ApplicationType.Android ) {
       mPlatform = Env.Platform.ANDROID;
     
       if ( Ouya.runningOnOuya ) {
@@ -61,6 +63,8 @@ public class EnvBitsGdx implements EnvBits {
         }
       }
       */
+    } else {
+      assert(false);
     }
       
   } // EnvBits.initialize()
