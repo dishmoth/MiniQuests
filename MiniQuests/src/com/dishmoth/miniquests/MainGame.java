@@ -20,7 +20,10 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.GameManager;
 import com.dishmoth.miniquests.game.TitleStory;
 import com.dishmoth.miniquests.gdx.EnvBitsGdx;
+import com.dishmoth.miniquests.gdx.KeyMonitorAndroid;
+import com.dishmoth.miniquests.gdx.KeyMonitorDesktop;
 import com.dishmoth.miniquests.gdx.KeyMonitorGdx;
+import com.dishmoth.miniquests.gdx.KeyMonitorOuya;
 import com.dishmoth.miniquests.gdx.ResourcesGdx;
 import com.dishmoth.miniquests.gdx.SoundsGdx;
 
@@ -66,10 +69,14 @@ public class MainGame implements ApplicationListener {
     }
 
     Env.initialize( envBits,
-                    new KeyMonitorGdx(), 
                     new ResourcesGdx(),
                     new SoundsGdx() );
     //envBits.setPlatform( Env.Platform.ANDROID ); //!!!
+    
+    Env.addKeyMonitor( 
+          (Env.platform() == Env.Platform.ANDROID) ? new KeyMonitorAndroid()
+        : (Env.platform() == Env.Platform.OUYA)    ? new KeyMonitorOuya()
+                                                   : new KeyMonitorDesktop() );
 
     // enable on-screen buttons (if screen is big enough)
     if ( Gdx.graphics.getPpcX() > kSafePixPerCm &&
@@ -120,6 +127,7 @@ public class MainGame implements ApplicationListener {
   public void resize(int width, int height) {
 
     Env.debug("ApplicationListener.resize()");
+    mScreenBatch = new SpriteBatch();
     
   } // ApplicationListener.resize()
 

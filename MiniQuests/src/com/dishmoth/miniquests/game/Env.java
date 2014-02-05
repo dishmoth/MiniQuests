@@ -61,13 +61,12 @@ public class Env {
   
   // this sets up a global Env for the application
   static public void initialize(EnvBits envBits,
-                                KeyMonitor keyMonitor, 
                                 Resources resources, 
                                 Sounds sounds) {
   
     kRandom     = new Random();
     kEnvBits    = envBits;
-    kKeyMonitor = keyMonitor;
+    kKeyMonitor = null;
     kResources  = resources;
     kSounds     = sounds;
     kSaveState  = new SaveState();
@@ -77,6 +76,14 @@ public class Env {
     
   } // initialize()
 
+  // add the key/mouse/etc controller after initialization
+  static public void addKeyMonitor(KeyMonitor keyMonitor) {
+    
+    assert( kKeyMonitor == null && keyMonitor != null );
+    kKeyMonitor = keyMonitor;
+    
+  } // addKeyMonitor()
+  
   // discard resources
   static public void dispose() {
     

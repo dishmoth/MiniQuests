@@ -125,7 +125,7 @@ public class KeyButtons {
         y = Gdx.graphics.getHeight() -
             ( mScale*(kArrowMarginY + kArrowHeight) + (mScale*kArrowGapY)/2 );
 
-    return KeyMonitorGdx.isTouched(x, y, dx*size, -dy*size);
+    return KeyMonitorAndroid.isTouched(x, y, dx*size, -dy*size);
     
   } // arrowTouched()
   
@@ -149,7 +149,7 @@ public class KeyButtons {
             ( mScale*(kArrowMarginX + kArrowWidth) + (mScale*kArrowGapX)/2 ),
         y = Gdx.graphics.getHeight() -
             ( mScale*(kArrowMarginY + kArrowHeight) + (mScale*kArrowGapY)/2 );
-    return KeyMonitorGdx.isTouched(x-size, y-size, 2*size, 2*size);
+    return KeyMonitorAndroid.isTouched(x-size, y-size, 2*size, 2*size);
     
   } // fire()
   

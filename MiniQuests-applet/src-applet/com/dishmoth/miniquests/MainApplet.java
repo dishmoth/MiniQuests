@@ -77,9 +77,9 @@ public class MainApplet extends Applet
     }
     
     Env.initialize( envBits,
-                    new KeyMonitorApplet(mGameCanvas), 
                     new ResourcesApplet(),
                     new SoundsApplet() );
+    Env.addKeyMonitor( new KeyMonitorApplet(mGameCanvas) );
 
     //QuestStats.decode("GXq5MkuCSI0JY16QeCCfkaIcqBOjwRUq2ZavAlg0EWm7KcsCQkyRW14OcHAdiBGao7MhxiSo0HZv6Oe0CYk7ImqFOhwJUp2Qbx8Vg0Edm6KhsAQpyKWu5Ec1Bfi6GZoDNguISj0PYu6TeyCakkIhq8OmwXUr2Naz8dg6GQnDKMsFQlyQcj4XcOAci3Gdo8MiuZSn0TYs6Qe7CXk4IuqKO4wRUz2YaC8diPFkm4KpsHQwyOW");
 
