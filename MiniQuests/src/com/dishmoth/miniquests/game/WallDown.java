@@ -87,7 +87,7 @@ public class WallDown extends Wall {
               yOrigin = mYPos - mCamera.yPos(),
               zOrigin = mZPos - mCamera.zPos();
     
-    final byte colour = Env.backgroundColour();
+    final byte colour = Env.whiteBackground() ? (byte)63 : (byte)0;
     
     for ( int ix = -1 ; ix < Room.kSize ; ix++ ) {
       final int xPos = 2*(xOrigin + ix),

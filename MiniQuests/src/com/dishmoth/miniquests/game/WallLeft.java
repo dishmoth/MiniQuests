@@ -87,7 +87,7 @@ public class WallLeft extends Wall {
               yOrigin = mYPos - mCamera.yPos(),
               zOrigin = mZPos - mCamera.zPos();
 
-    final byte colour = Env.backgroundColour();
+    final byte colour = Env.whiteBackground() ? (byte)63 : (byte)0;
     
     for ( int iy = -1 ; iy < Room.kSize ; iy++ ) {
       final int xPos = 2*(xOrigin - 1),

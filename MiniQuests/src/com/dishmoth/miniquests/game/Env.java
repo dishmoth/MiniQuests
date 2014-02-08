@@ -105,15 +105,14 @@ public class Env {
   static public int originXPixel() { return kOriginXPixel; }
   static public int originYPixel() { return kOriginYPixel; }
 
-  // colour for unused pixels 
-  static public byte backgroundColour() { 
+  // colour for border and unused pixels 
+  static public boolean whiteBackground() { 
   
     return ( Env.platform() == Env.Platform.DESKTOP
-          || Env.platform() == Env.Platform.ANDROID
-          || Env.platform() == Env.Platform.OUYA ) ? (byte)0 
-                                                   : (byte)63;
+          || Env.platform() == Env.Platform.HTML 
+          || Env.platform() == Env.Platform.APPLET );
     
-  } // backgroundColour()
+  } // whiteBackground()
   
   // frame rate
   static public int ticksPerSecond() { return kTicksPerSecond; }

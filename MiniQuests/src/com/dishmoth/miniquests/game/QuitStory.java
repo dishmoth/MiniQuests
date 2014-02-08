@@ -246,6 +246,7 @@ public class QuitStory extends Story {
             spriteManager.removeAllSprites();
             int questNum = Env.saveState().questStats().questNum();
             Env.saveState().setQuestStats(null);
+            Env.saveState().saveMaybe();
             newStory = new MapStory(questNum);
             storyEvents.add(new Story.EventGameBegins());
           } else {

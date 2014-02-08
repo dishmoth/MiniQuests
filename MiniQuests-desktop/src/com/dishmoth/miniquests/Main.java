@@ -19,7 +19,7 @@ public class Main {
 		cfg.title = "Mini Quests";
 		cfg.useGL20 = false;
 		
-		cfg.width = 480; cfg.height = 320;
+		cfg.width = 400; cfg.height = 300;
 		
 		new LwjglApplication(new MainGame(), cfg);
 		
