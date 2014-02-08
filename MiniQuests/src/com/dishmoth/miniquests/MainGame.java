@@ -61,7 +61,7 @@ public class MainGame implements ApplicationListener {
 
     EnvBitsGdx envBits = new EnvBitsGdx();
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v3.1.2, 2nd September 2013)");
+      envBits.debug("Mini Quests (v3.1.3, 8th February 2014)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
  
