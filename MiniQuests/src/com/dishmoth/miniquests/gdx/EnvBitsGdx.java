@@ -95,9 +95,9 @@ public class EnvBitsGdx implements EnvBits {
 
     assert ( data != null );
     
-    if ( Gdx.app.getType() != Application.ApplicationType.Android ) {
-      return;
-    }
+    //if ( Gdx.app.getType() != Application.ApplicationType.Android ) {
+    //  return;
+    //}
 
     BitBuffer converter = new BitBuffer(data);
     String str = converter.toString();
@@ -115,9 +115,9 @@ public class EnvBitsGdx implements EnvBits {
   // load the game data (on Android devices only)
   public byte[] load() {
     
-    if ( Gdx.app.getType() != Application.ApplicationType.Android ) {
-      return null;
-    }
+    //if ( Gdx.app.getType() != Application.ApplicationType.Android ) {
+    //  return null;
+    //}
 
     String str = null;
     try {

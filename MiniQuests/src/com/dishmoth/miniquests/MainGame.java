@@ -262,7 +262,9 @@ public class MainGame implements ApplicationListener {
         ySize   = scale*Env.screenHeight();
     int xOffset = (Gdx.graphics.getWidth() - xSize)/2,
         yOffset = (Gdx.graphics.getHeight() - ySize)/2;
-    
+
+    float clear = Env.whiteBackground() ? 1.0f : 0.0f;
+    Gdx.gl.glClearColor(clear, clear, clear, 1.0f);
     Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     mScreenBatch.disableBlending();
     mScreenBatch.begin();

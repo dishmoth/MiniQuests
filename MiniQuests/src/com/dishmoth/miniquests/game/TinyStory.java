@@ -332,6 +332,7 @@ public class TinyStory extends Story {
       Env.saveState().updateRestartData();
       Env.saveState().reportQuestStats();
       Env.saveState().setQuestStats(null);
+      Env.saveState().saveMaybe();
       newStory = new EndStory(score, mQuestNum);
       storyEvents.add(new Story.EventGameBegins());
     }
@@ -404,6 +405,7 @@ public class TinyStory extends Story {
     for ( Room room : mRoomList ) room.save(buffer);
 
     Env.saveState().updateRestartData();
+    Env.saveState().saveMaybe();
     
   } // recordRestartState()
 

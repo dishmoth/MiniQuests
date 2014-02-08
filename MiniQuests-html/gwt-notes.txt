@@ -1,10 +1,14 @@
-Debug:
+Development mode:
 - MiniQuests-html -> Debug As -> Web Application
 - Copy link into Chrome
 - (Try deleting /gwt-unitCache directory if compilation fails)
-- (Try restarting Chrome if SoundManager won't load)
+- (Try restarting Chrome if SoundManager won't load..?)
 
-Run:
+Production mode:
 - MiniQuests-html -> Google -> GWT Compile
 - Upload /war directory, excluding /war/WEB-INF, to server
-- (Compilation flags for human-readable JavaScript?)
+- Compilation flags for debugging: 
+   -ea (enable assertions)
+   -draftCompile (quicker compilation)
+   -strict (harsher checking)
+  and "Output Style" to "detailed" (usually "obfuscated").

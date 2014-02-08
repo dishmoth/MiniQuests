@@ -270,6 +270,7 @@ public class TrainingStory extends Story {
             newStory = new MapStory(-1);
             storyEvents.add(new Story.EventGameBegins());
             Env.saveState().setTrainingDone();
+            Env.saveState().saveMaybe();
           } break;
           default: {
             assert(false);

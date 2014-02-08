@@ -143,6 +143,13 @@ public class SaveState {
     
   } // save()
   
+  // save now if the platform needs it; otherwise only save when paused/stopped
+  public void saveMaybe() {
+    
+    if ( Env.platform() == Env.Platform.HTML ) save();
+    
+  } // saveMaybe()
+  
   // whether to put the player through full hero training
   public boolean fullTrainingNeeded() { return (mTraining == 2); }
 
