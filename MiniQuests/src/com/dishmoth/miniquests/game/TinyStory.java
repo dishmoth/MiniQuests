@@ -178,11 +178,12 @@ public class TinyStory extends Story {
                                 new RoomC16() };
       } break;
       /*
-      case 3: {
-        mRoomList = new Room[]{ new RoomD01(),
-                                new RoomD02(),
-                                new RoomD03(),
-                                new RoomD04() };
+      case 4: {
+        mRoomList = new Room[]{ new RoomE01(),
+                                new RoomE02(),
+                                new RoomE03(),
+                                new RoomE04(),
+                                new RoomE05() };
       } break;
       */
       default: {

@@ -1,5 +1,5 @@
 /*
- *  RoomD05.java
+ *  RoomE05.java
  *  Copyright Simon Hern 2013
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -18,11 +18,11 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
-// the room "D05"
-public class RoomD05 extends Room {
+// the room "E05"
+public class RoomE05 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "D05";
+  public static final String NAME = "E05";
   
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "1111111111",
@@ -43,7 +43,7 @@ public class RoomD05 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  1,0, "#k",0, -1, RoomD04.NAME, 0) }; 
+          = { new Exit(Env.LEFT,  1,0, "#k",0, -1, RoomE04.NAME, 0) }; 
   
   // colour of the glowing path
   private static final char kPathColour = 's';
@@ -67,7 +67,7 @@ public class RoomD05 extends Room {
   private GlowPath mPath;
 
   // constructor
-  public RoomD05() {
+  public RoomE05() {
 
     super(NAME);
 
@@ -133,4 +133,4 @@ public class RoomD05 extends Room {
         
   } // Room.advance()
 
-} // class RoomD05
+} // class RoomE05
