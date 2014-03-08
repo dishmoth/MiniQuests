@@ -1,5 +1,5 @@
 /*
- *  RoomB07.java
+ *  RoomE02.java
  *  Copyright Simon Hern 2011
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -16,11 +16,11 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
-// the room "D02"
-public class RoomD02 extends Room {
+// the room "E02"
+public class RoomE02 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "D02";
+  public static final String NAME = "E02";
   
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "   0000   ",
@@ -40,8 +40,8 @@ public class RoomD02 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  2,0, "tc",0, -1, RoomD01.NAME, 1), 
-              new Exit(Env.RIGHT, 5,2, "tc",0, -1, RoomD03.NAME, 0) };
+          = { new Exit(Env.LEFT,  2,0, "tc",0, -1, RoomE01.NAME, 1), 
+              new Exit(Env.RIGHT, 5,2, "tc",0, -1, RoomE03.NAME, 0) };
 
   // rate at which the floor tiles update
   private static final int kUpdateTime = 3;
@@ -65,7 +65,7 @@ public class RoomD02 extends Room {
   private int mUpdateCounter;
 
   // constructor
-  public RoomD02() {
+  public RoomE02() {
 
     super(NAME);
 
@@ -257,4 +257,4 @@ public class RoomD02 extends Room {
     
   } // Room.advance()
 
-} // class RoomD02
+} // class RoomE02

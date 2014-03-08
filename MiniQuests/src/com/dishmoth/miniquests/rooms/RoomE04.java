@@ -1,5 +1,5 @@
 /*
- *  RoomA04.java
+ *  RoomE04.java
  *  Copyright Simon Hern 2010
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -18,11 +18,11 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
-// the room "D04"
-public class RoomD04 extends Room {
+// the room "E04"
+public class RoomE04 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "D04";
+  public static final String NAME = "E04";
   
   // main blocks for the room
   private static final String kBlocks1[][] = { { "0000000000",
@@ -192,8 +192,8 @@ public class RoomD04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 4,0,  "#V",0, 0, RoomD03.NAME, 0),
-              new Exit(Env.DOWN,  2,42, "#V",1, 0, RoomD01.NAME, 0) };
+          = { new Exit(Env.RIGHT, 4,0,  "#V",0, 0, RoomE03.NAME, 0),
+              new Exit(Env.DOWN,  2,42, "#V",1, 0, RoomE01.NAME, 0) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -229,7 +229,7 @@ public class RoomD04 extends Room {
   private boolean mCompleted;
   
   // constructor
-  public RoomD04() {
+  public RoomE04() {
     
     super(NAME);
 
@@ -333,4 +333,4 @@ public class RoomD04 extends Room {
     
   } // Room.advance()
 
-} // class RoomD04
+} // class RoomE04

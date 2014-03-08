@@ -1,5 +1,5 @@
 /*
- *  RoomA00.java
+ *  RoomE01.java
  *  Copyright Simon Hern 2010
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -19,11 +19,11 @@ import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.Wall;
 import com.dishmoth.miniquests.game.WallUp;
 
-// the room "D01"
-public class RoomD01 extends Room {
+// the room "E01"
+public class RoomE01 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "D01";
+  public static final String NAME = "E01";
   
   // all visible blocks for the room
   private static final String kBlocks[][] = { { "0010100000",
@@ -43,8 +43,8 @@ public class RoomD01 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 6,0, "#h",1, -1, RoomD01.NAME, 0),
-              new Exit(Env.UP,    3,0, "#h",1, -1, RoomD02.NAME, 0) };
+          = { new Exit(Env.RIGHT, 6,0, "#h",1, -1, RoomE01.NAME, 0),
+              new Exit(Env.UP,    3,0, "#h",1, -1, RoomE02.NAME, 0) };
 
   // how long the invisible barrier stays in place for
   private static final int kBarrierTime = 15;
@@ -59,7 +59,7 @@ public class RoomD01 extends Room {
   private int mBarrierTimer;
   
   // constructor
-  public RoomD01() {
+  public RoomE01() {
 
     super(NAME);
 
@@ -152,4 +152,4 @@ public class RoomD01 extends Room {
     
   } // Room.advance()
 
-} // class RoomD01
+} // class RoomE01
