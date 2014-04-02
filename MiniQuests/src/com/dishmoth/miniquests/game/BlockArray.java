@@ -145,6 +145,16 @@ public class BlockArray extends Sprite3D implements Obstacle {
     
   } // getBlock()
   
+  // paint the image onto the blocks ignoring depths
+  // the image's ref point applies to the (x,y,z) blocks 
+  public void paint(EgaImage colours, int x, int y, int z) {
+
+    int xPos = 2*( x - y ),
+        yPos = -( x + y + z );
+    colours.draw(mImage, xPos, yPos);
+    
+  } // paint()
+  
   // whether the player can stand at the specified position
   public boolean isPlatform(int x, int y, int z) {
     

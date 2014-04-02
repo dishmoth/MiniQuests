@@ -91,11 +91,11 @@ public class MainApplet extends Applet
 
     mGameScreen = new EgaCanvas(Env.screenWidth(), Env.screenHeight());
     
-    mGameManager = new GameManager(new TitleStory());
+    //mGameManager = new GameManager(new TitleStory()); //!!!
     //mGameManager = new GameManager(new StartupStory());
     //mGameManager = new GameManager(new TrainingStory());
     //mGameManager = new GameManager(new MapStory(-1));
-    //mGameManager = new GameManager(new TinyStory(2));
+    mGameManager = new GameManager(new TinyStory(3));
     mGameManager.advance();
     
     mTimingControl = new TimingControl();
@@ -105,7 +105,7 @@ public class MainApplet extends Applet
     
     mPauseScreen = Env.resources().loadEgaImage("PauseScreen.png");
 
-    //if ( Env.debugMode() ) mRecolourTool = new RecolourTool(mGameCanvas);
+    if ( Env.debugMode() ) mRecolourTool = new RecolourTool(mGameCanvas); //!!!
     
     Env.debug("Screen size: " + getWidth() + " x " + getHeight());
     

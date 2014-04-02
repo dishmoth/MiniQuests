@@ -18,6 +18,7 @@ import com.dishmoth.miniquests.game.EgaCanvas;
 import com.dishmoth.miniquests.game.EgaTools;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.GameManager;
+import com.dishmoth.miniquests.game.TinyStory;
 import com.dishmoth.miniquests.game.TitleStory;
 import com.dishmoth.miniquests.gdx.EnvBitsGdx;
 import com.dishmoth.miniquests.gdx.KeyMonitorAndroid;
@@ -61,7 +62,7 @@ public class MainGame implements ApplicationListener {
 
     EnvBitsGdx envBits = new EnvBitsGdx();
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v3.1.3, 8th February 2014)");
+      envBits.debug("Mini Quests (v4.0.0, 8th March 2014)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
  
@@ -106,11 +107,11 @@ public class MainGame implements ApplicationListener {
     
     mGameScreen = new EgaCanvas(Env.screenWidth(), Env.screenHeight());
     
-    mGameManager = new GameManager(new TitleStory());
+    //mGameManager = new GameManager(new TitleStory());
     //mGameManager = new GameManager(new StartupStory());
     //mGameManager = new GameManager(new TrainingStory());
     //mGameManager = new GameManager(new MapStory(-1));
-    //mGameManager = new GameManager(new TinyStory(0));
+    mGameManager = new GameManager(new TinyStory(3));
     mGameManager.advance();
     
     mScreenBatch = new SpriteBatch();

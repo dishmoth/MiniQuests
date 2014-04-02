@@ -51,6 +51,7 @@ import com.dishmoth.miniquests.rooms.RoomC13;
 import com.dishmoth.miniquests.rooms.RoomC14;
 import com.dishmoth.miniquests.rooms.RoomC15;
 import com.dishmoth.miniquests.rooms.RoomC16;
+import com.dishmoth.miniquests.rooms.RoomD01;
 
 // the main game class
 public class TinyStory extends Story {
@@ -66,7 +67,7 @@ public class TinyStory extends Story {
   } // class TinyStory.EventSaveGame
   
   // how many quests there are
-  public static final int NUM_QUESTS = 3;
+  public static final int NUM_QUESTS = 4;
   
   // times for certain actions
   private static final int kPlayerDeathTime = 30;
@@ -177,6 +178,9 @@ public class TinyStory extends Story {
                                 new RoomC15(),
                                 new RoomC16() };
       } break;
+      case 3: {
+        mRoomList = new Room[]{ new RoomD01() };
+      } break;
       /*
       case 4: {
         mRoomList = new Room[]{ new RoomE01(),
@@ -239,7 +243,7 @@ public class TinyStory extends Story {
         if ( mCurrentRoom == null ) {
           Env.debug("New game started");
           mCurrentRoom = mRoomList[0];
-          //mCurrentRoom = findRoom( RoomC15.class ); //!!!
+          mCurrentRoom = findRoom( RoomD01.NAME ); //!!!
           mLastEntryPoint = 0;
         }
         mCurrentRoom.createSprites(spriteManager);
