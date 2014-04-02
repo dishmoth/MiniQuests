@@ -92,4 +92,4 @@ public class Statue extends Sprite3D implements Obstacle {
       
   } // Sprite.draw()
 
-} // class FenceGate
+} // class Statue

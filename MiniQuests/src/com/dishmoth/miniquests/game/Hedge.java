@@ -1,6 +1,6 @@
 /*
- *  Fence.java
- *  Copyright Simon Hern 2011
+ *  Hedge.java
+ *  Copyright Simon Hern 2014
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
 
@@ -8,28 +8,29 @@ package com.dishmoth.miniquests.game;
 
 import java.util.LinkedList;
 
-// a simple barrier
-public class Fence extends Sprite3D implements Obstacle {
+// a low wall
+public class Hedge extends Sprite3D implements Obstacle {
 
-  // colour schemes for the fence
-  private static final byte kColours[] = { 48, 0 };
+  // colour schemes for the wall
+  private static final byte kColours[][] = { { 16, 16, 2 },   // hedge
+                                             { 56, 56, 7 } }; // stone
 
-  // position of base point of fence
+  // position of base point of wall
   final private int mXPos,
                     mYPos,
                     mZPos;
   
-  // number of fence posts
+  // number of wall units
   final private int mLength;
   
-  // whether the fence runs horizontally or vertically
+  // whether the wall rights horizontally or vertically
   final private int mDirec;
 
   // index of the colour to use
   final private int mColourScheme;
   
   // constructor
-  public Fence(int xPos, int yPos, int zPos, 
+  public Hedge(int xPos, int yPos, int zPos, 
                int length, int direc, int colourScheme) {
     
     mXPos = xPos;
@@ -98,23 +99,18 @@ public class Fence extends Sprite3D implements Obstacle {
         y = y0;
     float depth = depth0 - 0.01f;
     
-    byte colour = kColours[mColourScheme];
+    byte colours[] = kColours[mColourScheme];
     
     for ( int k = 0 ; k < mLength ; k++ ) {
-      canvas.fill(x, x, y-4, y, depth, colour);
+      canvas.plot(x,   y,   depth, colours[1]);
+      canvas.plot(x+1, y,   depth, colours[0]);
+      canvas.plot(x,   y-1, depth, colours[2]);
+      canvas.plot(x+1, y-1, depth, colours[1]);
       if ( mDirec == Env.RIGHT ) {
-        if ( k < mLength-1 ) {
-          canvas.plot(x+1, y-1, depth, colour);
-          canvas.plot(x+1, y-3, depth, colour);
-        }
         x += 2;
         y -= 1;
         depth += 1.0f;
       } else {
-        if ( k > 0 ) {
-          canvas.plot(x+1, y, depth, colour);
-          canvas.plot(x+1, y-2, depth, colour);
-        }
         x -= 2;
         y -= 1;
         depth += 1.0f;
@@ -123,4 +119,4 @@ public class Fence extends Sprite3D implements Obstacle {
     
   } // Sprite.draw()
 
-} // class Fence
+} // class Hedge

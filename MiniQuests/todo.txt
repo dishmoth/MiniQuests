@@ -27,6 +27,7 @@ Deployment checklist:
 - For beta, disable escape (in KeyMonitorApplet).
 - For beta, disable save (in EnvBitsApplet).
 - For beta, enable stats reporting (in Env).
+- For desktop, export Runnable JAR with "Package required libraries...".
 - Turn off recolour mapping.
 - Update version in debug (applet and gdx) and readme.
 - Update save version (SaveState.kVersion and in SaveState.decode()).

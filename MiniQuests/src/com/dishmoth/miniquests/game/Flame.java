@@ -29,10 +29,10 @@ public class Flame extends FlameParticles {
   // basic height of the flame
   private static final float kHeight = 2.5f;
   
-  // new particles per frame per unit length of the beam
+  // new particles per frame
   private float mParticleRate;
   
-  // start and end positions of beam
+  //  position of the flame
   protected float mXPos,
                   mYPos,
                   mZPos;
@@ -114,7 +114,7 @@ public class Flame extends FlameParticles {
 
   } // Sprite3D.advance()
 
-  // whether the beam hits a point (within certain tolerances)
+  // whether the flame hits a point (within certain tolerances)
   public boolean hits(float x, float y, float z, float xyTol, float zTol) {
 
     if ( !mIsOn ) return false;
