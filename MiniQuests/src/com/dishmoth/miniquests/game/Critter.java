@@ -452,6 +452,21 @@ public class Critter extends Sprite3D implements Obstacle {
     
   } // hits()
   
+  // whether the player intersects a position range
+  public boolean hits(int x0, int x1, int y0, int y1, int z0, int z1) {
+
+    assert( x1 >= x0 && y1 >= y0 && z1 >= z0 );
+    
+    if ( z1 < mZPos || z0 >= mZPos+kHeight ) return false;
+    if ( x0 <= mXPos && x1 >= mXPos && 
+         y0 <= mYPos && y1 >= mYPos ) return true;
+    if ( mStepping &&
+         x0 <= mStepXPos && x1 >= mStepXPos && 
+         y0 <= mStepYPos && y1 >= mStepYPos ) return true;
+    return false;
+    
+  } // hits()
+  
   // handle consequences of collisions
   @Override
   public void aftermath(LinkedList<Sprite>     addTheseSprites, 
