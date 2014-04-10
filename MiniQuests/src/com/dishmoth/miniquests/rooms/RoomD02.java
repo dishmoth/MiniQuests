@@ -1,5 +1,5 @@
 /*
- *  RoomD01.java
+ *  RoomD02.java
  *  Copyright Simon Hern 2014
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -24,11 +24,11 @@ import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.Tree;
 
-// the room "D01"
-public class RoomD01 extends Room {
+// the room "D02"
+public class RoomD02 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "D01";
+  public static final String NAME = "D02";
   
   // main blocks for the floor
   private static final String kBlocks[][] 
@@ -94,13 +94,13 @@ public class RoomD01 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, RoomD01.NAME, 1),
-              new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, RoomD01.NAME, 0),
-              new Exit(1,2, Env.UP,    5,0, "#m",0, -1, RoomD01.NAME, 3),
-              new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, RoomD01.NAME, 2) };
+          = { new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, RoomD02.NAME, 1),
+              new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, RoomD02.NAME, 0),
+              new Exit(1,2, Env.UP,    5,0, "#m",0, -1, RoomD02.NAME, 3),
+              new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, RoomD02.NAME, 2) };
 
   // constructor
-  public RoomD01() {
+  public RoomD02() {
 
     super(NAME);
 
@@ -446,4 +446,4 @@ public class RoomD01 extends Room {
     
   } // Room.advance()
 
-} // class RoomD01
+} // class RoomD02
