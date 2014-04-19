@@ -16,7 +16,8 @@ public class BlockArray extends Sprite3D implements Obstacle {
   private static final int kBlockHeight = 2; 
   
   // array of blocks 
-  // (' ' for empty, '0' to '9' for different colours, '-' for invisible)
+  // (' ' for empty, '0' to '9' for different colours,
+  // '-' for invisible platform, '*' for invisible barrier)
   private String mBlocks[][];
 
   // colours for different block types (value pairs, middle and edge colours)
@@ -67,7 +68,7 @@ public class BlockArray extends Sprite3D implements Obstacle {
         assert( yRow != null );
         for ( int ix = 0 ; ix < yRow.length() ; ix++ ) {
           char ch = yRow.charAt(ix);
-          if ( ch == ' ' || ch == '-' ) continue;
+          if ( ch == ' ' || ch == '-' || ch == '*' ) continue;
           assert( ch >= '0' && ch <= '9' );
           numColours = Math.max(numColours, (int)(ch - '0')+1);
         }
@@ -240,7 +241,7 @@ public class BlockArray extends Sprite3D implements Obstacle {
       for ( int iy = 0 ; iy < mYSize ; iy++ ) {
         for ( int ix = 0 ; ix < mXSize ; ix++ ) {
           final char ch = getBlock(ix, iy, iz);
-          if ( ch == ' ' || ch == '-' ) continue;
+          if ( ch == ' ' || ch == '-' || ch == '*' ) continue;
           final int colIndex = (int)(ch -'0');
 
           edgeIndex[iy  ][ix  ] = Math.max(edgeIndex[iy  ][ix  ], colIndex);
@@ -253,7 +254,7 @@ public class BlockArray extends Sprite3D implements Obstacle {
       for ( int iy = 0 ; iy < mYSize ; iy++ ) {
         for ( int ix = 0 ; ix < mXSize ; ix++ ) {
           final char ch = getBlock(ix, iy, iz);
-          if ( ch == ' ' || ch == '-' ) continue;
+          if ( ch == ' ' || ch == '-' || ch == '*' ) continue;
           final int colIndex = (int)(ch -'0');
 
           final int depth = ix + iy;
