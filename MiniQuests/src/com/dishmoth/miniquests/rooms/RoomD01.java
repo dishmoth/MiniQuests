@@ -54,14 +54,14 @@ public class RoomD01 extends Room {
                                                 "   *   22222   " }};
   
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "22",   // 
-                                                  "Y2",   // grass green
-                                                  "#S" }; //
+  private static final String kBlockColours[] = { "22",   // grass
+                                                  "Y2",   // path
+                                                  "#S" }; // entrance
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { // note: dummy exit at index 0
-              new Exit(Env.DOWN, 4,2, "#S",0, -1, RoomD02.NAME, 2) };
+              new Exit(Env.DOWN, 4,2, "#S",0, -1, RoomD03.NAME, 0) };
 
   // constructor
   public RoomD01() {
