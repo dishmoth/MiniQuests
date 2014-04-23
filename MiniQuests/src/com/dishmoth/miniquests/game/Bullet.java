@@ -98,6 +98,7 @@ public class Bullet extends Sprite3D {
          newSprite instanceof FloorBossHead ||
          newSprite instanceof Player ||
          newSprite instanceof Spinner ||
+         newSprite instanceof Statue ||
          newSprite instanceof Triffid ||
          newSprite instanceof TriffidBoss ||
          newSprite instanceof WallSwitch ) {
@@ -244,6 +245,15 @@ public class Bullet extends Sprite3D {
         if ( target.hits(mXPos, mYPos, mZPos) ) {
           mHitTarget = true;
           Env.sounds().play(Sounds.ARROW_HIT);
+        }
+      }
+      
+      else if ( sp instanceof Statue ) {
+        Statue target = (Statue)sp;
+        if ( !target.isEmpty(mXPos, mYPos, mZPos+1) ) {
+          mHitTarget = true;
+          Env.sounds().play(Sounds.ARROW_HIT);
+          target.setHit(true);
         }
       }
       

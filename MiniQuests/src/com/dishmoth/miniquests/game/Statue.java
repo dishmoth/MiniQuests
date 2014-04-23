@@ -14,7 +14,9 @@ public class Statue extends Sprite3D implements Obstacle {
   // images in different colour schemes
   private static final PlayerImage kImages[] = 
                               { new PlayerImage(new char[]{ 'c', 'q' }),
-                                new PlayerImage(new char[]{ '9', '1' }) };
+                                new PlayerImage(new char[]{ '9', '1' }),
+                                new PlayerImage(new char[]{ 'j', '5' }),
+                                new PlayerImage(new char[]{ 't', 'k' }) };
   
   // position of the figure
   final private int mXPos,
@@ -26,6 +28,9 @@ public class Statue extends Sprite3D implements Obstacle {
 
   // which colour scheme to use
   private int mColour;
+  
+  // true if the statue has been shot 
+  private boolean mHit;
   
   // constructor
   public Statue(int xPos, int yPos, int zPos, int direc, int colour) {
@@ -72,6 +77,12 @@ public class Statue extends Sprite3D implements Obstacle {
     
   } // Obstacle.isVoid()
 
+  // mark the statue as having been hit
+  public void setHit(boolean on) { mHit = on; }
+  
+  // whether the statue has been hit
+  public boolean isHit() { return mHit; } 
+  
   // nothing to do here
   @Override
   public void advance(LinkedList<Sprite> addTheseSprites,
