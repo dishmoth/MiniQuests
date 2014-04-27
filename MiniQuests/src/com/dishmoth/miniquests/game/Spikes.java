@@ -30,6 +30,9 @@ public class Spikes extends Sprite3D {
   final private byte mBaseColour,
                      mSpikeColour;
   
+  // whether to turn off the sound effect
+  private boolean mSilent;
+  
   // whether the spike is hidden (0) or extended (1, 2, 3)
   private int mState;
   
@@ -58,6 +61,8 @@ public class Spikes extends Sprite3D {
     mState = 0;
     mTimer = 0;
     
+    mSilent = false;
+    
   } // constructor
   
   // extend the spikes
@@ -69,6 +74,9 @@ public class Spikes extends Sprite3D {
     }
     
   } // trigger()
+  
+  // control the sound effect
+  public void setSilent(boolean silent) { mSilent = silent; }
   
   // check for Sprites we want to keep track of
   @Override
@@ -110,6 +118,9 @@ public class Spikes extends Sprite3D {
           mState = 0;
           mTimer = 0;
         }
+      }
+      if ( !mSilent && mState == 1 && mTimer == 1 ) {
+        Env.sounds().play(Sounds.SPIKES);
       }
     }
     
