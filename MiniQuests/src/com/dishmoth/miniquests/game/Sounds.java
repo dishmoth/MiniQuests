@@ -34,34 +34,35 @@ abstract public class Sounds {
                              CRITTER_DEATH  = 18,
                              CRITTER_STUN   = 19,
                              SPINNER_STOP   = 20,
-                             TRIFFID_HIT    = 21,
-                             TRIFFID_DEATH  = 22,
-                             TRIFFID_FIRE   = 23,
-                             TRIFFID_EMERGE = 24,
-                             TBOSS_HIT      = 25,
-                             TBOSS_DEATH    = 26,
-                             TBOSS_FIRE     = 27,
-                             TBOSS_EMERGE   = 28,
-                             TBOSS_SPLAT    = 29,
-                             TBOSS_GRUNT    = 30,
-                             DRAGON_HIT     = 31,
-                             DRAGON_FIRE    = 32,
-                             DRAGON_EMERGE  = 33,
-                             FLOOR_MUNCH_A  = 34,
-                             FLOOR_MUNCH_B  = 35,
-                             FLOOR_BLAST    = 36,
-                             FLOOR_PEEK     = 37,
-                             FLOOR_HIT      = 38,
-                             FLOOR_DEATH    = 39,
-                             SUCCESS        = 40,
-                             QUEST_DONE     = 41,
-                             MENU_1         = 42,
-                             MENU_2         = 43,
-                             MAP            = 44,
-                             DUNGEON        = 45,
-                             TITLE          = 46,
-                             VENTURE        = 47;
-  protected static final int kNumSounds     = 48; 
+                             SPIKES         = 21,
+                             TRIFFID_HIT    = 22,
+                             TRIFFID_DEATH  = 23,
+                             TRIFFID_FIRE   = 24,
+                             TRIFFID_EMERGE = 25,
+                             TBOSS_HIT      = 26,
+                             TBOSS_DEATH    = 27,
+                             TBOSS_FIRE     = 28,
+                             TBOSS_EMERGE   = 29,
+                             TBOSS_SPLAT    = 30,
+                             TBOSS_GRUNT    = 31,
+                             DRAGON_HIT     = 32,
+                             DRAGON_FIRE    = 33,
+                             DRAGON_EMERGE  = 34,
+                             FLOOR_MUNCH_A  = 35,
+                             FLOOR_MUNCH_B  = 36,
+                             FLOOR_BLAST    = 37,
+                             FLOOR_PEEK     = 38,
+                             FLOOR_HIT      = 39,
+                             FLOOR_DEATH    = 40,
+                             SUCCESS        = 41,
+                             QUEST_DONE     = 42,
+                             MENU_1         = 43,
+                             MENU_2         = 44,
+                             MAP            = 45,
+                             DUNGEON        = 46,
+                             TITLE          = 47,
+                             VENTURE        = 48;
+  protected static final int kNumSounds     = 49; 
   
   // true if sounds have been loaded and all is operational
   protected boolean mAvailable;
@@ -118,6 +119,7 @@ abstract public class Sounds {
     loadSound(CRITTER_DEATH, "critter_death.ogg", 1);
     loadSound(CRITTER_STUN, "critter_stun.ogg", 1);
     loadSound(SPINNER_STOP, "spinner_stop.ogg", 1);
+    loadSound(SPIKES, "spikes.wav", 1);
     loadSound(TRIFFID_HIT, "triffid_hit.ogg", 1);
     loadSound(TRIFFID_DEATH, "triffid_death.ogg", 1);
     loadSound(TRIFFID_FIRE, "triffid_fire.ogg", 1);

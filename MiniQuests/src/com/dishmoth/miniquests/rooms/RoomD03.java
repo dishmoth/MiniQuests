@@ -119,6 +119,7 @@ public class RoomD03 extends Room {
                              new Spikes(4,1,0, 3,2, true, "u0"),
                              new Spikes(7,0,0, 2,3, true, "u0") };
     for ( int k = 0 ; k < mSpikes.length ; k++ ) {
+      if ( k > 0 ) mSpikes[k].setSilent(true);
       spriteManager.addSprite( mSpikes[k] );
     }
     mSpikeTimer = kSpikeDelay/3;
