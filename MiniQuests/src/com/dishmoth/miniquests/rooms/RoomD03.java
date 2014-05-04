@@ -54,17 +54,35 @@ public class RoomD03 extends Room {
                                                   "#V" }; //
   
   // details of exit/entry points for the room 
-  private static final Exit kExits[] 
-          = { new Exit(Env.UP,    5,0, "#P",0, -1, RoomD01.NAME, 1),
-              new Exit(Env.DOWN,  5,0, "#P",0, -1, RoomD02.NAME, 2),
-              new Exit(Env.LEFT,  5,0, "#P",0, -1, RoomD03.NAME, 3),
-              new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD03.NAME, 2) };
+  private static final Exit kExits[][]
+        = { { new Exit(Env.UP,    5,0, "#P",0, -1, RoomD01.NAME, 1),
+              new Exit(Env.DOWN,  5,0, "#P",0, -1, RoomD02.NAME, 0),
+              new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.RIGHT, 5,0, "#P",0, -1, "",0) },
+              
+            { new Exit(Env.UP,    5,0, "#P",0, -1, "",0),
+              new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD02.NAME, 1) },
+              
+            { new Exit(Env.UP,    5,0, "#P",0, -1, RoomD02.NAME, 2),
+              new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.RIGHT, 5,0, "#P",0, -1, "",0) },
+              
+            { new Exit(Env.UP,    5,0, "#P",0, -1, "",0),
+              new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.LEFT,  5,0, "#P",0, -1, RoomD02.NAME, 3),
+              new Exit(Env.RIGHT, 5,0, "#P",0, -1, "",0) } };
               
   // how long things last for
   private static final int kStatueDelay    = 30,
                            kStatueEndDelay = 18;
   private static final int kSpikeDelay     = 22;
 
+  // the current exits, based on room D02's twist
+  private Exit mExits[];
+  
   // whether the spikes have been disabled yet
   private boolean mSpikesDone;
   
@@ -95,18 +113,29 @@ public class RoomD03 extends Room {
   public Player createPlayer(int entryPoint) {
 
     assert( entryPoint >= 0 && entryPoint < kExits.length );
-    setPlayerAtExit(kExits[entryPoint]);
+    setPlayerAtExit(mExits[entryPoint]);
     return mPlayer;
     
   } // createPlayer()
+  
+  // configure exits based on the room D02's twist
+  private void prepareExits() {
+    
+    RoomD02 twistRoom = (RoomD02)findRoom(RoomD02.NAME);
+    assert( twistRoom != null );
+    mExits = kExits[ twistRoom.twist() ];    
+    
+  } // prepareExist()
   
   // create the sprites for this room
   @Override
   public void createSprites(SpriteManager spriteManager) {
     
+    prepareExits();
+    
     spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
     
-    addBasicWalls(kExits, spriteManager);
+    addBasicWalls(mExits, spriteManager);
 
     mStatues = new Statue[]{ new Statue(2,9,2, Env.DOWN, 0),
                              new Statue(7,9,2, Env.DOWN, 0) };
@@ -141,10 +170,10 @@ public class RoomD03 extends Room {
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
-    final int exitIndex = checkExits(kExits);
+    final int exitIndex = checkExits(mExits);
     if ( exitIndex != -1 ) {
-      storyEvents.add(new EventRoomChange(kExits[exitIndex].mDestination,
-                                          kExits[exitIndex].mEntryPoint));
+      storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
+                                          mExits[exitIndex].mEntryPoint));
       return;
     }
 

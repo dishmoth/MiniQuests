@@ -6,7 +6,6 @@
 
 package com.dishmoth.miniquests.rooms;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BitBuffer;
@@ -32,36 +31,36 @@ public class RoomD02 extends Room {
   
   // main blocks for the floor
   private static final String kBlocks[][] 
-                          = { { "000000000000004440000000000000",
-                                "000000000000000200000000000000",
-                                "001110000111000200011000011100",
-                                "001110000111000200011000011100",
-                                "001110000111000200011000011100",
-                                "000000000111000200011000000000",
-                                "000000000000000200000000000000",
-                                "000000000000000200000000000000",
-                                "000000000000000200000000000000",
-                                "001111000000000200000000111100",
-                                "001111000002222222220000111100",
-                                "000000000002222222220000000000",
-                                "000000000002233333220000000000",
-                                "400000000002233333220000000004",
+                          = { { "111111111111114441111111111111",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "111111110000011211000011111111",
+                                "111111111111111211111111111111",
+                                "100000011111111211111110000001",
+                                "100000011111111211111110000001",
+                                "100000011112222222221110000001",
+                                "100000011112222222221110000001",
+                                "111111111112233333221111111111",
+                                "411111111112233333221111111114",
                                 "422222222222233333222222222224",
-                                "400000000002233333220000000004",
-                                "000000000002233333220000000000",
-                                "000000000002222222220000000000",
-                                "001111000002222222220000111100",
-                                "001111000000000200000000111100",
-                                "001111000000000200000000111100",
-                                "000000000000000200000000000000",
-                                "000000000000000200000000000000",
-                                "000000000000000200000000000000",
-                                "000000000111000200011000000000",
-                                "001110000111000200011000011100",
-                                "001110000111000200011000011100",
-                                "001110000111000200011000011100",
-                                "000000000000000200000000000000",
-                                "000000000000004440000000000000" } };
+                                "411111111112233333221111111114",
+                                "111111111112233333221111111111",
+                                "100000011112222222221110000001",
+                                "100000011112222222221110000001",
+                                "100000011111111211111110000001",
+                                "100000011111111211111110000001",
+                                "100000011111111211111110000001",
+                                "111111111111111211111111111111",
+                                "111111110000011211000011111111",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "100000110000011211000011000001",
+                                "111111111111114441111111111111" } };
   
   // fountain blocks in the middle of the room
   private static final String kFountainBlocks[][] = { { "          ",
@@ -83,27 +82,71 @@ public class RoomD02 extends Room {
                                                   "#####" };
   
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "Y2",   // grass green
-                                                  "mm",   // soil
+  private static final String kBlockColours[] = { "mm",   // soil
+                                                  "Y2",   // grass green
                                                   "Ym",   // path
                                                   "#E",   // fountain block
                                                   "Em" }; // door block
   
   // colour map for flower beds
-  private static final char kFlowerColours[] = {'m','q','D','B','s','#'};
+  private static final char kFlowerColours[] = {'s','B','q','D'};
   
   // details of exit/entry points for the room 
-  private static final Exit kExits[] 
-          = { new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, RoomD02.NAME, 1),
-              new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, RoomD02.NAME, 0),
-              new Exit(1,2, Env.UP,    5,0, "#m",0, -1, RoomD03.NAME, 1),
-              new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, RoomD02.NAME, 2) };
+  private static final Exit kExits[][] 
+        = { { new Exit(1,2, Env.UP,    5,0, "#m",0, -1, RoomD03.NAME, 1),
+              new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, "",0),
+              new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, "",0),
+              new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, "",0) },
 
+            { new Exit(1,2, Env.UP,    5,0, "#m",0, -1, "",0),
+              new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, RoomD03.NAME, 3),
+              new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, "",0),
+              new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, "",0) },
+
+            { new Exit(1,2, Env.UP,    5,0, "#m",0, -1, "",0),
+              new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, "",0),
+              new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, RoomD03.NAME, 0),
+              new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, "",0) },
+
+            { new Exit(1,2, Env.UP,    5,0, "#m",0, -1, "",0),
+              new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, "",0),
+              new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, "",0),
+              new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, RoomD03.NAME, 2) } };
+
+  // time until the twist animation completes
+  private static final int kTwistDelayStart  = 20,
+                           kTwistDelayChange = 8;
+
+  // trigger point for the twist mechanism
+  private static final int kTwistXPos = 2,
+                           kTwistYPos = 25;
+  
+  // the current exits, based on room twist
+  private Exit mExits[];
+  
+  // reference to the main floor blocks
+  private BlockArray mMainBlocks;
+
+  // room twist (anti-clockwise, 0 to 3)
+  private int mTwist;
+
+  // time until turn is complete (+ve for anticlockwise, -1 for clockwise)
+  private int mTwistTimer;
+
+  // monitor the twist trigger (+1 anticlockwise, -1 clockwise, 0 none) 
+  private int mTwistDirec;
+  
+  // keep track of the player's position (or -1)
+  private int mLastXPos,
+              mLastYPos;
+  
   // constructor
   public RoomD02() {
 
     super(NAME);
 
+    mTwist = 0;
+    
   } // constructor
 
   // serialize the room state by writing bits to the specified buffer
@@ -121,13 +164,17 @@ public class RoomD02 extends Room {
     
   } // Room.restore() 
   
+  // access to the room twist (0 to 3, anticlockwise)
+  // (note: this function may be called by various other room)
+  public int twist() { return mTwist; }
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
-    setPlayerAtExit(kExits[entryPoint]);
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
+    setPlayerAtExit(mExits[entryPoint]);
     return mPlayer;
     
   } // createPlayer()
@@ -136,18 +183,30 @@ public class RoomD02 extends Room {
   @Override
   public void discardResources() {
 
+    mMainBlocks = null;
+    mExits = null;
+    
   } // Room.discardResources()
 
-  // make a rectangle of hedges
-  private void addHedgeBox(SpriteManager spriteManager,
-                           int x, int y, int xLen, int yLen) {
+  // configure (or reconfigure) exits based on the room twist
+  private void prepareExits() {
     
-    spriteManager.addSprite(new Hedge(x, y,          0, xLen,   Env.RIGHT, 0));
-    spriteManager.addSprite(new Hedge(x, y+yLen-1,   0, xLen,   Env.RIGHT, 0));
-    spriteManager.addSprite(new Hedge(x, y+1,        0, yLen-2, Env.UP, 0));
-    spriteManager.addSprite(new Hedge(x+xLen-1, y+1, 0, yLen-2, Env.UP, 0));
+    assert( mTwist >= 0 && mTwist < kExits.length );
     
-  } // addHedgeBox()
+    Exit oldExits[] = mExits;
+    mExits = kExits[mTwist];
+
+    if ( oldExits != null && oldExits != mExits ) {
+      for ( int k = 0 ; k < mExits.length ; k++ ) {
+        mExits[k].mDoor = oldExits[k].mDoor;
+        oldExits[k].mDoor = null;
+
+        boolean closed = ( mExits[k].mDestination.isEmpty() );
+        mExits[k].mDoor.setClosed(closed);
+      }
+    }
+    
+  } // prepareExits()
   
   // create the sprites for this room
   @Override
@@ -155,17 +214,19 @@ public class RoomD02 extends Room {
 
     int zoneX, zoneY;
 
+    prepareExits();
+    
     // zone (0,0)
     
     zoneX = 0;
     zoneY = 0;
-    BlockArray mainBlocks = new BlockArray(kBlocks, kBlockColours, 
-                                           zoneX*Room.kSize, zoneY*Room.kSize,
-                                           0);
-    spriteManager.addSprite(mainBlocks); 
+    mMainBlocks = new BlockArray(kBlocks, kBlockColours, 
+                                 zoneX*Room.kSize, zoneY*Room.kSize, 0);
+    spriteManager.addSprite(mMainBlocks); 
+
     addBasicZone(zoneX, zoneY, 
                  false, false, true, true, 
-                 kExits, spriteManager);
+                 mExits, spriteManager);
     addHedgeBox(spriteManager, 
                 zoneX*Room.kSize+1, zoneY*Room.kSize+1,
                 5, 5);
@@ -178,48 +239,13 @@ public class RoomD02 extends Room {
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+3, zoneY*Room.kSize+3, 0,
                                      1, 1));
 
-    EgaImage flowers00A = new EgaImage(4, 6, 12, 7, 
-                                       EgaTools.convertColours(
-                                                    "      00    "
-                                                  + "    005005  "
-                                                  + "  0300003000"
-                                                  + "500003000030"
-                                                  + "0030000500  "
-                                                  + "  005000    "
-                                                  + "    03      ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers00A, zoneX*Room.kSize+2, zoneY*Room.kSize+9, 0);
-    
-    EgaImage flowers00B = new EgaImage(4, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "    00    "
-                                                  + "  000000  "
-                                                  + "0000000000"
-                                                  + "0000000000"
-                                                  + "  000000  "
-                                                  + "    00    ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers00B, zoneX*Room.kSize+2, zoneY*Room.kSize+2, 0);
-
-    EgaImage flowers00C = new EgaImage(6, 6, 12, 7, 
-                                       EgaTools.convertColours(
-                                                    "    00      "
-                                                  + "  001050    "
-                                                  + "0100000010  "
-                                                  + "000005000001"
-                                                  + "  5010000500"
-                                                  + "    000100  "
-                                                  + "      50    ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers00C, zoneX*Room.kSize+9, zoneY*Room.kSize+2, 0);
-    
     // zone (1,0)
     
     zoneX = 1;
     zoneY = 0;
     addBasicZone(zoneX, zoneY, 
                  false, false, false, true, 
-                 kExits, spriteManager);
+                 mExits, spriteManager);
     
     // zone (2,0)
     
@@ -227,7 +253,7 @@ public class RoomD02 extends Room {
     zoneY = 0;
     addBasicZone(zoneX, zoneY, 
                  true, false, false, true, 
-                 kExits, spriteManager);
+                 mExits, spriteManager);
     addHedgeBox(spriteManager, 
                 zoneX*Room.kSize+4, zoneY*Room.kSize+1,
                 5, 5);
@@ -240,47 +266,13 @@ public class RoomD02 extends Room {
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+6, zoneY*Room.kSize+3, 0,
                                      1, 1));
 
-    EgaImage flowers20A = new EgaImage(4, 6, 12, 7, 
-                                       EgaTools.convertColours(
-                                                    "      02    "
-                                                  + "    050000  "
-                                                  + "  0000205020"
-                                                  + "020500000005"
-                                                  + "0000000200  "
-                                                  + "  020500    "
-                                                  + "    00      ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers20A, zoneX*Room.kSize+4, zoneY*Room.kSize+9, 0);
-    
-    EgaImage flowers20B = new EgaImage(4, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "    00    "
-                                                  + "  000000  "
-                                                  + "0000000000"
-                                                  + "0000000000"
-                                                  + "  000000  "
-                                                  + "    00    ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers20B, zoneX*Room.kSize+5, zoneY*Room.kSize+2, 0);
-
-    EgaImage flowers20C = new EgaImage(6, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "  50      "
-                                                  + "100010    "
-                                                  + "05000000  "
-                                                  + "  00501001"
-                                                  + "    000050"
-                                                  + "      10  ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers20C, zoneX*Room.kSize-1, zoneY*Room.kSize+2, 0);
-
     // zone (0,1)
     
     zoneX = 0;
     zoneY = 1;
     addBasicZone(zoneX, zoneY, 
                  false, false, true, false, 
-                 kExits, spriteManager);
+                 mExits, spriteManager);
 
     // zone (1,1)
     
@@ -302,7 +294,7 @@ public class RoomD02 extends Room {
     zoneY = 1;
     addBasicZone(zoneX, zoneY, 
                  true, false, false, false, 
-                 kExits, spriteManager);
+                 mExits, spriteManager);
 
     // zone (0,2)
     
@@ -310,10 +302,10 @@ public class RoomD02 extends Room {
     zoneY = 2;
     addBasicZone(zoneX, zoneY, 
                  false, true, true, false, 
-                 kExits, spriteManager);
-    addHedgeBox(spriteManager, 
-                zoneX*Room.kSize+1, zoneY*Room.kSize+4,
-                5, 5);
+                 mExits, spriteManager);
+    addHedgeBoxWithGap(spriteManager, 
+                       zoneX*Room.kSize+1, zoneY*Room.kSize+4,
+                       5, 5);
     addHedgeBox(spriteManager, 
                 zoneX*Room.kSize+8, zoneY*Room.kSize+3,
                 5, 6);
@@ -323,47 +315,13 @@ public class RoomD02 extends Room {
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+3, zoneY*Room.kSize+6, 0,
                                      1, 1));
 
-    EgaImage flowers02A = new EgaImage(2, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "      05  "
-                                                  + "    003003"
-                                                  + "  30500000"
-                                                  + "00000305  "
-                                                  + "030500    "
-                                                  + "  00      ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers02A, zoneX*Room.kSize+2, zoneY*Room.kSize-1, 0);
-    
-    EgaImage flowers02B = new EgaImage(4, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "    00    "
-                                                  + "  000000  "
-                                                  + "0000000000"
-                                                  + "0000000000"
-                                                  + "  000000  "
-                                                  + "    00    ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers02B, zoneX*Room.kSize+2, zoneY*Room.kSize+5, 0);
-
-    EgaImage flowers02C = new EgaImage(6, 6, 12, 7, 
-                                       EgaTools.convertColours(
-                                                    "    05      "
-                                                  + "  040040    "
-                                                  + "5000000040  "
-                                                  + "004050000050"
-                                                  + "  0000050000"
-                                                  + "    040004  "
-                                                  + "      00    ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers02C, zoneX*Room.kSize+9, zoneY*Room.kSize+4, 0);
-
     // zone (1,2)
     
     zoneX = 1;
     zoneY = 2;
     addBasicZone(zoneX, zoneY, 
                  false, true, false, false, 
-                 kExits, spriteManager);
+                 mExits, spriteManager);
 
     // zone (2,2)
     
@@ -371,7 +329,7 @@ public class RoomD02 extends Room {
     zoneY = 2;
     addBasicZone(zoneX, zoneY, 
                  true, true, false, false, 
-                 kExits, spriteManager);
+                 mExits, spriteManager);
     addHedgeBox(spriteManager, 
                 zoneX*Room.kSize+4, zoneY*Room.kSize+4,
                 5, 5);
@@ -384,40 +342,202 @@ public class RoomD02 extends Room {
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+6, zoneY*Room.kSize+6, 0,
                                      1, 1));
     
-    EgaImage flowers22A = new EgaImage(2, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "      02  "
-                                                  + "    050000"
-                                                  + "  00200205"
-                                                  + "50200000  "
-                                                  + "000050    "
-                                                  + "  02      ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers22A, zoneX*Room.kSize+4, zoneY*Room.kSize-1, 0);
+    mTwistTimer = 0;
+    mTwistDirec = 0;
+    mLastXPos = mLastYPos = -1;
     
-    EgaImage flowers22B = new EgaImage(4, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "    00    "
-                                                  + "  000000  "
-                                                  + "0000000000"
-                                                  + "0000000000"
-                                                  + "  000000  "
-                                                  + "    00    ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers22B, zoneX*Room.kSize+5, zoneY*Room.kSize+5, 0);
-
-    EgaImage flowers22C = new EgaImage(6, 5, 10, 6, 
-                                       EgaTools.convertColours(
-                                                    "  04      "
-                                                  + "040005    "
-                                                  + "00004000  "
-                                                  + "  50000405"
-                                                  + "    040000"
-                                                  + "      05  ",
-                                       kFlowerColours));
-    mainBlocks.paint(flowers22C, zoneX*Room.kSize-1, zoneY*Room.kSize+4, 0);
-
+    paintFlowerBeds(mMainBlocks);
+    //paintTreeBeds(mMainBlocks);    
+    
   } // Room.createSprites()
+  
+  // make a rectangle of hedges
+  private void addHedgeBox(SpriteManager spriteManager,
+                           int x, int y, int xLen, int yLen) {
+    
+    spriteManager.addSprite(new Hedge(x, y,          0, xLen,   Env.RIGHT, 0));
+    spriteManager.addSprite(new Hedge(x, y+yLen-1,   0, xLen,   Env.RIGHT, 0));
+    spriteManager.addSprite(new Hedge(x, y+1,        0, yLen-2, Env.UP, 0));
+    spriteManager.addSprite(new Hedge(x+xLen-1, y+1, 0, yLen-2, Env.UP, 0));
+    
+  } // addHedgeBox()
+  
+  // make a rectangle of hedges with a gap
+  private void addHedgeBoxWithGap(SpriteManager spriteManager,
+                                  int x, int y, int xLen, int yLen) {
+    
+    final int d = 0;
+    spriteManager.addSprite(new Hedge(x,     y, 0, 1+d,      Env.RIGHT, 0));
+    spriteManager.addSprite(new Hedge(x+2+d, y, 0, xLen-2-d, Env.RIGHT, 0));
+    
+    spriteManager.addSprite(new Hedge(x, y+yLen-1,   0, xLen,   Env.RIGHT, 0));
+    spriteManager.addSprite(new Hedge(x, y+1,        0, yLen-2, Env.UP, 0));
+    spriteManager.addSprite(new Hedge(x+xLen-1, y+1, 0, yLen-2, Env.UP, 0));
+    
+  } // addHedgeBox()
+  
+  // colour the flowers in the main beds
+  private void paintFlowerBeds(BlockArray blocks) {
+
+    int zoneX, zoneY;
+    char colours[] = { 'm', '?', '#' }; // brown, unknown, and white
+    
+    assert( mTwist >= 0 && mTwist < 4 );
+    int twist = 2*mTwist;
+    if ( mTwistTimer > 0 ) twist += 1;
+    if ( mTwistTimer < 0 ) twist -= 1;
+    twist = Env.fold(twist, 8);
+    
+    zoneX = 0;
+    zoneY = 0;
+
+    final String pattern0 = "    00      "
+                          + "  001020    "
+                          + "0100000010  "
+                          + "000002000001"
+                          + "  2010000200"
+                          + "    000100  "
+                          + "      20    ";
+
+    colours[1] = kFlowerColours[ ((twist+7)/2)%kFlowerColours.length ];
+    EgaImage bed0 = new EgaImage(6, 6, 12, 7, 
+                                 EgaTools.convertColours(pattern0, colours));
+    blocks.paint(bed0, zoneX*Room.kSize+9, zoneY*Room.kSize+2, 0);
+    
+    zoneX = 2;
+    zoneY = 0;
+
+    final String pattern1 = "  20      "
+                          + "100010    "
+                          + "02000000  "
+                          + "  00201001"
+                          + "    000020"
+                          + "      10  ";
+    
+    colours[1] = kFlowerColours[ ((twist+6)/2)%kFlowerColours.length ];
+    EgaImage bed1 = new EgaImage(6, 5, 10, 6, 
+                                 EgaTools.convertColours(pattern1, colours));
+    blocks.paint(bed1, zoneX*Room.kSize-1, zoneY*Room.kSize+2, 0);
+
+    final String pattern2 = "      01    "
+                          + "    020000  "
+                          + "  0000102010"
+                          + "010200000002"
+                          + "0000000100  "
+                          + "  010200    "
+                          + "    00      ";
+    
+    colours[1] = kFlowerColours[ ((twist+5)/2)%kFlowerColours.length ];
+    EgaImage bed2 = new EgaImage(4, 6, 12, 7, 
+                                 EgaTools.convertColours(pattern2, colours));
+    blocks.paint(bed2, zoneX*Room.kSize+4, zoneY*Room.kSize+9, 0);
+    
+    zoneX = 2;
+    zoneY = 2;
+
+    final String pattern3 = "      01  "
+                          + "    020000"
+                          + "  00100102"
+                          + "20100000  "
+                          + "000020    "
+                          + "  01      ";
+    
+    colours[1] = kFlowerColours[ ((twist+4)/2)%kFlowerColours.length ];
+    EgaImage bed3 = new EgaImage(2, 5, 10, 6, 
+                                 EgaTools.convertColours(pattern3, colours));
+    blocks.paint(bed3, zoneX*Room.kSize+4, zoneY*Room.kSize-1, 0);
+    
+    final String pattern4 = "  01      "
+                          + "010002    "
+                          + "00001000  "
+                          + "  20000102"
+                          + "    010000"
+                          + "      02  ";
+    
+    colours[1] = kFlowerColours[ ((twist+3)/2)%kFlowerColours.length ];
+    EgaImage bed4 = new EgaImage(6, 5, 10, 6, 
+                                 EgaTools.convertColours(pattern4, colours));
+    blocks.paint(bed4, zoneX*Room.kSize-1, zoneY*Room.kSize+4, 0);
+    
+    zoneX = 0;
+    zoneY = 2;
+
+    final String pattern5 = "    02      "
+                          + "  010010    "
+                          + "2000000010  "
+                          + "001020000020"
+                          + "  0000020000"
+                          + "    010001  "
+                          + "      00    ";
+    
+    colours[1] = kFlowerColours[ ((twist+2)/2)%kFlowerColours.length ];
+    EgaImage bed5 = new EgaImage(6, 6, 12, 7, 
+                                 EgaTools.convertColours(pattern5, colours));
+    blocks.paint(bed5, zoneX*Room.kSize+9, zoneY*Room.kSize+4, 0);
+
+    final String pattern6 = "      02  "
+                          + "    001001"
+                          + "  10200000"
+                          + "00000102  "
+                          + "010200    "
+                          + "  00      ";
+    
+    colours[1] = kFlowerColours[ ((twist+1)/2)%kFlowerColours.length ];
+    EgaImage bed6 = new EgaImage(2, 5, 10, 6, 
+                                 EgaTools.convertColours(pattern6, colours));
+    blocks.paint(bed6, zoneX*Room.kSize+2, zoneY*Room.kSize-1, 0);
+    
+    zoneX = 0;
+    zoneY = 0;
+
+    final String pattern7 = "      00    "
+                          + "    002002  "
+                          + "  0100001000"
+                          + "200001000010"
+                          + "0010000200  "
+                          + "  002000    "
+                          + "    01      ";
+    
+    colours[1] = kFlowerColours[ ((twist+0)/2)%kFlowerColours.length ];
+    EgaImage bed7 = new EgaImage(4, 6, 12, 7, 
+                                 EgaTools.convertColours(pattern7, colours));
+    blocks.paint(bed7, zoneX*Room.kSize+2, zoneY*Room.kSize+9, 0);
+    
+  } // paintFlowerBeds()
+  
+  // colour the flowers around the trees (currently not actually useful)
+  private void paintTreeBeds(BlockArray blocks) {
+    
+    final String bedPattern = "    mm    "
+                            + "  mmmmmm  "
+                            + "mmmmmmmmmm"
+                            + "mmmmmmmmmm"
+                            + "  mmmmmm  "
+                            + "    mm    ";
+    
+    int zoneX, zoneY;
+    
+    zoneX = 0;
+    zoneY = 0;
+    EgaImage bed00 = new EgaImage(4, 5, 10, 6, bedPattern);
+    blocks.paint(bed00, zoneX*Room.kSize+2, zoneY*Room.kSize+2, 0);
+
+    zoneX = 2;
+    zoneY = 0;
+    EgaImage bed20 = new EgaImage(4, 5, 10, 6, bedPattern);
+    blocks.paint(bed20, zoneX*Room.kSize+5, zoneY*Room.kSize+2, 0);
+
+    zoneX = 0;
+    zoneY = 2;
+    EgaImage bed02 = new EgaImage(4, 5, 10, 6, bedPattern);
+    blocks.paint(bed02, zoneX*Room.kSize+2, zoneY*Room.kSize+5, 0);
+
+    zoneX = 2;
+    zoneY = 2;
+    EgaImage bed22 = new EgaImage(4, 5, 10, 6, bedPattern);
+    blocks.paint(bed22, zoneX*Room.kSize+5, zoneY*Room.kSize+5, 0);
+
+  } // paintTreeBeds()
   
   // returns true if the room is frozen (e.g., during a cut-scene)
   @Override
@@ -430,10 +550,10 @@ public class RoomD02 extends Room {
 
     // check exits
     
-    final int exitIndex = checkExits(kExits);
+    final int exitIndex = checkExits(mExits);
     if ( exitIndex != -1 ) {
-      storyEvents.add(new EventRoomChange(kExits[exitIndex].mDestination,
-                                          kExits[exitIndex].mEntryPoint));
+      storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
+                                          mExits[exitIndex].mEntryPoint));
       return;
     }
     
@@ -442,6 +562,58 @@ public class RoomD02 extends Room {
     EventRoomScroll scroll = checkHorizontalScroll();
     if ( scroll != null ) {
       storyEvents.add(scroll);
+    }
+
+    // twist the room, repaint the flower beds
+    
+    if ( mTwistTimer != 0 ) {
+      int sign = (mTwistTimer > 0) ? +1 : -1;
+      mTwistTimer -= sign;
+      if ( Math.abs(mTwistTimer) == kTwistDelayChange ) {
+        paintFlowerBeds(mMainBlocks);
+      } else if ( mTwistTimer == 0 ) {
+        mTwist = Env.fold(mTwist + sign, 4);
+        paintFlowerBeds(mMainBlocks);
+        prepareExits();
+      }
+    }
+    
+    // check whether a twist has been triggered
+    
+    if ( mPlayer != null ) {
+      int xPos = mPlayer.getXPos(),
+          yPos = mPlayer.getYPos();
+      if ( xPos != mLastXPos || yPos != mLastYPos ) {
+        if ( mLastXPos == kTwistXPos && mLastYPos == kTwistYPos ) {
+          // just stepped off the twist trigger
+          if ( xPos == kTwistXPos+1 && yPos == kTwistYPos ) {
+            mTwistDirec = +1;
+          } else if ( xPos == kTwistXPos && yPos == kTwistYPos+1 ) {
+            mTwistDirec = -1;            
+          } else {
+            mTwistDirec = 0;
+          }
+        } else if ( xPos == kTwistXPos && yPos == kTwistYPos ) {
+          // just stepped onto the twist trigger
+          if ( mTwistDirec == +1 &&
+               mLastXPos == kTwistXPos && mLastYPos == kTwistYPos+1 ) {
+            mTwistTimer = +kTwistDelayStart;
+          } else if ( mTwistDirec == -1 &&
+                      mLastXPos == kTwistXPos+1 && mLastYPos == kTwistYPos ) {
+            mTwistTimer = -kTwistDelayStart;
+          }
+          mTwistDirec = 0;
+        }          
+      }
+    }
+    
+    // track the player's last position
+    
+    if ( mPlayer == null ) {
+      mLastXPos = mLastYPos = -1;
+    } else {
+      mLastXPos = mPlayer.getXPos();
+      mLastYPos = mPlayer.getYPos();
     }
     
   } // Room.advance()

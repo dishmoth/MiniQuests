@@ -25,6 +25,7 @@ public class Exit {
   final public int  mFloorDrop;
   
   // which room the exit leads to, and the entry point in that room
+  // (destination may be "" to indicate a dummy, locked door)
   final public String mDestination;
   final public int mEntryPoint;
   
