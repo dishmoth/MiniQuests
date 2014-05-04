@@ -193,6 +193,9 @@ abstract public class Room {
       final Wall wall = walls[ exit.mWallSide ];
       exit.mDoor = wall.addDoor(exit.mDoorXYPos, exit.mDoorZPos, 
                                 exit.mFloorColour, exit.mFloorDrop);
+      if ( exit.mDestination.isEmpty() ) {
+        exit.mDoor.setClosed(true);
+      }
     }
     
     for ( Wall w : walls ) spriteManager.addSprite(w);
@@ -221,6 +224,9 @@ abstract public class Room {
         assert ( wall != null );
         exit.mDoor = wall.addDoor(exit.mDoorXYPos, exit.mDoorZPos, 
                                   exit.mFloorColour, exit.mFloorDrop);
+        if ( exit.mDestination.isEmpty() ) {
+          exit.mDoor.setClosed(true);
+        }
       }
     }
     
