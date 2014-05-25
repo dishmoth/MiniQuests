@@ -57,19 +57,19 @@ public class RoomD16 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
-          = { { new Exit(Env.DOWN, 8, 0, "Et",0, -1, RoomD16.NAME, 0),
-                new Exit(Env.DOWN, 8,14, "tE",1, -1, RoomD16.NAME, 0),
-                new Exit(Env.UP,   8,14, "tE",1, -1, RoomD16.NAME, 0),
+          = { { new Exit(Env.DOWN, 8, 0, "Et",0, -1, "",0),
+                new Exit(Env.DOWN, 8,14, "tE",1, -1, "",0),
+                new Exit(Env.UP,   8,14, "tE",1, -1, "",0),
                 new Exit(Env.LEFT, 4, 0, "Et",0, -1, RoomD02.NAME, 4) },
 
-              { new Exit(Env.DOWN, 8, 0, "Et",0, -1, RoomD16.NAME, 0),
-                new Exit(Env.DOWN, 8,14, "tE",1, -1, RoomD16.NAME, 0),
-                new Exit(Env.UP,   8,14, "tE",1, -1, RoomD16.NAME, 0),
+              { new Exit(Env.DOWN, 8, 0, "Et",0, -1, "",0),
+                new Exit(Env.DOWN, 8,14, "tE",1, -1, "",0),
+                new Exit(Env.UP,   8,14, "tE",1, -1, "",0),
                 new Exit(Env.LEFT, 4, 0, "Et",0, -1, RoomD02.NAME, 4) },
 
-              { new Exit(Env.DOWN, 8, 0, "Et",0, -1, RoomD16.NAME, 0),
-                new Exit(Env.DOWN, 8,14, "tE",1, -1, RoomD16.NAME, 0),
-                new Exit(Env.UP,   8,14, "tE",1, -1, RoomD16.NAME, 0),
+              { new Exit(Env.DOWN, 8, 0, "Et",0, -1, RoomD04.NAME, 0),
+                new Exit(Env.DOWN, 8,14, "tE",1, -1, "",0),
+                new Exit(Env.UP,   8,14, "tE",1, -1, "",0),
                 new Exit(Env.LEFT, 4, 0, "Et",0, -1, RoomD02.NAME, 4) },
 
               { new Exit(Env.DOWN, 8, 0, "Et",0, -1, "",0),
