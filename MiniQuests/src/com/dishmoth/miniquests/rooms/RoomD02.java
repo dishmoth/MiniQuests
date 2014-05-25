@@ -113,6 +113,10 @@ public class RoomD02 extends Room {
               new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, "",0),
               new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, RoomD03.NAME, 2) } };
 
+  // additional exits that appear later
+  private static final Exit kExtraExits[] 
+        = { new Exit(2,2, Env.RIGHT, 4,0, "#m",0, -1, RoomD16.NAME, 3) };
+  
   // time until the twist animation completes
   private static final int kTwistDelayStart  = 20,
                            kTwistDelayChange = 8;
@@ -194,10 +198,22 @@ public class RoomD02 extends Room {
     assert( mTwist >= 0 && mTwist < kExits.length );
     
     Exit oldExits[] = mExits;
-    mExits = kExits[mTwist];
+    Exit mainExits[] = kExits[mTwist];
 
-    if ( oldExits != null && oldExits != mExits ) {
-      for ( int k = 0 ; k < mExits.length ; k++ ) {
+    int numExits = mainExits.length;
+
+    RoomD16 otherRoom = (RoomD16)findRoom(RoomD16.NAME);
+    assert( otherRoom != null );
+    if ( otherRoom.completed() ) numExits += 1;
+
+    mExits = new Exit[numExits];
+    for ( int k = 0 ; k < numExits ; k++ ) {
+      if ( k < mainExits.length ) mExits[k] = mainExits[k];
+      else                        mExits[k] = kExtraExits[k-mainExits.length];
+    }
+    
+    if ( oldExits != null ) {
+      for ( int k = 0 ; k < mainExits.length ; k++ ) {
         mExits[k].mDoor = oldExits[k].mDoor;
         oldExits[k].mDoor = null;
 
