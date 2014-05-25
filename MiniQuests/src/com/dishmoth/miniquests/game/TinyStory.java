@@ -54,6 +54,10 @@ import com.dishmoth.miniquests.rooms.RoomC16;
 import com.dishmoth.miniquests.rooms.RoomD01;
 import com.dishmoth.miniquests.rooms.RoomD02;
 import com.dishmoth.miniquests.rooms.RoomD03;
+import com.dishmoth.miniquests.rooms.RoomD04;
+import com.dishmoth.miniquests.rooms.RoomD05;
+import com.dishmoth.miniquests.rooms.RoomD06;
+import com.dishmoth.miniquests.rooms.RoomD16;
 
 // the main game class
 public class TinyStory extends Story {
@@ -183,7 +187,11 @@ public class TinyStory extends Story {
       case 3: {
         mRoomList = new Room[]{ new RoomD01(),
                                 new RoomD02(),
-                                new RoomD03() };
+                                new RoomD03(),
+                                new RoomD04(),
+                                new RoomD05(),
+                                new RoomD06(),
+                                new RoomD16() };
       } break;
       /*
       case 4: {
