@@ -23,16 +23,16 @@ public class RoomD04 extends Room {
   public static final String NAME = "D04";
   
   // main blocks for the room
-  private static final String kBlocks[][] = { { "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "1111111111",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000" } };
+  private static final String kBlocks[][] = { { "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000" } };
                                               
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "#s",   //
@@ -40,24 +40,20 @@ public class RoomD04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][]
-        = { { new Exit(Env.UP,    5,0, "#s",0, -1, "",0),
+        = { { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
               new Exit(Env.DOWN,  5,0, "#s",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#s",0, -1, "",0),
               new Exit(Env.RIGHT, 5,0, "#s",0, -1, RoomD02.NAME, 1) },
               
-            { new Exit(Env.UP,    5,0, "#s",0, -1, RoomD02.NAME, 2),
+            { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
               new Exit(Env.DOWN,  5,0, "#s",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#s",0, -1, "",0),
               new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
               
-            { new Exit(Env.UP,    5,0, "#s",0, -1, "",0),
+            { new Exit(Env.UP,    8,0, "#s",0, -1, RoomD16.NAME, 0),
               new Exit(Env.DOWN,  5,0, "#s",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#s",0, -1, RoomD02.NAME, 3),
               new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
               
-            { new Exit(Env.UP,    5,0, "#s",0, -1, "",0),
+            { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
               new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD02.NAME, 0),
-              new Exit(Env.LEFT,  5,0, "#s",0, -1, "",0),
               new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) } };
               
   // the current exits, based on room D02's twist
