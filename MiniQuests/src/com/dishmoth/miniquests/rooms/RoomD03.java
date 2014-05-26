@@ -58,7 +58,7 @@ public class RoomD03 extends Room {
         = { { new Exit(Env.UP,    5,0, "#P",0, -1, RoomD01.NAME, 1),
               new Exit(Env.DOWN,  5,0, "#P",0, -1, RoomD02.NAME, 0),
               new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#P",0, -1, "",0) },
+              new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD18.NAME, 0) },
               
             { new Exit(Env.UP,    5,0, "#P",0, -1, "",0),
               new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
