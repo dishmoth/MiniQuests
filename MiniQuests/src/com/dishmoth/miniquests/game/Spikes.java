@@ -65,6 +65,13 @@ public class Spikes extends Sprite3D {
     
   } // constructor
   
+  // accessors
+  public int getXPos()  { return mXPos; }
+  public int getYPos()  { return mYPos; }
+  public int getZPos()  { return mZPos; }
+  public int getXSize() { return mXSize; }
+  public int getYSize() { return mYSize; }
+  
   // extend the spikes
   public void trigger() {
     
