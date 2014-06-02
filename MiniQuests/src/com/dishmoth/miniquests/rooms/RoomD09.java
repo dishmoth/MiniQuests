@@ -1,5 +1,5 @@
 /*
- *  RoomD04.java
+ *  RoomD09.java
  *  Copyright Simon Hern 2014
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -16,11 +16,11 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
-// the room "D04"
-public class RoomD04 extends Room {
+// the room "D09"
+public class RoomD09 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "D04";
+  public static final String NAME = "D09";
   
   // main blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
@@ -33,37 +33,33 @@ public class RoomD04 extends Room {
                                                 "0000000000",
                                                 "0000000000",
                                                 "0000000000" } };
-                                              
+
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#s",   //
-                                                  "#s" }; //
+  private static final String kBlockColours[] = { "#U",
+                                                  "#U" }; 
   
   // details of exit/entry points for the room 
-  private static final Exit kExits[][]
-        = { { new Exit(Env.UP,    8,0, "#s",0, -1, RoomD09.NAME, 1),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD10.NAME, 0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, RoomD02.NAME, 1) },
+  private static final Exit kExits[][] 
+          = { { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD08.NAME, 1),
+                new Exit(Env.DOWN, 8,0, "#U",0, -1, RoomD04.NAME, 0) },
+  
+              { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
+                new Exit(Env.DOWN, 5,0, "#U",0, -1, "",0) },
               
-            { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
+              { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
+                new Exit(Env.DOWN, 5,0, "#U",0, -1, "",0) },
               
-            { new Exit(Env.UP,    8,0, "#s",0, -1, RoomD16.NAME, 0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD15.NAME, 1),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
-              
-            { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD02.NAME, 0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) } };
-              
+              { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
+                new Exit(Env.DOWN, 5,0, "#U",0, -1, "",0) } };
+  
   // the current exits, based on room D02's twist
   private Exit mExits[];
   
   // constructor
-  public RoomD04() {
+  public RoomD09() {
 
     super(NAME);
-    
+
   } // constructor
 
   // create the player at the specified entry point to the room
@@ -101,7 +97,7 @@ public class RoomD04 extends Room {
   // room is no longer current, delete any unnecessary references 
   @Override
   public void discardResources() {
-    
+
   } // Room.discardResources()
   
   // update the room (events may be added or processed)
@@ -115,7 +111,7 @@ public class RoomD04 extends Room {
                                           mExits[exitIndex].mEntryPoint));
       return;
     }
-    
+
   } // Room.advance()
 
-} // class RoomD04
+} // class RoomD09

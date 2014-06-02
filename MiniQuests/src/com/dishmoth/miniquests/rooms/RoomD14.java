@@ -1,5 +1,5 @@
 /*
- *  RoomD04.java
+ *  RoomD14.java
  *  Copyright Simon Hern 2014
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -16,11 +16,11 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
-// the room "D04"
-public class RoomD04 extends Room {
+// the room "D14"
+public class RoomD14 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "D04";
+  public static final String NAME = "D14";
   
   // main blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
@@ -33,37 +33,21 @@ public class RoomD04 extends Room {
                                                 "0000000000",
                                                 "0000000000",
                                                 "0000000000" } };
-                                              
+
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#s",   //
-                                                  "#s" }; //
+  private static final String kBlockColours[] = { "#U",
+                                                  "#U" }; 
   
   // details of exit/entry points for the room 
-  private static final Exit kExits[][]
-        = { { new Exit(Env.UP,    8,0, "#s",0, -1, RoomD09.NAME, 1),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD10.NAME, 0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, RoomD02.NAME, 1) },
-              
-            { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
-              
-            { new Exit(Env.UP,    8,0, "#s",0, -1, RoomD16.NAME, 0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD15.NAME, 1),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
-              
-            { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD02.NAME, 0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) } };
-              
-  // the current exits, based on room D02's twist
-  private Exit mExits[];
+  private static final Exit kExits[]
+            = { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD13.NAME, 1),
+                new Exit(Env.UP,   5,0, "#U",0, -1, RoomD15.NAME, 0) };
   
   // constructor
-  public RoomD04() {
+  public RoomD14() {
 
     super(NAME);
-    
+
   } // constructor
 
   // create the player at the specified entry point to the room
@@ -72,36 +56,25 @@ public class RoomD04 extends Room {
   public Player createPlayer(int entryPoint) {
 
     assert( entryPoint >= 0 && entryPoint < kExits.length );
-    setPlayerAtExit(mExits[entryPoint]);
+    setPlayerAtExit(kExits[entryPoint]);
     return mPlayer;
     
   } // createPlayer()
-  
-  // configure exits based on the room D02's twist
-  private void prepareExits() {
-    
-    RoomD02 twistRoom = (RoomD02)findRoom(RoomD02.NAME);
-    assert( twistRoom != null );
-    mExits = kExits[ twistRoom.twist() ];    
-    
-  } // prepareExist()
   
   // create the sprites for this room
   @Override
   public void createSprites(SpriteManager spriteManager) {
     
-    prepareExits();
-    
     spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
     
-    addBasicWalls(mExits, spriteManager);
+    addBasicWalls(kExits, spriteManager);
 
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
   @Override
   public void discardResources() {
-    
+
   } // Room.discardResources()
   
   // update the room (events may be added or processed)
@@ -109,13 +82,13 @@ public class RoomD04 extends Room {
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
-    final int exitIndex = checkExits(mExits);
+    final int exitIndex = checkExits(kExits);
     if ( exitIndex != -1 ) {
-      storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
-                                          mExits[exitIndex].mEntryPoint));
+      storyEvents.add(new EventRoomChange(kExits[exitIndex].mDestination,
+                                          kExits[exitIndex].mEntryPoint));
       return;
     }
-    
+
   } // Room.advance()
 
-} // class RoomD04
+} // class RoomD14

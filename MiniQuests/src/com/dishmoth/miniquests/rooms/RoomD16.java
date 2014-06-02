@@ -19,6 +19,8 @@ import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.Wall;
 import com.dishmoth.miniquests.game.WallLeft;
+import com.dishmoth.miniquests.game.Room.CameraLevel;
+import com.dishmoth.miniquests.game.Room.EventRoomScroll;
 
 // the room "D16"
 public class RoomD16 extends Room {
@@ -57,26 +59,31 @@ public class RoomD16 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
-          = { { new Exit(Env.DOWN, 8, 0, "Et",0, -1, "",0),
-                new Exit(Env.DOWN, 8,14, "tE",1, -1, "",0),
-                new Exit(Env.UP,   8,14, "tE",1, -1, "",0),
-                new Exit(Env.LEFT, 4, 0, "Et",0, -1, RoomD02.NAME, 4) },
+          = { { new Exit(Env.DOWN, 8, 0, "Et",0, 0, "",0),
+                new Exit(Env.DOWN, 8,14, "tE",1, 1, "",0),
+                new Exit(Env.UP,   8,14, "tE",1, 1, RoomD17.NAME, 0),
+                new Exit(Env.LEFT, 4, 0, "Et",0, 0, RoomD02.NAME, 4) },
 
-              { new Exit(Env.DOWN, 8, 0, "Et",0, -1, "",0),
-                new Exit(Env.DOWN, 8,14, "tE",1, -1, "",0),
-                new Exit(Env.UP,   8,14, "tE",1, -1, "",0),
-                new Exit(Env.LEFT, 4, 0, "Et",0, -1, RoomD02.NAME, 4) },
+              { new Exit(Env.DOWN, 8, 0, "Et",0, 0, "",0),
+                new Exit(Env.DOWN, 8,14, "tE",1, 1, "",0),
+                new Exit(Env.UP,   8,14, "tE",1, 1, RoomD17.NAME, 0),
+                new Exit(Env.LEFT, 4, 0, "Et",0, 0, RoomD02.NAME, 4) },
 
-              { new Exit(Env.DOWN, 8, 0, "Et",0, -1, RoomD04.NAME, 0),
-                new Exit(Env.DOWN, 8,14, "tE",1, -1, "",0),
-                new Exit(Env.UP,   8,14, "tE",1, -1, "",0),
-                new Exit(Env.LEFT, 4, 0, "Et",0, -1, RoomD02.NAME, 4) },
+              { new Exit(Env.DOWN, 8, 0, "Et",0, 0, RoomD04.NAME, 0),
+                new Exit(Env.DOWN, 8,14, "tE",1, 1, "",0),
+                new Exit(Env.UP,   8,14, "tE",1, 1, RoomD17.NAME, 0),
+                new Exit(Env.LEFT, 4, 0, "Et",0, 0, RoomD02.NAME, 4) },
 
-              { new Exit(Env.DOWN, 8, 0, "Et",0, -1, "",0),
-                new Exit(Env.DOWN, 8,14, "tE",1, -1, "",0),
-                new Exit(Env.UP,   8,14, "tE",1, -1, "",0),
-                new Exit(Env.LEFT, 4, 0, "Et",0, -1, RoomD02.NAME, 4) } };
+              { new Exit(Env.DOWN, 8, 0, "Et",0, 0, "",0),
+                new Exit(Env.DOWN, 8,14, "tE",1, 1, "",0),
+                new Exit(Env.UP,   8,14, "tE",1, 1, RoomD17.NAME, 0),
+                new Exit(Env.LEFT, 4, 0, "Et",0, 0, RoomD02.NAME, 4) } };
 
+  // details of different camera height levels
+  private static final CameraLevel kCameraLevels[]
+                                     = { new CameraLevel( 0,-100, 8),
+                                         new CameraLevel(12, 6,+100) };
+  
   // how long till things happen
   private static final int kDoorTimer   = 5,
                            kBarrierTime = 15;
@@ -112,7 +119,7 @@ public class RoomD16 extends Room {
   public Player createPlayer(int entryPoint) {
 
     assert( entryPoint >= 0 && entryPoint < kExits.length );
-    setPlayerAtExit(mExits[entryPoint]);
+    setPlayerAtExit(mExits[entryPoint], kCameraLevels);
     return mPlayer;
     
   } // createPlayer()
@@ -161,12 +168,17 @@ public class RoomD16 extends Room {
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
+    // check exits
     final int exitIndex = checkExits(mExits);
     if ( exitIndex != -1 ) {
       storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
                                           mExits[exitIndex].mEntryPoint));
       return;
     }
+
+    // check camera level
+    EventRoomScroll scroll = checkVerticalScroll(kCameraLevels);
+    if ( scroll != null ) storyEvents.add(scroll);
 
     // check player position
     final int x0 = 0,

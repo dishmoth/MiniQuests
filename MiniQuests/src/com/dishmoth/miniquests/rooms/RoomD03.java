@@ -57,7 +57,7 @@ public class RoomD03 extends Room {
   private static final Exit kExits[][]
         = { { new Exit(Env.UP,    5,0, "#P",0, -1, RoomD01.NAME, 1),
               new Exit(Env.DOWN,  5,0, "#P",0, -1, RoomD02.NAME, 0),
-              new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.LEFT,  5,0, "#P",0, -1, RoomD07.NAME, 0),
               new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD18.NAME, 0) },
               
             { new Exit(Env.UP,    5,0, "#P",0, -1, "",0),
@@ -67,8 +67,8 @@ public class RoomD03 extends Room {
               
             { new Exit(Env.UP,    5,0, "#P",0, -1, RoomD02.NAME, 2),
               new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#P",0, -1, "",0) },
+              new Exit(Env.LEFT,  5,0, "#P",0, -1, RoomD12.NAME, 1),
+              new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD13.NAME, 0) },
               
             { new Exit(Env.UP,    5,0, "#P",0, -1, "",0),
               new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
