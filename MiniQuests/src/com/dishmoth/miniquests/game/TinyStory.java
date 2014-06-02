@@ -57,7 +57,17 @@ import com.dishmoth.miniquests.rooms.RoomD03;
 import com.dishmoth.miniquests.rooms.RoomD04;
 import com.dishmoth.miniquests.rooms.RoomD05;
 import com.dishmoth.miniquests.rooms.RoomD06;
+import com.dishmoth.miniquests.rooms.RoomD07;
+import com.dishmoth.miniquests.rooms.RoomD08;
+import com.dishmoth.miniquests.rooms.RoomD09;
+import com.dishmoth.miniquests.rooms.RoomD10;
+import com.dishmoth.miniquests.rooms.RoomD11;
+import com.dishmoth.miniquests.rooms.RoomD12;
+import com.dishmoth.miniquests.rooms.RoomD13;
+import com.dishmoth.miniquests.rooms.RoomD14;
+import com.dishmoth.miniquests.rooms.RoomD15;
 import com.dishmoth.miniquests.rooms.RoomD16;
+import com.dishmoth.miniquests.rooms.RoomD17;
 import com.dishmoth.miniquests.rooms.RoomD18;
 
 // the main game class
@@ -192,7 +202,17 @@ public class TinyStory extends Story {
                                 new RoomD04(),
                                 new RoomD05(),
                                 new RoomD06(),
+                                new RoomD07(),
+                                new RoomD08(),
+                                new RoomD09(),
+                                new RoomD10(),
+                                new RoomD11(),
+                                new RoomD12(),
+                                new RoomD13(),
+                                new RoomD14(),
+                                new RoomD15(),
                                 new RoomD16(),
+                                new RoomD17(),
                                 new RoomD18() };
       } break;
       /*
@@ -257,7 +277,7 @@ public class TinyStory extends Story {
         if ( mCurrentRoom == null ) {
           Env.debug("New game started");
           mCurrentRoom = mRoomList[0];
-          //mCurrentRoom = findRoom( RoomD18.NAME ); //!!!
+          //mCurrentRoom = findRoom( RoomD16.NAME ); //!!!
           mLastEntryPoint = 0;
         }
         mCurrentRoom.createSprites(spriteManager);
