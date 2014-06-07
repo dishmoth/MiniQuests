@@ -108,7 +108,7 @@ public class RoomD02 extends Room {
               new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, RoomD03.NAME, 0),
               new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, "",0) },
 
-            { new Exit(1,2, Env.UP,    5,0, "#m",0, -1, RoomD04.NAME, 1),
+            { new Exit(1,2, Env.UP,    5,0, "#m",0, -1, "",0),
               new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, RoomD05.NAME, 3),
               new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, RoomD06.NAME, 0),
               new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, RoomD03.NAME, 2) } };

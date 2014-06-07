@@ -44,13 +44,13 @@ public class RoomD15 extends Room {
                 new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
   
               { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   5,0, "#U",0, -1, "",0) },
+                new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
               
               { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   5,0, "#U",0, -1, RoomD04.NAME, 1) },
+                new Exit(Env.UP,   8,0, "#U",0, -1, RoomD04.NAME, 1) },
               
               { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   5,0, "#U",0, -1, "",0) } };
+                new Exit(Env.UP,   8,0, "#U",0, -1, "",0) } };
   
   // the current exits, based on room D02's twist
   private Exit mExits[];
