@@ -13,6 +13,7 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Spikes;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
@@ -23,41 +24,54 @@ public class RoomD04 extends Room {
   public static final String NAME = "D04";
   
   // main blocks for the room
-  private static final String kBlocks[][] = { { "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000" } };
+  private static final String kBlocks[][] = { { "000000000 ",
+                                                "000000000 ",
+                                                "00        ",
+                                                "00        ",
+                                                "00   00000",
+                                                "00        ",
+                                                "00        ",
+                                                "00        ",
+                                                "000000000 ",
+                                                "000000000 " } };
                                               
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#s",   //
+  private static final String kBlockColours[] = { "6s",   // gold
                                                   "#s" }; //
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][]
-        = { { new Exit(Env.UP,    8,0, "#s",0, -1, RoomD09.NAME, 1),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD10.NAME, 0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, RoomD02.NAME, 1) },
+        = { { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
+              new Exit(Env.DOWN,  8,0, "6s",0, -1, "",0),
+              new Exit(Env.RIGHT, 5,0, "#s",1, -1, RoomD02.NAME, 1) },
               
             { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
+              new Exit(Env.DOWN,  8,0, "6s",0, -1, "",0),
+              new Exit(Env.RIGHT, 5,0, "#s",1, -1, "",0) },
               
             { new Exit(Env.UP,    8,0, "#s",0, -1, RoomD16.NAME, 0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD15.NAME, 1),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) },
+              new Exit(Env.DOWN,  8,0, "6s",0, -1, RoomD15.NAME, 1),
+              new Exit(Env.RIGHT, 5,0, "#s",1, -1, "",0) },
               
             { new Exit(Env.UP,    8,0, "#s",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#s",0, -1, RoomD02.NAME, 0),
-              new Exit(Env.RIGHT, 5,0, "#s",0, -1, "",0) } };
-              
+              new Exit(Env.DOWN,  8,0, "6s",0, -1, "",0),
+              new Exit(Env.RIGHT, 5,0, "#s",1, -1, "",0) } };
+
+  // times for things to happen
+  private static final int kSpikeDelay = 5,
+                           kOffDelay   = 15;
+  
   // the current exits, based on room D02's twist
   private Exit mExits[];
+  
+  // arrangement of spikes
+  private Spikes mSpikes[][];
+
+  // spike countdown
+  private int mTimer;
+
+  // which direction the spikes are going
+  private int mPhase;
   
   // constructor
   public RoomD04() {
@@ -96,11 +110,27 @@ public class RoomD04 extends Room {
     
     addBasicWalls(mExits, spriteManager);
 
+    mSpikes = new Spikes[6][3];
+    for ( int k = 0 ; k < mSpikes.length ; k++ ) {
+      mSpikes[k][0] = new Spikes(2+k,8,0, 1,2, false, "K0");
+      mSpikes[k][1] = new Spikes(0,2+k,0, 2,1, false, "K0");
+      mSpikes[k][2] = new Spikes(7-k,0,0, 1,2, false, "K0");
+      for ( int n = 0 ; n < mSpikes[k].length ; n++ ) {
+        if ( n > 0 ) mSpikes[k][n].setSilent(true);
+        spriteManager.addSprite(mSpikes[k][n]);
+      }
+    }
+
+    mTimer = 0;
+    mPhase = 0;
+    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
   @Override
   public void discardResources() {
+
+    mSpikes = null;
     
   } // Room.discardResources()
   
@@ -114,6 +144,22 @@ public class RoomD04 extends Room {
       storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
                                           mExits[exitIndex].mEntryPoint));
       return;
+    }
+
+    if ( --mTimer < 0 ) {
+      mTimer = kOffDelay + kSpikeDelay*mSpikes.length;
+      mPhase = (mPhase+1)%4;
+    }
+    
+    if ( mTimer % kSpikeDelay == 0 ) {
+      int num = mTimer/kSpikeDelay;
+      if ( num < mSpikes.length ) {
+        for ( int k = 0 ; k < mSpikes[num].length ; k++ ) {
+          boolean rev = (k==1) ? (mPhase==1||mPhase==2) : (mPhase<2);
+          int n = ( rev ? num : (mSpikes.length - 1 - num) );
+          mSpikes[n][k].trigger();
+        }
+      }
     }
     
   } // Room.advance()
