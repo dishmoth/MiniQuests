@@ -13,6 +13,8 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Sounds;
+import com.dishmoth.miniquests.game.Spikes;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
@@ -23,50 +25,192 @@ public class RoomD06 extends Room {
   public static final String NAME = "D06";
   
   // main blocks for the room
-  private static final String kBlocks[][] = { { "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "1111111111",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000" } };
+  private static final String kBlocks[][] = { { "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000",
+                                                "0  0  0   ",
+                                                "0  0  0   ",
+                                                "0000000000" },
+                                                
+                                              { "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000",
+                                                "0  0  0   ",
+                                                "0  0  0   ",
+                                                "0000000000" },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         0" },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         0",
+                                                "          " },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         0",
+                                                "          ",
+                                                "          " },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         0",
+                                                "          ",
+                                                "          ",
+                                                "          " },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         0",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          " },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         0",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          " },
+                                                
+                                              { "        00",
+                                                "         0",
+                                                "         0",
+                                                "         0",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          " } };
                                               
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#q",   //
+  private static final String kBlockColours[] = { "kq",   // orange
                                                   "#q" }; //
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][]
-        = { { new Exit(Env.UP,    5,0, "#q",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#q",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#q",0, -1, RoomD02.NAME, 3),
-              new Exit(Env.RIGHT, 5,0, "#q",0, -1, "",0) },
+        = { { new Exit(Env.UP,   8,0,  "#q",0, 0, RoomD16.NAME, 0),
+              new Exit(Env.UP,   8,14, "#q",1, 1, RoomD16.NAME, 1),
+              new Exit(Env.LEFT, 5,0,  "kq",0, 0, RoomD02.NAME, 3) },
               
-            { new Exit(Env.UP,    5,0, "#q",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#q",0, -1, RoomD02.NAME, 0),
-              new Exit(Env.LEFT,  5,0, "#q",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#q",0, -1, "",0) },
+            { new Exit(Env.UP,   8,0,  "#q",0, 0, "",0),
+              new Exit(Env.UP,   8,14, "#q",1, 1, "",0),
+              new Exit(Env.LEFT, 5,0,  "kq",0, 0, "",0) },
               
-            { new Exit(Env.UP,    5,0, "#q",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#q",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#q",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#q",0, -1, RoomD02.NAME, 1) },
+            { new Exit(Env.UP,   8,0,  "#q",0, 0, "",0),
+              new Exit(Env.UP,   8,14, "#q",1, 1, "",0),
+              new Exit(Env.LEFT, 5,0,  "kq",0, 0, "",0) },
               
-            { new Exit(Env.UP,    5,0, "#q",0, -1, RoomD02.NAME, 2),
-              new Exit(Env.DOWN,  5,0, "#q",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#q",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#q",0, -1, "",0) } };
+            { new Exit(Env.UP,   8,0,  "#q",0, 0, "",0),
+              new Exit(Env.UP,   8,14, "#q",1, 1, "",0),
+              new Exit(Env.LEFT, 5,0,  "kq",0, 0, "",0) } };
               
+  // details of different camera height levels
+  private static final CameraLevel kCameraLevels[]
+                                     = { new CameraLevel( 0,-100, 10),
+                                         new CameraLevel(12,  4,+100) };
+  
+  // positions of spikes
+  private static final String kSpikePattern[] = { "++++++++++",
+                                                  "+  +  +  +",
+                                                  "+  +  +  +",
+                                                  "++++++++++",
+                                                  "   +  +  +",
+                                                  "   +  +  +",
+                                                  "++++++++++",
+                                                  "+  +  +   ",
+                                                  "+  +  +   ",
+                                                  "+++++++   " };
+  
+  // path followed by spikes, {x,y, x,y, ...}
+  private static final int kSpikePaths[][] = { { 3,9, 3,6, 0,6, 0,9 },
+                                               { 0,0, 3,0, 3,3, 0,3 },
+                                               { 6,0, 3,0, 3,3, 6,3,
+                                                 6,0, 3,0, 3,3, 6,3,
+                                                 9,3, 9,6, 6,6, 6,3,
+                                                 9,3, 9,6, 6,6, 6,3 },
+                                               { 6,9, 6,6, 3,6, 3,9,
+                                                 6,9, 6,6, 3,6, 3,9, 
+                                                 6,9, 6,6, 9,6, 9,9, 
+                                                 6,9, 6,6, 9,6, 9,9 } };
+  private static final int kStartIndices[] = { 0, 1, 7, 0 };
+  
+  // time between spikes
+  private static final int kSpikeTime = 4;
+  
+  // number of ticks to run spikes before the room starts
+  private static final int kSpikeWarmUp = 10;
+  
   // the current exits, based on room D02's twist
   private Exit mExits[];
+
+  // whether the spikes are active
+  private boolean mSpikesOn;
+  
+  // array of spikes ([y][x], may be null)
+  private Spikes mSpikes[][];
+  
+  // time until the next spike is triggered
+  private int mSpikeTimer;
+
+  // current spike position
+  private int mXPos[],
+              mYPos[];
+
+  // current destination on the path
+  private int mIndex[];
+
+  // cheat: the player can't win, but it's important to make sure
+  private boolean mCertainDeath;
+  private int mDeathTimer;
   
   // constructor
   public RoomD06() {
 
     super(NAME);
+    
+    mSpikesOn = true;
     
   } // constructor
 
@@ -76,7 +220,11 @@ public class RoomD06 extends Room {
   public Player createPlayer(int entryPoint) {
 
     assert( entryPoint >= 0 && entryPoint < kExits.length );
-    setPlayerAtExit(mExits[entryPoint]);
+    setPlayerAtExit(mExits[entryPoint], kCameraLevels);
+
+    mCertainDeath = ( mSpikesOn && entryPoint == 2 );
+    mDeathTimer = 0;
+
     return mPlayer;
     
   } // createPlayer()
@@ -96,28 +244,127 @@ public class RoomD06 extends Room {
     
     prepareExits();
     
-    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
+    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,-2) );
     
     addBasicWalls(mExits, spriteManager);
 
+    mSpikes = new Spikes[Room.kSize][Room.kSize];
+    for ( int iy = 0 ; iy < Room.kSize ; iy++ ) {
+      for ( int ix = 0 ; ix < Room.kSize ; ix++ ) {
+        if ( kSpikePattern[Room.kSize-1-iy].charAt(ix) != ' ' ) {
+          mSpikes[iy][ix] = new Spikes(ix,iy,0, 1,1, true, "K0");
+          mSpikes[iy][ix].setSilent(true);
+          spriteManager.addSprite( mSpikes[iy][ix] );
+        }
+      }
+    }
+    
+    mSpikeTimer = kSpikeTime;
+
+    mIndex = new int[kSpikePaths.length];
+    mXPos = new int[kSpikePaths.length];
+    mYPos = new int[kSpikePaths.length];
+    for ( int k = 0 ; k < kSpikePaths.length ; k++ ) {
+      mIndex[k] = kStartIndices[k];
+      mXPos[k] = kSpikePaths[k][ 2*mIndex[k] ];
+      mYPos[k] = kSpikePaths[k][ 2*mIndex[k]+1 ];
+    }
+
+    if ( mSpikesOn ) {
+      for ( int k = 0 ; k < kSpikeWarmUp ; k++ ) {
+        updateSpikes();
+        advanceSpikes();
+      }
+    }
+    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
   @Override
   public void discardResources() {
     
+    mSpikes = null;
+    
   } // Room.discardResources()
+
+  // trigger spikes along paths
+  private void updateSpikes() {
+    
+    if ( --mSpikeTimer <= 0 ) {
+      mSpikeTimer = kSpikeTime;
+      for ( int path = 0 ; path < kSpikePaths.length ; path++ ) {
+        mSpikes[ mYPos[path] ][mXPos[path] ].trigger();
+        int dx = kSpikePaths[path][2*mIndex[path]] - mXPos[path],
+            dy = kSpikePaths[path][2*mIndex[path]+1] - mYPos[path];
+        if ( dx == 0 && dy == 0 ) {
+          mIndex[path] += 1;
+          if ( mIndex[path] >= kSpikePaths[path].length/2 ) mIndex[path] = 0;
+          dx = kSpikePaths[path][2*mIndex[path]] - mXPos[path];
+          dy = kSpikePaths[path][2*mIndex[path]+1] - mYPos[path];
+        }
+        assert ( (dx == 0 && dy != 0) || (dx != 0 && dy == 0) );
+        if ( dx > 0 ) mXPos[path] += 1;
+        if ( dx < 0 ) mXPos[path] -= 1;
+        if ( dy > 0 ) mYPos[path] += 1;
+        if ( dy < 0 ) mYPos[path] -= 1;
+      }
+    }
+    
+  } // updateSpikes()
+  
+  // force an advance for all spikes 
+  private void advanceSpikes() {
+    
+    for ( int iy = 0 ; iy < mSpikes.length ; iy++ ) {
+      Spikes spikeRow[] = mSpikes[iy]; 
+      for ( int ix = 0 ; ix < spikeRow.length ; ix++ ) {
+        if ( spikeRow[ix] != null ) spikeRow[ix].advance(null,null,null);
+      }
+    }
+    
+  } // advanceSpikes()
   
   // update the room (events may be added or processed)
   @Override
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
+    // check exits
     final int exitIndex = checkExits(mExits);
     if ( exitIndex != -1 ) {
       storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
                                           mExits[exitIndex].mEntryPoint));
       return;
+    }
+    
+    // check camera level
+    EventRoomScroll scroll = checkVerticalScroll(kCameraLevels);
+    if ( scroll != null ) storyEvents.add(scroll);
+
+    // trigger spikes along path
+    if ( mSpikesOn ) {
+      updateSpikes();
+      if ( mSpikeTimer == 1 ) Env.sounds().play(Sounds.SPIKES);
+    }
+    
+    // turn off spikes
+    if ( mSpikesOn && mPlayer != null &&
+         mPlayer.getXPos() == 7 && mPlayer.getYPos() == 0 ) {
+      Env.sounds().play(Sounds.SWITCH_ON);
+      Env.sounds().play(Sounds.SUCCESS, 10);
+      mSpikesOn = false;
+    }
+
+    // don't let the player win if they came in the left door
+    if ( mSpikesOn && mCertainDeath && mPlayer != null ) {
+      if ( mDeathTimer > 0 ) {
+        if ( --mDeathTimer == 0 ) {
+          mPlayer.destroy(-1);
+          Env.debug("Warning: unfair death (sorry!)");
+        }
+      } else if ( mPlayer.getXPos() == 3 ) {
+        mDeathTimer = 8;
+      }
     }
     
   } // Room.advance()
