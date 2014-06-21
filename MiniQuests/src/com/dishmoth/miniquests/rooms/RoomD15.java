@@ -44,10 +44,10 @@ public class RoomD15 extends Room {
                 new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
   
               { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
+                new Exit(Env.UP,   8,0, "#U",0, -1, RoomD05.NAME, 2) },
               
               { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   8,0, "#U",0, -1, RoomD04.NAME, 1) },
+                new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
               
               { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
                 new Exit(Env.UP,   8,0, "#U",0, -1, "",0) } };
@@ -67,7 +67,7 @@ public class RoomD15 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
     setPlayerAtExit(mExits[entryPoint]);
     return mPlayer;
     

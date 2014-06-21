@@ -59,10 +59,22 @@ public class RoomD01 extends Room {
                                                   "#S" }; // entrance
   
   // details of exit/entry points for the room 
-  private static final Exit kExits[] 
-          = { // note: dummy exit at index 0
-              new Exit(Env.DOWN, 4,2, "#S",0, -1, RoomD03.NAME, 0) };
+  private static final Exit kExits[][] 
+          = { { // note: dummy exit at index 0
+                new Exit(Env.DOWN, 4,2, "#S",0, -1, RoomD03.NAME, 0) },
+                
+              { // note: dummy exit at index 0
+                new Exit(Env.DOWN, 4,2, "#S",0, -1, "",0) },
+                
+              { // note: dummy exit at index 0
+                new Exit(Env.DOWN, 4,2, "#S",0, -1, "",0) }, 
+                
+              { // note: dummy exit at index 0
+                new Exit(Env.DOWN, 4,2, "#S",0, -1, RoomD04.NAME, 1) } };
 
+  // the current exits, based on room D02's twist
+  private Exit mExits[];
+  
   // constructor
   public RoomD01() {
 
@@ -75,7 +87,7 @@ public class RoomD01 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length+1 );
+    assert( entryPoint >= 0 && entryPoint < mExits.length+1 );
     
     if ( entryPoint == 0 ) {
       // special case: start of game
@@ -85,24 +97,35 @@ public class RoomD01 extends Room {
       mCameraLevel = -1;
       mCamera.set(0, 0, 0);
     } else {
-      setPlayerAtExit(kExits[entryPoint-1]);
+      setPlayerAtExit(mExits[entryPoint-1]);
     }
     
     return mPlayer;
     
   } // createPlayer()
   
+  // configure exits based on the room D02's twist
+  private void prepareExits() {
+    
+    RoomD02 twistRoom = (RoomD02)findRoom(RoomD02.NAME);
+    assert( twistRoom != null );
+    mExits = kExits[ twistRoom.twist() ];    
+    
+  } // prepareExist()
+  
   // create the sprites for this room
   @Override
   public void createSprites(SpriteManager spriteManager) {
 
+    prepareExits();
+    
     spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, -5,0,0) );
 
     spriteManager.addSprite(new TreesRight(0, 0, 0, 0));
     spriteManager.addSprite(new TreesUp(0, 0, 0, 0));
 
     Wall wall = new WallDown(0, 0, 0);
-    for ( Exit exit : kExits ) {
+    for ( Exit exit : mExits ) {
       exit.mDoor = wall.addDoor(exit.mDoorXYPos, exit.mDoorZPos, 
                                 exit.mFloorColour, exit.mFloorDrop);
     }
@@ -138,10 +161,10 @@ public class RoomD01 extends Room {
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
-    final int exitIndex = checkExits(kExits);
+    final int exitIndex = checkExits(mExits);
     if ( exitIndex != -1 ) {
-      storyEvents.add(new EventRoomChange(kExits[exitIndex].mDestination,
-                                          kExits[exitIndex].mEntryPoint));
+      storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
+                                          mExits[exitIndex].mEntryPoint));
       return;
     }
 

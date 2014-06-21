@@ -61,13 +61,13 @@ public class RoomD03 extends Room {
               new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD18.NAME, 0) },
               
             { new Exit(Env.UP,    5,0, "#P",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
+              new Exit(Env.DOWN,  5,0, "#P",0, -1, RoomD10.NAME, 0),
               new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
               new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD02.NAME, 1) },
               
             { new Exit(Env.UP,    5,0, "#P",0, -1, RoomD02.NAME, 2),
               new Exit(Env.DOWN,  5,0, "#P",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#P",0, -1, RoomD12.NAME, 1),
+              new Exit(Env.LEFT,  5,0, "#P",0, -1, "",0),
               new Exit(Env.RIGHT, 5,0, "#P",0, -1, RoomD13.NAME, 0) },
               
             { new Exit(Env.UP,    5,0, "#P",0, -1, "",0),
@@ -112,7 +112,7 @@ public class RoomD03 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
     setPlayerAtExit(mExits[entryPoint]);
     return mPlayer;
     

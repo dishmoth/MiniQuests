@@ -13,6 +13,7 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Spikes;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
@@ -22,46 +23,79 @@ public class RoomD05 extends Room {
   // unique identifier for this room
   public static final String NAME = "D05";
   
+  // blocks for tower
+  private static final String kBaseBlocks[] = { "          ",
+                                                "          ",
+                                                "          ",
+                                                "    000   ",
+                                                "    000   ",
+                                                "    000   ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          " };
+
   // main blocks for the room
-  private static final String kBlocks[][] = { { "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "1111111111",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000",
-                                                "0000010000" } };
+  private static final String kBlocks[][] = { { "2222222222",
+                                                "2222222222",
+                                                "2222222222",
+                                                "2222222222",
+                                                "2222222222",
+                                                "2222222222",
+                                                "2222222222",
+                                                "2222222222",
+                                                "2222222222",
+                                                "2222222222" },
+                                                
+                                                kBaseBlocks,
+                                                kBaseBlocks,
+                                                kBaseBlocks,
+                                                kBaseBlocks,
+                                                kBaseBlocks,
+                                              
+                                              { "     1111 ",
+                                                "     1    ",
+                                                "     1    ",
+                                                "    000   ",
+                                                "1111000111",
+                                                "    000   ",
+                                                "     1    ",
+                                                "     1    ",
+                                                "     1111 ",
+                                                "        1 " } };
                                               
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#D",   //
-                                                  "#D" }; //
+  private static final String kBlockColours[] = { "lD",    // purple
+                                                  "#D",    // purple
+                                                  "De", }; // dark
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][]
-        = { { new Exit(Env.UP,    5,0, "#D",0, -1, RoomD02.NAME, 2),
-              new Exit(Env.DOWN,  5,0, "#D",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#D",0, -1, RoomD12.NAME, 1),
-              new Exit(Env.RIGHT, 5,0, "#D",0, -1, RoomD13.NAME, 0) },
+        = { { new Exit(Env.RIGHT, 5,8, "#D",0, 0, RoomD13.NAME, 0),
+              new Exit(Env.UP,    8,8, "#D",1, 0, "",0),
+              new Exit(Env.DOWN,  8,8, "#D",0, 0, "",0) },
               
-            { new Exit(Env.UP,    5,0, "#D",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#D",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#D",0, -1, RoomD02.NAME, 3),
-              new Exit(Env.RIGHT, 5,0, "#D",0, -1, "",0) },
+            { new Exit(Env.RIGHT, 5,8, "#D",0, 0, "",0),
+              new Exit(Env.UP,    8,8, "#D",1, 0, RoomD16.NAME, 0),
+              new Exit(Env.DOWN,  8,8, "#D",0, 0, RoomD15.NAME, 1) },
               
-            { new Exit(Env.UP,    5,0, "#D",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#D",0, -1, RoomD02.NAME, 0),
-              new Exit(Env.LEFT,  5,0, "#D",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#D",0, -1, "",0) },
+            { new Exit(Env.RIGHT, 5,8, "#D",0, 0, RoomD18.NAME, 0),
+              new Exit(Env.UP,    8,8, "#D",1, 0, "",0),
+              new Exit(Env.DOWN,  8,8, "#D",0, 0, "",0) },
               
-            { new Exit(Env.UP,    5,0, "#D",0, -1, "",0),
-              new Exit(Env.DOWN,  5,0, "#D",0, -1, "",0),
-              new Exit(Env.LEFT,  5,0, "#D",0, -1, "",0),
-              new Exit(Env.RIGHT, 5,0, "#D",0, -1, RoomD02.NAME, 1) } };
+            { new Exit(Env.RIGHT, 5,8, "#D",0, 0, RoomD02.NAME, 1),
+              new Exit(Env.UP,    8,8, "#D",1, 0, RoomD09.NAME, 1),
+              new Exit(Env.DOWN,  8,8, "#D",0, 0, "",0) } };
               
+  // details of different camera height levels
+  private static final CameraLevel kCameraLevels[]
+                                     = { new CameraLevel(6, -100, +100) };
+  
   // the current exits, based on room D02's twist
   private Exit mExits[];
+
+  // reference to spikes object
+  private Spikes mSpikes;
   
   // constructor
   public RoomD05() {
@@ -75,8 +109,8 @@ public class RoomD05 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
-    setPlayerAtExit(mExits[entryPoint]);
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
+    setPlayerAtExit(mExits[entryPoint], kCameraLevels);
     return mPlayer;
     
   } // createPlayer()
@@ -96,15 +130,20 @@ public class RoomD05 extends Room {
     
     prepareExits();
     
-    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
+    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,-4) );
     
     addBasicWalls(mExits, spriteManager);
 
+    mSpikes = new Spikes(4,4,8, 3,3, true, "e0");
+    spriteManager.addSprite(mSpikes);
+    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
   @Override
   public void discardResources() {
+
+    mSpikes = null;
     
   } // Room.discardResources()
   

@@ -41,16 +41,16 @@ public class RoomD09 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
           = { { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD08.NAME, 1),
-                new Exit(Env.DOWN, 8,0, "#U",0, -1, RoomD04.NAME, 0) },
+                new Exit(Env.DOWN, 8,0, "#U",0, -1, "",0) },
   
-              { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
-                new Exit(Env.DOWN, 5,0, "#U",0, -1, "",0) },
+              { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD08.NAME, 1),
+                new Exit(Env.DOWN, 8,0, "#U",0, -1, "",0) },
               
-              { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
-                new Exit(Env.DOWN, 5,0, "#U",0, -1, "",0) },
+              { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD08.NAME, 1),
+                new Exit(Env.DOWN, 8,0, "#U",0, -1, RoomD06.NAME, 0) },
               
-              { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
-                new Exit(Env.DOWN, 5,0, "#U",0, -1, "",0) } };
+              { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD08.NAME, 1),
+                new Exit(Env.DOWN, 8,0, "#U",0, -1, RoomD05.NAME, 1) } };
   
   // the current exits, based on room D02's twist
   private Exit mExits[];
@@ -67,7 +67,7 @@ public class RoomD09 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
     setPlayerAtExit(mExits[entryPoint]);
     return mPlayer;
     

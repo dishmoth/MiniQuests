@@ -60,16 +60,16 @@ public class RoomD16 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
           = { { new Exit(Env.DOWN, 8, 0, "Et",0, 0, RoomD06.NAME, 0),
-                new Exit(Env.DOWN, 8,14, "tE",1, 1, RoomD06.NAME ,1),
+                new Exit(Env.DOWN, 8,14, "tE",1, 1, RoomD06.NAME, 1),
                 new Exit(Env.UP,   8,14, "tE",1, 1, RoomD17.NAME, 0),
                 new Exit(Env.LEFT, 4, 0, "Et",0, 0, RoomD02.NAME, 4) },
 
-              { new Exit(Env.DOWN, 8, 0, "Et",0, 0, "",0),
+              { new Exit(Env.DOWN, 8, 0, "Et",0, 0, RoomD05.NAME, 1),
                 new Exit(Env.DOWN, 8,14, "tE",1, 1, "",0),
                 new Exit(Env.UP,   8,14, "tE",1, 1, RoomD17.NAME, 0),
                 new Exit(Env.LEFT, 4, 0, "Et",0, 0, RoomD02.NAME, 4) },
 
-              { new Exit(Env.DOWN, 8, 0, "Et",0, 0, RoomD04.NAME, 0),
+              { new Exit(Env.DOWN, 8, 0, "Et",0, 0, "",0),
                 new Exit(Env.DOWN, 8,14, "tE",1, 1, "",0),
                 new Exit(Env.UP,   8,14, "tE",1, 1, RoomD17.NAME, 0),
                 new Exit(Env.LEFT, 4, 0, "Et",0, 0, RoomD02.NAME, 4) },
@@ -118,7 +118,7 @@ public class RoomD16 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
     setPlayerAtExit(mExits[entryPoint], kCameraLevels);
     return mPlayer;
     
