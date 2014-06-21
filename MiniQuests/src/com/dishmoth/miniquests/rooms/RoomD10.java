@@ -40,10 +40,10 @@ public class RoomD10 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
-          = { { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD04.NAME, 1),
+          = { { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD04.NAME, 4),
                 new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD11.NAME, 0) },
   
-              { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
+              { new Exit(Env.UP,   5,0, "#U",0, -1, RoomD03.NAME, 1),
                 new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD11.NAME, 0) },
               
               { new Exit(Env.UP,   5,0, "#U",0, -1, "",0),
@@ -67,7 +67,7 @@ public class RoomD10 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
     setPlayerAtExit(mExits[entryPoint]);
     return mPlayer;
     

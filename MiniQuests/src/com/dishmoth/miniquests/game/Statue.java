@@ -19,9 +19,9 @@ public class Statue extends Sprite3D implements Obstacle {
                                 new PlayerImage(new char[]{ 't', 'k' }) };
   
   // position of the figure
-  final private int mXPos,
-                    mYPos,
-                    mZPos;
+  private int mXPos,
+              mYPos,
+              mZPos;
   
   // which direction the figure is facing
   private int mDirec;
@@ -54,6 +54,20 @@ public class Statue extends Sprite3D implements Obstacle {
     mColour = colour;
     
   } // setColour()
+  
+  // access to position
+  public int getXPos() { return mXPos; }
+  public int getYPos() { return mYPos; }
+  public int getZPos() { return mZPos; }
+  
+  // shift position
+  public void shiftPos(int dx, int dy, int dz) {
+    
+    mXPos += dx;
+    mYPos += dy;
+    mZPos += dz;
+    
+  } // shiftPos()
   
   // whether the player can stand at the specified position
   public boolean isPlatform(int x, int y, int z) {

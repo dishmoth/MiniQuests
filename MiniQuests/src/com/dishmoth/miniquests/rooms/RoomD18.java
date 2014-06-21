@@ -82,9 +82,9 @@ public class RoomD18 extends Room {
   
               { new Exit(Env.LEFT, 5,0, "#U",0, -1, "",0) },
               
-              { new Exit(Env.LEFT, 5,0, "#U",0, -1, "",0) },
+              { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD05.NAME, 0) },
               
-              { new Exit(Env.LEFT, 5,0, "#U",0, -1, "",0) } };
+              { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD04.NAME, 0) } };
   
   // times at which things happen
   private static final int kGameEndsDelay   = 50,
@@ -115,7 +115,7 @@ public class RoomD18 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
     setPlayerAtExit(mExits[entryPoint]);
     return mPlayer;
     

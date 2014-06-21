@@ -136,9 +136,9 @@ public class RoomD06 extends Room {
               
             { new Exit(Env.UP,   8,0,  "#q",0, 0, "",0),
               new Exit(Env.UP,   8,14, "#q",1, 1, "",0),
-              new Exit(Env.LEFT, 5,0,  "kq",0, 0, "",0) },
+              new Exit(Env.LEFT, 5,0,  "kq",0, 0, RoomD07.NAME, 0) },
               
-            { new Exit(Env.UP,   8,0,  "#q",0, 0, "",0),
+            { new Exit(Env.UP,   8,0,  "#q",0, 0, RoomD09.NAME, 1),
               new Exit(Env.UP,   8,14, "#q",1, 1, "",0),
               new Exit(Env.LEFT, 5,0,  "kq",0, 0, "",0) },
               
@@ -219,7 +219,7 @@ public class RoomD06 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    assert( entryPoint >= 0 && entryPoint < mExits.length );
     setPlayerAtExit(mExits[entryPoint], kCameraLevels);
 
     mCertainDeath = ( mSpikesOn && entryPoint == 2 );
