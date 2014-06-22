@@ -99,6 +99,11 @@ public class Liquid extends Sprite3D {
   public void setYPos(int y) { mYPos = y; }
   public void setZPos(int z) { mZPos = z; }
 
+  // access to position (in pixels)
+  public int getXPos() { return mXPos; }
+  public int getYPos() { return mYPos; }
+  public int getZPos() { return mZPos; }
+  
   // set the depth at which liquid becomes deadly
   public void setLethalDepth(int depth) { 
     
