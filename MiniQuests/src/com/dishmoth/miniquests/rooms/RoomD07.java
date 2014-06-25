@@ -42,19 +42,19 @@ public class RoomD07 extends Room {
   private static final Exit kExits[][] 
           = { { new Exit(Env.RIGHT, 5,0, "#U",0, -1, RoomD03.NAME, 2),
                 new Exit(Env.LEFT,  5,0, "#U",0, -1, RoomD08.NAME, 0),
-                new Exit(Env.RIGHT, 2,0, "#U",0, -1, "",0) },
+                new Exit(Env.RIGHT, 1,0, "#U",0, -1, "",0) },
   
               { new Exit(Env.RIGHT, 5,0, "#U",0, -1, RoomD06.NAME, 2),
                 new Exit(Env.LEFT,  5,0, "#U",0, -1, RoomD08.NAME, 0),
-                new Exit(Env.RIGHT, 2,0, "#U",0, -1, "",0) },
+                new Exit(Env.RIGHT, 1,0, "#U",0, -1, "",0) },
               
               { new Exit(Env.RIGHT, 5,0, "#U",0, -1, "",0),
                 new Exit(Env.LEFT,  5,0, "#U",0, -1, RoomD08.NAME, 0),
-                new Exit(Env.RIGHT, 2,0, "#U",0, -1, "",0) },
+                new Exit(Env.RIGHT, 1,0, "#U",0, -1, "",0) },
               
               { new Exit(Env.RIGHT, 5,0, "#U",0, -1, "",0),
                 new Exit(Env.LEFT,  5,0, "#U",0, -1, RoomD08.NAME, 0),
-                new Exit(Env.RIGHT, 2,0, "#U",0, -1, RoomD04.NAME, 3) } };
+                new Exit(Env.RIGHT, 1,0, "#U",0, -1, RoomD04.NAME, 3) } };
   
   // the current exits, based on room D02's twist
   private Exit mExits[];
