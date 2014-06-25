@@ -146,29 +146,29 @@ public class RoomD04 extends Room {
   private static final Exit kExits[][]
         = { { new Exit(Env.RIGHT, 5,4,  "#s",1, 0, RoomD02.NAME, 1),
               new Exit(Env.UP,    5,4,  "#s",1, 0, "",0),
-              new Exit(Env.LEFT,  7,4,  "#s",0, 0, "",0),
-              new Exit(Env.LEFT,  2,4,  "#s",0, 0, "",0),
+              new Exit(Env.LEFT,  8,4,  "#s",0, 0, "",0),
+              new Exit(Env.LEFT,  1,4,  "#s",0, 0, "",0),
               new Exit(Env.DOWN,  5,4,  "#s",0, 0, RoomD10.NAME, 0),
               new Exit(Env.RIGHT, 5,16, "#s",0, 1, "",0) },
               
             { new Exit(Env.RIGHT, 5,4,  "#s",1, 0, RoomD13.NAME, 0),
               new Exit(Env.UP,    5,4,  "#s",1, 0, RoomD02.NAME, 2),
-              new Exit(Env.LEFT,  7,4,  "#s",0, 0, RoomD12.NAME, 1),
-              new Exit(Env.LEFT,  2,4,  "#s",0, 0, "",0),
+              new Exit(Env.LEFT,  8,4,  "#s",0, 0, RoomD12.NAME, 1),
+              new Exit(Env.LEFT,  1,4,  "#s",0, 0, "",0),
               new Exit(Env.DOWN,  5,4,  "#s",0, 0, "",0),
               new Exit(Env.RIGHT, 5,16, "#s",0, 1, RoomD13.NAME, 2) },
               
             { new Exit(Env.RIGHT, 5,4,  "#s",1, 0, "",0),
               new Exit(Env.UP,    5,4,  "#s",1, 0, "",0),
-              new Exit(Env.LEFT,  7,4,  "#s",0, 0, "",0),
-              new Exit(Env.LEFT,  2,4,  "#s",0, 0, "",0),
+              new Exit(Env.LEFT,  8,4,  "#s",0, 0, "",0),
+              new Exit(Env.LEFT,  1,4,  "#s",0, 0, "",0),
               new Exit(Env.DOWN,  5,4,  "#s",0, 0, "",0),
               new Exit(Env.RIGHT, 5,16, "#s",0, 1, "",0) },
               
             { new Exit(Env.RIGHT, 5,4,  "#s",1, 0, RoomD18.NAME, 0),
               new Exit(Env.UP,    5,4,  "#s",1, 0, RoomD01.NAME, 1),
-              new Exit(Env.LEFT,  7,4,  "#s",0, 0, "",0),
-              new Exit(Env.LEFT,  2,4,  "#s",0, 0, RoomD07.NAME, 2),
+              new Exit(Env.LEFT,  8,4,  "#s",0, 0, "",0),
+              new Exit(Env.LEFT,  1,4,  "#s",0, 0, RoomD07.NAME, 2),
               new Exit(Env.DOWN,  5,4,  "#s",0, 0, RoomD02.NAME, 0),
               new Exit(Env.RIGHT, 5,16, "#s",0, 1, "",0) } };
 
