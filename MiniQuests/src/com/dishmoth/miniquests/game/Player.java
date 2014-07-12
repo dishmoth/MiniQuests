@@ -194,7 +194,8 @@ public class Player extends Sprite3D {
     if ( newSprite instanceof Critter ||
          newSprite instanceof Flame ||
          newSprite instanceof FlameBeam ||
-         newSprite instanceof Liquid ) {
+         newSprite instanceof Liquid ||
+         newSprite instanceof Spook ) {
       mSpritesToWatch.add(newSprite);
     }
     
@@ -491,6 +492,18 @@ public class Player extends Sprite3D {
         }
         mLiquidSubmersion = Math.max(mLiquidSubmersion, submersion);
       }
+      
+      else if ( sp instanceof Spook ) {
+        Spook s = (Spook)sp;
+        for ( int dz = 0 ; dz < kPlayerHeight ; dz++ ) {
+          if ( s.hits(mXPos, mYPos, mZPos+dz) ||
+               (mStepping && s.hits(mStepXPos, mStepYPos, mStepZPos+dz)) ) {
+            mKilled = true;
+            break;
+          }
+        }
+      }
+
     }
 
     // play sound effect, now we know what the player is walking on
