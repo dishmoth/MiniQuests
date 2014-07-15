@@ -72,6 +72,9 @@ public class Spikes extends Sprite3D {
   public int getXSize() { return mXSize; }
   public int getYSize() { return mYSize; }
   
+  // whether the spikes have been triggered 
+  public boolean active() { return (mState > 0); }
+  
   // extend the spikes
   public void trigger() {
     

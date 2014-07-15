@@ -252,7 +252,6 @@ public class Bullet extends Sprite3D {
       if ( sp instanceof Spook ) {
         Spook target = (Spook)sp;
         if ( target.hits(mXPos, mYPos, mZPos) ) {
-          mHitTarget = true;
           target.destroy(mDirec);
         }
       }
