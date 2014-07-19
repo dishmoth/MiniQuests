@@ -68,6 +68,9 @@ public class Player extends Sprite3D {
   // height fallen so far
   private int mFallDistance;
   
+  // how far the player can fall
+  private int mFatalFallDistance;
+  
   // whether currently in the firing pose
   private boolean mFiring;
   
@@ -109,7 +112,8 @@ public class Player extends Sprite3D {
 
     mFalling = false;
     mFallDistance = 0;
-
+    mFatalFallDistance = kFatalFallDistance;
+    
     mFiring = false;
     mReloadDelay = 0;
     mFireAway = false;
@@ -166,6 +170,14 @@ public class Player extends Sprite3D {
   
   // whether the player is falling
   public boolean isFalling() { return mFalling; }
+  
+  // how far the player can fall without dying
+  public void setFatalFallDistance(int distance) {
+    
+    assert( distance > 0 );
+    mFatalFallDistance = distance;
+    
+  } // setFatalFallDistance()
   
   // register fatal collision
   public void destroy(int direc) {
@@ -265,7 +277,7 @@ public class Player extends Sprite3D {
       mZPos -= 1;
       if ( isPlatform(mXPos, mYPos, mZPos) ) {
         mFalling = false;
-        if ( mFallDistance >= kFatalFallDistance ) mKilled = true;
+        if ( mFallDistance >= mFatalFallDistance ) mKilled = true;
         mFallDistance = 0;
         mActionTimer = kStepTime2; 
       }

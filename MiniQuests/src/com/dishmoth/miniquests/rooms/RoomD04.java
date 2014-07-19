@@ -423,9 +423,7 @@ public class RoomD04 extends Room {
         }
       }
     }
-    
-    
-    
+        
   } // Room.advance()
 
 } // class RoomD04
