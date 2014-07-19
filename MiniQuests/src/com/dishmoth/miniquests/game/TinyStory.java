@@ -277,8 +277,8 @@ public class TinyStory extends Story {
         if ( mCurrentRoom == null ) {
           Env.debug("New game started");
           mCurrentRoom = mRoomList[0];
-          mCurrentRoom = findRoom( RoomD07.NAME ); //!!!
-          mLastEntryPoint = 1; //0;
+          mCurrentRoom = findRoom( RoomD13.NAME ); //!!!
+          mLastEntryPoint = 2; //0;
         }
         mCurrentRoom.createSprites(spriteManager);
         mPlayer = mCurrentRoom.createPlayer(mLastEntryPoint);
