@@ -88,7 +88,7 @@ public class RoomD12 extends Room {
   
   // times for things to happen
   private static final int kSpikeDelay = 5,
-                           kOffDelay   = 17;
+                           kOffDelay   = 20;
   
   // the current exits, based on room D02's twist
   private Exit mExits[];

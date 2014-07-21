@@ -107,13 +107,13 @@ public class RoomD07 extends Room {
   private static final int kBridgeMaxLength = 4;
   
   // how much time until the bridge shrinks
-  private static final int kBridgeShrinkDelay      = 40,
-                           kBridgeShrinkDelayShort = 5;
+  private static final int kBridgeShrinkDelay      = 33,
+                           kBridgeShrinkDelayShort = 3;
   
   // how long until the next monster appears
-  private static final int kSpookDelay       = 65,
+  private static final int kSpookDelay       = 75, //65,
                            kSpookDelayStart  = 10,
-                           kSpook3Delay      = 150,
+                           kSpook3Delay      = 155,
                            kSpook3DelayStart = 30;
   
   // the current exits, based on room D02's twist
