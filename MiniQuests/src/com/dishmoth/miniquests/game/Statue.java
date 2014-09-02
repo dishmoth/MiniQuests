@@ -60,6 +60,9 @@ public class Statue extends Sprite3D implements Obstacle {
   public int getYPos() { return mYPos; }
   public int getZPos() { return mZPos; }
   
+  // access to direction
+  public int getDirec() { return mDirec; }
+  
   // shift position
   public void shiftPos(int dx, int dy, int dz) {
     
