@@ -40,16 +40,16 @@ public class RoomD15 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
-          = { { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
+          = { { new Exit(Env.DOWN, 3,0, "#U",0, -1, RoomD14.NAME, 1),
                 new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
   
-              { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
+              { new Exit(Env.DOWN, 3,0, "#U",0, -1, RoomD14.NAME, 1),
                 new Exit(Env.UP,   8,0, "#U",0, -1, RoomD05.NAME, 2) },
               
-              { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
+              { new Exit(Env.DOWN, 3,0, "#U",0, -1, RoomD14.NAME, 1),
                 new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
               
-              { new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD14.NAME, 1),
+              { new Exit(Env.DOWN, 3,0, "#U",0, -1, RoomD14.NAME, 1),
                 new Exit(Env.UP,   8,0, "#U",0, -1, "",0) } };
   
   // the current exits, based on room D02's twist
