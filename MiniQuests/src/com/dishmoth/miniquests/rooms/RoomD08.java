@@ -95,7 +95,7 @@ public class RoomD08 extends Room {
   // index of currently lit switch (-1 if inactive)
   private int mSwitchIndex;
 
-  //
+  // countdown as switches reset
   private int mResetTimer;
   
   // colour of the grid square the player is currently on
@@ -120,7 +120,7 @@ public class RoomD08 extends Room {
 
     assert( entryPoint >= 0 && entryPoint < kExits.length );
     setPlayerAtExit(kExits[entryPoint], kCameraLevels);
-    mCurrentColour = -1;
+    mCurrentColour = ( entryPoint==0 ? 3 : 0 );
     return mPlayer;
     
   } // createPlayer()
@@ -185,7 +185,7 @@ public class RoomD08 extends Room {
                                     new String[]{ 
                                             new String(new char[]{ch,'7'}), 
                                             new String(new char[]{ch,'#'}), 
-                                            "07" }, 
+                                            "u7" }, 
                                     false);
       spriteManager.addSprite( mSwitches[k] );
     }
@@ -266,8 +266,8 @@ public class RoomD08 extends Room {
             updateSwitches();
             Env.sounds().play(Sounds.SUCCESS);
           }
-        } else if ( mSwitchIndex >= kOrder.length || 
-                    col != kOrder[mSwitchIndex] ) {
+        } else if ( mSwitchIndex >= kOrder.length-1 || 
+                    col != kOrder[mSwitchIndex+1] ) {
           boolean playSound = false;
           for ( int ix = 0 ; ix < mSpikes.length ; ix++ ) {
             for ( int iy = 0 ; iy < mSpikes[ix].length ; iy++ ) {
