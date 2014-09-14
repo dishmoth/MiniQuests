@@ -259,7 +259,10 @@ public class RoomD07 extends Room {
           }
         }
         it.remove();
-      }  
+      }
+      if ( event instanceof Spook.EventKilled ) {
+        it.remove();
+      }
     }
 
     // shrink the bridge

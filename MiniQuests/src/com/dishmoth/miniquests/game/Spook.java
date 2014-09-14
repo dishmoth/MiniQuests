@@ -11,6 +11,12 @@ import java.util.LinkedList;
 // a monster
 public class Spook extends Sprite3D {
 
+  // story event: the monster has been destroyed
+  public class EventKilled extends StoryEvent {
+    public Spook mSpook;
+    public EventKilled(Spook s) { mSpook=s; }
+  } // class Spook.EventKilled
+
   // time to take various actions
   private static final int kTurnTime  = 0,
                            kStepTime1 = 3,
@@ -398,6 +404,7 @@ public class Spook extends Sprite3D {
     
     if ( mDestroyed ) {
       killTheseSprites.add(this);
+      newStoryEvents.add(new EventKilled(this));
       final byte colour = EgaTools.decodePixel(kColourSchemes[mColour][2]);
       addTheseSprites.add(new Splatter(mXPos, mYPos, mZPos,
                                        (mStepping ? mDirec : -1),

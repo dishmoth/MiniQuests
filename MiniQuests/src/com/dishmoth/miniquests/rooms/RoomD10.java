@@ -211,6 +211,10 @@ public class RoomD10 extends Room {
       if ( event instanceof Player.EventKilled ) {
         mSwitchTimer = kSwitchDelay;
       }
+      
+      if ( event instanceof Spook.EventKilled ) {
+        it.remove();
+      }
     }
 
     // make switch reappear, and spooks vanish
