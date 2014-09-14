@@ -6,6 +6,7 @@
 
 package com.dishmoth.miniquests.rooms;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
@@ -143,6 +144,13 @@ public class RoomD09 extends Room {
       return;
     }
 
+    for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
+      StoryEvent event = it.next();
+      if ( event instanceof Spook.EventKilled ) {
+        it.remove();
+      }
+    }    
+    
     if ( mTimer > 0 ) {
       mTimer -= 1;
       int num = mTimer/kDelayNext;
