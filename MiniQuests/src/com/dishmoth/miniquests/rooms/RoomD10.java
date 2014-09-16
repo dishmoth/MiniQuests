@@ -70,16 +70,16 @@ public class RoomD10 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
           = { { new Exit(Env.UP,   5,2, "#2",0, -1, RoomD04.NAME, 4),
-                new Exit(Env.DOWN, 5,2, "62",0, -1, RoomD11.NAME, 0) },
+                new Exit(Env.DOWN, 1,2, "62",0, -1, RoomD11.NAME, 0) },
   
               { new Exit(Env.UP,   5,2, "#2",0, -1, RoomD03.NAME, 1),
-                new Exit(Env.DOWN, 5,2, "62",0, -1, RoomD11.NAME, 0) },
+                new Exit(Env.DOWN, 1,2, "62",0, -1, RoomD11.NAME, 0) },
               
               { new Exit(Env.UP,   5,2, "#2",0, -1, "",0),
-                new Exit(Env.DOWN, 5,2, "62",0, -1, RoomD11.NAME, 0) },
+                new Exit(Env.DOWN, 1,2, "62",0, -1, RoomD11.NAME, 0) },
               
               { new Exit(Env.UP,   5,2, "#2",0, -1, "",0),
-                new Exit(Env.DOWN, 5,2, "62",0, -1, RoomD11.NAME, 0) } };
+                new Exit(Env.DOWN, 1,2, "62",0, -1, RoomD11.NAME, 0) } };
   
   // path the spooks follow
   private static final CritterTrack kTrack = new CritterTrack( 
