@@ -6,15 +6,20 @@
 
 package com.dishmoth.miniquests.rooms;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
+import com.dishmoth.miniquests.game.CritterTrack;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Spikes;
+import com.dishmoth.miniquests.game.Spook;
 import com.dishmoth.miniquests.game.SpriteManager;
+import com.dishmoth.miniquests.game.Statue;
 import com.dishmoth.miniquests.game.StoryEvent;
 
 // the room "D12"
@@ -26,87 +31,114 @@ public class RoomD12 extends Room {
   // main blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
                                                 "0000000000",
+                                                "0011111000",
                                                 "0000000000",
+                                                "0011111000",
                                                 "0000000000",
+                                                "0011111000",
                                                 "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0000000000",
+                                                "0011111000",
                                                 "0000000000" },
                                                 
-                                              { "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "1111111111",
-                                                "1111111111" },
-
-                                              { "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "1111111111",
-                                                "1111111111" },
-
-                                              { "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "11      11",
-                                                "1111111111",
-                                                "1111111111" } };
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         2",
+                                                "         2",
+                                                "         2",
+                                                "         2",
+                                                "         2" },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         2",
+                                                "         2",
+                                                "         2",
+                                                "         2",
+                                                "         2" },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "          ",
+                                                "         2",
+                                                "         2",
+                                                "         2",
+                                                "         2",
+                                                "         2" } };
 
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "uO",
-                                                  "#l" }; 
+  private static final String kBlockColours[] = { "Ke",
+                                                  "Ee",
+                                                  "Ke" }; 
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
-          = { { new Exit(Env.LEFT,  8,0, "#l",0, -1, RoomD11.NAME, 1),
-                new Exit(Env.RIGHT, 8,0, "#l",0, -1, "",0) },
+          = { { new Exit(Env.LEFT,  8,0, "Ke",0, -1, RoomD11.NAME, 1),
+                new Exit(Env.RIGHT, 8,0, "#e",0, -1, "",0) },
   
-              { new Exit(Env.LEFT,  8,0, "#l",0, -1, RoomD11.NAME, 1),
-                new Exit(Env.RIGHT, 8,0, "#l",0, -1, RoomD04.NAME, 2) },
+              { new Exit(Env.LEFT,  8,0, "Ke",0, -1, RoomD11.NAME, 1),
+                new Exit(Env.RIGHT, 8,0, "#e",0, -1, RoomD04.NAME, 2) },
               
-              { new Exit(Env.LEFT,  8,0, "#l",0, -1, RoomD11.NAME, 1),
-                new Exit(Env.RIGHT, 8,0, "#l",0, -1, "",0) },
+              { new Exit(Env.LEFT,  8,0, "Ke",0, -1, RoomD11.NAME, 1),
+                new Exit(Env.RIGHT, 8,0, "#e",0, -1, "",0) },
               
-              { new Exit(Env.LEFT,  8,0, "#l",0, -1, RoomD11.NAME, 1),
-                new Exit(Env.RIGHT, 8,0, "#l",0, -1, "",0) } };
-  
-  // times for things to happen
-  private static final int kSpikeDelay = 5,
-                           kOffDelay   = 20;
+              { new Exit(Env.LEFT,  8,0, "Ke",0, -1, RoomD11.NAME, 1),
+                new Exit(Env.RIGHT, 8,0, "#e",0, -1, "",0) } };
   
   // the current exits, based on room D02's twist
   private Exit mExits[];
+
+  // path the monsters follow
+  private static final String kPath[] = { "#####" };
   
-  // arrangement of spikes
-  private Spikes mSpikes[][];
+  // interval between monsters
+  private static final int kSpookDelay   = 60,
+                           kSpookStagger = 6;
 
-  // spike countdown
-  private int mTimer;
+  // maximum gap between killing spooks
+  private static final int kKillDelay = 8;
 
-  // which direction the spikes are going
-  private int mPhase;
+  // time intervals once the room is completed
+  private static final int kEndDelay          = 35,
+                           kStatueFlashStart  = 15,
+                           kStatueFlashDelay  = 7,
+                           kSpikeRetreatDelay = 5;
+  
+  // whether the room is complete
+  private boolean mRoomDone;
+  
+  // counter controlling monster respawning
+  private int mSpookTimer;
+
+  // which spook was just killed (-1 or not recent or in order)
+  private int mSpookKilled;
+  
+  // countdown for killing the spooks in sequence
+  private int mKillTimer;
+
+  // countdown until the room is fully finished
+  private int mEndTimer;
+  
+  // references to the statues
+  private Statue mStatues[];
+  
+  // reference to the spikes
+  private Spikes mSpikes;
   
   // constructor
   public RoomD12() {
 
     super(NAME);
 
+    mRoomDone = false;
+    
   } // constructor
 
   // create the player at the specified entry point to the room
@@ -135,23 +167,26 @@ public class RoomD12 extends Room {
     
     prepareExits();
     
-    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,-6) );
+    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
     
     addBasicWalls(mExits, spriteManager);
 
-    mSpikes = new Spikes[6][3];
-    for ( int k = 0 ; k < mSpikes.length ; k++ ) {
-      mSpikes[k][0] = new Spikes(8,2+k,0, 2,1, false, "S0");
-      mSpikes[k][1] = new Spikes(2+k,0,0, 1,2, false, "S0");
-      mSpikes[k][2] = new Spikes(0,7-k,0, 2,1, false, "S0");
-      for ( int n = 0 ; n < mSpikes[k].length ; n++ ) {
-        if ( n > 0 ) mSpikes[k][n].setSilent(true);
-        spriteManager.addSprite(mSpikes[k][n]);
-      }
+    if ( mRoomDone ) {
+      mSpikes = null;
+    } else {
+      mSpikes = new Spikes(8,6,0, 2,4, true, "u0");
+      spriteManager.addSprite(mSpikes);
     }
+    
+    mStatues = new Statue[]{ new Statue(9,0,6, Env.LEFT, 3),
+                             new Statue(9,4,6, Env.LEFT, 3) };
+    for ( Statue s : mStatues ) spriteManager.addSprite(s);
+    
+    mSpookTimer = 0;
+    mSpookKilled = -1;
+    mKillTimer = 0;
 
-    mTimer = 0;
-    mPhase = 0;
+    mEndTimer = 0;
 
   } // Room.createSprites()
   
@@ -159,6 +194,7 @@ public class RoomD12 extends Room {
   @Override
   public void discardResources() {
 
+    mStatues = null;
     mSpikes = null;
     
   } // Room.discardResources()
@@ -168,6 +204,7 @@ public class RoomD12 extends Room {
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
+    // check exits
     final int exitIndex = checkExits(mExits);
     if ( exitIndex != -1 ) {
       storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
@@ -175,18 +212,75 @@ public class RoomD12 extends Room {
       return;
     }
 
-    if ( --mTimer < 0 ) {
-      mTimer = kOffDelay + kSpikeDelay*mSpikes.length;
-      mPhase = (mPhase+1)%4;
+    // check spook events
+    for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
+      StoryEvent event = it.next();
+      if ( event instanceof Spook.EventKilled ) {
+        int y = (((Spook.EventKilled)event).mSpook).getYPos();
+        int n = (y - 1)/2;
+        if ( n == mSpookKilled+1 ) {
+          mSpookKilled += 1;
+          mKillTimer = kKillDelay;
+          if ( mSpookKilled == 3 ) {
+            mRoomDone = true;
+            mEndTimer = kEndDelay;
+          }
+        } else {
+          mSpookKilled = -1;
+        }
+        it.remove();
+      }
+    }    
+    
+    // the spooks must be killed quickly
+    if ( mKillTimer > 0 ) {
+      if ( --mKillTimer == 0 ) mSpookKilled = -1;
     }
     
-    if ( mTimer % kSpikeDelay == 0 ) {
-      int num = mTimer/kSpikeDelay;
-      if ( num < mSpikes.length ) {
-        for ( int k = 0 ; k < mSpikes[num].length ; k++ ) {
-          boolean rev = (k==1) ? (mPhase==0||mPhase==3) : (mPhase<2);
-          int n = ( rev ? num : (mSpikes.length - 1 - num) );
-          mSpikes[n][k].trigger();
+    // spawn monsters
+    if ( !mRoomDone ) {
+      if ( mSpookTimer%kSpookStagger == 0 ) {
+        int n = mSpookTimer/kSpookStagger;
+        if ( n < 4 ) {
+          int y = 1 + 2*n;
+          Spook spook = new Spook(6,y,0, Env.LEFT, 
+                                  new CritterTrack(kPath, 2,y));
+          spook.vanishAfterSteps(3);
+          spriteManager.addSprite(spook);
+        }
+      }
+      mSpookTimer = (mSpookTimer+1) % kSpookDelay;
+    }
+    
+    // check spikes
+    if ( !mRoomDone ) {
+      assert( mSpikes != null );
+      if ( mPlayer != null && 
+           mPlayer.getXPos() >= 8 && mPlayer.getYPos() >= 6 ) {
+        mSpikes.trigger();
+      }
+    }
+
+    // tidy the room once complete
+    if ( mRoomDone && mEndTimer > 0 ) {
+      mEndTimer -= 1;
+      if ( mEndTimer == kEndDelay-kStatueFlashStart ) {
+        for ( Statue s : mStatues ) s.setColour(0);
+        Env.sounds().play(Sounds.SUCCESS);
+      } 
+      if ( mEndTimer == kEndDelay-kStatueFlashStart-kStatueFlashDelay ) {
+        for ( Statue s : mStatues ) s.setColour(3);
+      }
+      if ( mEndTimer%kSpikeRetreatDelay == 0 ) {
+        int n = mEndTimer/kSpikeRetreatDelay;
+        if ( n < 4 ) {
+          spriteManager.removeSprite(mSpikes);
+          if ( n == 0 ) {
+            mSpikes = null;
+          } else {
+            mSpikes = new Spikes(8,10-n,0, 2,n, true, "u0");
+            spriteManager.addSprite(mSpikes);
+          }
         }
       }
     }

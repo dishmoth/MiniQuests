@@ -149,7 +149,7 @@ public class RoomD02 extends Room {
 
     super(NAME);
 
-    mTwist = 0;
+    mTwist = 1; //!!!0;
     
   } // constructor
 
