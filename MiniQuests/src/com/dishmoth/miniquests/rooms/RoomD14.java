@@ -38,7 +38,7 @@ public class RoomD14 extends Room {
                                                 "1111111111",
                                                 "1111111111" },
                                                 
-                                              { "  0000    ",
+                                              { " 00000    ",
                                                 "          ",
                                                 "          ",
                                                 "          ",
@@ -49,7 +49,7 @@ public class RoomD14 extends Room {
                                                 " 0 0 0 0 0",
                                                 " 000000000" },
                                                 
-                                              { "  0000    ",
+                                              { " 00000    ",
                                                 "          ",
                                                 "          ",
                                                 "          ",
@@ -60,7 +60,7 @@ public class RoomD14 extends Room {
                                                 " 0 0 0 0 0",
                                                 " 000000000" },
                                                 
-                                              { "  0000    ",
+                                              { " 00000    ",
                                                 "     -    ",
                                                 "     -    ",
                                                 "     -    ",
@@ -78,7 +78,7 @@ public class RoomD14 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[]
             = { new Exit(Env.LEFT, 1,6, "OA",1, 0, RoomD13.NAME, 1),
-                new Exit(Env.UP,   3,6, "#A",0, 0, RoomD15.NAME, 0) };
+                new Exit(Env.UP,   2,6, "#A",0, 0, RoomD15.NAME, 0) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]

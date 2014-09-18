@@ -10,16 +10,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
+import com.dishmoth.miniquests.game.Bullet;
+import com.dishmoth.miniquests.game.Chest;
 import com.dishmoth.miniquests.game.CritterTrack;
+import com.dishmoth.miniquests.game.EgaTools;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
-import com.dishmoth.miniquests.game.Sounds;
-import com.dishmoth.miniquests.game.Spikes;
+import com.dishmoth.miniquests.game.Splatter;
 import com.dishmoth.miniquests.game.Spook;
+import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
-import com.dishmoth.miniquests.game.Statue;
 import com.dishmoth.miniquests.game.StoryEvent;
 
 // the room "D15"
@@ -30,43 +32,65 @@ public class RoomD15 extends Room {
   
   // main blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
-                                                "0000000000",
-                                                "0000000000",
-                                                "0010101010",
-                                                "0010101010",
-                                                "0010101010",
-                                                "0010101010",
-                                                "0010101010",
-                                                "0000000000",
+                                                "0        0",
+                                                "0  00000 0",
+                                                "0  00000 0",
+                                                "0  00000 0",
+                                                "0   000  0",
+                                                "0   000  0",
+                                                "0   000  0",
+                                                "0   000  0",
                                                 "0000000000" },
                                                 
-                                              { "22222     ",
+                                              { "0000000000",
+                                                "0        0",
+                                                "0  00000 0",
+                                                "0  00000 0",
+                                                "0  00000 0",
+                                                "0   000  0",
+                                                "0   000  0",
+                                                "0   000  0",
+                                                "0   000  0",
+                                                "0000000000" },
+                                                
+                                              { "0000000000",
+                                                "0        0",
+                                                "0  11111 0",
+                                                "0  11111 0",
+                                                "0  11111 0",
+                                                "0   111  0",
+                                                "0   111  0",
+                                                "0   111  0",
+                                                "0   111  0",
+                                                "0000111000" },
+                                                
+                                              { "          ",
+                                                "          ",
+                                                "   11111  ",
+                                                "   11111  ",
+                                                "   11111  ",
+                                                "    111   ",
+                                                "    111   ",
                                                 "          ",
                                                 "          ",
+                                                "          " },
+                                              
+                                              { "          ",
                                                 "          ",
-                                                "          ",
-                                                "          ",
+                                                "   11111  ",
+                                                "   11111  ",
+                                                "   11111  ",
+                                                "    111   ",
                                                 "          ",
                                                 "          ",
                                                 "          ",
                                                 "          " },
-                                                
-                                              { "22222     ",
+                                              
+                                              { "          ",
                                                 "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          " },
-                                                
-                                              { "22222     ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
+                                                "   11111  ",
+                                                "   11111  ",
+                                                "   11111  ",
                                                 "          ",
                                                 "          ",
                                                 "          ",
@@ -74,64 +98,45 @@ public class RoomD15 extends Room {
                                                 "          " } };
 
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "Ke",
-                                                  "Ee",
-                                                  "Ke" }; 
+  private static final String kBlockColours[] = { "YU",
+                                                  "tU" }; 
+  
+  // path followed by monsters
+  private static final CritterTrack kPath = new CritterTrack(
+                                              new String[]{ "++++++++++",
+                                                            "+        +",
+                                                            "+        +",
+                                                            "+        +",
+                                                            "+        +",
+                                                            "+        +",
+                                                            "+        +",
+                                                            "+        +",
+                                                            "+        +",
+                                                            "++++++++++" });
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
-          = { { new Exit(Env.DOWN, 3,0, "Ke",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   8,0, "#e",0, -1, "",0) },
+          = { { new Exit(Env.DOWN, 2,0, "YU",0, -1, RoomD14.NAME, 1),
+                new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
   
-              { new Exit(Env.DOWN, 3,0, "Ke",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   8,0, "#e",0, -1, RoomD05.NAME, 2) },
+              { new Exit(Env.DOWN, 2,0, "YU",0, -1, RoomD14.NAME, 1),
+                new Exit(Env.UP,   8,0, "#U",0, -1, RoomD05.NAME, 2) },
               
-              { new Exit(Env.DOWN, 3,0, "Ke",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   8,0, "#e",0, -1, "",0) },
+              { new Exit(Env.DOWN, 2,0, "YU",0, -1, RoomD14.NAME, 1),
+                new Exit(Env.UP,   8,0, "#U",0, -1, "",0) },
               
-              { new Exit(Env.DOWN, 3,0, "Ke",0, -1, RoomD14.NAME, 1),
-                new Exit(Env.UP,   8,0, "#e",0, -1, "",0) } };
+              { new Exit(Env.DOWN, 2,0, "YU",0, -1, RoomD14.NAME, 1),
+                new Exit(Env.UP,   8,0, "#U",0, -1, "",0) } };
   
   // the current exits, based on room D02's twist
   private Exit mExits[];
 
-  // path the monsters follow
-  private static final String kPath[] = { "#","#","#","#","#" };
-  
-  // interval between monsters
-  private static final int kSpookDelay   = 60,
-                           kSpookStagger = 6;
-
-  // maximum gap between killing spooks
-  private static final int kKillDelay = 10;
-
-  // time intervals once the room is completed
-  private static final int kEndDelay          = 35,
-                           kStatueFlashStart  = 15,
-                           kStatueFlashDelay  = 7,
-                           kSpikeRetreatDelay = 5;
-  
-  // whether the room is complete
+  // whether the room has been completed
   private boolean mRoomDone;
   
-  // counter controlling monster respawning
-  private int mSpookTimer;
+  // reference to the chest object
+  private Chest mChest;
 
-  // which spook was just killed (-1 or not recent or in order)
-  private int mSpookKilled;
-  
-  // countdown for killing the spooks in sequence
-  private int mKillTimer;
-
-  // countdown until the room is fully finished
-  private int mEndTimer;
-  
-  // references to the statues
-  private Statue mStatues[];
-  
-  // reference to the spikes
-  private Spikes mSpikes;
-  
   // constructor
   public RoomD15() {
 
@@ -167,36 +172,23 @@ public class RoomD15 extends Room {
     
     prepareExits();
     
-    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
+    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,-4) );
     
     addBasicWalls(mExits, spriteManager);
 
     if ( mRoomDone ) {
-      mSpikes = null;
+      mChest = null;
     } else {
-      mSpikes = new Spikes(6,8,0, 4,2, true, "u0");
-      spriteManager.addSprite(mSpikes);
+      mChest = new Chest(4, 6, 6, Env.DOWN);
+      spriteManager.addSprite(mChest);
     }
-    
-    mStatues = new Statue[]{ new Statue(0,9,6, Env.DOWN, 3),
-                             new Statue(4,9,6, Env.DOWN, 3) };
-    for ( Statue s : mStatues ) spriteManager.addSprite(s);
-    
-    mSpookTimer = 0;
-    mSpookKilled = -1;
-    mKillTimer = 0;
 
-    mEndTimer = 0;
-    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
   @Override
   public void discardResources() {
 
-    mStatues = null;
-    mSpikes = null;
-    
   } // Room.discardResources()
   
   // update the room (events may be added or processed)
@@ -212,76 +204,44 @@ public class RoomD15 extends Room {
       return;
     }
 
-    // check spook events
+    // check events
     for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
       StoryEvent event = it.next();
       if ( event instanceof Spook.EventKilled ) {
-        int x = (((Spook.EventKilled)event).mSpook).getXPos();
-        int n = (8 - x)/2;
-        if ( n == mSpookKilled+1 ) {
-          mSpookKilled += 1;
-          mKillTimer = kKillDelay;
-          if ( mSpookKilled == 3 ) {
-            mRoomDone = true;
-            mEndTimer = kEndDelay;
-          }
-        } else {
-          mSpookKilled = -1;
-        }
         it.remove();
       }
     }    
     
-    // the spooks must be killed quickly
-    if ( mKillTimer > 0 ) {
-      if ( --mKillTimer == 0 ) mSpookKilled = -1;
-    }
-    
-    // spawn monsters
+    // check the chest
     if ( !mRoomDone ) {
-      if ( mSpookTimer%kSpookStagger == 0 ) {
-        int n = mSpookTimer/kSpookStagger;
-        if ( n < 4 ) {
-          int x = 8 - 2*n;
-          Spook spook = new Spook(x,6,0, Env.DOWN, 
-                                  new CritterTrack(kPath, x,2));
-          spook.vanishAfterSteps(3);
-          spriteManager.addSprite(spook);
-        }
-      }
-      mSpookTimer = (mSpookTimer+1) % kSpookDelay;
-    }
-    
-    // check spikes
-    if ( !mRoomDone ) {
-      assert( mSpikes != null );
-      if ( mPlayer != null && 
-           mPlayer.getXPos() >= 6 && mPlayer.getYPos() >= 8 ) {
-        mSpikes.trigger();
-      }
-    }
-
-    // tidy the room once complete
-    if ( mRoomDone && mEndTimer > 0 ) {
-      mEndTimer -= 1;
-      if ( mEndTimer == kEndDelay-kStatueFlashStart ) {
-        for ( Statue s : mStatues ) s.setColour(0);
-        Env.sounds().play(Sounds.SUCCESS);
-      } 
-      if ( mEndTimer == kEndDelay-kStatueFlashStart-kStatueFlashDelay ) {
-        for ( Statue s : mStatues ) s.setColour(3);
-      }
-      if ( mEndTimer%kSpikeRetreatDelay == 0 ) {
-        int n = mEndTimer/kSpikeRetreatDelay;
-        if ( n < 4 ) {
-          spriteManager.removeSprite(mSpikes);
-          if ( n == 0 ) {
-            mSpikes = null;
-          } else {
-            mSpikes = new Spikes(10-n,8,0, n,2, true, "u0");
-            spriteManager.addSprite(mSpikes);
+      assert( mChest != null );
+      boolean hit = false;
+      for ( Sprite sp : spriteManager.list() ) {
+        if ( sp instanceof Bullet ) {
+          Bullet bullet = (Bullet)sp;
+          int x = bullet.getXPos() + Env.STEP_X[bullet.getDirec()],
+              y = bullet.getYPos() + Env.STEP_Y[bullet.getDirec()],
+              z = bullet.getZPos();
+          if ( x >= 4 && x <= 6 && y >= 6 && y <= 7 && z >= 6 ) {
+            hit = true;
           }
         }
+      }
+      if ( hit ) {
+        spriteManager.removeSprite(mChest);
+        mChest = null;
+        final byte col = EgaTools.decodePixel('K');
+        final int y = 6,
+                  z = 7,
+                  h = 2;
+        for ( int x = 4 ; x <= 6 ; x++ ) {
+          spriteManager.addSprite(new Splatter(x,y,z, -1, h, col, -1));
+        }
+        spriteManager.addSprite(new Spook(0,0,0, Env.DOWN, kPath));
+        spriteManager.addSprite(new Spook(9,0,0, Env.RIGHT, kPath));
+        spriteManager.addSprite(new Spook(9,9,0, Env.UP, kPath));
+        spriteManager.addSprite(new Spook(0,9,0, Env.LEFT, kPath));
+        mRoomDone = true;
       }
     }
     
