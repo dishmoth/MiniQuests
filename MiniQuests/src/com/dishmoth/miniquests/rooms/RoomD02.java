@@ -300,9 +300,13 @@ public class RoomD02 extends Room {
     spriteManager.addSprite(new Liquid(zoneX*Room.kSize+3, 
                                        zoneY*Room.kSize+3, 
                                        1, 0, kWaterPattern));
+    
+    RoomD17 waterRoom = (RoomD17)findRoom(RoomD17.NAME);
+    assert( waterRoom != null );
+    boolean fountainOn = !waterRoom.done();
     spriteManager.addSprite(new Fountain(zoneX*Room.kSize+5, 
                                          zoneY*Room.kSize+5,
-                                         2));
+                                         2, fountainOn));
     
     // zone (2,1)
     

@@ -68,15 +68,18 @@ public class Fountain extends Sprite3D implements Obstacle {
   final private Particles mParticles;
   
   // constructor
-  public Fountain(int xPos, int yPos, int zPos) {
+  public Fountain(int xPos, int yPos, int zPos, boolean on) {
     
     mXPos = xPos;
     mYPos = yPos;
     mZPos = zPos;
 
-    mParticles = new Particles(-1);
-
-    warmUp(kLifeTimeMin);
+    if ( on ) {
+      mParticles = new Particles(-1);
+      warmUp(kLifeTimeMin);
+    } else {
+      mParticles = null;
+    }
     
   } // constructor
 
@@ -95,7 +98,7 @@ public class Fountain extends Sprite3D implements Obstacle {
 
     super.observeArrival(newSprite);
     if ( newSprite instanceof Camera ) {
-      mParticles.observeArrival(newSprite);
+      if ( mParticles != null ) mParticles.observeArrival(newSprite);
     }
     
   } // Sprite.observeArrival()
@@ -106,7 +109,7 @@ public class Fountain extends Sprite3D implements Obstacle {
     
     super.observeDeparture(deadSprite);
     if ( deadSprite instanceof Camera ) {
-      mParticles.observeDeparture(deadSprite);
+      if ( mParticles != null ) mParticles.observeDeparture(deadSprite);
     }
   
   } // Sprite.observeDeparture()  
@@ -159,6 +162,8 @@ public class Fountain extends Sprite3D implements Obstacle {
                       LinkedList<Sprite> killTheseSprites,
                       LinkedList<StoryEvent> newStoryEvents) {
 
+    if ( mParticles == null ) return;
+    
     float numParticles = kParticleRate;
     while ( numParticles > 1.0f ) {
       addParticle();
@@ -180,7 +185,7 @@ public class Fountain extends Sprite3D implements Obstacle {
 
     kImage.draw3D(canvas, 2*xPos, 2*yPos, zPos);
 
-    mParticles.draw(canvas);
+    if ( mParticles != null ) mParticles.draw(canvas);
     
   } // Sprite.draw()
 
