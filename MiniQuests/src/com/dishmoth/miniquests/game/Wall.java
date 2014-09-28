@@ -33,6 +33,11 @@ abstract public class Wall extends Sprite3D implements Obstacle {
     
   } // constructor
 
+  // accessors
+  public int getXPos() { return mXPos; }
+  public int getYPos() { return mYPos; }
+  public int getZPos() { return mZPos; }
+  
   // put a door in the wall (and return a reference to it)
   // (specified in room coordinates, x or y depending on the wall's side)
   abstract public Door addDoor(int xyPos, int zPos, 

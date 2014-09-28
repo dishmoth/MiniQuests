@@ -92,6 +92,10 @@ public class Fountain extends Sprite3D implements Obstacle {
     }
         
   } // warmUp()
+  
+  // whether the fountain is active
+  public boolean on() { return (mParticles != null); }
+  
   // maintain a reference to the game's Camera sprite
   @Override
   public void observeArrival(Sprite newSprite) { 

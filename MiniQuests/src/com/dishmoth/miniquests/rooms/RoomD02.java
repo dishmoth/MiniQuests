@@ -19,9 +19,14 @@ import com.dishmoth.miniquests.game.Hedge;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Sounds;
+import com.dishmoth.miniquests.game.Splatter;
+import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.Tree;
+import com.dishmoth.miniquests.game.Wall;
+import com.dishmoth.miniquests.game.WallUp;
 
 // the room "D02"
 public class RoomD02 extends Room {
@@ -92,6 +97,8 @@ public class RoomD02 extends Room {
   private static final char kFlowerColours[] = {'s','B','q','D'};
   
   // details of exit/entry points for the room 
+  // (extra exits: 4 and 5 below)
+  // (dummy exits: 6 died in fountain, 7 escaped from fountain)
   private static final Exit kExits[][] 
         = { { new Exit(1,2, Env.UP,    5,0, "#m",0, -1, RoomD03.NAME, 1),
               new Exit(0,1, Env.LEFT,  5,0, "Em",0, -1, RoomD04.NAME, 0),
@@ -113,9 +120,10 @@ public class RoomD02 extends Room {
               new Exit(1,0, Env.DOWN , 5,0, "Em",0, -1, "",0),
               new Exit(2,1, Env.RIGHT, 5,0, "#m",0, -1, RoomD03.NAME, 2) } };
 
-  // additional exits that appear later
+  // additional exits that appear later (numbers 4 and 5)
   private static final Exit kExtraExits[] 
-        = { new Exit(2,2, Env.RIGHT, 4,0, "#m",0, -1, RoomD16.NAME, 3) };
+        = { new Exit(2,2, Env.RIGHT, 4,0, "#m",0, -1, RoomD16.NAME, 3),
+            new Exit(2,2, Env.UP,    5,0, "#m",0, -1, RoomD18.NAME, 1) };
   
   // time until the twist animation completes
   private static final int kTwistDelayStart  = 20,
@@ -125,11 +133,22 @@ public class RoomD02 extends Room {
   private static final int kTwistXPos = 2,
                            kTwistYPos = 25;
   
+  // time until fountain teleportation
+  private static final int kFountainDelay = 15;
+  
+  // times during the final door appearance
+  private static final int kDoorAppearDelay   = 30,
+                           kScrollToDoorDelay = kDoorAppearDelay + 10,
+                           kCutSceneDelay     = kScrollToDoorDelay + 20;
+  
   // the current exits, based on room twist
   private Exit mExits[];
   
   // reference to the main floor blocks
   private BlockArray mMainBlocks;
+
+  // whether the room is complete (the final door has appeared)
+  private boolean mRoomDone;
 
   // room twist (anti-clockwise, 0 to 3)
   private int mTwist;
@@ -143,6 +162,24 @@ public class RoomD02 extends Room {
   // keep track of the player's position (or -1)
   private int mLastXPos,
               mLastYPos;
+
+  // keep track of the last proper entry point (for fountain respawn)
+  private int mLastEntryPoint;
+  
+  // reference to the fountain sprite
+  private Fountain mFountain;
+  
+  // countdown until fountain teleportation
+  private int mFountainTimer;
+  
+  // position of player during fountain teleportation (relative to fountain)
+  // (note: these variables are shared with RoomD19)
+  private int mInFountainXPos,
+              mInFountainYPos,
+              mInFountainDirec;
+  
+  // time during which final door appears
+  private int mCutSceneTimer;
   
   // constructor
   public RoomD02() {
@@ -150,6 +187,12 @@ public class RoomD02 extends Room {
     super(NAME);
 
     mTwist = 0;
+    mRoomDone = false;
+    
+    mInFountainXPos = 1;
+    mInFountainYPos = 3;
+    mInFountainDirec = Env.DOWN;
+    mLastEntryPoint = 0;
     
   } // constructor
 
@@ -172,13 +215,45 @@ public class RoomD02 extends Room {
   // (note: this function may be called by various other room)
   public int twist() { return mTwist; }
   
+  // whether the final door has appeared
+  // (note: this function may be called by room D18)
+  public boolean completed() { return mRoomDone; }
+  
+  // record of where the player was in the fountain when the room changed 
+  // (note: these function may be called by RoomD19)
+  public int inFountainXPos()  { return mInFountainXPos; }
+  public int inFountainYPos()  { return mInFountainYPos; }
+  public int inFountainDirec() { return mInFountainDirec; }
+  public void recordInFountainInfo(int x, int y, int direc) {
+    mInFountainXPos=x; mInFountainYPos=y; mInFountainDirec=direc;
+  }
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < mExits.length );
-    setPlayerAtExit(mExits[entryPoint]);
+    if ( entryPoint == 7 ) {
+      // dummy entry point: escaped from fountain
+      assert( !mRoomDone );
+      mCamera.set(kSize, kSize, 0);
+      mPlayer = new Player( inFountainXPos()+13,
+                            inFountainYPos()+13, 
+                            0,
+                            inFountainDirec() );
+      mPlayer.mAdvanceDisabled = true;
+      mCutSceneTimer = kCutSceneDelay;
+    } else if ( entryPoint == 6 ) {
+      // dummy entry point: died in fountain
+      assert( !mRoomDone );
+      entryPoint = mLastEntryPoint;
+      setPlayerAtExit(mExits[entryPoint]);
+    } else {
+      // normal entry point
+      assert( entryPoint >= 0 && entryPoint < mExits.length );
+      setPlayerAtExit(mExits[entryPoint]);
+      mLastEntryPoint = entryPoint;
+    }  
     return mPlayer;
     
   } // createPlayer()
@@ -189,6 +264,7 @@ public class RoomD02 extends Room {
 
     mMainBlocks = null;
     mExits = null;
+    mFountain = null;
     
   } // Room.discardResources()
 
@@ -204,7 +280,12 @@ public class RoomD02 extends Room {
 
     RoomD16 otherRoom = (RoomD16)findRoom(RoomD16.NAME);
     assert( otherRoom != null );
-    if ( otherRoom.completed() ) numExits += 1;
+    if ( otherRoom.completed() ) {
+      numExits += 1;
+      if ( mRoomDone ) numExits += 1;
+    } else {
+      assert( !mRoomDone );
+    }
 
     mExits = new Exit[numExits];
     for ( int k = 0 ; k < numExits ; k++ ) {
@@ -214,11 +295,13 @@ public class RoomD02 extends Room {
     
     if ( oldExits != null ) {
       for ( int k = 0 ; k < mainExits.length ; k++ ) {
-        mExits[k].mDoor = oldExits[k].mDoor;
-        oldExits[k].mDoor = null;
-
-        boolean closed = ( mExits[k].mDestination.isEmpty() );
-        mExits[k].mDoor.setClosed(closed);
+        if ( mExits[k] != oldExits[k] ) {
+          mExits[k].mDoor = oldExits[k].mDoor;
+          oldExits[k].mDoor = null;
+  
+          boolean closed = ( mExits[k].mDestination.isEmpty() );
+          mExits[k].mDoor.setClosed(closed);
+        }
       }
     }
     
@@ -303,10 +386,13 @@ public class RoomD02 extends Room {
     
     RoomD17 waterRoom = (RoomD17)findRoom(RoomD17.NAME);
     assert( waterRoom != null );
-    boolean fountainOn = !waterRoom.done();
-    spriteManager.addSprite(new Fountain(zoneX*Room.kSize+5, 
-                                         zoneY*Room.kSize+5,
-                                         2, fountainOn));
+    RoomD19 bossRoom = (RoomD19)findRoom(RoomD19.NAME);
+    assert( bossRoom != null );
+    boolean fountainOn = ( !waterRoom.done() || bossRoom.done() );
+    mFountain = new Fountain(zoneX*Room.kSize+5, 
+                             zoneY*Room.kSize+5,
+                             2, fountainOn);
+    spriteManager.addSprite(mFountain);
     
     // zone (2,1)
     
@@ -365,6 +451,9 @@ public class RoomD02 extends Room {
     mTwistTimer = 0;
     mTwistDirec = 0;
     mLastXPos = mLastYPos = -1;
+
+    mFountainTimer = kFountainDelay;
+    mCutSceneTimer = 0;
     
     paintFlowerBeds(mMainBlocks);
     //paintTreeBeds(mMainBlocks);    
@@ -561,15 +650,20 @@ public class RoomD02 extends Room {
   
   // returns true if the room is frozen (e.g., during a cut-scene)
   @Override
-  public boolean paused() { return false; }
+  public boolean paused() { return (mCutSceneTimer > 0); }
 
   // update the room (events may be added or processed)
   @Override
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
-    // check exits
+    // advance the cut-scene
+    if ( mCutSceneTimer > 0 ) {
+      final boolean done = advanceCutScene(storyEvents, spriteManager);
+      if ( done ) return;
+    }
     
+    // check exits
     final int exitIndex = checkExits(mExits);
     if ( exitIndex != -1 ) {
       storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
@@ -578,14 +672,12 @@ public class RoomD02 extends Room {
     }
     
     // check for scrolling
-    
     EventRoomScroll scroll = checkHorizontalScroll();
     if ( scroll != null ) {
       storyEvents.add(scroll);
     }
 
     // twist the room, repaint the flower beds
-    
     if ( mTwistTimer != 0 ) {
       int sign = (mTwistTimer > 0) ? +1 : -1;
       mTwistTimer -= sign;
@@ -599,7 +691,6 @@ public class RoomD02 extends Room {
     }
     
     // check whether a twist has been triggered
-    
     if ( mPlayer != null ) {
       int xPos = mPlayer.getXPos(),
           yPos = mPlayer.getYPos();
@@ -627,8 +718,7 @@ public class RoomD02 extends Room {
       }
     }
     
-    // track the player's last position
-    
+    // track the player's last position (for twist)
     if ( mPlayer == null ) {
       mLastXPos = mLastYPos = -1;
     } else {
@@ -636,6 +726,80 @@ public class RoomD02 extends Room {
       mLastYPos = mPlayer.getYPos();
     }
     
+    // check if the player is in the fountain
+    if ( !mRoomDone && !mFountain.on() ) {
+      if ( mPlayer != null && !mPlayer.isActing() &&
+           mPlayer.getXPos() >= 13 && mPlayer.getXPos() <= 17 &&
+           mPlayer.getYPos() >= 13 && mPlayer.getYPos() <= 17 &&
+           mPlayer.getZPos() == 0 ) {
+        if ( --mFountainTimer <= 0 ) {
+          recordInFountainInfo(mPlayer.getXPos()-13, 
+                               mPlayer.getYPos()-13, 
+                               mPlayer.getDirec());
+          storyEvents.add(new EventRoomChange(RoomD19.NAME, 0));
+          Env.sounds().play(Sounds.MATERIALIZE);
+        }
+      } else {
+        mFountainTimer = kFountainDelay;
+      }
+    }
+    
   } // Room.advance()
 
+  // stop the game and show the final door appearing
+  private boolean advanceCutScene(LinkedList<StoryEvent> storyEvents,
+                                  SpriteManager          spriteManager) {
+
+    assert( mCutSceneTimer > 0 );
+    mCutSceneTimer -= 1;
+
+    boolean advanceFinished = true;
+
+    assert( mPlayer != null );
+    mPlayer.mAdvanceDisabled = true;
+
+    // scroll to the door
+    if ( mCutSceneTimer == kScrollToDoorDelay ) {
+      EventRoomScroll scroll = scrollToZone(2, 2);
+      assert( scroll != null );
+      storyEvents.add(scroll);
+    }
+
+    // make door
+    if ( mCutSceneTimer == kDoorAppearDelay ) {
+      mRoomDone = true;
+      prepareExits();
+      Wall wall = null;
+      for ( Sprite sp : spriteManager.list() ) {
+        if ( sp instanceof WallUp && ((Wall)sp).getXPos() == 2*kSize ) {
+          wall = (Wall)sp;
+          break;
+        }
+      }
+      assert( wall != null );
+      wall.addDoor(kExtraExits[1].mDoorXYPos, 
+                   kExtraExits[1].mDoorZPos, 
+                   kExtraExits[1].mFloorColour, 
+                   kExtraExits[1].mFloorDrop);
+      spriteManager.addSprite( new Splatter(2*kSize+kExtraExits[1].mDoorXYPos,
+                                            3*kSize, 
+                                            kExtraExits[1].mDoorZPos,
+                                            -1, 5,
+                                            (byte)0, Env.DOWN) );
+      Env.sounds().play(Sounds.MATERIALIZE);
+      Env.sounds().play(Sounds.SUCCESS, 13);
+    }
+    
+    // tidy up at the end
+    if ( mCutSceneTimer == 0 ) {
+      mPlayer.mAdvanceDisabled = true;
+      EventRoomScroll scroll = scrollToPlayer();
+      assert( scroll != null );
+      storyEvents.add(scroll);
+    }
+
+    return advanceFinished;
+    
+  } // advanceCutScene()
+  
 } // class RoomD02

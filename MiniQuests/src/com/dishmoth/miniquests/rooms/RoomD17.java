@@ -183,7 +183,9 @@ public class RoomD17 extends Room {
     
     mStatueTimers = new int[4];
 
-    if ( mRoomDone ) {
+    RoomD02 fountainRoom = (RoomD02)findRoom(RoomD02.NAME);
+    assert( fountainRoom != null );
+    if ( mRoomDone && !fountainRoom.completed() ) {
       mWater = null;
     } else {
       mWater = new Liquid(2,2,6, 0, kWaterPattern);
