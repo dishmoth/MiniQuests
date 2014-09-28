@@ -22,7 +22,6 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "C14"
