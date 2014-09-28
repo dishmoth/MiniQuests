@@ -202,8 +202,8 @@ public class RoomD16 extends Room {
         wall.addDoor(y0, z0, 
                      mExits[3].mFloorColour, 
                      mExits[3].mFloorDrop);
-        spriteManager.addSprite( new Splatter(x0, y0+1, z0, -1, 5,
-                                              (byte)0, Env.DOWN) );
+        spriteManager.addSprite( new Splatter(x0-1, y0, z0, -1, 5,
+                                              (byte)0, Env.RIGHT) );
         
         String barrierBlock[][] = {{"-"}};
         mBarrier = new BlockArray(barrierBlock, kBlockColours, x0-1, y0, z0+1);
