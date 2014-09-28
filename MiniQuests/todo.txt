@@ -1,5 +1,6 @@
 General:
 - Author screen?
+- Maybe shouldn't save when going into room D19???
 
 Applet:
 - Resizable?

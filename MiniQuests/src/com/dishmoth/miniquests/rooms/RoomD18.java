@@ -77,14 +77,17 @@ public class RoomD18 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][] 
-          = { { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD03.NAME, 3)
-                /*new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD02.NAME, 6)*/},
+          = { { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD03.NAME, 3),
+                new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD02.NAME, 5) },
   
-              { new Exit(Env.LEFT, 5,0, "#U",0, -1, "",0) },
+              { new Exit(Env.LEFT, 5,0, "#U",0, -1, "",0),
+                new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD02.NAME, 5) },
               
-              { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD05.NAME, 0) },
+              { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD05.NAME, 0),
+                new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD02.NAME, 5) },
               
-              { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD04.NAME, 0) } };
+              { new Exit(Env.LEFT, 5,0, "#U",0, -1, RoomD04.NAME, 0),
+                new Exit(Env.DOWN, 5,0, "#U",0, -1, RoomD02.NAME, 5) } };
   
   // times at which things happen
   private static final int kGameEndsDelay   = 50,
@@ -126,7 +129,13 @@ public class RoomD18 extends Room {
     
     RoomD02 twistRoom = (RoomD02)findRoom(RoomD02.NAME);
     assert( twistRoom != null );
-    mExits = kExits[ twistRoom.twist() ];    
+
+    if ( twistRoom.completed() ) {
+      mExits = kExits[ twistRoom.twist() ];    
+    } else {
+      mExits = new Exit[1];
+      mExits[0] = kExits[ twistRoom.twist() ][0];
+    }
     
   } // prepareExist()
   

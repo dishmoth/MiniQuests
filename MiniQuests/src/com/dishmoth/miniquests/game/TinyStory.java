@@ -69,6 +69,7 @@ import com.dishmoth.miniquests.rooms.RoomD15;
 import com.dishmoth.miniquests.rooms.RoomD16;
 import com.dishmoth.miniquests.rooms.RoomD17;
 import com.dishmoth.miniquests.rooms.RoomD18;
+import com.dishmoth.miniquests.rooms.RoomD19;
 
 // the main game class
 public class TinyStory extends Story {
@@ -213,7 +214,8 @@ public class TinyStory extends Story {
                                 new RoomD15(),
                                 new RoomD16(),
                                 new RoomD17(),
-                                new RoomD18() };
+                                new RoomD18(),
+                                new RoomD19() };
       } break;
       /*
       case 4: {
@@ -277,8 +279,8 @@ public class TinyStory extends Story {
         if ( mCurrentRoom == null ) {
           Env.debug("New game started");
           mCurrentRoom = mRoomList[0];
-          //mCurrentRoom = findRoom( RoomD15.NAME ); //!!!
-          mLastEntryPoint = 0;
+          //mCurrentRoom = findRoom( RoomD16.NAME ); //!!!
+          mLastEntryPoint = 0; //0;
         }
         mCurrentRoom.createSprites(spriteManager);
         mPlayer = mCurrentRoom.createPlayer(mLastEntryPoint);
