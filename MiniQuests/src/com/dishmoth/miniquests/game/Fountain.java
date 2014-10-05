@@ -22,7 +22,7 @@ public class Fountain extends Sprite3D implements Obstacle {
                            kLifeTimeMax = 40;
   
   // colours
-  private static final byte kColours[] = { 11, 59, 63 }; // 25 }; 
+  private static final byte kColours[] = { 11, 59, 63 };
   
   // new particles per frame
   private static final float kParticleRate = 2.0f;
@@ -76,7 +76,6 @@ public class Fountain extends Sprite3D implements Obstacle {
 
     if ( on ) {
       mParticles = new Particles(-1);
-      warmUp(kLifeTimeMin);
     } else {
       mParticles = null;
     }
@@ -84,7 +83,8 @@ public class Fountain extends Sprite3D implements Obstacle {
   } // constructor
 
   // run the fountain for a bit
-  private void warmUp(int warmUpTime) {
+  public void warmUp() { warmUp(kLifeTimeMin); }
+  public void warmUp(int warmUpTime) {
 
     assert( warmUpTime > 0 );
     for ( int k = 0 ; k < warmUpTime ; k++ ) {
