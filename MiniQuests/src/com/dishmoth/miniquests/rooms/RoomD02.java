@@ -79,6 +79,18 @@ public class RoomD02 extends Room {
                                                         "          ",
                                                         "          " } };
   
+  // blocks around the fountain preventing the player's escape
+  private static final String kBarrierBlocks[][] = { { "          ",
+                                                       "  ------- ",
+                                                       "  -     - ",
+                                                       "  -     - ",
+                                                       "  -     - ",
+                                                       "  -     - ",
+                                                       "  -     - ",
+                                                       "  ------- ",
+                                                       "          ",
+                                                       "          " } };
+  
   // water in the fountain
   private static final String kWaterPattern[] = { "#####",
                                                   "#####",
@@ -134,7 +146,12 @@ public class RoomD02 extends Room {
                            kTwistYPos = 25;
   
   // time until fountain teleportation
-  private static final int kFountainDelay = 15;
+  private static final int kFountainStartPause   = 30,
+                           kFountainRecolourTime = 30,
+                           kFountainEndPause     = 20,
+                           kFountainDelay        = kFountainStartPause
+                                                 + kFountainRecolourTime
+                                                 + kFountainEndPause;
   
   // times during the final door appearance
   private static final int kDoorAppearDelay   = 30,
@@ -168,6 +185,9 @@ public class RoomD02 extends Room {
   
   // reference to the fountain sprite
   private Fountain mFountain;
+  
+  // reference to the fountain's water sprite
+  private Liquid mWater;
   
   // countdown until fountain teleportation
   private int mFountainTimer;
@@ -220,13 +240,17 @@ public class RoomD02 extends Room {
   public boolean completed() { return mRoomDone; }
   
   // record of where the player was in the fountain when the room changed 
-  // (note: these function may be called by RoomD19)
+  // (note: these functions may be called by RoomD19)
   public int inFountainXPos()  { return mInFountainXPos; }
   public int inFountainYPos()  { return mInFountainYPos; }
   public int inFountainDirec() { return mInFountainDirec; }
   public void recordInFountainInfo(int x, int y, int direc) {
     mInFountainXPos=x; mInFountainYPos=y; mInFountainDirec=direc;
   }
+  
+  // access to the fountain water sprite, shared between rooms D02 and D19
+  // (note: this function may be called by RoomD19)
+  public Liquid fountainWater() { return mWater; }
   
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
@@ -265,6 +289,7 @@ public class RoomD02 extends Room {
     mMainBlocks = null;
     mExits = null;
     mFountain = null;
+    //mWater = null;
     
   } // Room.discardResources()
 
@@ -380,9 +405,10 @@ public class RoomD02 extends Room {
     spriteManager.addSprite(
                  new BlockArray(kFountainBlocks, kBlockColours,
                                 zoneX*Room.kSize, zoneY*Room.kSize, 2));
-    spriteManager.addSprite(new Liquid(zoneX*Room.kSize+3, 
-                                       zoneY*Room.kSize+3, 
-                                       1, 0, kWaterPattern));
+    mWater = new Liquid(zoneX*Room.kSize+3, 
+                        zoneY*Room.kSize+3, 
+                        1, 0, kWaterPattern);
+    spriteManager.addSprite(mWater);
     
     RoomD17 waterRoom = (RoomD17)findRoom(RoomD17.NAME);
     assert( waterRoom != null );
@@ -392,6 +418,10 @@ public class RoomD02 extends Room {
     mFountain = new Fountain(zoneX*Room.kSize+5, 
                              zoneY*Room.kSize+5,
                              2, fountainOn);
+    if ( fountainOn ) {
+      if ( !waterRoom.done() || mRoomDone ) mFountain.warmUp();
+      else                                  mFountain.mAdvanceDisabled = true;
+    }
     spriteManager.addSprite(mFountain);
     
     // zone (2,1)
@@ -452,7 +482,7 @@ public class RoomD02 extends Room {
     mTwistDirec = 0;
     mLastXPos = mLastYPos = -1;
 
-    mFountainTimer = kFountainDelay;
+    mFountainTimer = 0;
     mCutSceneTimer = 0;
     
     paintFlowerBeds(mMainBlocks);
@@ -727,20 +757,70 @@ public class RoomD02 extends Room {
     }
     
     // check if the player is in the fountain
-    if ( !mRoomDone && !mFountain.on() ) {
+    if ( !mRoomDone && !mFountain.on() && mFountainTimer == 0 ) {
       if ( mPlayer != null && !mPlayer.isActing() &&
            mPlayer.getXPos() >= 13 && mPlayer.getXPos() <= 17 &&
            mPlayer.getYPos() >= 13 && mPlayer.getYPos() <= 17 &&
            mPlayer.getZPos() == 0 ) {
-        if ( --mFountainTimer <= 0 ) {
+        spriteManager.addSprite(new BlockArray(kBarrierBlocks, kBlockColours,
+                                               Room.kSize, Room.kSize, 6));
+        mFountainTimer = kFountainDelay;
+      }
+    }
+    
+    // change the fountain water colour before teleporting
+    if ( mFountainTimer > 0 ) {
+      assert( mPlayer != null );
+      if ( --mFountainTimer == 0 ) {
+        if ( mPlayer.isActing() ) {
+          mFountainTimer += 1;
+        } else {
           recordInFountainInfo(mPlayer.getXPos()-13, 
                                mPlayer.getYPos()-13, 
                                mPlayer.getDirec());
           storyEvents.add(new EventRoomChange(RoomD19.NAME, 0));
-          Env.sounds().play(Sounds.MATERIALIZE);
         }
       } else {
-        mFountainTimer = kFountainDelay;
+        double t = 1.0 - (mFountainTimer - kFountainEndPause)
+                         /(double)kFountainRecolourTime;
+        if ( t >= 0.0 && t <= 1.0 ) {
+          int width = mWater.image().width(),
+              height = mWater.image().height();
+          byte pixels[] = mWater.image().pixels();
+          int types[] = mWater.pixelTypes();
+          double rMin = (t>0.999) ? width : (width-2)*t,
+                 rMax = rMin + 2.0;
+          int px = mPlayer.getXPos() - 15,
+              py = mPlayer.getYPos() - 15;
+          assert( px >= -2 && px <= +2 && py >= -2 && py <= +2 );
+          double xCentre = 0.5*(width-1) + 2*(px-py),
+                 yCentre = 0.5*(height-1) - (px+py);
+          boolean allDone = true;
+          int index = 0;
+          for ( int iy = 0 ; iy < height ; iy++ ) {
+            for ( int ix = 0 ; ix < width ; ix++ ) {
+              if ( pixels[index] >= 0 && types[index] != 2 ) {
+                allDone = false;
+                double dx = (ix - xCentre),
+                       dy = 2.0*(iy - yCentre);
+                double r2 = dx*dx + dy*dy;
+                boolean recol = ( r2 <= rMin*rMin ) ? true
+                              : ( r2 <= rMax*rMax ) ? (Env.randomFloat() < 0.1)
+                                                    : false;
+                if ( recol ) {
+                  pixels[index] = -1;
+                  types[index] = 2;
+                }
+              }
+              index += 1;
+            }
+          }
+          if ( allDone ) {
+            mFountainTimer = Math.min(mFountainTimer, kFountainEndPause);
+          } else {
+            mWater.recolourPixels();
+          }
+        }
       }
     }
     
@@ -757,7 +837,8 @@ public class RoomD02 extends Room {
 
     assert( mPlayer != null );
     mPlayer.mAdvanceDisabled = true;
-
+    mFountain.mAdvanceDisabled = true;
+    
     // scroll to the door
     if ( mCutSceneTimer == kScrollToDoorDelay ) {
       EventRoomScroll scroll = scrollToZone(2, 2);
@@ -786,18 +867,23 @@ public class RoomD02 extends Room {
                                             kExtraExits[1].mDoorZPos,
                                             -1, 5,
                                             (byte)0, Env.DOWN) );
-      Env.sounds().play(Sounds.MATERIALIZE);
-      Env.sounds().play(Sounds.SUCCESS, 13);
+      Env.sounds().play(Sounds.SUCCESS);
     }
     
-    // tidy up at the end
-    if ( mCutSceneTimer == 0 ) {
-      mPlayer.mAdvanceDisabled = true;
+    // scroll back to the player
+    if ( mCutSceneTimer == 1 ) {
       EventRoomScroll scroll = scrollToPlayer();
       assert( scroll != null );
       storyEvents.add(scroll);
     }
 
+    // tidy up at the end
+    if ( mCutSceneTimer == 0 ) {
+      mPlayer.mAdvanceDisabled = false;
+      mFountain.mAdvanceDisabled = false;
+      mFountain.warmUp(15);
+    }
+    
     return advanceFinished;
     
   } // advanceCutScene()

@@ -31,34 +31,34 @@ public class RoomD19 extends Room {
   // main blocks for the floor
   private static final String kBlocks[][] 
                           = { { "000000000000000100000000000000",
-                                "011111001111100100111100111110",
-                                "010001001000100100100100100010",
-                                "010001001000100100100100100010",
-                                "010001001000100100100100100010",
-                                "011111001000100100100100111110",
-                                "000000001111100100111100000000",
                                 "000000000000000100000000000000",
-                                "011111110000000100000001111110",
-                                "010000010011111111111001000010",
-                                "010000010010000000001001000010",
-                                "011111110010000000001001111110",
-                                "000000000010000000001000000000",
-                                "000000000010000000001000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000001111111111111110000000",
+                                "000000001000000100000010000000",
+                                "000000001011111111111010000000",
+                                "000000001010000000001010000000",
+                                "000000001010000000001010000000",
+                                "000000001010000000001010000000",
+                                "000000001010000000001010000000",
                                 "111111111110000000001111111111",
-                                "000000000010000000001000000000",
-                                "000000000010000000001000000000",
-                                "011111110010000000001001111110",
-                                "010000010010000000001001000010",
-                                "010000010011111111111001000010",
-                                "010000010000000100000001000010",
-                                "011111110000000100000001111110",
-                                "000000001111100100111100000000",
-                                "000000001000100100100100000000",
-                                "011111001000100100100100111110",
-                                "010001001000100100100100100010",
-                                "010001001000100100100100100010",
-                                "010001001000100100100100100010",
-                                "011111001111100100111100111110",
+                                "000000001010000000001010000000",
+                                "000000001010000000001010000000",
+                                "000000001010000000001010000000",
+                                "000000001010000000001010000000",
+                                "000000001011111111111010000000",
+                                "000000001000000100000010000000",
+                                "000000001111111111111110000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
+                                "000000000000000100000000000000",
                                 "000000000000000100000000000000" } };
   
   // fountain blocks in the middle of the room
@@ -104,7 +104,7 @@ public class RoomD19 extends Room {
   
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "eW",   // grass
-                                                  "XW",   // path
+                                                  "fW",   // path
                                                   "e0" }; // block
   
   //
@@ -131,7 +131,7 @@ public class RoomD19 extends Room {
   
   // whether the room has been completed
   private boolean mRoomDone;
-  
+
   // time until the player respawns (overriding the behaviour in TinyStory)
   private int mPlayerDeathTimer;
   
@@ -224,18 +224,25 @@ public class RoomD19 extends Room {
     spriteManager.addSprite(
                  new BlockArray(kFountainBlocks, kBlockColours,
                                 zoneX*Room.kSize, zoneY*Room.kSize, 2));
-    spriteManager.addSprite(new Liquid(zoneX*Room.kSize+3, 
-                                       zoneY*Room.kSize+3, 
-                                       1, 2, kWaterPattern));    
+    
     spriteManager.addSprite( new Fountain(zoneX*Room.kSize+5, 
                                           zoneY*Room.kSize+5,
                                           2, false));
+    
+    RoomD02 originRoom = (RoomD02)findRoom(RoomD02.NAME);
+    assert( originRoom != null );
+    Liquid water = originRoom.fountainWater();
+    if ( water == null ) {
+      water = new Liquid(Room.kSize+3,zoneY*Room.kSize+3,1, 2, kWaterPattern);
+    }
+    spriteManager.addSprite(water);
 
     mPlayerDeathTimer = 0;
     mFinishTimer = 0;
     
     //???
     spriteManager.addSprite( new Spook(12,10,0, Env.RIGHT, kPath) );
+    /*
     spriteManager.addSprite( new Spook(15,10,0, Env.RIGHT, kPath) );
     spriteManager.addSprite( new Spook(18,10,0, Env.RIGHT, kPath) );
     
@@ -250,9 +257,9 @@ public class RoomD19 extends Room {
     spriteManager.addSprite( new Spook(10,12,0, Env.DOWN, kPath) );
     spriteManager.addSprite( new Spook(10,15,0, Env.DOWN, kPath) );
     spriteManager.addSprite( new Spook(10,18,0, Env.DOWN, kPath) );
-    
+    */
     mDeadSpookCount = 0;
-    
+
   } // Room.createSprites()
   
   // returns true if the room is frozen (e.g., during a cut-scene)
@@ -271,7 +278,7 @@ public class RoomD19 extends Room {
       // monster has been hit
       if ( event instanceof Spook.EventKilled ) {
         mDeadSpookCount += 1;
-        if ( mDeadSpookCount == 12 ) mFinishTimer = kFinishDelay;
+        if ( mDeadSpookCount == 1 ) mFinishTimer = kFinishDelay;
         it.remove();
       }
 

@@ -6,6 +6,7 @@
 
 package com.dishmoth.miniquests.game;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 // lava or water or something
@@ -14,13 +15,14 @@ public class Liquid extends Sprite3D {
   // colours for different liquids
   private static final byte kColourSchemes[][] = { { 11, 59 },   // water   
                                                    { 52, 36 },   // lava
-                                                   { 13, 21 } }; // purple gunk
+                                                   { 13, 21 },   // purple gunk
+                                                   {  7, 56 } }; // grey
   
   // how fast the liquid colours change (chance per pixel, per tick)
   private static final float kColourChange = 0.02f;
   
   // how deep before the different types of liquid are dangerous
-  private static final int kLethalDepths[] = { 6, 1, 6 };
+  private static final int kLethalDepths[] = { 6, 1, 6, 6 };
 
   // default layout (fills a room)
   private static final String kRow = "@@@@@@@@@@";
@@ -28,7 +30,7 @@ public class Liquid extends Sprite3D {
                                                     kRow, kRow, kRow, kRow,
                                                     kRow, kRow };
 
-  // which liquid type
+  // which liquid type (may differ for individual pixels)
   private int mType;
 
   // how deep before the liquid becomes dangerous
@@ -48,6 +50,9 @@ public class Liquid extends Sprite3D {
   
   // image (with depth) of the liquid
   private EgaImage mImage;
+  
+  // different liquid types for individual pixels (or -1)
+  private int mPixelTypes[];
   
   // constructor (with pattern)
   public Liquid(int x, int y, int z, int type, String pattern[]) {
@@ -171,15 +176,39 @@ public class Liquid extends Sprite3D {
         }
       }
     }
+
+    mPixelTypes = new int[pixels.length];
+    Arrays.fill(mPixelTypes, -1);
     
     byte colours[] = kColourSchemes[mType];
     for ( int k = 0 ; k < pixels.length ; k++ ) {
       if ( pixels[k] == 0 ) {
-        pixels[k] = colours[ Env.randomInt(colours.length) ]; 
+        pixels[k] = colours[ Env.randomInt(colours.length) ];
+        mPixelTypes[k] = mType;
       }
     }
     
   } // buildImage()
+  
+  // direct access to the image object
+  public EgaImage image() { return mImage; }
+  
+  // direct access to the pixel type array
+  public int[] pixelTypes() { return mPixelTypes; }
+  
+  // make replacement image pixels for ones that have been erased 
+  // (this provides a way of updating after changing pixel types)
+  public void recolourPixels() {
+    
+    byte pixels[] = mImage.pixels();
+    for ( int k = 0 ; k < pixels.length ; k++ ) {
+      if ( pixels[k] == -1 && mPixelTypes[k] >= 0 ) {
+        byte colours[] = kColourSchemes[ mPixelTypes[k] ];
+        pixels[k] = colours[ Env.randomInt(colours.length) ];
+      }
+    }
+    
+  } // recolourPixels()
   
   // make the liquid appear to move (shift in block units)
   public void scrollImage(int xScroll, int yScroll) {
@@ -191,8 +220,6 @@ public class Liquid extends Sprite3D {
     
     int dx = 2*yScroll - 2*xScroll,
         dy = xScroll + yScroll;
-    
-    byte colours[] = kColourSchemes[mType];
     
     final int width = mImage.width(),
               height = mImage.height();
@@ -208,6 +235,7 @@ public class Liquid extends Sprite3D {
                pixels[index+dIndex] >= 0 ) {
             pixels[index] = oldPixels[index+dIndex];
           } else {
+            byte colours[] = kColourSchemes[ mPixelTypes[index] ];
             pixels[index] = colours[ Env.randomInt(colours.length) ];
           }
         }
@@ -224,14 +252,16 @@ public class Liquid extends Sprite3D {
                       LinkedList<StoryEvent> newStoryEvents) {
     
     byte pixels[] = mImage.pixels();
-    byte colours[] = kColourSchemes[mType];
     
     final int num = (int)Math.round( kColourChange * pixels.length );
     for ( int k = 0 ; k < num ; k++ ) {
       final int index = Env.randomInt(pixels.length);
-      if ( pixels[index] >= 0 ) {
-        if ( pixels[index] == colours[0] ) pixels[index] = colours[1];
-        else                               pixels[index] = colours[0];
+      int c = pixels[index];
+      if ( c >= 0 ) {
+        byte colours[] = kColourSchemes[ mPixelTypes[index] ];
+        if      ( c == colours[0] ) pixels[index] = colours[1];
+        else if ( c == colours[1] ) pixels[index] = colours[0];
+        else                        pixels[index] = colours[Env.randomInt(2)];
       }
     }
     
