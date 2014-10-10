@@ -377,7 +377,7 @@ public class RoomD04 extends Room {
           if ( mStatues[k].getZPos() < kStatueZEnd ) {
             mStatueTimers[k] = kZDelay;
           } else {
-            Env.sounds().play( Sounds.SWITCH_ON );
+            Env.sounds().play( Sounds.SUCCESS );
           }
         }
       }
