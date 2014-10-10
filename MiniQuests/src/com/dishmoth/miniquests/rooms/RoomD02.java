@@ -789,7 +789,7 @@ public class RoomD02 extends Room {
           byte pixels[] = mWater.image().pixels();
           int types[] = mWater.pixelTypes();
           double rMin = (t>0.999) ? width : (width-2)*t,
-                 rMax = rMin + 2.0;
+                 rMax = rMin + 4.0;
           int px = mPlayer.getXPos() - 15,
               py = mPlayer.getYPos() - 15;
           assert( px >= -2 && px <= +2 && py >= -2 && py <= +2 );

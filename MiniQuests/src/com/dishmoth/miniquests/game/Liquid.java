@@ -16,7 +16,7 @@ public class Liquid extends Sprite3D {
   private static final byte kColourSchemes[][] = { { 11, 59 },   // water   
                                                    { 52, 36 },   // lava
                                                    { 13, 21 },   // purple gunk
-                                                   {  7, 56 } }; // grey
+                                                   { 55, 63 } }; // bright zap
   
   // how fast the liquid colours change (chance per pixel, per tick)
   private static final float kColourChange = 0.02f;

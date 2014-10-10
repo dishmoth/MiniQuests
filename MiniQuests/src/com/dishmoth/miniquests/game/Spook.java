@@ -78,7 +78,7 @@ public class Spook extends Sprite3D {
   private boolean mDestroyOnVanish;
   
   // possible positions where the spook can walk (or null)
-  private CritterTrack mTrack;
+  private Track mTrack;
   
   // list of objects to navigate around
   private LinkedList<Obstacle> mObstacles = new LinkedList<Obstacle>();
@@ -104,7 +104,7 @@ public class Spook extends Sprite3D {
   } // initialize()
   
   // constructor
-  public Spook(int x, int y, int z, int direc, CritterTrack track) {
+  public Spook(int x, int y, int z, int direc, Track track) {
 
     initialize();
     
@@ -193,8 +193,8 @@ public class Spook extends Sprite3D {
   public void appear() { if ( mState == 0 ) mState = 1; }
   
   // access the spook's track
-  public void setTrack(CritterTrack track) { mTrack = track; }
-  public CritterTrack getTrack() { return mTrack; }
+  public void setTrack(Track track) { mTrack = track; }
+  public Track getTrack() { return mTrack; }
   
   // register fatal collision
   public void destroy(int direc) {
@@ -352,9 +352,11 @@ public class Spook extends Sprite3D {
       
       if ( mTrack != null && !mTrack.canMove(x, y, z, direc) ) continue;
       
-      final int xDest = x + Env.STEP_X[direc],
-                yDest = y + Env.STEP_Y[direc];      
-      if ( standingPosition(xDest, yDest, z) ) mValidDirections[direc] = true;
+      //final int xDest = x + Env.STEP_X[direc],
+      //          yDest = y + Env.STEP_Y[direc];      
+      //if ( standingPosition(xDest, yDest, z) ) mValidDirections[direc] = true;
+      
+      mValidDirections[direc] = true;
     }
     return mValidDirections;
         

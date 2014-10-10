@@ -6,14 +6,15 @@
 
 package com.dishmoth.miniquests.game;
 
-// possible positions where a Critter can walk
-public class CritterTrack {
+// possible positions where a monster can walk
+// (state-less class, can be used be multiple monsters)
+public class CritterTrack implements Track {
 
   // (x,y) block position of the track's bottom-left corner
   final private int mXRef,
                     mYRef;
   
-  // non-space in positions where the Critter can go
+  // array with non-spaces in positions where the Critter can go
   final private String mTrackData[];
   
   // constructor (default ref position)
@@ -26,7 +27,7 @@ public class CritterTrack {
     
   } // constructor
   
-  // constructor (default ref position)
+  // constructor (with ref position)
   public CritterTrack(String trackData[], int xRef, int yRef) {
     
     assert( trackData != null );
@@ -39,6 +40,7 @@ public class CritterTrack {
 
   // whether the Critter can move in the specified direction
   // (note: the z-position is never used)
+  @Override
   public boolean canMove(int xPos, int yPos, int zPos, int direc) {
     
     assert( direc >= 0 && direc < 4 );

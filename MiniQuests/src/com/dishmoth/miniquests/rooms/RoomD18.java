@@ -214,11 +214,11 @@ public class RoomD18 extends Room {
     }
 
     // check for opening the chest
-//    if ( mEndTimer == 0 && !mChest.isOpen() && mPlayer != null &&
-//         mPlayer.getXPos() == 5 && mPlayer.getYPos() == 3 ) {
-//      mPlayer.mAdvanceDisabled = true;
-//      mEndTimer = kGameEndsDelay;
-//    }
+    if ( mEndTimer == 0 && !mChest.isOpen() && mPlayer != null &&
+         mPlayer.getXPos() == 5 && mPlayer.getYPos() == 3 ) {
+      mPlayer.mAdvanceDisabled = true;
+      mEndTimer = kGameEndsDelay;
+    }
         
   } // Room.advance()
 
