@@ -86,7 +86,7 @@ public class Critter extends Sprite3D implements Obstacle {
   private int mDestroyDirec;
 
   // possible positions where the Critter can walk (or null)
-  private CritterTrack mTrack;
+  private Track mTrack;
   
   // list of objects to navigate around
   private LinkedList<Obstacle> mObstacles = new LinkedList<Obstacle>();
@@ -111,7 +111,7 @@ public class Critter extends Sprite3D implements Obstacle {
   } // initialize()
   
   // constructor
-  public Critter(int x, int y, int z, int direc, CritterTrack track) {
+  public Critter(int x, int y, int z, int direc, Track track) {
 
     initialize();
     
@@ -193,8 +193,8 @@ public class Critter extends Sprite3D implements Obstacle {
   public int getColour() { return mColour; }
   
   // access the critter's track
-  public void setTrack(CritterTrack track) { mTrack = track; }
-  public CritterTrack getTrack() { return mTrack; }
+  public void setTrack(Track track) { mTrack = track; }
+  public Track getTrack() { return mTrack; }
   
   // set whether the critter stays stunned for a long time
   public void easilyStunned(boolean v) { mLongFreeze = v; }

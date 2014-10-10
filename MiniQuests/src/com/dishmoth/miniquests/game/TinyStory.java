@@ -91,11 +91,11 @@ public class TinyStory extends Story {
   private static final int kPlayerDeathTime = 30;
 
   // range of quest results for calculating the overall rating
-  private static final int   kQuestDeathBest[]  = {    0,    0,    0 },
-                             kQuestDeathWorst[] = {  100,  100,  100 };
-  private static final float kQuestTimeBest[]   = {  290,  265,  380 },
-                                   // personal best: 247,  216,  332
-                             kQuestTimeWorst[]  = { 3000, 3000, 3000 };
+  private static final int   kQuestDeathBest[]  = {    0,    0,    0,    0 },
+                             kQuestDeathWorst[] = {  100,  100,  100,  100 };
+  private static final float kQuestTimeBest[]   = {  290,  265,  380,  400 },
+                                   // personal best: 247,  216,  332,  ???
+                             kQuestTimeWorst[]  = { 3000, 3000, 3000, 3000 };
 
   // which quest we're doing
   private int mQuestNum;
@@ -279,7 +279,7 @@ public class TinyStory extends Story {
         if ( mCurrentRoom == null ) {
           Env.debug("New game started");
           mCurrentRoom = mRoomList[0];
-          //mCurrentRoom = findRoom( RoomD16.NAME ); //!!!
+          //mCurrentRoom = findRoom( RoomD02.NAME ); //!!!
           mLastEntryPoint = 0; //0;
         }
         mCurrentRoom.createSprites(spriteManager);
