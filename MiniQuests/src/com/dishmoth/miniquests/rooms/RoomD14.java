@@ -143,7 +143,7 @@ public class RoomD14 extends Room {
     
     addBasicWalls(kExits, spriteManager);
 
-    mSpookTimer = kSpookDelay;
+    mSpookTimer = kSpookDelay/2;
     mSpookNum = 0;
     
     mBridgeLength = 0;
