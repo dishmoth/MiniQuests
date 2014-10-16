@@ -98,6 +98,9 @@ public class RoomD12 extends Room {
   // path the monsters follow
   private static final String kPath[] = { "#####" };
   
+  // repeat time for spike trigger
+  private static final int kSpikeDelay = 17;
+  
   // interval between monsters
   private static final int kSpookDelay   = 60,
                            kSpookStagger = 6;
@@ -106,10 +109,8 @@ public class RoomD12 extends Room {
   private static final int kKillDelay = 8;
 
   // time intervals once the room is completed
-  private static final int kEndDelay          = 35,
-                           kStatueFlashStart  = 15,
-                           kStatueFlashDelay  = 7,
-                           kSpikeRetreatDelay = 5;
+  private static final int kStatueFlashDelay = 8,
+                           kEndDelay         = kStatueFlashDelay + 15;
   
   // whether the room is complete
   private boolean mRoomDone;
@@ -125,6 +126,9 @@ public class RoomD12 extends Room {
 
   // countdown until the room is fully finished
   private int mEndTimer;
+
+  // time until next spike trigger
+  private int mSpikeTimer;
   
   // references to the statues
   private Statue mStatues[];
@@ -186,6 +190,7 @@ public class RoomD12 extends Room {
     mSpookKilled = -1;
     mKillTimer = 0;
 
+    mSpikeTimer = 0;
     mEndTimer = 0;
 
   } // Room.createSprites()
@@ -256,32 +261,31 @@ public class RoomD12 extends Room {
     if ( !mRoomDone ) {
       assert( mSpikes != null );
       if ( mPlayer != null && 
-           mPlayer.getXPos() >= 8 && mPlayer.getYPos() >= 6 ) {
-        mSpikes.trigger();
+           mPlayer.getXPos() >= 7 && mPlayer.getYPos() >= 5 ) {
+        if ( mSpikeTimer > 0 ) {
+          mSpikeTimer -= 1;
+        } else {
+          mSpikes.trigger();
+          mSpikeTimer = kSpikeDelay;
+        }
+      } else {
+        mSpikeTimer = 0;
       }
     }
 
     // tidy the room once complete
     if ( mRoomDone && mEndTimer > 0 ) {
       mEndTimer -= 1;
-      if ( mEndTimer == kEndDelay-kStatueFlashStart ) {
+      if ( mEndTimer == kStatueFlashDelay ) {
         for ( Statue s : mStatues ) s.setColour(0);
+        spriteManager.removeSprite(mSpikes);
+        mSpikes = new Spikes(8,6,0, 2,4, true, "c0");
+        spriteManager.addSprite(mSpikes);
         Env.sounds().play(Sounds.SUCCESS);
       } 
-      if ( mEndTimer == kEndDelay-kStatueFlashStart-kStatueFlashDelay ) {
+      if ( mEndTimer == 0 ) {
         for ( Statue s : mStatues ) s.setColour(3);
-      }
-      if ( mEndTimer%kSpikeRetreatDelay == 0 ) {
-        int n = mEndTimer/kSpikeRetreatDelay;
-        if ( n < 4 ) {
-          spriteManager.removeSprite(mSpikes);
-          if ( n == 0 ) {
-            mSpikes = null;
-          } else {
-            mSpikes = new Spikes(8,10-n,0, 2,n, true, "u0");
-            spriteManager.addSprite(mSpikes);
-          }
-        }
+        spriteManager.removeSprite(mSpikes);
       }
     }
 
