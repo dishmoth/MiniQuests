@@ -185,8 +185,8 @@ public class RoomD07 extends Room {
     makeBridgeBlocks(spriteManager);
     mBridgeShrinkTimer = 0;
     
-    mSpook1Timer = kSpookDelayStart;
-    mSpook2Timer = kSpookDelayStart + kSpookDelay/2;
+    mSpook1Timer = kSpookDelayStart + kSpookDelay/2;
+    mSpook2Timer = kSpookDelayStart;
     mSpook3Timer = kSpook3DelayStart;
     
     Spikes spikes = new Spikes(0,0,0, 10,10, false, "S0");
