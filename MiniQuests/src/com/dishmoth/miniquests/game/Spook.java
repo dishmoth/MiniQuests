@@ -23,9 +23,10 @@ public class Spook extends Sprite3D {
                            kStepTime2 = 3;
   
   // different colour schemes (0,1 => basic colours, 2 => splatter)
-  private static final char kColourSchemes[][] = { { 't', 'k', 't' },
-                                                   { 'l', 'z', 'l' },
-                                                   { 'V', 'x', 'V' } };
+  private static final char kColourSchemes[][] = { { 't', 'k', 't' },   // cream
+                                                   { 't', '7', 't' },   // grey
+                                                   { 'l', 'z', 'l' },   // pink
+                                                   { 'V', 'x', 'V' } }; // blue
 
   // spook images
   private static SpookImage kSpookImages[] = null;
