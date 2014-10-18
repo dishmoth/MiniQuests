@@ -247,6 +247,8 @@ public class RoomD19 extends Room {
         int temp = dx;
         dx = -dy;
         dy = temp;
+      } else {
+        dy = -dy; // flip?
       }
       points[k][0] = 15 + dx;
       points[k][1] = 15 + dy;
@@ -257,7 +259,7 @@ public class RoomD19 extends Room {
   } // makeTrack()
   
   // make a monster following a particular track
-  private Spook makeSpook(SpookTrack track) {
+  private Spook makeSpook(SpookTrack track, int colour) {
     
     int x0 = track.points()[0][0],
         y0 = track.points()[0][1],
@@ -269,7 +271,9 @@ public class RoomD19 extends Room {
               : (dy > 0) ? Env.UP
                          : Env.DOWN;
     
-    return new Spook(x0, y0, 0, direc, track);
+    Spook spook = new Spook(x0, y0, 0, direc, track);
+    spook.setColour(colour);
+    return spook;
     
   } // makeSpook()
   
@@ -356,8 +360,9 @@ public class RoomD19 extends Room {
         assert( mSpookCount%2 == 0 );
         int rot0 = ( mSpookCount<6 ? 1 : 0 );
         int offset = (mSpookCount/2) % 3;
+        int col = ( mSpookCount<6 ? 0 : 1 );
         for ( int rot = rot0 ; rot < 4 ; rot +=2 ) {
-          spriteManager.addSprite( makeSpook( makeTrack( rot, offset ) ) );
+          spriteManager.addSprite( makeSpook( makeTrack(rot, offset), col ) );
           mSpookCount += 1;
         }
         Env.sounds().play(Sounds.MATERIALIZE);
