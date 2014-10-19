@@ -164,17 +164,13 @@ public class RoomD06 extends Room {
                                                   "+++++++   " };
   
   // path followed by spikes, {x,y, x,y, ...}
-  private static final int kSpikePaths[][] = { { 3,9, 3,6, 0,6, 0,9 },
-                                               { 0,0, 3,0, 3,3, 0,3 },
-                                               { 6,0, 3,0, 3,3, 6,3,
-                                                 6,0, 3,0, 3,3, 6,3,
-                                                 9,3, 9,6, 6,6, 6,3,
-                                                 9,3, 9,6, 6,6, 6,3 },
-                                               { 3,9, 3,6, 6,6, 6,9,
-                                                 3,9, 3,6, 6,6, 9,6,
-                                                 9,3, 6,3, 6,6, 9,6,
-                                                 9,3, 6,3, 6,6, 6,9 } };
-  private static final int kStartIndices[] = { 2, 3, 7, 14 };
+  private static final int kSpikePaths[][] = { { 6,3, 9,3, 9,6, 6,6 },
+                                               { 6,3, 9,3, 9,6, 6,6,
+                                                 6,9, 3,9, 3,6, 6,6,
+                                                 6,3, 6,0, 3,0, 3,3 },
+                                               { 3,9, 3,6, 0,6, 0,9 },
+                                               { 0,0, 3,0, 3,3, 0,3 } };
+  private static final int kStartIndices[] = { 1, 1, 0, 0 };
   
   // time between spikes
   private static final int kSpikeTime = 4;
