@@ -36,16 +36,16 @@ public class RoomD06 extends Room {
                                                 "0  0  0   ",
                                                 "0000000000" },
                                                 
-                                              { "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
+                                              { "0000000111",
+                                                "0  0  0  1",
+                                                "0  0  0  1",
                                                 "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
+                                                "1  1  0  0",
+                                                "1  1  0  0",
                                                 "0000000000",
                                                 "0  0  0   ",
                                                 "0  0  0   ",
-                                                "0000000000" },
+                                                "0000000111" },
                                                 
                                               { "          ",
                                                 "          ",
@@ -56,7 +56,7 @@ public class RoomD06 extends Room {
                                                 "          ",
                                                 "          ",
                                                 "          ",
-                                                "         0" },
+                                                "         1" },
                                                 
                                               { "          ",
                                                 "          ",
@@ -66,7 +66,7 @@ public class RoomD06 extends Room {
                                                 "          ",
                                                 "          ",
                                                 "          ",
-                                                "         0",
+                                                "         1",
                                                 "          " },
                                                 
                                               { "          ",
@@ -76,7 +76,7 @@ public class RoomD06 extends Room {
                                                 "          ",
                                                 "          ",
                                                 "          ",
-                                                "         0",
+                                                "         1",
                                                 "          ",
                                                 "          " },
                                                 
@@ -86,7 +86,7 @@ public class RoomD06 extends Room {
                                                 "          ",
                                                 "          ",
                                                 "          ",
-                                                "         0",
+                                                "         1",
                                                 "          ",
                                                 "          ",
                                                 "          " },
@@ -96,7 +96,7 @@ public class RoomD06 extends Room {
                                                 "          ",
                                                 "          ",
                                                 "          ",
-                                                "         0",
+                                                "         1",
                                                 "          ",
                                                 "          ",
                                                 "          ",
@@ -106,17 +106,17 @@ public class RoomD06 extends Room {
                                                 "          ",
                                                 "          ",
                                                 "          ",
-                                                "         0",
+                                                "         1",
                                                 "          ",
                                                 "          ",
                                                 "          ",
                                                 "          ",
                                                 "          " },
                                                 
-                                              { "        00",
-                                                "         0",
-                                                "         0",
-                                                "         0",
+                                              { "        11",
+                                                "         1",
+                                                "         1",
+                                                "         1",
                                                 "          ",
                                                 "          ",
                                                 "          ",
@@ -126,7 +126,7 @@ public class RoomD06 extends Room {
                                               
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "kq",   // orange
-                                                  "#q" }; //
+                                                  "kq" }; //
   
   // details of exit/entry points for the room 
   private static final Exit kExits[][]
@@ -152,12 +152,12 @@ public class RoomD06 extends Room {
                                          new CameraLevel(12,  4,+100) };
   
   // positions of spikes
-  private static final String kSpikePattern[] = { "++++++++++",
-                                                  "+  +  +  +",
-                                                  "+  +  +  +",
+  private static final String kSpikePattern[] = { "+++++++   ",
+                                                  "+  +  +   ",
+                                                  "+  +  +   ",
                                                   "++++++++++",
-                                                  "   +  +  +",
-                                                  "   +  +  +",
+                                                  "      +  +",
+                                                  "      +  +",
                                                   "++++++++++",
                                                   "+  +  +   ",
                                                   "+  +  +   ",
@@ -170,11 +170,11 @@ public class RoomD06 extends Room {
                                                  6,0, 3,0, 3,3, 6,3,
                                                  9,3, 9,6, 6,6, 6,3,
                                                  9,3, 9,6, 6,6, 6,3 },
-                                               { 6,9, 6,6, 3,6, 3,9,
-                                                 6,9, 6,6, 3,6, 3,9, 
-                                                 6,9, 6,6, 9,6, 9,9, 
-                                                 6,9, 6,6, 9,6, 9,9 } };
-  private static final int kStartIndices[] = { 0, 1, 7, 0 };
+                                               { 3,9, 3,6, 6,6, 6,9,
+                                                 3,9, 3,6, 6,6, 9,6,
+                                                 9,3, 6,3, 6,6, 9,6,
+                                                 9,3, 6,3, 6,6, 6,9 } };
+  private static final int kStartIndices[] = { 2, 3, 7, 14 };
   
   // time between spikes
   private static final int kSpikeTime = 4;
