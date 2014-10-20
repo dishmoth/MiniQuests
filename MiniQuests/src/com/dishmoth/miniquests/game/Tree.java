@@ -13,24 +13,37 @@ public class Tree extends Sprite3D implements Obstacle {
 
   // details of the image
   private static final int   kWidth   = 5,
-                             kHeight  = 10;
+                             kHeight  = 11;
   private static final int   kRefXPos = 2,
-                             kRefYPos = 9;
+                             kRefYPos = 10;
   private static final float kDepth   = -0.01f;
 
-  // data for the basic image
-  private static final String kPixels = " 332 " 
-                                      + "32221"
-                                      + "32321"
-                                      + "32221"
-                                      + "22221"
-                                      + "23221"
-                                      + "22221"
-                                      + " 221 "
-                                      + "  0  "
-                                      + "  0  ";
+  // data for the basic images
+  private static final String kPixels[] = { "     "
+                                          + " 332 " 
+                                          + "32221"
+                                          + "32321"
+                                          + "32221"
+                                          + "22221"
+                                          + "23221"
+                                          + "22221"
+                                          + " 221 "
+                                          + "  0  "
+                                          + "  0  ",
+                                       
+                                            "  3  " 
+                                          + "  3  "
+                                          + " 322 "
+                                          + " 321 "
+                                          + " 321 "
+                                          + "32231"
+                                          + "32221"
+                                          + "32321"
+                                          + " 221 "
+                                          + "  0  "
+                                          + "  0  " };
   
-  // different colours for tree
+  // different colours for trees
   private static final char kColourSchemes[][] = { { 'm', 'G', 'Y', 'M' },
                                                    { '0', 'G', '2', 'M' } };
   
@@ -45,20 +58,21 @@ public class Tree extends Sprite3D implements Obstacle {
   // whether to shift the tree in the x-direction (0 or 1)
   final private int mShift;
   
-  // colour scheme
-  final private int mColour;
+  // colour scheme/image
+  final private int mType;
   
   // prepare image
   public static void initialize() {
     
     if ( kImages != null ) return;
 
-    kImages = new EgaImage[kColourSchemes.length];
-    for ( int k = 0 ; k < kImages.length ; k++ ) {
-      kImages[k] = new EgaImage(kRefXPos, kRefYPos,
+    kImages = new EgaImage[ kColourSchemes.length * kPixels.length ];
+    for ( int n = 0 ; n < kImages.length ; n++ ) {
+      String pixels = kPixels[ n/kColourSchemes.length ];
+      char colours[] = kColourSchemes[ n%kColourSchemes.length ];
+      kImages[n] = new EgaImage(kRefXPos, kRefYPos,
                                 kWidth, kHeight,
-                                EgaTools.convertColours(kPixels,
-                                                        kColourSchemes[k]),
+                                EgaTools.convertColours(pixels, colours),
                                 kDepth);
     }
 
@@ -77,7 +91,7 @@ public class Tree extends Sprite3D implements Obstacle {
   } // initialize()
   
   // constructor
-  public Tree(int xPos, int yPos, int zPos, int shift, int colour) {
+  public Tree(int xPos, int yPos, int zPos, int shift, int type) {
     
     initialize();
     
@@ -88,8 +102,8 @@ public class Tree extends Sprite3D implements Obstacle {
     assert( shift >= 0 && shift < 2 );
     mShift = shift;
 
-    assert( colour >= 0 && colour < kColourSchemes.length );
-    mColour = colour;
+    assert( type >= 0 && type < kColourSchemes.length*kPixels.length );
+    mType = type;
     
   } // constructor
   
@@ -134,7 +148,7 @@ public class Tree extends Sprite3D implements Obstacle {
     int x = 2*xPos + mShift,
         y = 2*yPos;
     
-    kImages[mColour].draw3D(canvas, x, y, zPos);
+    kImages[mType].draw3D(canvas, x, y, zPos);
     
   } // Sprite.draw()
 

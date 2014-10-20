@@ -449,7 +449,7 @@ public class RoomD02 extends Room {
                 zoneX*Room.kSize+1, zoneY*Room.kSize-2,
                 6, 4);
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+3, zoneY*Room.kSize+6, 0,
-                                     1, 1));
+                                     1, 3));
 
     // zone (1,2)
     
