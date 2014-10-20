@@ -134,10 +134,10 @@ public class RoomD01 extends Room {
     Wall extraWall = new WallDown(-Room.kSize, 0, 0);
     spriteManager.addSprite(extraWall);
     
-    spriteManager.addSprite(new Tree(9,9,0, 1, 0));
+    spriteManager.addSprite(new Tree(9,9,0, 1, 0)); //2
     spriteManager.addSprite(new Tree(8,4,0, 1, 0));
 
-    spriteManager.addSprite(new Tree( 4,8,0, 1, 0));
+    spriteManager.addSprite(new Tree( 4,8,0, 1, 0)); //2
     spriteManager.addSprite(new Tree( 2,8,0, 0, 0));
     spriteManager.addSprite(new Tree(-1,8,0, 0, 0));
     spriteManager.addSprite(new Tree(-1,6,0, 0, 0));
