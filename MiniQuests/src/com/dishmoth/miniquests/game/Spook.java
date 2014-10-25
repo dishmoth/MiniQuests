@@ -412,7 +412,7 @@ public class Spook extends Sprite3D {
       addTheseSprites.add(new Splatter(mXPos, mYPos, mZPos,
                                        (mStepping ? mDirec : -1),
                                        kHeight, colour, mDestroyDirec));
-      Env.sounds().play(Sounds.CRITTER_DEATH);
+      Env.sounds().play(Sounds.SPOOK_DEATH);
     }
     
   } // Sprite.aftermath()

@@ -252,6 +252,7 @@ public class RoomD12 extends Room {
                                   new CritterTrack(kPath, 2,y));
           spook.vanishAfterSteps(3);
           spriteManager.addSprite(spook);
+          Env.sounds().play(Sounds.SPOOK_EMERGE);
         }
       }
       mSpookTimer = (mSpookTimer+1) % kSpookDelay;

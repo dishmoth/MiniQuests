@@ -281,12 +281,14 @@ public class RoomD07 extends Room {
       Spook spook1 = new Spook(9,9,4, Env.DOWN, kTrack);
       spook1.vanishAfterSteps(5);
       spriteManager.addSprite(spook1);
+      Env.sounds().play(Sounds.SPOOK_EMERGE);
     }
     if ( --mSpook2Timer == 0 ) {
       mSpook2Timer = kSpookDelay;
       Spook spook = new Spook(1,9,4, Env.DOWN, kTrack);
       spook.vanishAfterSteps(5);
       spriteManager.addSprite(spook);
+      Env.sounds().play(Sounds.SPOOK_EMERGE);
     }
     if ( mBridgeDone ) {
       if ( --mSpook3Timer == 0 ) {
@@ -294,6 +296,7 @@ public class RoomD07 extends Room {
         Spook spook = new Spook(5,0,4, Env.UP, kTrack);
         spook.vanishAfterSteps(6);
         spriteManager.addSprite(spook);
+        Env.sounds().play(Sounds.SPOOK_EMERGE);
       }
     }
 

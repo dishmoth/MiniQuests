@@ -18,6 +18,7 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Splatter;
 import com.dishmoth.miniquests.game.Spook;
 import com.dishmoth.miniquests.game.Sprite;
@@ -241,6 +242,8 @@ public class RoomD15 extends Room {
         spriteManager.addSprite(new Spook(9,0,0, Env.RIGHT, kPath));
         spriteManager.addSprite(new Spook(9,9,0, Env.UP, kPath));
         spriteManager.addSprite(new Spook(0,9,0, Env.LEFT, kPath));
+        Env.sounds().play(Sounds.MATERIALIZE);
+        Env.sounds().play(Sounds.SPOOK_EMERGE,2);
         mRoomDone = true;
       }
     }
