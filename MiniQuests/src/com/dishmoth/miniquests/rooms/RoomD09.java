@@ -15,6 +15,7 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Spook;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
@@ -173,6 +174,7 @@ public class RoomD09 extends Room {
                                                new CritterTrack(kTrack,0,0)) );
           } break;
         }
+        Env.sounds().play(Sounds.SPOOK_EMERGE);
       }
     }
     

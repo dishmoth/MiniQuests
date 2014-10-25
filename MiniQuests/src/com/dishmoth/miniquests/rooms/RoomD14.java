@@ -196,6 +196,7 @@ public class RoomD14 extends Room {
       sp.vanishAfterSteps( mSpookNum==2 ? 8 : 4 );
       mSpookNum = (mSpookNum+1) % 5;
       spriteManager.addSprite(sp);
+      Env.sounds().play(Sounds.SPOOK_EMERGE);
     }
 
     // extend the bridge

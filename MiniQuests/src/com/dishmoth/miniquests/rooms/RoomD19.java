@@ -365,7 +365,7 @@ public class RoomD19 extends Room {
           spriteManager.addSprite( makeSpook( makeTrack(rot, offset), col ) );
           mSpookCount += 1;
         }
-        Env.sounds().play(Sounds.MATERIALIZE);
+        Env.sounds().play(Sounds.SPOOK_EMERGE);
         mSpookTimer = (mSpookCount==12) ? 0
                     : (mSpookCount==6)  ? kSpookWaveDelay 
                                         : kSpookGapDelay;

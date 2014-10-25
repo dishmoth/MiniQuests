@@ -340,7 +340,7 @@ public class RoomD06 extends Room {
     // trigger spikes along path
     if ( mSpikesOn ) {
       updateSpikes();
-      if ( mSpikeTimer == 1 ) Env.sounds().play(Sounds.SPIKES);
+      if ( mSpikeTimer == 1 ) Env.sounds().play(Sounds.SPIKES_QUIET);
     }
     
     // turn off spikes

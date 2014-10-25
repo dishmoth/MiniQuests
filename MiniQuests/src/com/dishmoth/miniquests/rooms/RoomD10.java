@@ -204,6 +204,7 @@ public class RoomD10 extends Room {
         Spook s4 = new Spook(9,6,2, Env.UP, kTrack);
         s4.vanishAfterSteps(41);
         spriteManager.addSprite(s4);
+        Env.sounds().play(Sounds.SPOOK_EMERGE);
         
         it.remove();
       }  
