@@ -739,9 +739,11 @@ public class RoomD02 extends Room {
           if ( mTwistDirec == +1 &&
                mLastXPos == kTwistXPos && mLastYPos == kTwistYPos+1 ) {
             mTwistTimer = +kTwistDelayStart;
+            Env.sounds().play(Sounds.TREE_TWIST);
           } else if ( mTwistDirec == -1 &&
                       mLastXPos == kTwistXPos+1 && mLastYPos == kTwistYPos ) {
             mTwistTimer = -kTwistDelayStart;
+            Env.sounds().play(Sounds.TREE_TWIST);
           }
           mTwistDirec = 0;
         }          
