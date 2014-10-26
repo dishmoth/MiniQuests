@@ -825,6 +825,9 @@ public class RoomD02 extends Room {
             mWater.recolourPixels();
           }
         }
+        if ( mFountainTimer == kFountainRecolourTime+kFountainEndPause+3 ) {
+          Env.sounds().play(Sounds.FOUNTAIN_TWIST);
+        }
       }
     }
     

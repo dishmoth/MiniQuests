@@ -343,6 +343,7 @@ public class RoomD19 extends Room {
           if ( mWaterZapTimer > kWaterZapDelay-kWaterZapPause ) {
             mWaterZapTimer = 0;
           }
+          Env.sounds().play(Sounds.FOUNTAIN_UNTWIST, 30);
         }
         it.remove();
       }
