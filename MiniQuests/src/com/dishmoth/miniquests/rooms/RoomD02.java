@@ -698,6 +698,7 @@ public class RoomD02 extends Room {
     if ( exitIndex != -1 ) {
       storyEvents.add(new EventRoomChange(mExits[exitIndex].mDestination,
                                           mExits[exitIndex].mEntryPoint));
+      Env.sounds().stop(Sounds.FOUNTAIN);
       return;
     }
     
@@ -705,6 +706,7 @@ public class RoomD02 extends Room {
     EventRoomScroll scroll = checkHorizontalScroll();
     if ( scroll != null ) {
       storyEvents.add(scroll);
+      //Env.sounds().stop(Sounds.FOUNTAIN);
     }
 
     // twist the room, repaint the flower beds
