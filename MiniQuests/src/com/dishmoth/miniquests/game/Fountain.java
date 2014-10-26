@@ -176,6 +176,8 @@ public class Fountain extends Sprite3D implements Obstacle {
     if ( Env.randomFloat() < numParticles ) addParticle();
     
     mParticles.advance(null, null, null);
+
+    Env.sounds().loop(Sounds.FOUNTAIN);    
     
   } // Sprite.advance()
 

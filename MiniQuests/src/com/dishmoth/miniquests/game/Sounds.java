@@ -32,41 +32,42 @@ abstract public class Sounds {
                              MATERIALIZE    = 16,
                              WRENCH         = 17,
                              TREE_TWIST     = 18,
-                             CRITTER_DEATH  = 19,
-                             CRITTER_STUN   = 20,
-                             SPINNER_STOP   = 21,
-                             SPIKES         = 22,
-                             SPIKES_QUIET   = 23,
-                             TRIFFID_HIT    = 24,
-                             TRIFFID_DEATH  = 25,
-                             TRIFFID_FIRE   = 26,
-                             TRIFFID_EMERGE = 27,
-                             SPOOK_DEATH    = 28,
-                             SPOOK_EMERGE   = 29,
-                             TBOSS_HIT      = 30,
-                             TBOSS_DEATH    = 31,
-                             TBOSS_FIRE     = 32,
-                             TBOSS_EMERGE   = 33,
-                             TBOSS_SPLAT    = 34,
-                             TBOSS_GRUNT    = 35,
-                             DRAGON_HIT     = 36,
-                             DRAGON_FIRE    = 37,
-                             DRAGON_EMERGE  = 38,
-                             FLOOR_MUNCH_A  = 39,
-                             FLOOR_MUNCH_B  = 40,
-                             FLOOR_BLAST    = 41,
-                             FLOOR_PEEK     = 42,
-                             FLOOR_HIT      = 43,
-                             FLOOR_DEATH    = 44,
-                             SUCCESS        = 45,
-                             QUEST_DONE     = 46,
-                             MENU_1         = 47,
-                             MENU_2         = 48,
-                             MAP            = 49,
-                             DUNGEON        = 50,
-                             TITLE          = 51,
-                             VENTURE        = 52;
-  protected static final int kNumSounds     = 53; 
+                             FOUNTAIN       = 19,
+                             CRITTER_DEATH  = 20,
+                             CRITTER_STUN   = 21,
+                             SPINNER_STOP   = 22,
+                             SPIKES         = 23,
+                             SPIKES_QUIET   = 24,
+                             TRIFFID_HIT    = 25,
+                             TRIFFID_DEATH  = 26,
+                             TRIFFID_FIRE   = 27,
+                             TRIFFID_EMERGE = 28,
+                             SPOOK_DEATH    = 29,
+                             SPOOK_EMERGE   = 30,
+                             TBOSS_HIT      = 31,
+                             TBOSS_DEATH    = 32,
+                             TBOSS_FIRE     = 33,
+                             TBOSS_EMERGE   = 34,
+                             TBOSS_SPLAT    = 35,
+                             TBOSS_GRUNT    = 36,
+                             DRAGON_HIT     = 37,
+                             DRAGON_FIRE    = 38,
+                             DRAGON_EMERGE  = 39,
+                             FLOOR_MUNCH_A  = 40,
+                             FLOOR_MUNCH_B  = 41,
+                             FLOOR_BLAST    = 42,
+                             FLOOR_PEEK     = 43,
+                             FLOOR_HIT      = 44,
+                             FLOOR_DEATH    = 45,
+                             SUCCESS        = 46,
+                             QUEST_DONE     = 47,
+                             MENU_1         = 48,
+                             MENU_2         = 49,
+                             MAP            = 50,
+                             DUNGEON        = 51,
+                             TITLE          = 52,
+                             VENTURE        = 53;
+  protected static final int kNumSounds     = 54; 
   
   // true if sounds have been loaded and all is operational
   protected boolean mAvailable;
@@ -121,6 +122,7 @@ abstract public class Sounds {
     loadSound(MATERIALIZE, "pop.ogg", 1);
     loadSound(WRENCH, "wrench.ogg", 1);
     loadSound(TREE_TWIST, "tree_twist.ogg", 1);
+    loadSound(FOUNTAIN, "fountain.ogg", 1);
     loadSound(CRITTER_DEATH, "critter_death.ogg", 1);
     loadSound(CRITTER_STUN, "critter_stun.ogg", 1);
     loadSound(SPINNER_STOP, "spinner_stop.ogg", 1);
@@ -165,7 +167,7 @@ abstract public class Sounds {
   // identify which sounds must be looped
   protected boolean isLooped(int id) {
     
-    return ( id == FLAME );
+    return ( id == FLAME || id == FOUNTAIN );
     
   } // isLooped()
   
