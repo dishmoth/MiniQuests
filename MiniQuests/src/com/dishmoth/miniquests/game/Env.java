@@ -6,14 +6,6 @@
 
 package com.dishmoth.miniquests.game;
 
-//import java.awt.*;
-//import java.io.*;
-//import java.net.*;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
 
 // some global variables and functions
@@ -142,6 +134,9 @@ public class Env {
   // return reference to game's save state
   static public SaveState saveState() { return kSaveState; }
 
+  // send a log message back to HQ (for beta testing only)
+  static public void report(String string) { kEnvBits.report(string); }
+  
   // assorted functions for returning random numbers
   static public float randomFloat() { // in range [0,1]
     return kRandom.nextFloat(); 
@@ -225,26 +220,5 @@ public class Env {
     return copy;
     
   } // copyOf(String[])
-  
-  // send a log message back to HQ
-  static public void report(String string) {
-
-    // For beta only...
-    /*
-    try {
-      URL url = new URL("http", "dishmoth.com", "/log.html?"+string);
-      URLConnection conn = url.openConnection();
-      InputStream is = conn.getInputStream();
-      BufferedReader in = new BufferedReader( new InputStreamReader(is) );
-      //String line;
-      //while ( (line=in.readLine()) != null ) System.out.println(line);
-      in.close();
-      Env.debug("Log report: sent okay");
-    } catch ( Exception ex ) {
-      Env.debug("Log report: failed (" + ex.toString() + ")");
-    }
-    */
-    
-  } // report()
   
 } // class Env

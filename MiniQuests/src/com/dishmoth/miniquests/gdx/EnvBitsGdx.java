@@ -6,14 +6,15 @@
 
 package com.dishmoth.miniquests.gdx;
 
-import java.lang.reflect.Field;
-
 import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.EnvBits;
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.Net.HttpRequest;
+import com.badlogic.gdx.Net.HttpResponse;
+import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.controllers.mappings.Ouya;
 
@@ -138,5 +139,24 @@ public class EnvBitsGdx implements EnvBits {
     }
     
   } // EnvBits.load()
+  
+  // send a log message back to HQ (for beta testing only)
+  public void report(String string) {
+    
+    HttpRequest httpGet = new HttpRequest(HttpMethods.GET);
+    httpGet.setUrl("http://dishmoth.com/log.html");
+    httpGet.setContent(string);
+    
+    Gdx.net.sendHttpRequest( httpGet, new HttpResponseListener() {
+      public void handleHttpResponse(HttpResponse httpResponse) {
+        //System.out.println(httpResponse.getResultAsString());
+        Env.debug("Log report: sent okay");
+      }
+      public void failed(Throwable thr) {
+        Env.debug("Log report: failure (" + thr.toString() + ")");
+        }
+      } );
+    
+  } // EnvBits.report()
   
 } // class EnvBitsGdx

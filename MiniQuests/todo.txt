@@ -25,9 +25,9 @@ Bugs:
 
 Deployment checklist:
 - For beta, freeze score screen (in EndStory).
-- For beta, disable escape (in KeyMonitorApplet).
-- For beta, disable save (in EnvBitsApplet).
-- For beta, enable stats reporting (in Env).
+- For beta, disable escape (in KeyMonitorApplet/KeyMonitorDesktop).
+- For beta, disable save (in EnvBitsApplet/EnvBitsGdx).
+- For beta, enable stats reporting (in Env.report()).
 - For desktop, export Runnable JAR with "Package required libraries...".
 - Turn off recolour mapping.
 - Update version in debug (applet and gdx) and readme.

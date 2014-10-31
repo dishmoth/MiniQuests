@@ -27,4 +27,7 @@ public interface EnvBits {
   // load the game data
   public byte[] load();
   
+  // send a log message back to HQ (for beta testing only)
+  public void report(String string);
+  
 } // interface EnvBits
