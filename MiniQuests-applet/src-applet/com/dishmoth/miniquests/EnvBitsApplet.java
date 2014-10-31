@@ -7,6 +7,11 @@
 package com.dishmoth.miniquests;
 
 import java.applet.Applet;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.EnvBits;
@@ -66,4 +71,22 @@ public class EnvBitsApplet implements EnvBits {
     
   } // EnvBits.load()
 
+  // send a log message back to HQ (for beta testing only)
+  public void report(String string) {
+    
+    try {
+      URL url = new URL("http", "dishmoth.com", "/log.html?"+string);
+      URLConnection conn = url.openConnection();
+      InputStream is = conn.getInputStream();
+      BufferedReader in = new BufferedReader( new InputStreamReader(is) );
+      //String line;
+      //while ( (line=in.readLine()) != null ) System.out.println(line);
+      in.close();
+      Env.debug("Log report: sent okay");
+    } catch ( Exception ex ) {
+      Env.debug("Log report: failed (" + ex.toString() + ")");
+    }
+    
+  } // EnvBits.report()
+  
 } // class EnvBitsApplet
