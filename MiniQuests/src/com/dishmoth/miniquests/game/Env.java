@@ -135,7 +135,7 @@ public class Env {
   static public SaveState saveState() { return kSaveState; }
 
   // send a log message back to HQ (for beta testing only)
-  static public void report(String string) { kEnvBits.report(string); }
+  static public void report(String string) { /* kEnvBits.report(string); */ }
   
   // assorted functions for returning random numbers
   static public float randomFloat() { // in range [0,1]
