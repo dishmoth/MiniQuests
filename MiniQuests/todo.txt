@@ -35,3 +35,9 @@ Deployment checklist:
 - Update to latest libgdx.
 - Update version numbers in Android manifest.
 - Set "debuggable=false" in Android manifest.
+
+Dungeon 4:
+- D02: Make the tree clearer; make it obvious when something happens; make it clearer what happens.
+- More contrast for monster wave colours in D19.
+- More subdued colours in D19.
+- D06: Should be clearer that you can't pass the spikes at first.  Make them faster?

@@ -94,7 +94,7 @@ public class TinyStory extends Story {
   private static final int   kQuestDeathBest[]  = {    0,    0,    0,    0 },
                              kQuestDeathWorst[] = {  100,  100,  100,  100 };
   private static final float kQuestTimeBest[]   = {  290,  265,  380,  360 },
-                                   // personal best: 247,  216,  332,  303
+                                   // personal best: 247,  216,  332,  300
                              kQuestTimeWorst[]  = { 3000, 3000, 3000, 3000 };
 
   // which quest we're doing
