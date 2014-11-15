@@ -12,20 +12,16 @@ import java.util.LinkedList;
 // the main game class
 public class MapStory extends Story {
 
-  // quest details
-  private static final int kNumQuests = 3;
-  private static final int kQuestPos[][] = { { -1, -1 },
-                                             { -2, +1 },
-                                             { +3, -2 } };
+  // quest names
   private static EgaImage  kQuestImages[] = null;
 
-  // location of the magic stones
-  private static final int kStonesPos[] = { +1, +1 }; 
-  
   // other text images
   private static EgaImage kIntroImage,
                           kEnterImage,
                           kHiscoreImage;
+  
+  // map data (images, exits, etc)
+  private static MapData kMapData;
   
   // times for things to happen
   private static final int kInitDelay       = 20,
@@ -61,8 +57,8 @@ public class MapStory extends Story {
     
     if ( kQuestImages != null ) return;
     
-    kQuestImages = new EgaImage[kNumQuests];
-    for ( int k = 0 ; k < kNumQuests ; k++ ) {
+    kQuestImages = new EgaImage[TinyStory.NUM_QUESTS];
+    for ( int k = 0 ; k < TinyStory.NUM_QUESTS ; k++ ) {
       kQuestImages[k] = Env.resources().loadEgaImage("Quest" + (k+1) 
                                                      + "Text.png");
     }
@@ -74,6 +70,8 @@ public class MapStory extends Story {
     kEnterImage = Env.resources().loadEgaImage("EnterText"+gdxText+".png");
     kHiscoreImage = Env.resources().loadEgaImage("HiscoreText.png");
     
+    kMapData = new MapDataMain();
+    
   } // initialize()
   
   // constructor
@@ -81,7 +79,7 @@ public class MapStory extends Story {
 
     initialize();
 
-    assert( quest >= -1 && quest < kNumQuests );
+    assert( quest >= -1 && quest < TinyStory.NUM_QUESTS );
     mQuest = quest;
 
     mTimer = 0;
@@ -103,9 +101,7 @@ public class MapStory extends Story {
         // first frame of the story, so set everything up
         mText = null;
         mStones = null;
-        int x = ( (mQuest >= 0) ? kQuestPos[mQuest][0] : 0 ),
-            y = ( (mQuest >= 0) ? kQuestPos[mQuest][1] : 0 );
-        mMap = new Map(x, y);
+        mMap = new Map(kMapData, mQuest);
         spriteManager.addSprite(mMap);
         if ( mQuest == -1 ) {
           spriteManager.addSprite(new AnimPicture(kInitDelay, kIntroImage, 
@@ -118,39 +114,35 @@ public class MapStory extends Story {
         it.remove();
       } // Story.EventGameBegins
 
-      else if ( event instanceof Map.EventNewLocation ) {
-        // the player has entered a new map location
-        int x = ((Map.EventNewLocation)event).mXPos,
-            y = ((Map.EventNewLocation)event).mYPos;
-        for ( int index = 0 ; index < kNumQuests ; index++ ) {
-          if ( x == kQuestPos[index][0] && y == kQuestPos[index][1] ) {
-            mQuest = index;
-            int score = Env.saveState().questScore(mQuest);
-            EgaImage secondImage = (score == 0) ? kEnterImage
-                                   : makeHiscoreImage(score);
-            mText = new AnimPicture(kQuestIntroDelay, 
-                                    kQuestImages[index], 
-                                    kQuestNameDelay, kQuestBlankDelay, 
-                                    secondImage, 
-                                    kQuestEnterDelay, kQuestBlankDelay);
-            spriteManager.addSprite(mText);
-            mMap.pause(kQuestMapPause);
-            mMap.dungeonEntrance();
-            Env.sounds().play(Sounds.DUNGEON, kQuestIntroDelay);
-            break;
-          }
-        }
-        if ( x == kStonesPos[0] && y == kStonesPos[1] ) {
-          boolean questsComplete[] = new boolean[kNumQuests];
-          for ( int k = 0 ; k < kNumQuests ; k++ ) {
-            questsComplete[k] = ( Env.saveState().questScore(k) > 0 );
-          }
-          mStones = new MapStones(questsComplete);
-          spriteManager.addSprite(mStones);
-        }
+      else if ( event instanceof MapData.EventAtDungeon ) {
+        // the player has reached a dungeon entrance
+        mQuest = ((MapData.EventAtDungeon)event).mNum;
+        int score = Env.saveState().questScore(mQuest);
+        EgaImage secondImage = (score == 0) ? kEnterImage
+                               : makeHiscoreImage(score);
+        mText = new AnimPicture(kQuestIntroDelay, 
+                                kQuestImages[mQuest], 
+                                kQuestNameDelay, kQuestBlankDelay, 
+                                secondImage, 
+                                kQuestEnterDelay, kQuestBlankDelay);
+        spriteManager.addSprite(mText);
+        mMap.pause(kQuestMapPause);
+        mMap.dungeonEntrance();
+        Env.sounds().play(Sounds.DUNGEON, kQuestIntroDelay);
         it.remove();
-      } // Map.EventNewLocation
-
+      } // MapData.EventAtDungeon
+        
+      else if ( event instanceof MapDataMain.EventAtStones ) {
+        // the player is at the stones
+        boolean questsComplete[] = new boolean[TinyStory.NUM_QUESTS];
+        for ( int k = 0 ; k < TinyStory.NUM_QUESTS ; k++ ) {
+          questsComplete[k] = ( Env.saveState().questScore(k) > 0 );
+        }
+        mStones = new MapStones(questsComplete);
+        spriteManager.addSprite(mStones);
+        it.remove();
+      } // MapDataMain.EventAtStones
+      
       else if ( event instanceof Map.EventLeftLocation ) {
         // the player has left a new map location
         mQuest = -1;

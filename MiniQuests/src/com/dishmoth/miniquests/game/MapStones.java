@@ -12,9 +12,10 @@ import java.util.LinkedList;
 public class MapStones extends Sprite {
 
   // where the stones are within the image
-  private final static int kStonePos[][] = { { 19,  7 },
+  private final static int kStonePos[][] = { { 17,  7 },
                                              { 10, 18 },
-                                             { 26, 20 } };
+                                             { 29, 12 },
+                                             { 21, 21 } };
   
   // depth for the images
   private static final float kDepth = -1;
@@ -22,7 +23,7 @@ public class MapStones extends Sprite {
   // times for stone flashing on and off
   private static final int kFlashTime = 3,
                            kStartTime = 20;
-  private static final int kTimes[]   = { 60, 30, 15 };
+  private static final int kTimes[]   = { 60, 30, 15, 10 };
   
   // details of the image
   private static final int    kImageWidth   = 4,
@@ -37,7 +38,8 @@ public class MapStones extends Sprite {
   // different colours for different stones
   private static final char kImageColours[][] = { {'4','a'},
                                                   {'5','j'},
-                                                  {'K','c'} };
+                                                  {'K','c'},
+                                                  {'Y','o'} };
   
   // flash images for each stone
   private static final EgaImage kImages[];
@@ -109,10 +111,6 @@ public class MapStones extends Sprite {
     int xy[] = kStonePos[ mStone ];
     EgaImage image = kImages[ mStone ];
     image.draw(canvas, xy[0], xy[1], kDepth);
-    //byte colour = (byte)60;
-    //canvas.plot(xy[0], xy[1], kDepth, colour);
-    //canvas.plot(xy[0]+1, xy[1], kDepth, colour);
-    //canvas.plot(xy[0], xy[1]+1, kDepth, colour);
     
   } // Sprite.draw()
 

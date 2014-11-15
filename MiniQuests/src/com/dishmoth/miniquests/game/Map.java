@@ -11,12 +11,6 @@ import java.util.LinkedList;
 // a window on the overworld map
 public class Map extends Sprite {
 
-  // story event: the player has entered a new location on the map
-  public static class EventNewLocation extends StoryEvent {
-    public int mXPos, mYPos;
-    public EventNewLocation(int x, int y) { mXPos=x; mYPos=y; }
-  } // class Map.EventNewLocation
-  
   // story event: the player has left a location
   public static class EventLeftLocation extends StoryEvent {
     public EventLeftLocation() { }
@@ -34,27 +28,15 @@ public class Map extends Sprite {
   
   // depth for the image
   private static final float kDepth = 0;
-  
-  // the map, broken up into sub-images, [y][x]
-  private static EgaImage kImages[][];
-
-  // which directions are possible in different rooms, [y][x][direc]
-  private static boolean kExits[][][];
-  
-  // number of map pieces
-  private static int kNumX,
-                     kNumY;
 
   // delay when reaching a new location
-  private static final int kTimePaused = 10; //5;
+  private static final int kTimePaused = 10;
   
-  // home position on the map
-  private static final int kXOrigin = 2,
-                           kYOrigin = 2;
+  // basic map data (images, exits, etc)
+  private final MapData mMapData;
   
   // index of the current room
-  private int mXPos,
-              mYPos;
+  private int mPos;
 
   // direction being scrolled (or -1)
   private int mScrollDirec;
@@ -74,57 +56,12 @@ public class Map extends Sprite {
   // references to direction arrows if present
   private MapArrow mArrows[];
   
-  // load and prepare the map images
-  public static void initialize() {
-
-    if ( kImages != null ) return;
-    
-    EgaImage image = Env.resources().loadEgaImage("Map.png");
-    
-    final int sizeX = Env.screenWidth(),
-              sizeY = Env.screenHeight();
-    kNumX = (image.width() + 1)/(sizeX + 1);
-    kNumY = (image.height() + 1)/(sizeY + 1);
-    assert( image.width() == sizeX*kNumX + (kNumX-1) );
-    assert( image.height() == sizeY*kNumY + (kNumY-1) );
-    
-    kImages = new EgaImage[kNumY][kNumX];
-
-    for ( int iy = 0 ; iy < kNumY ; iy++ ) {
-      for ( int ix = 0 ; ix < kNumX ; ix++ ) {
-        kImages[iy][ix] = new EgaImage(0, 0, sizeX, sizeY); 
-        image.draw(kImages[iy][ix], -ix*(sizeX+1), -iy*(sizeY+1));
-      }
-    }
-
-    kExits = new boolean[kNumY][kNumX][4];
-    
-    byte pixels[] = image.pixels();
-    for ( int iy = 0 ; iy < kNumY ; iy++ ) {
-      for ( int ix = 0 ; ix < kNumX ; ix++ ) {
-        int index = iy*(sizeY+1)*image.width() + ix*(sizeX+1);
-        byte hKey = ( (ix<kNumX-1) ? pixels[index+sizeX] : 63 ),
-             vKey = ( (iy<kNumY-1) ? pixels[index+sizeY*image.width()] : 63 );
-        assert( hKey == 0 || hKey == 63 );
-        assert( vKey == 0 || vKey == 63 );
-        if ( hKey == 0 ) {
-          kExits[iy][ix][Env.RIGHT] = kExits[iy][ix+1][Env.LEFT] = true;
-        }
-        if ( vKey == 0 ) {
-          kExits[iy][ix][Env.DOWN] = kExits[iy+1][ix][Env.UP] = true;
-        }
-      }
-    }
-    
-  } // initialize()
-  
   // constructor
-  public Map(int x, int y) {
+  public Map(MapData mapData, int startPoint) {
   
-    initialize();
-    
-    mXPos = kXOrigin + x;
-    mYPos = kYOrigin + y;
+    mMapData = mapData;
+
+    mPos = mMapData.startPos(startPoint);
     
     mScrollDirec = -1;
     mScrollDist = 0;
@@ -168,12 +105,10 @@ public class Map extends Sprite {
       
       // wait for a key to be pressed
       
-      boolean exits[] = kExits[mYPos][mXPos];
-      
       if ( mArrows == null ) {
         mArrows = new MapArrow[4];
         for ( int direc = 0 ; direc < 4 ; direc++ ) {
-          if ( exits[direc] ) {
+          if ( mMapData.exit(mPos, direc) ) {
             mArrows[direc] = new MapArrow(direc);
             addTheseSprites.add(mArrows[direc]);
           }
@@ -192,10 +127,15 @@ public class Map extends Sprite {
         }
       }
       
-      if      ( keyUp    && exits[Env.UP]    ) mScrollDirec = Env.UP;
-      else if ( keyLeft  && exits[Env.LEFT]  ) mScrollDirec = Env.LEFT;
-      else if ( keyDown  && exits[Env.DOWN]  ) mScrollDirec = Env.DOWN;
-      else if ( keyRight && exits[Env.RIGHT] ) mScrollDirec = Env.RIGHT;
+      if ( keyUp && mMapData.exit(mPos,Env.UP) ) {
+        mScrollDirec = Env.UP;
+      } else if ( keyLeft && mMapData.exit(mPos,Env.LEFT) ) {
+        mScrollDirec = Env.LEFT;
+      } else if ( keyDown && mMapData.exit(mPos,Env.DOWN) ) {
+        mScrollDirec = Env.DOWN;
+      } else if ( keyRight && mMapData.exit(mPos,Env.RIGHT) ) {
+        mScrollDirec = Env.RIGHT;
+      }
 
       if ( mScrollDirec != -1 ) {
         clearArrows(killTheseSprites);
@@ -213,13 +153,12 @@ public class Map extends Sprite {
       mScrollDist += (horiz ? 4 : 3);
       
       if ( mScrollDist >= (horiz ? Env.screenWidth() : Env.screenHeight()) ) {
-        mXPos += STEP_X[mScrollDirec];
-        mYPos += STEP_Y[mScrollDirec];
+        mPos = mMapData.destination(mPos, mScrollDirec);
         mScrollDirec = -1;
         mScrollDist = 0;
         mPauseTimer = kTimePaused;
-        newStoryEvents.add(new EventNewLocation(mXPos-kXOrigin, 
-                                                mYPos-kYOrigin));
+        StoryEvent event = mMapData.eventLocation(mPos);
+        if ( event != null ) newStoryEvents.add(event);
       }
 
       mDungeonTrigger = false;
@@ -243,18 +182,15 @@ public class Map extends Sprite {
   @Override
   public void draw(EgaCanvas canvas) {
 
-    int ix = mXPos,
-        iy = mYPos;
     int x = ( (mScrollDirec >= 0) ? -mScrollDist*STEP_X[mScrollDirec] : 0 ),
         y = ( (mScrollDirec >= 0) ? -mScrollDist*STEP_Y[mScrollDirec] : 0 );
-    kImages[iy][ix].draw(canvas, x, y, kDepth);
+    mMapData.image(mPos).draw(canvas, x, y, kDepth);
     
     if ( mScrollDirec >= 0 ) {
-      ix += STEP_X[mScrollDirec];
-      iy += STEP_Y[mScrollDirec];
       x += Env.screenWidth()*STEP_X[mScrollDirec];
       y += Env.screenHeight()*STEP_Y[mScrollDirec];
-      kImages[iy][ix].draw(canvas, x, y, kDepth);
+      int dest = mMapData.destination(mPos, mScrollDirec);
+      mMapData.image(dest).draw(canvas, x, y, kDepth);
     }
     
   } // Sprite.draw()
