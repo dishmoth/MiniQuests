@@ -11,7 +11,8 @@ public class TreesRight extends Wall {
 
   // tree images
   private static final String kImageNames[] = { "TreesRight.png",
-                                                "TreesRight2.png" };
+                                                "TreesRight2.png",
+                                                "TreesRight3.png" };
   private static EgaImage kImages[] = null;
   
   // which image to show
@@ -35,8 +36,10 @@ public class TreesRight extends Wall {
     if ( kImages != null ) return;
     kImages = new EgaImage[kImageNames.length];
     
-    kImages[0] = prepareImage("TreesRight.png"); 
-    kImages[1] = prepareImage("TreesRight2.png"); 
+    for ( int k = 0 ; k < kImages.length ; k++ ) {
+      if ( kImageNames[k] == null ) continue;
+      kImages[k] = prepareImage(kImageNames[k]);
+    }
     
   } // prepareImages()
   
