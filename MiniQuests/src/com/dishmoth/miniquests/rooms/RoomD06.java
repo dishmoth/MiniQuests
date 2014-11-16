@@ -152,28 +152,28 @@ public class RoomD06 extends Room {
                                          new CameraLevel(12,  4,+100) };
   
   // positions of spikes
-  private static final String kSpikePattern[] = { "+++++++   ",
-                                                  "+  +  +   ",
-                                                  "+  +  +   ",
-                                                  "++++++++++",
+  private static final String kSpikePattern[] = { "++++      ",
+                                                  "+  +      ",
+                                                  "+  +      ",
+                                                  "++++  ++++",
                                                   "      +  +",
                                                   "      +  +",
-                                                  "++++++++++",
-                                                  "+  +  +   ",
-                                                  "+  +  +   ",
-                                                  "+++++++   " };
+                                                  "++++  ++++",
+                                                  "+  +      ",
+                                                  "+  +      ",
+                                                  "++++      " };
   
   // path followed by spikes, {x,y, x,y, ...}
   private static final int kSpikePaths[][] = { { 6,3, 9,3, 9,6, 6,6 },
-                                               { 6,3, 9,3, 9,6, 6,6,
-                                                 6,9, 3,9, 3,6, 6,6,
-                                                 6,3, 6,0, 3,0, 3,3 },
+                                               //{ 6,3, 9,3, 9,6, 6,6,
+                                               //  6,9, 3,9, 3,6, 6,6,
+                                               //  6,3, 6,0, 3,0, 3,3 },
                                                { 3,9, 3,6, 0,6, 0,9 },
                                                { 0,0, 3,0, 3,3, 0,3 } };
   private static final int kStartIndices[] = { 1, 1, 0, 0 };
   
   // time between spikes
-  private static final int kSpikeTime = 4;
+  private static final int kSpikeTime = 3;
   
   // number of ticks to run spikes before the room starts
   private static final int kSpikeWarmUp = 10;
@@ -345,7 +345,7 @@ public class RoomD06 extends Room {
     
     // turn off spikes
     if ( mSpikesOn && mPlayer != null &&
-         mPlayer.getXPos() == 7 && mPlayer.getYPos() == 0 ) {
+         mPlayer.getXPos() == 6 && mPlayer.getYPos() == 0 ) {
       Env.sounds().play(Sounds.SWITCH_ON);
       Env.sounds().play(Sounds.SUCCESS, 10);
       mSpikesOn = false;
