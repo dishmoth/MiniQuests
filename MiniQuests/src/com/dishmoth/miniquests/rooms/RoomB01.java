@@ -300,11 +300,11 @@ public class RoomB01 extends Room {
                                       0, 12, Env.UP, 0));
 
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+4, 
-                                     zoneY*Room.kSize+2, 0, 1, 0));
+                                     zoneY*Room.kSize+2, 0, 1, 0,0));
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+3, 
-                                     zoneY*Room.kSize+6, 0, 0, 0));
+                                     zoneY*Room.kSize+6, 0, 0, 0,0));
     spriteManager.addSprite(new Tree(zoneX*Room.kSize-1, 
-                                     zoneY*Room.kSize+6, 0, 1, 0));
+                                     zoneY*Room.kSize+6, 0, 1, 0,0));
 
     // zone (1,0)
     
@@ -324,7 +324,7 @@ public class RoomB01 extends Room {
                                 zoneX*Room.kSize, zoneY*Room.kSize, 0) ); 
 
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+4, 
-                                     zoneY*Room.kSize+2, 0, 1, 0));
+                                     zoneY*Room.kSize+2, 0, 1, 0,0));
     
     // zone (0,1)
     

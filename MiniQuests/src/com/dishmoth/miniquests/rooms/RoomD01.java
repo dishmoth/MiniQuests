@@ -121,8 +121,8 @@ public class RoomD01 extends Room {
     
     spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, -5,0,0) );
 
-    spriteManager.addSprite(new TreesRight(0, 0, 0, 0));
-    spriteManager.addSprite(new TreesUp(0, 0, 0, 0));
+    spriteManager.addSprite(new TreesRight(0, 0, 0, 2));
+    spriteManager.addSprite(new TreesUp(0, 0, 0, 2));
 
     Wall wall = new WallDown(0, 0, 0);
     for ( Exit exit : mExits ) {
@@ -134,19 +134,19 @@ public class RoomD01 extends Room {
     Wall extraWall = new WallDown(-Room.kSize, 0, 0);
     spriteManager.addSprite(extraWall);
     
-    spriteManager.addSprite(new Tree(9,9,0, 1, 0)); //2
-    spriteManager.addSprite(new Tree(8,4,0, 1, 0));
+    spriteManager.addSprite(new Tree(9,9,0, 1, 0,0));
+    spriteManager.addSprite(new Tree(8,4,0, 1, 0,0));
 
-    spriteManager.addSprite(new Tree( 4,8,0, 1, 0)); //2
-    spriteManager.addSprite(new Tree( 2,8,0, 0, 0));
-    spriteManager.addSprite(new Tree(-1,8,0, 0, 0));
-    spriteManager.addSprite(new Tree(-1,6,0, 0, 0));
-    spriteManager.addSprite(new Tree(-3,6,0, 0, 0));
-    spriteManager.addSprite(new Tree(-4,4,0, 1, 0));
-    spriteManager.addSprite(new Tree(-1,4,0, 1, 0));
-    spriteManager.addSprite(new Tree(-6,3,0, 1, 0));
-    spriteManager.addSprite(new Tree(-5,1,0, 1, 0));
-    spriteManager.addSprite(new Tree(-3,0,0, 0, 0));
+    spriteManager.addSprite(new Tree( 4,8,0, 1, 0,0));
+    spriteManager.addSprite(new Tree( 2,8,0, 0, 0,0));
+    spriteManager.addSprite(new Tree(-1,8,0, 0, 0,2));
+    spriteManager.addSprite(new Tree(-1,6,0, 0, 0,0));
+    spriteManager.addSprite(new Tree(-3,6,0, 0, 0,0));
+    spriteManager.addSprite(new Tree(-4,4,0, 1, 0,0));
+    spriteManager.addSprite(new Tree(-1,4,0, 1, 0,0));
+    spriteManager.addSprite(new Tree(-6,3,0, 1, 0,0));
+    spriteManager.addSprite(new Tree(-5,1,0, 1, 0,0));
+    spriteManager.addSprite(new Tree(-3,0,0, 0, 0,2));
 
   } // Room.createSprites()
   

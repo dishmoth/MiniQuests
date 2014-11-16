@@ -361,7 +361,7 @@ public class RoomD02 extends Room {
                 zoneX*Room.kSize+1, zoneY*Room.kSize+8,
                 6, 5);
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+3, zoneY*Room.kSize+3, 0,
-                                     1, 1));
+                                     1, 0,1));
 
     // zone (1,0)
     
@@ -388,7 +388,7 @@ public class RoomD02 extends Room {
                 zoneX*Room.kSize+3, zoneY*Room.kSize+8,
                 6, 5);
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+6, zoneY*Room.kSize+3, 0,
-                                     1, 1));
+                                     1, 0,1));
 
     // zone (0,1)
     
@@ -449,7 +449,7 @@ public class RoomD02 extends Room {
                 zoneX*Room.kSize+1, zoneY*Room.kSize-2,
                 6, 4);
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+3, zoneY*Room.kSize+6, 0,
-                                     1, 3));
+                                     1, 1,1));
 
     // zone (1,2)
     
@@ -476,7 +476,7 @@ public class RoomD02 extends Room {
                 zoneX*Room.kSize+3, zoneY*Room.kSize-2,
                 6, 4);
     spriteManager.addSprite(new Tree(zoneX*Room.kSize+6, zoneY*Room.kSize+6, 0,
-                                     1, 1));
+                                     1, 0,1));
     
     mTwistTimer = 0;
     mTwistDirec = 0;

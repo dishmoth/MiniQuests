@@ -10,7 +10,9 @@ package com.dishmoth.miniquests.game;
 public class TreesUp extends Wall {
 
   // tree images
-  private static final String kImageNames[] = { "TreesUp.png" };
+  private static final String kImageNames[] = { "TreesUp.png",
+                                                null,
+                                                "TreesUp3.png" };
   private static EgaImage kImages[] = null;
   
   // which image to show
@@ -34,13 +36,16 @@ public class TreesUp extends Wall {
     if ( kImages != null ) return;
     kImages = new EgaImage[kImageNames.length];
     
-    kImages[0] = prepareImage("TreesUp.png"); 
+    for ( int k = 0 ; k < kImages.length ; k++ ) {
+      if ( kImageNames[k] == null ) continue;
+      kImages[k] = prepareImage(kImageNames[k]);
+    }
     
   } // prepareImages()
   
   // load the tree image and give it depth
   static private EgaImage prepareImage(String fileName) {
-    
+
     EgaImage pic = Env.resources().loadEgaImage(fileName);
     
     final int width  = pic.width(),
