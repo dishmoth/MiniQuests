@@ -17,6 +17,7 @@ import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Fountain;
 import com.dishmoth.miniquests.game.Hedge;
 import com.dishmoth.miniquests.game.Liquid;
+import com.dishmoth.miniquests.game.Mural;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
@@ -108,6 +109,12 @@ public class RoomD02 extends Room {
   // colour map for flower beds
   private static final char kFlowerColours[] = {'s','B','q','D'};
   
+  // door overlap images to add a moment's colour
+  private static final String kDoorImages[] = { "BBBBBBBBBB",
+                                                "0qq00qq00q",
+                                                "0DD00DD00D",
+                                                "ssssssssss" };
+  
   // details of exit/entry points for the room 
   // (extra exits: 4 and 5 below)
   // (dummy exits: 6 died in fountain, 7 escaped from fountain)
@@ -138,8 +145,10 @@ public class RoomD02 extends Room {
             new Exit(2,2, Env.UP,    5,0, "#m",0, -1, RoomD18.NAME, 1) };
   
   // time until the twist animation completes
-  private static final int kTwistDelayStart  = 20,
-                           kTwistDelayChange = 8;
+  private static final int kTwistDelayStart      = 40,
+                           kTwistDelayChangeBed1 = 30,
+                           kTwistDelayChangeBed2 = 25,
+                           kTwistDelayChangeDoor = 15;
 
   // trigger point for the twist mechanism
   private static final int kTwistXPos = 2,
@@ -182,6 +191,9 @@ public class RoomD02 extends Room {
 
   // keep track of the last proper entry point (for fountain respawn)
   private int mLastEntryPoint;
+
+  // reference to the door colour overlay
+  private Mural mDoorColour;
   
   // reference to the fountain sprite
   private Fountain mFountain;
@@ -200,7 +212,7 @@ public class RoomD02 extends Room {
   
   // time during which final door appears
   private int mCutSceneTimer;
-  
+
   // constructor
   public RoomD02() {
 
@@ -289,6 +301,7 @@ public class RoomD02 extends Room {
     mMainBlocks = null;
     mExits = null;
     mFountain = null;
+    mDoorColour = null;
     //mWater = null;
     
   } // Room.discardResources()
@@ -485,8 +498,9 @@ public class RoomD02 extends Room {
     mFountainTimer = 0;
     mCutSceneTimer = 0;
     
-    paintFlowerBeds(mMainBlocks);
-    //paintTreeBeds(mMainBlocks);    
+    paintFlowerBeds(mMainBlocks, 0);
+    //paintTreeBeds(mMainBlocks);
+    //paintLongerPath(mMainBlocks);
     
   } // Room.createSprites()
   
@@ -516,16 +530,14 @@ public class RoomD02 extends Room {
   } // addHedgeBox()
   
   // colour the flowers in the main beds
-  private void paintFlowerBeds(BlockArray blocks) {
+  private void paintFlowerBeds(BlockArray blocks, int partialTwist) {
 
     int zoneX, zoneY;
     char colours[] = { 'm', '?', '#' }; // brown, unknown, and white
     
     assert( mTwist >= 0 && mTwist < 4 );
-    int twist = 2*mTwist;
-    if ( mTwistTimer > 0 ) twist += 1;
-    if ( mTwistTimer < 0 ) twist -= 1;
-    twist = Env.fold(twist, 8);
+    assert( partialTwist >= -1 && partialTwist <= +1 );
+    int twist = Env.fold( 2*mTwist + partialTwist, 8 );
     
     zoneX = 0;
     zoneY = 0;
@@ -678,6 +690,29 @@ public class RoomD02 extends Room {
 
   } // paintTreeBeds()
   
+  // make the path around the twist tree more obvious
+  private void paintLongerPath(BlockArray blocks) {
+    
+    final String pathPattern = "  m "
+                             + " mmm";
+    EgaImage path = new EgaImage(2, 1, 4, 2, pathPattern);
+    blocks.paint(path, 2, 2*Room.kSize+3, 0);
+
+  } // paintLongerPath()
+  
+  // colour the first doorway to match the adjoining room
+  private void makeDoorColour(SpriteManager spriteManager) {
+
+    mExits[0].mDoor.setClosed(false);
+    
+    if ( mDoorColour != null ) spriteManager.removeSprite(mDoorColour);
+    
+    mDoorColour = new Mural(1,2, Env.UP, 5, 0, 
+                         new EgaImage(0,0, 2,5, kDoorImages[mTwist]));
+    spriteManager.addSprite(mDoorColour);
+    
+  } // makeDoorColour()
+  
   // returns true if the room is frozen (e.g., during a cut-scene)
   @Override
   public boolean paused() { return (mCutSceneTimer > 0); }
@@ -713,11 +748,19 @@ public class RoomD02 extends Room {
     if ( mTwistTimer != 0 ) {
       int sign = (mTwistTimer > 0) ? +1 : -1;
       mTwistTimer -= sign;
-      if ( Math.abs(mTwistTimer) == kTwistDelayChange ) {
-        paintFlowerBeds(mMainBlocks);
-      } else if ( mTwistTimer == 0 ) {
+      if ( Math.abs(mTwistTimer) == kTwistDelayStart ) {
+        makeDoorColour(spriteManager);
+      } else if ( Math.abs(mTwistTimer) == kTwistDelayChangeBed1 ) {
+        Env.sounds().play(Sounds.TREE_TWIST);
+        paintFlowerBeds(mMainBlocks, sign);
+      } else if ( Math.abs(mTwistTimer) == kTwistDelayChangeBed2 ) {
         mTwist = Env.fold(mTwist + sign, 4);
-        paintFlowerBeds(mMainBlocks);
+        paintFlowerBeds(mMainBlocks, 0);
+      } else if ( Math.abs(mTwistTimer) == kTwistDelayChangeDoor ) {
+        makeDoorColour(spriteManager);
+      } else if ( mTwistTimer == 0 ) {
+        spriteManager.removeSprite(mDoorColour);
+        mDoorColour = null;
         prepareExits();
       }
     }
@@ -740,12 +783,10 @@ public class RoomD02 extends Room {
           // just stepped onto the twist trigger
           if ( mTwistDirec == +1 &&
                mLastXPos == kTwistXPos && mLastYPos == kTwistYPos+1 ) {
-            mTwistTimer = +kTwistDelayStart;
-            Env.sounds().play(Sounds.TREE_TWIST);
+            mTwistTimer = +(kTwistDelayStart+1);
           } else if ( mTwistDirec == -1 &&
                       mLastXPos == kTwistXPos+1 && mLastYPos == kTwistYPos ) {
-            mTwistTimer = -kTwistDelayStart;
-            Env.sounds().play(Sounds.TREE_TWIST);
+            mTwistTimer = -(kTwistDelayStart+1);
           }
           mTwistDirec = 0;
         }          

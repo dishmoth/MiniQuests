@@ -111,8 +111,8 @@ public class MainGame implements ApplicationListener {
     //mGameManager = new GameManager(new TitleStory());
     //mGameManager = new GameManager(new StartupStory());
     //mGameManager = new GameManager(new TrainingStory());
-    //mGameManager = new GameManager(new MapStory(-1));
-    mGameManager = new GameManager(new TinyStory(3));
+    mGameManager = new GameManager(new MapStory(-1));
+    //mGameManager = new GameManager(new TinyStory(3));
     mGameManager.advance();
     
     mScreenBatch = new SpriteBatch();
