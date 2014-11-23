@@ -81,7 +81,7 @@ public class MainApplet extends Applet
                     new SoundsApplet() );
     Env.addKeyMonitor( new KeyMonitorApplet(mGameCanvas) );
 
-    //QuestStats.decode("GXq5MkuCSI0JY16QeCCfkaIcqBOjwRUq2ZavAlg0EWm7KcsCQkyRW14OcHAdiBGao7MhxiSo0HZv6Oe0CYk7ImqFOhwJUp2Qbx8Vg0Edm6KhsAQpyKWu5Ec1Bfi6GZoDNguISj0PYu6TeyCakkIhq8OmwXUr2Naz8dg6GQnDKMsFQlyQcj4XcOAci3Gdo8MiuZSn0TYs6Qe7CXk4IuqKO4wRUz2YaC8diPFkm4KpsHQwyOW");
+    //QuestStats.decode("uBVj0NYr6TewCgk5IfqFPuwKUr2Pa48Sg2EWmJKdsCQqySWx4ec4Abi2Gbo6M4uESl0IYA6Qe0CfkEImqEOtwJUp2Ta68TgyErmIKfsERvyUWq4bc1Agi2GcoDMeuHS10bYq6WeCCWk");
 
     Env.saveState().load();
     //Env.saveState().load("000000900083D3FFA0"); // <- dragon
