@@ -8,6 +8,7 @@ package com.dishmoth.miniquests.rooms;
 
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
@@ -19,8 +20,6 @@ import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.Wall;
 import com.dishmoth.miniquests.game.WallLeft;
-import com.dishmoth.miniquests.game.Room.CameraLevel;
-import com.dishmoth.miniquests.game.Room.EventRoomScroll;
 
 // the room "D16"
 public class RoomD16 extends Room {
@@ -109,6 +108,25 @@ public class RoomD16 extends Room {
     
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.writeBit(mCompleted);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 1 ) return false;
+    mCompleted = buffer.readBit();
+    return true;
+    
+  } // Room.restore() 
+  
   // access to the room's status
   // (note: this function may be called by room D02)
   public boolean completed() { return mCompleted; }

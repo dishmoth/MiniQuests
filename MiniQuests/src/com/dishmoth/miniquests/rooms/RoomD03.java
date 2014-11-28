@@ -8,6 +8,7 @@ package com.dishmoth.miniquests.rooms;
 
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
@@ -18,6 +19,8 @@ import com.dishmoth.miniquests.game.Spikes;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.Statue;
 import com.dishmoth.miniquests.game.StoryEvent;
+import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.TinyStory.EventSaveGame;
 
 // the room "D03"
 public class RoomD03 extends Room {
@@ -107,6 +110,25 @@ public class RoomD03 extends Room {
     
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.writeBit(mSpikesDone);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 1 ) return false;
+    mSpikesDone = buffer.readBit();
+    return true;
+    
+  } // Room.restore() 
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
@@ -199,6 +221,7 @@ public class RoomD03 extends Room {
           mStatueTimers[k] = kStatueEndDelay;
         }
         Env.sounds().play(Sounds.SUCCESS, 5);
+        storyEvents.add(new TinyStory.EventSaveGame());
         mSpikesDone = true;
       }
     }

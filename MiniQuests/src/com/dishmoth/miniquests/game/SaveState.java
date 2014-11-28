@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class SaveState {
   
   // current save version number
-  private static final int kVersion = 1;
+  private static final int kVersion = 2;
   
   // version for loaded state
   private int mRestartVersion;
@@ -89,7 +89,8 @@ public class SaveState {
     }
     
     final int numQuestsToRead = (version == 0) ? 2
-                                               : 3;
+                              : (version == 1) ? 3
+                                               : 4;
     for ( int k = 0 ; k < numQuestsToRead ; k++ ) {
       int score = mRestartData.read(4);
       if ( score < 0 || score > 5 ) {

@@ -174,6 +174,8 @@ public class RoomD19 extends Room {
   @Override
   public void save(BitBuffer buffer) {
     
+    buffer.writeBit(mRoomDone);
+    
   } // Room.save()
 
   // de-serialize the room state from the bits in the buffer 
@@ -181,7 +183,9 @@ public class RoomD19 extends Room {
   @Override
   public boolean restore(int version, BitBuffer buffer) { 
     
-    return true; 
+    if ( buffer.numBitsToRead() < 1 ) return false;
+    mRoomDone = buffer.readBit();
+    return true;
     
   } // Room.restore() 
   
@@ -350,8 +354,10 @@ public class RoomD19 extends Room {
 
       // player has died - respawn back in the fountain
       else if ( event instanceof Player.EventKilled ) {
+        Player.EventKilled e = (Player.EventKilled)event; 
         mPlayerDeathTimer = kPlayerDeathDelay;
         mFinishTimer = 0;
+        e.mSavePoint = false;
       }
     }
 
