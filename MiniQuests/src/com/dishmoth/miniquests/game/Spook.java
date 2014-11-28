@@ -24,8 +24,8 @@ public class Spook extends Sprite3D {
   
   // different colour schemes
   private static final char kColourSchemes[][] = { { 't', 'k' },   // cream
-                                                   { 't', 'v' },   // blue mits 
-                                                   { 't', 'r' },   // red mits
+                                                   { 't', 'v' },   // blue mitts 
+                                                   { 't', 'r' },   // red mitts
                                                    { 'l', 'z' },   // all pink
                                                    { 'V', 'x' } }; // all blue
 
