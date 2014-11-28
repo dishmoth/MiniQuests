@@ -213,6 +213,9 @@ public class RoomD02 extends Room {
   // time during which final door appears
   private int mCutSceneTimer;
 
+  // save the game (specifically the updated entry point) at the next chance
+  private boolean mTriggerSaveEvent;
+  
   // constructor
   public RoomD02() {
 
@@ -232,6 +235,9 @@ public class RoomD02 extends Room {
   @Override
   public void save(BitBuffer buffer) {
     
+    buffer.write(mTwist, 2);
+    buffer.writeBit(mRoomDone);
+    
   } // Room.save()
 
   // de-serialize the room state from the bits in the buffer 
@@ -239,7 +245,10 @@ public class RoomD02 extends Room {
   @Override
   public boolean restore(int version, BitBuffer buffer) { 
     
-    return true; 
+    if ( buffer.numBitsToRead() < 3 ) return false;
+    mTwist = buffer.read(2);
+    mRoomDone = buffer.readBit();
+    return true;
     
   } // Room.restore() 
   
@@ -284,6 +293,7 @@ public class RoomD02 extends Room {
       assert( !mRoomDone );
       entryPoint = mLastEntryPoint;
       setPlayerAtExit(mExits[entryPoint]);
+      mTriggerSaveEvent = true;
     } else {
       // normal entry point
       assert( entryPoint >= 0 && entryPoint < mExits.length );
@@ -497,6 +507,7 @@ public class RoomD02 extends Room {
 
     mFountainTimer = 0;
     mCutSceneTimer = 0;
+    mTriggerSaveEvent = false;
     
     paintFlowerBeds(mMainBlocks, 0);
     //paintTreeBeds(mMainBlocks);
@@ -744,6 +755,12 @@ public class RoomD02 extends Room {
       //Env.sounds().stop(Sounds.FOUNTAIN);
     }
 
+    // save the game
+    if ( mTriggerSaveEvent ) {
+      mTriggerSaveEvent = false;
+      storyEvents.add(new Room.EventNewEntryPoint(mLastEntryPoint));
+    }
+    
     // twist the room, repaint the flower beds
     if ( mTwistTimer != 0 ) {
       int sign = (mTwistTimer > 0) ? +1 : -1;
@@ -823,7 +840,9 @@ public class RoomD02 extends Room {
           recordInFountainInfo(mPlayer.getXPos()-13, 
                                mPlayer.getYPos()-13, 
                                mPlayer.getDirec());
-          storyEvents.add(new EventRoomChange(RoomD19.NAME, 0));
+          EventRoomChange event = new EventRoomChange(RoomD19.NAME, 0);
+          event.mSavePoint = false;
+          storyEvents.add(event);
         }
       } else {
         double t = 1.0 - (mFountainTimer - kFountainEndPause)
