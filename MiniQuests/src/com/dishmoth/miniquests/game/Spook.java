@@ -22,11 +22,12 @@ public class Spook extends Sprite3D {
                            kStepTime1 = 3,
                            kStepTime2 = 3;
   
-  // different colour schemes (0,1 => basic colours, 2 => splatter)
-  private static final char kColourSchemes[][] = { { 't', 'k', 't' },   // cream
-                                                   { 't', '7', 't' },   // grey
-                                                   { 'l', 'z', 'l' },   // pink
-                                                   { 'V', 'x', 'V' } }; // blue
+  // different colour schemes
+  private static final char kColourSchemes[][] = { { 't', 'k' },   // cream
+                                                   { 't', 'v' },   // blue mits 
+                                                   { 't', 'r' },   // red mits
+                                                   { 'l', 'z' },   // all pink
+                                                   { 'V', 'x' } }; // all blue
 
   // spook images
   private static SpookImage kSpookImages[] = null;
@@ -97,7 +98,7 @@ public class Spook extends Sprite3D {
     
     for ( int k = 0 ; k < numColours ; k++ ) {
       char cols[] = kColourSchemes[k];
-      assert( cols != null && cols.length == 3 );
+      assert( cols != null && cols.length == 2 );
       
       kSpookImages[k] = new SpookImage(new char[]{cols[0], cols[1]});
     }
@@ -408,7 +409,7 @@ public class Spook extends Sprite3D {
     if ( mDestroyed ) {
       killTheseSprites.add(this);
       newStoryEvents.add(new EventKilled(this));
-      final byte colour = EgaTools.decodePixel(kColourSchemes[mColour][2]);
+      final byte colour = EgaTools.decodePixel(kColourSchemes[mColour][0]);
       addTheseSprites.add(new Splatter(mXPos, mYPos, mZPos,
                                        (mStepping ? mDirec : -1),
                                        kHeight, colour, mDestroyDirec));
