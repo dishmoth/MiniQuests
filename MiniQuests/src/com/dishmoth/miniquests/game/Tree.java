@@ -41,11 +41,24 @@ public class Tree extends Sprite3D implements Obstacle {
                                           + "32321"
                                           + " 221 "
                                           + "  0  "
+                                          + "  0  ",
+                                       
+                                            "  3  " 
+                                          + "  3  "
+                                          + " 322 "
+                                          + " 323 "
+                                          + " 322 "
+                                          + "32322"
+                                          + "32222"
+                                          + "32232"
+                                          + " 322 "
+                                          + "  0  "
                                           + "  0  " };
   
   // different colours for trees
   private static final char kColourSchemes[][] = { { 'm', 'G', 'Y', 'M' },
                                                    { '0', 'G', '2', 'M' },
+                                                   { '0', 'W', 'K', 'E' },
                                                    { 'm', 'm', 'K', '6' } };
   
   // images of trees, different colour and types, [type][colour]
@@ -66,20 +79,20 @@ public class Tree extends Sprite3D implements Obstacle {
   final private int mColour;
   
   // prepare image
-  public static void initialize() {
+  public static void initialize(int type, int colour) {
     
-    if ( kImages != null ) return;
+    if ( kImages == null ) {
+      kImages = new EgaImage[kPixels.length][kColourSchemes.length];
+    }
 
-    kImages = new EgaImage[kPixels.length][kColourSchemes.length];
-    for ( int n = 0 ; n < kPixels.length ; n++ ) {
-      String pixels = kPixels[n];
-      for ( int k = 0 ; k < kColourSchemes.length ; k++ ) {
-        char colours[] = kColourSchemes[k];
-        kImages[n][k] = new EgaImage(kRefXPos, kRefYPos,
-                                     kWidth, kHeight,
-                                     EgaTools.convertColours(pixels, colours),
-                                     kDepth);
-      }
+    if ( kImages[type][colour] == null ) {
+      String pixels = kPixels[type];
+      char colours[] = kColourSchemes[colour];
+      kImages[type][colour] = new EgaImage(kRefXPos, kRefYPos,
+                                           kWidth, kHeight,
+                                           EgaTools.convertColours(pixels, 
+                                                                   colours),
+                                           kDepth);
     }
 
   } // initialize()
@@ -87,7 +100,13 @@ public class Tree extends Sprite3D implements Obstacle {
   // constructor
   public Tree(int xPos, int yPos, int zPos, int shift, int type, int colour) {
     
-    initialize();
+    mType = type;
+    assert( type >= 0 && type < kPixels.length );
+    
+    assert( colour >= 0 && colour < kColourSchemes.length );
+    mColour = colour;
+    
+    initialize(mType, mColour);
     
     mXPos = xPos;
     mYPos = yPos;
@@ -96,12 +115,6 @@ public class Tree extends Sprite3D implements Obstacle {
     assert( shift >= 0 && shift < 2 );
     mShift = shift;
 
-    assert( type >= 0 && type < kPixels.length );
-    mType = type;
-    
-    assert( colour >= 0 && colour < kColourSchemes.length );
-    mColour = colour;
-    
   } // constructor
   
   // whether the player can stand at the specified position
