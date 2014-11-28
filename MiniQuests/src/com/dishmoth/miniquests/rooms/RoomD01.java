@@ -139,14 +139,14 @@ public class RoomD01 extends Room {
 
     spriteManager.addSprite(new Tree( 4,8,0, 1, 0,0));
     spriteManager.addSprite(new Tree( 2,8,0, 0, 0,0));
-    spriteManager.addSprite(new Tree(-1,8,0, 0, 0,2));
+    spriteManager.addSprite(new Tree(-1,8,0, 0, 0,3));
     spriteManager.addSprite(new Tree(-1,6,0, 0, 0,0));
     spriteManager.addSprite(new Tree(-3,6,0, 0, 0,0));
     spriteManager.addSprite(new Tree(-4,4,0, 1, 0,0));
     spriteManager.addSprite(new Tree(-1,4,0, 1, 0,0));
     spriteManager.addSprite(new Tree(-6,3,0, 1, 0,0));
     spriteManager.addSprite(new Tree(-5,1,0, 1, 0,0));
-    spriteManager.addSprite(new Tree(-3,0,0, 0, 0,2));
+    spriteManager.addSprite(new Tree(-3,0,0, 0, 0,3));
 
   } // Room.createSprites()
   
