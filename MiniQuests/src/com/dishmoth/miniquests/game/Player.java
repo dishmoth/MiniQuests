@@ -13,7 +13,8 @@ public class Player extends Sprite3D {
 
   // story event: the player has been destroyed
   public class EventKilled extends StoryEvent {
-    public EventKilled() {}
+    public boolean mSavePoint;
+    public EventKilled() { mSavePoint = true; }
   } // class Player.EventKilled
 
   // time to take various actions
