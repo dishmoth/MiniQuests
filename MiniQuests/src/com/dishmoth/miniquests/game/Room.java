@@ -15,8 +15,9 @@ abstract public class Room {
   public class EventRoomChange extends StoryEvent {
     public String mNewRoom;
     public int mEntryPoint;
+    public boolean mSavePoint;
     public EventRoomChange(String r, int entryPoint) {
-      mNewRoom = r; mEntryPoint = entryPoint;
+      mNewRoom = r; mEntryPoint = entryPoint; mSavePoint = true;
     }
   } // class Room.EventRoomChange
 

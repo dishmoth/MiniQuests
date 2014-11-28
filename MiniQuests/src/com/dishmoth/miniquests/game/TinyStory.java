@@ -305,7 +305,7 @@ public class TinyStory extends Story {
         spriteManager.addSprite(mPlayer);
         mPlayerDeathTimer = 0; // in case respawning in a different room
         Env.saveState().questStats().newRoom( currentRoomIndex() );
-        saveGame = true;
+        if ( e.mSavePoint ) saveGame = true;
         it.remove();
       } // Room.EventRoomChange 
       
@@ -323,12 +323,13 @@ public class TinyStory extends Story {
       } // Room.EventNewEntryPoint
       
       else if ( event instanceof Player.EventKilled ) {
+        Player.EventKilled e = (Player.EventKilled)event;
         mCurrentRoom.removePlayer();
         mPlayer = null;
         mPlayerDeathTimer = kPlayerDeathTime;
         Env.sounds().play(Sounds.HERO_DEATH);
         Env.saveState().questStats().countDeath();
-        saveGame = true;
+        if ( e.mSavePoint ) saveGame = true;
         it.remove();
       } // Player.EventKilled
       
