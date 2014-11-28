@@ -69,7 +69,7 @@ public class MainApplet extends Applet
 
     EnvBitsApplet envBits = new EnvBitsApplet(this); 
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v3.1.3, 8th February 2014)");
+      envBits.debug("Mini Quests (v4.0.0, 29th November 2014)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
       

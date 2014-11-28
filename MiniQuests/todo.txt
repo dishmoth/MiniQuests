@@ -1,6 +1,5 @@
 General:
 - Author screen?
-- Maybe shouldn't save when going into room D19???
 
 Applet:
 - Resizable?
@@ -8,7 +7,6 @@ Applet:
 Android:
 - Investigate frame rate
 - Separate thread for loading sounds?
-- Keys to support D-pad
 
 Possibly:
 - Executable jar (resizable, avoids applets).
@@ -29,14 +27,9 @@ Deployment checklist:
 - For beta, disable save (in EnvBitsApplet/EnvBitsGdx).
 - For beta, enable stats reporting (in Env.report()).
 - For desktop, export Runnable JAR with "Package required libraries...".
-- Turn off recolour mapping.
+- Turn off recolour mapping (applet).
 - Update version in debug (applet and gdx) and readme.
 - Update save version (SaveState.kVersion and in SaveState.decode()).
 - Update to latest libgdx.
 - Update version numbers in Android manifest.
 - Set "debuggable=false" in Android manifest.
-
-Dungeon 4:
-- D02: Make the tree clearer; make it obvious when something happens; make it clearer what happens.
-- More contrast for monster wave colours in D19.
-- More subdued colours in D19 (and elsewhere?).
