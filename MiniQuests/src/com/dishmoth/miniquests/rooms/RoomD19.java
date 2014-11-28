@@ -104,9 +104,9 @@ public class RoomD19 extends Room {
                                                   "#####" };
   
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "eW",   // grass
-                                                  "fW",   // path
-                                                  "e0" }; // block
+  private static final String kBlockColours[] = { "00",   // grass
+                                                  "e0",   // path
+                                                  "#E" }; // block
   
   // relative to fountain centre
   private static final int kTrackPoints[][] = { { 18,  0 },
@@ -361,7 +361,7 @@ public class RoomD19 extends Room {
         assert( mSpookCount%2 == 0 );
         int rot0 = ( mSpookCount<6 ? 1 : 0 );
         int offset = (mSpookCount/2) % 3;
-        int col = ( mSpookCount<6 ? 0 : 1 );
+        int col = ( mSpookCount<6 ? 1 : 2 );
         for ( int rot = rot0 ; rot < 4 ; rot +=2 ) {
           spriteManager.addSprite( makeSpook( makeTrack(rot, offset), col ) );
           mSpookCount += 1;
