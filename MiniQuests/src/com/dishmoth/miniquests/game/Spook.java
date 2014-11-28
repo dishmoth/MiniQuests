@@ -313,39 +313,6 @@ public class Spook extends Sprite3D {
     
   } // shuffle()
   
-  // check isPlatform() on all obstacles
-  private boolean checkIsPlatform(int x, int y, int z) {
-    
-    for ( Obstacle ob : mObstacles ) {
-      if ( ob.isPlatform(x, y, z) ) return true;
-    }
-    return false;
-    
-  } // isPlatform()
-  
-  // check isEmpty() on all obstacles
-  private boolean checkIsEmpty(int x, int y, int z) {
-    
-    for ( Obstacle ob : mObstacles ) {
-      if ( !ob.isEmpty(x, y, z) ) return false;
-    }
-    return true;
-    
-  } // checkIsEmpty()
-  
-  // whether it's possible for the spook to be at the specified position
-  private boolean standingPosition(int x, int y, int z) {
-    
-    if ( !checkIsPlatform(x, y, z) ) return false;
-    
-    for ( int k = 1 ; k <= kHeight ; k++ ) {
-      if ( !checkIsEmpty(x, y, z+k) ) return false;
-    }
-
-    return true;
-    
-  } // standingPosition()
-
   // which directions are possible to step in from here 
   private boolean[] checkDirections(int x, int y, int z) {
 
