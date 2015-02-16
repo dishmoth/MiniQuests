@@ -20,7 +20,6 @@ import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.Statue;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.TinyStory;
-import com.dishmoth.miniquests.game.TinyStory.EventSaveGame;
 
 // the room "D03"
 public class RoomD03 extends Room {

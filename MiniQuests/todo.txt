@@ -9,7 +9,6 @@ Android:
 - Separate thread for loading sounds?
 
 Possibly:
-- Executable jar (resizable, avoids applets).
 - Redraw some of the stairs?
 - Can't tell if enemies take damage.
 - Can accidentally solve puzzles.
@@ -32,4 +31,5 @@ Deployment checklist:
 - Update save version (SaveState.kVersion and in SaveState.decode()).
 - Update to latest libgdx.
 - Update version numbers in Android manifest.
-- Set "debuggable=false" in Android manifest.
+- Set "debuggable=false" in Android manifest (happens automatically?).
+- In Android project, untick "Android Private Libraries" in Properties->Java Build Path->Order and Export
