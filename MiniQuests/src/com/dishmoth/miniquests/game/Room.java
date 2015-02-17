@@ -194,7 +194,7 @@ abstract public class Room {
       final Wall wall = walls[ exit.mWallSide ];
       exit.mDoor = wall.addDoor(exit.mDoorXYPos, exit.mDoorZPos, 
                                 exit.mFloorColour, exit.mFloorDrop);
-      if ( exit.mDestination.isEmpty() ) {
+      if ( exit.mDestination.length() == 0 ) {
         exit.mDoor.setClosed(true);
       }
     }
@@ -225,7 +225,7 @@ abstract public class Room {
         assert ( wall != null );
         exit.mDoor = wall.addDoor(exit.mDoorXYPos, exit.mDoorZPos, 
                                   exit.mFloorColour, exit.mFloorDrop);
-        if ( exit.mDestination.isEmpty() ) {
+        if ( exit.mDestination.length() == 0 ) {
           exit.mDoor.setClosed(true);
         }
       }
