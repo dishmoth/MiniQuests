@@ -347,7 +347,7 @@ public class RoomD02 extends Room {
           mExits[k].mDoor = oldExits[k].mDoor;
           oldExits[k].mDoor = null;
   
-          boolean closed = ( mExits[k].mDestination.isEmpty() );
+          boolean closed = ( mExits[k].mDestination.length() == 0 );
           mExits[k].mDoor.setClosed(closed);
         }
       }
