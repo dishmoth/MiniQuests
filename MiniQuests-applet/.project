@@ -14,16 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>data</name>
-			<type>2</type>
-			<location>C:/Users/Simon_2/Git/MiniQuests/MiniQuests-android/assets/data</location>
-		</link>
-		<link>
-			<name>src</name>
-			<type>2</type>
-			<location>C:/Users/Simon_2/Git/MiniQuests/MiniQuests/src</location>
-		</link>
-	</linkedResources>
 </projectDescription>
