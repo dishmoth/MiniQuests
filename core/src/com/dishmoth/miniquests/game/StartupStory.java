@@ -15,7 +15,7 @@ public class StartupStory extends Story {
 
   // times until things happen
   private static final int kCloseDelay        = 20,
-                           kStartDelayApplet  = 2,
+                           kStartDelayDesktop = 2,
                            kStartDelayAndroid = 20;
   
   // text sizes and positions
@@ -174,7 +174,7 @@ public class StartupStory extends Story {
         mStartTimer = ( Env.platform()==Env.Platform.ANDROID ||
                         Env.platform()==Env.Platform.OUYA ) 
                       ? kStartDelayAndroid 
-                      : kStartDelayApplet;
+                      : kStartDelayDesktop;
         mFinishedTimer = 0;
         mEscPressed = true;
         Env.keys().setMode(KeyMonitor.MODE_QUERY);
@@ -213,7 +213,7 @@ public class StartupStory extends Story {
         
       } else {
 
-        // applet or ouya behaviour
+        // desktop or console behaviour
         final boolean keyYes  = ( Env.keys().left()  || Env.keys().up() ),
                       keyNo   = ( Env.keys().right() || Env.keys().down() ),
                       keyFire = Env.keys().fire();

@@ -23,7 +23,7 @@ public class Env {
                           STEP_Y[] = { 0, +1, 0, -1 };
 
   // different platforms we might be running on
-  public enum Platform { APPLET,  // pure java applet 
+  public enum Platform { APP,     // pure java (non-libgdx) application 
                          DESKTOP, // libgdx, PC application
                          ANDROID, // libgdx, Android phone or tablet
                          OUYA,    // libgdx, Android console
@@ -102,7 +102,7 @@ public class Env {
   
     return ( Env.platform() == Env.Platform.DESKTOP
           || Env.platform() == Env.Platform.HTML 
-          || Env.platform() == Env.Platform.APPLET );
+          || Env.platform() == Env.Platform.APP );
     
   } // whiteBackground()
   
@@ -135,7 +135,9 @@ public class Env {
   static public SaveState saveState() { return kSaveState; }
 
   // send a log message back to HQ (for beta testing only)
-  static public void report(String string) { /* kEnvBits.report(string); */ }
+  static public void report(String message) {
+    //kEnvBits.report("http://dishmoth.com/log.html", message);
+  }
   
   // assorted functions for returning random numbers
   static public float randomFloat() { // in range [0,1]

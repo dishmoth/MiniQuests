@@ -141,10 +141,10 @@ public class EnvBitsGdx implements EnvBits {
   } // EnvBits.load()
   
   // send a log message back to HQ (for beta testing only)
-  public void report(String string) {
+  public void report(String address, String string) {
     
     HttpRequest httpGet = new HttpRequest(HttpMethods.GET);
-    httpGet.setUrl("http://dishmoth.com/log.html");
+    httpGet.setUrl(address);
     httpGet.setContent(string);
     
     Gdx.net.sendHttpRequest( httpGet, new HttpResponseListener() {

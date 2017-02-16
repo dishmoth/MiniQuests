@@ -191,7 +191,7 @@ public class QuitStory extends Story {
         
       } else {
 
-        // applet or ouya behaviour
+        // desktop or console behaviour
         final boolean keyYes  = ( Env.keys().left()  || Env.keys().up() ),
                       keyNo   = ( Env.keys().right() || Env.keys().down() ),
                       keyFire = Env.keys().fire(),

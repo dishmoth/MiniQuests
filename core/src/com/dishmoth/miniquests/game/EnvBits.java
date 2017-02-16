@@ -28,6 +28,6 @@ public interface EnvBits {
   public byte[] load();
   
   // send a log message back to HQ (for beta testing only)
-  public void report(String string);
+  public void report(String address, String message);
   
 } // interface EnvBits
