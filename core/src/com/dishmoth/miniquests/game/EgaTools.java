@@ -214,15 +214,24 @@ public class EgaTools {
   } // colourHistogram()
 
   // restrict the number of distinct colours in the image
-  public static void limitColours(EgaImage image, int maxColours) {
+  public static void limitColours(EgaImage image, int maxColours,
+                                  int requiredColours[]) {
     
     assert( maxColours > 0 && maxColours <= NUM_EGA_COLOURS );
+    assert( requiredColours == null || requiredColours.length <= maxColours );
     
     int count[] = colourHistogram(image);
 
+    if ( requiredColours != null ) {
+      final int bigCount = image.pixels().length + 1;
+      for ( int k = 0 ; k < requiredColours.length ; k++ ) {
+        count[requiredColours[k]] = bigCount; 
+      }
+    }
+    
     int numColours = 0;
     for ( int k = 0 ; k < count.length ; k++ ) {
-      if ( count[k] > 0 ) numColours += 1; 
+      if ( count[k] > 0 ) numColours += 1;
     }
     if ( numColours <= maxColours ) return;
     
@@ -263,6 +272,13 @@ public class EgaTools {
       
     }
 
+  } // limitColours()
+  
+  // restrict the number of distinct colours in the image
+  public static void limitColours(EgaImage image, int maxColours) {
+  
+    limitColours(image, maxColours, null);
+    
   } // limitColours()
   
   // make an image darker

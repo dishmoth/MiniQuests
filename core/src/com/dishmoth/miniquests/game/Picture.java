@@ -57,6 +57,12 @@ public class Picture extends Sprite {
 
   // access to the image data
   public EgaImage image() { return mImage; }
+
+  // access the position
+  public int getXPos() { return mXPos; }
+  public int getYPos() { return mYPos; }
+  public void setXPos(int xPos) { mXPos = xPos; }
+  public void setYPos(int yPos) { mYPos = yPos; }
   
   // nothing to do here
   @Override
