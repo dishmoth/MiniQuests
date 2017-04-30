@@ -173,7 +173,8 @@ public class MenuStory extends Story {
       mPanels.add(new MenuTraining());
       mPanels.add(new MenuStart(true));
     } else {
-      mPanels.add(new MenuStart(false));
+      boolean newGame = !Env.saveState().playedBefore();
+      mPanels.add(new MenuStart(newGame));
       mPanels.add(new MenuTraining());
     }
     

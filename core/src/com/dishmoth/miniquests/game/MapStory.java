@@ -111,6 +111,7 @@ public class MapStory extends Story {
         }
         mEscPressed = true;
         Env.keys().setMode(KeyMonitor.MODE_MAP);
+        Env.saveState().setPlayedBefore();
         it.remove();
       } // Story.EventGameBegins
 

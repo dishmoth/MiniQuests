@@ -452,8 +452,10 @@ public class TinyStory extends Story {
   } // recordRestartState()
 
   // restore the state of a quest from save data 
-  public boolean restore(int version, BitBuffer buffer) {
+  public boolean restore(int version, BitBuffer bufferOriginal) {
 
+    BitBuffer buffer = new BitBuffer(bufferOriginal);
+    
     mQuestNum = buffer.read(4);
     if ( mQuestNum < 0 || mQuestNum >= NUM_QUESTS ) return false;
     

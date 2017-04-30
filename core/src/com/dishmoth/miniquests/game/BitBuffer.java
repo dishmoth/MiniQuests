@@ -48,6 +48,15 @@ public class BitBuffer {
     
   } // constructor
 
+  // copy constructor
+  public BitBuffer(BitBuffer other) {
+    
+    mBuffer = other.toBytes();
+    mNumBits = other.mNumBits;
+    mIndex = other.mIndex;
+    
+  } // constructor
+  
   // empty the buffer
   public void clear() {
     

@@ -17,15 +17,14 @@ import com.dishmoth.miniquests.rooms.RoomZ03;
 public class TrainingStory extends Story {
 
   // times until things happen
-  private static final int kKeyDelay          = 10, //15,
-                           kIntroChangeDelay  = 30,
-                           kChangeDelay       = 10, //15,
-                           kRevealChangeDelay = 15, //25,
+  private static final int kKeyDelay          = 10,
+                           kIntroChangeDelay  = 20,
+                           kChangeDelay       = 10,
+                           kRevealChangeDelay = 15,
                            kFinalChangeDelay  = 30;
   
   // text (and background) images
-  private static EgaImage kStartText   = null,
-                          kStartPic    = null,
+  private static EgaImage kStartPic    = null,
                           kMoveText    = null,
                           kFireText    = null,
                           kEndText     = null,
@@ -68,11 +67,10 @@ public class TrainingStory extends Story {
   // constructor
   public TrainingStory() {
 
-    if ( kStartText == null ) {
+    if ( kStartPic == null ) {
       String gdxText = ( Env.platform()==Env.Platform.OUYA    ? "Controller" 
                        : Env.platform()==Env.Platform.ANDROID ? "Android" 
                                                               : "" );      
-      kStartText   = Env.resources().loadEgaImage("TrainingText.png");
       kStartPic    = Env.resources().loadEgaImage("TrainingPic.png");
       kMoveText    = Env.resources().loadEgaImage("MoveText"+gdxText+".png");
       kFireText    = Env.resources().loadEgaImage("FireText"+gdxText+".png");
@@ -134,7 +132,7 @@ public class TrainingStory extends Story {
         spriteManager.addSprite(mBackgroundPic);
         mStage = 0;
         mKeyTimer = kKeyDelay;
-        mChangeTimer = kIntroChangeDelay;
+        mChangeTimer = kChangeDelay;
         Env.keys().setMode(KeyMonitor.MODE_GAME);
         Env.keys().setButtonDetails(0, 0);
         mEscPressed = true;
@@ -210,11 +208,10 @@ public class TrainingStory extends Story {
         mStage++;
         switch (mStage) {
           case 1: {
-            mTextPic = new Picture(kStartText);
             Env.sounds().play(Sounds.HERO_GRUNT);
+            mChangeTimer = kIntroChangeDelay;
           } break;
           case 2: {
-            assert( mTextPic == null );
             assert( mBackgroundPic != null );
             spriteManager.removeSprite(mBackgroundPic);
             mBackgroundPic = null;
@@ -267,7 +264,7 @@ public class TrainingStory extends Story {
           } break;
           case 13: {
             spriteManager.removeAllSprites();
-            newStory = new MapStory(-1);
+            newStory = new MenuStory();
             storyEvents.add(new Story.EventGameBegins());
             Env.saveState().setTrainingDone();
             Env.saveState().saveMaybe();

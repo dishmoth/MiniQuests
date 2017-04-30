@@ -128,7 +128,7 @@ public class TitleStory extends Story {
     // story handover
     if ( mStartTimer > 0  ) {
       if ( --mStartTimer == 0 ) {
-        newStory = new StartupStory();
+        newStory = new MenuStory();
         storyEvents.add(new Story.EventGameBegins());
         spriteManager.removeAllSprites();
       }

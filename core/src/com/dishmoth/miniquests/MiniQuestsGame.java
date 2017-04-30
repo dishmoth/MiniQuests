@@ -110,7 +110,7 @@ public class MiniQuestsGame extends ApplicationAdapter {
     mGameScreen = new EgaCanvas(Env.screenWidth(), Env.screenHeight());
     
     mGameManager = new GameManager(new TitleStory());
-    //mGameManager = new GameManager(new StartupStory());
+    //mGameManager = new GameManager(new MenuStory());
     //mGameManager = new GameManager(new TrainingStory());
     //mGameManager = new GameManager(new MapStory(-1));
     //mGameManager = new GameManager(new TinyStory(3));

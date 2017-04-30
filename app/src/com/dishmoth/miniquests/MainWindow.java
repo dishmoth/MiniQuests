@@ -17,6 +17,7 @@ import com.dishmoth.miniquests.game.EgaTools;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.GameManager;
 import com.dishmoth.miniquests.game.MapStory;
+import com.dishmoth.miniquests.game.MenuStory;
 import com.dishmoth.miniquests.game.QuestStats;
 import com.dishmoth.miniquests.game.TinyStory;
 import com.dishmoth.miniquests.game.TitleStory;
@@ -81,6 +82,7 @@ public class MainWindow extends Frame implements Runnable {
 
     Env.saveState().load();
     //Env.saveState().load("000000900083D3FFA0"); // <- dragon
+    //Env.saveState().load("02000030104000644400"); // <- garden 
     //Env.saveState().load("010030"); // <- done dungeon C
     
     addWindowListener(
@@ -110,7 +112,7 @@ public class MainWindow extends Frame implements Runnable {
     mGameScreen = new EgaCanvas(Env.screenWidth(), Env.screenHeight());
     
     mGameManager = new GameManager(new TitleStory());
-    //mGameManager = new GameManager(new StartupStory());
+    //mGameManager = new GameManager(new MenuStory());
     //mGameManager = new GameManager(new TrainingStory());
     //mGameManager = new GameManager(new MapStory(-1));
     //mGameManager = new GameManager(new TinyStory(3));

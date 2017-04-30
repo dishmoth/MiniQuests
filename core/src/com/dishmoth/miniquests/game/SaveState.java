@@ -17,8 +17,11 @@ public class SaveState {
   // version for loaded state
   private int mRestartVersion;
   
-  // what training is needed (0 => none, 1 => quick, 2 => full) 
+  // what training is needed (0 => none, 1 => quick, 2 => full (no save found))
   private int mTraining;
+  
+  // whether the player has seen the map screen yet (true if save found)
+  private boolean mPlayedBefore;
   
   // best hero rating for each quest (0 if not completed yet)
   private int mQuestScores[];
@@ -38,6 +41,7 @@ public class SaveState {
     mRestartVersion = kVersion;
     
     mTraining = 2;
+    mPlayedBefore = false;
     
     mQuestScores = new int[ TinyStory.NUM_QUESTS ];
     Arrays.fill(mQuestScores, 0);
@@ -112,6 +116,7 @@ public class SaveState {
       mTraining = ( (Env.platform()==Env.Platform.ANDROID || 
                      Env.platform()==Env.Platform.OUYA) ? 0 : 1 );
     }
+    mPlayedBefore = true;
     
     if ( mRestartData.numBitsToRead() > 0 ) {
       Env.debug("Game state includes quest data");
@@ -160,6 +165,12 @@ public class SaveState {
   // the player does not need further training
   public void setTrainingDone() { mTraining = 0; }
 
+  // whether the player has seen the map screen before
+  public boolean playedBefore() { return mPlayedBefore; }
+  
+  // the player has started playing (seen the map screen at least)
+  public void setPlayedBefore() { mPlayedBefore = true; }
+  
   // best hero rating for a quest (0 if not completed yet)
   public int questScore(int questNum) {
     
