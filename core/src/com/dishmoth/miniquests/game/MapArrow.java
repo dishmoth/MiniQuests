@@ -26,11 +26,11 @@ public class MapArrow extends Sprite {
                                       + "010  "
                                       + " 0   ";
   
-  // colours for the arrow
-  private static final char kColourMap[] = { 'c', 'q' };
+  // colour schemes for arrows
+  private static final char kColourMap[][] = { { 'c', 'q' }, { 'x', 'P' } };
   
-  // image objects for the different directions
-  private static EgaImage kImages[];
+  // image objects for the different directions (and different colour schemes)
+  private static EgaImage kImages[][];
 
   // basic arrow positions
   private static final int kXYPos[][] = { { 38, 15 },   // right
@@ -45,6 +45,9 @@ public class MapArrow extends Sprite {
   // which direction the arrow points in
   private int mDirec;
 
+  // which colour scheme to use
+  private int mColour;
+  
   // timer for animation
   private int mTimer;
   
@@ -53,27 +56,29 @@ public class MapArrow extends Sprite {
 
     if ( kImages != null ) return;
     
-    kImages = new EgaImage[4];
+    kImages = new EgaImage[kColourMap.length][4];
 
-    String rightPixels = EgaTools.convertColours(kPixels, kColourMap);
-    kImages[Env.RIGHT] = new EgaImage(kRefXPos, kRefYPos,
-                                      kWidth, kHeight,
-                                      rightPixels, 0.0f);
-
-    String leftPixels = flipLeftRight(rightPixels, kWidth, kHeight);
-    kImages[Env.LEFT] = new EgaImage(kWidth-1-kRefXPos, kRefYPos,
-                                     kWidth, kHeight,
-                                     leftPixels, 0.0f);
-
-    String downPixels = flipDiagonal(rightPixels, kWidth, kHeight);
-    kImages[Env.DOWN] = new EgaImage(kRefYPos, kRefXPos,
-                                     kHeight, kWidth,
-                                     downPixels, 0.0f);
-
-    String upPixels = flipDiagonal(leftPixels, kWidth, kHeight);
-    kImages[Env.UP] = new EgaImage(kRefYPos, kWidth-1-kRefXPos,
-                                   kHeight, kWidth,
-                                   upPixels, 0.0f);
+    for ( int col = 0 ; col < kImages.length ; col++ ) {
+      String rightPixels = EgaTools.convertColours(kPixels, kColourMap[col]);
+      kImages[col][Env.RIGHT] = new EgaImage(kRefXPos, kRefYPos,
+                                             kWidth, kHeight,
+                                             rightPixels, 0.0f);
+  
+      String leftPixels = flipLeftRight(rightPixels, kWidth, kHeight);
+      kImages[col][Env.LEFT] = new EgaImage(kWidth-1-kRefXPos, kRefYPos,
+                                            kWidth, kHeight,
+                                            leftPixels, 0.0f);
+  
+      String downPixels = flipDiagonal(rightPixels, kWidth, kHeight);
+      kImages[col][Env.DOWN] = new EgaImage(kRefYPos, kRefXPos,
+                                            kHeight, kWidth,
+                                            downPixels, 0.0f);
+  
+      String upPixels = flipDiagonal(leftPixels, kWidth, kHeight);
+      kImages[col][Env.UP] = new EgaImage(kRefYPos, kWidth-1-kRefXPos,
+                                          kHeight, kWidth,
+                                         upPixels, 0.0f);
+    }
 
   } // initialize()
   
@@ -115,9 +120,19 @@ public class MapArrow extends Sprite {
     assert( direc >= 0 && direc < 4 );
     mDirec = direc;
 
+    mColour = 0;
+    
     mTimer = 0;
     
   } // constructor
+  
+  // change colour scheme
+  public void setColour(int col) {
+    
+    assert( col >= 0 && col < kColourMap.length );
+    mColour = col;
+    
+  } // setColour()
   
   // animate the arrow
   @Override
@@ -137,7 +152,7 @@ public class MapArrow extends Sprite {
     
     int x = kXYPos[mDirec][0] + delta*Map.STEP_X[mDirec],
         y = kXYPos[mDirec][1] + delta*Map.STEP_Y[mDirec];
-    kImages[mDirec].draw(canvas, x, y, -1.0f);
+    kImages[mColour][mDirec].draw(canvas, x, y, -1.0f);
     
   } // Sprite.draw()
 

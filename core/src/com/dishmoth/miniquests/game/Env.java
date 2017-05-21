@@ -44,24 +44,26 @@ public class Env {
   static private final int kTicksPerSecond = 30;
 
   // assorted helper objects
-  static private Random     kRandom;
-  static private EnvBits    kEnvBits;
-  static private KeyMonitor kKeyMonitor;
-  static private Resources  kResources;
-  static private Sounds     kSounds;
-  static private SaveState  kSaveState;
+  static private Random      kRandom;
+  static private EnvBits     kEnvBits;
+  static private KeyMonitor  kKeyMonitor;
+  static private Resources   kResources;
+  static private Sounds      kSounds;
+  static private SaveState   kSaveState;
+  static private ScreenScale kScreenScale;
   
   // this sets up a global Env for the application
   static public void initialize(EnvBits envBits,
                                 Resources resources, 
                                 Sounds sounds) {
   
-    kRandom     = new Random();
-    kEnvBits    = envBits;
-    kKeyMonitor = null;
-    kResources  = resources;
-    kSounds     = sounds;
-    kSaveState  = new SaveState();
+    kRandom      = new Random();
+    kEnvBits     = envBits;
+    kKeyMonitor  = null;
+    kResources   = resources;
+    kSounds      = sounds;
+    kSaveState   = new SaveState();
+    kScreenScale = new ScreenScale();
     
     kEnvBits.initialize();
     kSounds.initialize();
@@ -134,6 +136,9 @@ public class Env {
   // return reference to game's save state
   static public SaveState saveState() { return kSaveState; }
 
+  // return reference to game's screen scale helper
+  static public ScreenScale screenScale() { return kScreenScale; }
+  
   // send a log message back to HQ (for beta testing only)
   static public void report(String message) {
     //kEnvBits.report("http://dishmoth.com/log.html", message);

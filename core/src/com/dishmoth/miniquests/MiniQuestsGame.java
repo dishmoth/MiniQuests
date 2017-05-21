@@ -19,7 +19,7 @@ import com.dishmoth.miniquests.game.EgaTools;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.GameManager;
 import com.dishmoth.miniquests.game.MapStory;
-import com.dishmoth.miniquests.game.StartupStory;
+import com.dishmoth.miniquests.game.MenuStory;
 import com.dishmoth.miniquests.game.TinyStory;
 import com.dishmoth.miniquests.game.TitleStory;
 import com.dishmoth.miniquests.gdx.EnvBitsGdx;
@@ -33,10 +33,6 @@ import com.dishmoth.miniquests.gdx.SoundsGdx;
 // libgdx application wrapper for the game
 public class MiniQuestsGame extends ApplicationAdapter {
 
-  // target size for game screen relative to full display
-  private static final float kShrinkTouchscreen = 0.75f,
-                             kShrinkTelevision  = 0.85f;
-  
   // how big the screen needs to be (centimetres) for on-screen buttons
   private static final float kBigScreenXCm = 13.0f,
                              kBigScreenYCm = 7.0f;
@@ -129,8 +125,9 @@ public class MiniQuestsGame extends ApplicationAdapter {
   @Override
   public void resize(int width, int height) {
 
-    Env.debug("ApplicationListener.resize()");
+    Env.debug("ApplicationListener.resize( " + width + " x " + height + " )");
     mScreenBatch = new SpriteBatch();
+    Env.screenScale().refresh();
     
   } // ApplicationListener.resize()
 
@@ -235,30 +232,9 @@ public class MiniQuestsGame extends ApplicationAdapter {
   // draw the game screen
   private void drawGameScreen() {
 
-    final float shrink =
-                    (Env.platform()==Env.Platform.ANDROID) ? kShrinkTouchscreen
-                  : (Env.platform()==Env.Platform.OUYA)    ? kShrinkTelevision
-                                                           : 1.0f;
+    final int scale = Env.screenScale().scale();
 
     KeyMonitorGdx keyMonitor = (KeyMonitorGdx)Env.keys();
-    
-    int xScale = (int)Math.floor( shrink * Gdx.graphics.getWidth() 
-                                  / (float)Env.screenWidth() ),
-        yScale = (int)Math.floor( shrink * Gdx.graphics.getHeight() 
-                                  / (float)Env.screenHeight() );
-    int scale = Math.min(xScale, yScale);
-    
-    if ( keyMonitor.usingButtons() ) {
-      int maxWidth  = Gdx.graphics.getWidth() - 2*keyMonitor.buttonsXSize(),
-          maxHeight = Gdx.graphics.getHeight() - 2*keyMonitor.buttonsYSize();
-      maxWidth = Math.max(maxWidth, Gdx.graphics.getWidth()/3);
-      maxHeight = Math.max(maxHeight, Gdx.graphics.getHeight()/3);
-      int xScale2 = (int)Math.floor( maxWidth / (float)Env.screenWidth() ),
-          yScale2 = (int)Math.floor( maxHeight / (float)Env.screenHeight() );
-      scale = Math.min(scale, Math.max(xScale2, yScale2));
-    }
-
-    scale = Math.max(1, scale);
     keyMonitor.setScreenScaleFactor(scale);
     
     int xSize   = scale*Env.screenWidth(), 

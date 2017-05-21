@@ -23,6 +23,9 @@ public class SaveState {
   // whether the player has seen the map screen yet (true if save found)
   private boolean mPlayedBefore;
   
+  // size factor for the game screen (-1 if undefined)
+  private int mScreenSize;
+  
   // best hero rating for each quest (0 if not completed yet)
   private int mQuestScores[];
 
@@ -42,6 +45,8 @@ public class SaveState {
     
     mTraining = 2;
     mPlayedBefore = false;
+
+    mScreenSize = -1;
     
     mQuestScores = new int[ TinyStory.NUM_QUESTS ];
     Arrays.fill(mQuestScores, 0);
@@ -170,6 +175,17 @@ public class SaveState {
   
   // the player has started playing (seen the map screen at least)
   public void setPlayedBefore() { mPlayedBefore = true; }
+  
+  // size factor for the game screen (-1 if undecided) 
+  public int screenSize() { return mScreenSize; }
+  
+  // set the size factor for the game screen
+  public void setScreenSize(int size) { 
+    
+    assert( size >= 0 && size < 32 );
+    mScreenSize = size;
+    
+  } // setScreenSize()
   
   // best hero rating for a quest (0 if not completed yet)
   public int questScore(int questNum) {

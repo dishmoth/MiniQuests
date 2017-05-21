@@ -63,7 +63,7 @@ public class MenuStory extends Story {
         mPauseTimer = kPauseStartDelay;
         mExitTimer = 0;
         mEscPressed = true;
-        Env.keys().setMode(KeyMonitor.MODE_QUERY);
+        Env.keys().setMode(KeyMonitor.MODE_MAP);
         Env.sounds().stopAll();
         it.remove();
       } // Story.EventGameBegins
@@ -197,6 +197,11 @@ public class MenuStory extends Story {
       
       Env.debug("No quest restart data found");
       
+    }
+
+    if ( Env.platform() == Env.Platform.ANDROID || 
+         Env.platform() == Env.Platform.OUYA ) {
+      mPanels.add(new MenuResize());
     }
     
     setPanelPositions();
