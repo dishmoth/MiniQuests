@@ -29,10 +29,10 @@ public interface KeyMonitor {
                           MODE_QUERY = 2;
   public void setMode(int mode);
   
-  // whether on-screen buttons are enabled (Android only)
-  public boolean usingButtons();
-  
   // set details of the on-screen buttons (Android only)
   public void setButtonDetails(int arrowStyle, int fireStyle);
+  
+  // make on-screen buttons visible (Android only)
+  public void setButtonDisplay(boolean v);
   
 } // class KeyMonitor

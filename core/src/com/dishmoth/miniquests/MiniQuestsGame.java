@@ -28,22 +28,12 @@ import com.dishmoth.miniquests.gdx.KeyMonitorDesktop;
 import com.dishmoth.miniquests.gdx.KeyMonitorGdx;
 import com.dishmoth.miniquests.gdx.KeyMonitorOuya;
 import com.dishmoth.miniquests.gdx.ResourcesGdx;
+import com.dishmoth.miniquests.gdx.ScreenScaleAndroid;
 import com.dishmoth.miniquests.gdx.SoundsGdx;
 
 // libgdx application wrapper for the game
 public class MiniQuestsGame extends ApplicationAdapter {
 
-  // how big the screen needs to be (centimetres) for on-screen buttons
-  private static final float kBigScreenXCm = 13.0f,
-                             kBigScreenYCm = 7.0f;
-  private static final int   kSafePixPerCm = 20;
-  
-  // size of the on-screen buttons (centimetres)
-  private static final float kButtonsCmMin  = 1.9f,
-                             kButtonsCmMax  = 2.5f;
-  private static final float kScreenCmSmall = 17.5f,
-                             kScreenCmBig   = 25.0f;
-  
   // assorted objects
   private GameManager mGameManager   = null;
   private EgaCanvas   mGameScreen    = null;
@@ -72,36 +62,21 @@ public class MiniQuestsGame extends ApplicationAdapter {
                     new SoundsGdx() );
     //envBits.setPlatform( Env.Platform.ANDROID ); //!!!
     
+    Env.saveState().load();
+    
     Env.addKeyMonitor( 
           (Env.platform() == Env.Platform.ANDROID) ? new KeyMonitorAndroid()
         : (Env.platform() == Env.Platform.OUYA)    ? new KeyMonitorOuya()
                                                    : new KeyMonitorDesktop() );
 
-    // enable on-screen buttons (if screen is big enough)
-    if ( Gdx.graphics.getPpcX() > kSafePixPerCm &&
-         Gdx.graphics.getPpcY() > kSafePixPerCm &&
-         Env.platform() == Env.Platform.ANDROID ) {
-      float xcm = Gdx.graphics.getWidth() / Gdx.graphics.getPpcX(),
-            ycm = Gdx.graphics.getHeight() / Gdx.graphics.getPpcY();
-      float diag = (float)Math.sqrt(xcm*xcm + ycm*ycm);
-      Env.debug("Screen size: " + xcm + " x " + ycm 
-                + " cm (diag " + diag + " cm)");
-  
-      if ( xcm > kBigScreenXCm && ycm > kBigScreenYCm ) {
-        Env.debug("Enabling on-screen buttons");
-        float h = (diag - kScreenCmSmall)/(kScreenCmBig - kScreenCmSmall);
-        h = Math.max(0.0f, Math.min(1.0f, h));
-        float buttonsCm = h*kButtonsCmMax + (1-h)*kButtonsCmMin;
-        int buttonsPix = Math.round( buttonsCm*Gdx.graphics.getPpcX() );
-        buttonsPix = Math.min( buttonsPix, Gdx.graphics.getWidth()/5 );
-        ((KeyMonitorGdx)Env.keys()).useButtons(buttonsPix);
-      }
+    if ( Env.platform() == Env.Platform.ANDROID ||
+         Env.platform() == Env.Platform.OUYA ) {
+      Env.setScreenScale( new ScreenScaleAndroid(Gdx.graphics.getWidth(),
+                                                 Gdx.graphics.getHeight()) );
     }
     
     // enable physical controllers (if any)
     ((KeyMonitorGdx)Env.keys()).useControllers();
-    
-    Env.saveState().load();
     
     mGameScreen = new EgaCanvas(Env.screenWidth(), Env.screenHeight());
     
@@ -126,8 +101,8 @@ public class MiniQuestsGame extends ApplicationAdapter {
   public void resize(int width, int height) {
 
     Env.debug("ApplicationListener.resize( " + width + " x " + height + " )");
+    Env.screenScale().refresh(width, height);
     mScreenBatch = new SpriteBatch();
-    Env.screenScale().refresh();
     
   } // ApplicationListener.resize()
 
@@ -234,9 +209,6 @@ public class MiniQuestsGame extends ApplicationAdapter {
 
     final int scale = Env.screenScale().scale();
 
-    KeyMonitorGdx keyMonitor = (KeyMonitorGdx)Env.keys();
-    keyMonitor.setScreenScaleFactor(scale);
-    
     int xSize   = scale*Env.screenWidth(), 
         ySize   = scale*Env.screenHeight();
     int xOffset = (Gdx.graphics.getWidth() - xSize)/2,

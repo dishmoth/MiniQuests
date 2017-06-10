@@ -23,8 +23,12 @@ public class SaveState {
   // whether the player has seen the map screen yet (true if save found)
   private boolean mPlayedBefore;
   
-  // size factor for the game screen (-1 if undefined)
+  // size factor for the game screen, if adjustable (-1 => undefined)
+  private static final int kMaxScreenSize = 20;
   private int mScreenSize;
+  
+  // format for on-screen buttons (-1 => undefined, 0 => corners, 1 => buttons)
+  private int mTouchScreenControls;
   
   // best hero rating for each quest (0 if not completed yet)
   private int mQuestScores[];
@@ -47,6 +51,7 @@ public class SaveState {
     mPlayedBefore = false;
 
     mScreenSize = -1;
+    mTouchScreenControls = -1;
     
     mQuestScores = new int[ TinyStory.NUM_QUESTS ];
     Arrays.fill(mQuestScores, 0);
@@ -182,8 +187,19 @@ public class SaveState {
   // set the size factor for the game screen
   public void setScreenSize(int size) { 
     
-    assert( size >= 0 && size < 32 );
+    assert( size >= 0 && size <= kMaxScreenSize );
     mScreenSize = size;
+    
+  } // setScreenSize()
+  
+  // format for on-screen buttons (-1 => undefined, 0 => corners, 1 => buttons)
+  public int touchScreenControls() { return mTouchScreenControls; }
+  
+  // set the on-screen button format
+  public void setTouchScreenControls(int scheme) { 
+    
+    assert( scheme >= 0 && scheme <= 1 );
+    mTouchScreenControls = scheme;
     
   } // setScreenSize()
   

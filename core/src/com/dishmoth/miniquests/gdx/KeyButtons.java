@@ -88,7 +88,7 @@ public class KeyButtons {
     
   } // dispose()
   
-  // specify the target width for the arrow buttons 
+  // specify the target width (in pixels) for the arrow buttons 
   public void setRefSize(int pixels) {
 
     assert( pixels > 0 );

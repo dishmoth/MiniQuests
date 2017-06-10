@@ -78,6 +78,14 @@ public class Env {
     
   } // addKeyMonitor()
   
+  // replace the default screen-scale controller after initialization
+  static public void setScreenScale(ScreenScale scale) {
+    
+    assert( scale != null );
+    kScreenScale = scale;
+    
+  } // setScreenScale()
+  
   // discard resources
   static public void dispose() {
     

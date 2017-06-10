@@ -204,6 +204,10 @@ public class MenuStory extends Story {
       mPanels.add(new MenuResize());
     }
     
+    if ( Env.platform() == Env.Platform.ANDROID ) {
+      mPanels.add(new MenuControls());
+    }
+    
     setPanelPositions();
     for ( MenuPanel panel : mPanels ) panel.prepare(spriteManager);
     

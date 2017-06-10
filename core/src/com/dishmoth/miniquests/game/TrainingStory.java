@@ -223,7 +223,7 @@ public class TrainingStory extends Story {
           case 4: {
             mTextPic = new Picture(kMoveText);
             if ( Env.platform() == Env.Platform.ANDROID &&
-                 !Env.keys().usingButtons() ) {
+                 Env.saveState().touchScreenControls() == 0 ) {
               mArrows = new TouchArrows(1);
             }
             Env.keys().setButtonDetails(2, 0);
@@ -240,7 +240,7 @@ public class TrainingStory extends Story {
           case 8: {
             mTextPic = new Picture(kFireText);
             if ( Env.platform() == Env.Platform.ANDROID &&
-                 !Env.keys().usingButtons() ) {
+                 Env.saveState().touchScreenControls() == 0 ) {
               mArrows = new TouchArrows(2);
             }
             Env.keys().setButtonDetails(1, 2);

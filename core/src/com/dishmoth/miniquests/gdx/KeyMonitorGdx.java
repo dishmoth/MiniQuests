@@ -47,25 +47,13 @@ abstract public class KeyMonitorGdx implements KeyMonitor {
     
   } // KeyMonitor.setMode()
   
-  // magnification factor for the game screen
-  public void setScreenScaleFactor(int scale) {}
-
-  // enable on-screen buttons with target size (zero for no buttons)
-  public void useButtons(int pixelWidth) {}
-  
-  // whether on-screen buttons are enabled
-  public boolean usingButtons() { return false; }
-  
-  // set details of the on-screen buttons
+  // set details of the on-screen buttons (Android only)
   public void setButtonDetails(int arrowStyle, int fireStyle) {}
   
-  // number of pixels needed for buttons on left/right side of screen
-  public int buttonsXSize() { return 0; }
+  // make on-screen buttons visible (Android only)
+  public void setButtonDisplay(boolean v) {}
 
-  // number of pixels needed for buttons at bottom of screen
-  public int buttonsYSize() { return 0; }
-  
-  // draw the on-scren buttons, if used
+  // draw the on-screen buttons, if used
   public void displayButtons(SpriteBatch spriteBatch) {}
   
   // enable use of physical controllers

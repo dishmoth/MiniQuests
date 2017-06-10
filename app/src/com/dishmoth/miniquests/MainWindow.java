@@ -235,15 +235,11 @@ public class MainWindow extends Frame implements Runnable {
     Graphics g = mBufferStrategy.getDrawGraphics();
     assert( g instanceof Graphics2D );
 
-    final int   width   = mGameCanvas.getWidth(),
-                height  = mGameCanvas.getHeight();
-    final float wScale  = (width + 1) / (float)Env.screenWidth(),
-                hScale  = (height + 1) / (float)Env.screenHeight();
-    final int   iwScale = (int)Math.floor(wScale),
-                ihScale = (int)Math.floor(hScale);
-    final int   scale   = Math.max(1, Math.min(iwScale, ihScale));
-    final int   xOffset = (width - scale*Env.screenWidth())/2,
-                yOffset = (height - scale*Env.screenHeight())/2;
+    final int width   = mGameCanvas.getWidth(),
+              height  = mGameCanvas.getHeight();
+    final int scale   = Env.screenScale().scale(width+1, height+1);
+    final int xOffset = (width - scale*Env.screenWidth())/2,
+              yOffset = (height - scale*Env.screenHeight())/2;
 
     drawEgaCanvas((Graphics2D)g, scale, xOffset, yOffset);
     
