@@ -130,8 +130,7 @@ public class ScreenScaleAndroid extends ScreenScale {
                                                          : 1.0f;
     float scale = shrink * mMaxScale;
 
-    if ( Env.platform() == Env.Platform.ANDROID &&
-         Env.saveState().touchScreenControls() == 1 ) {
+    if ( Env.platform() == Env.Platform.ANDROID ) {
       assert( Env.keys() != null );
       KeyMonitorAndroid keyMonitor = (KeyMonitorAndroid)Env.keys();
       int maxWidth  = Gdx.graphics.getWidth() - 2*keyMonitor.buttonsXMargin(),

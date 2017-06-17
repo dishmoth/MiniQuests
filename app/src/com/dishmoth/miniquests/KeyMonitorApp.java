@@ -97,9 +97,6 @@ public class KeyMonitorApp implements KeyListener, KeyMonitor {
   // set details of the on-screen buttons (not relevant here)
   public void setButtonDetails(int arrowStyle, int fireStyle) {}
   
-  // make on-screen buttons visible (not relevant here)
-  public void setButtonDisplay(boolean v) {}
-
   // implementation of KeyListener interface
   public void keyPressed(KeyEvent e) {
     

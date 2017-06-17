@@ -42,6 +42,9 @@ public class Env {
 
   // frame rate
   static private final int kTicksPerSecond = 30;
+  
+  // frames since the game was initialized
+  static private long kTicks;
 
   // assorted helper objects
   static private Random      kRandom;
@@ -56,7 +59,9 @@ public class Env {
   static public void initialize(EnvBits envBits,
                                 Resources resources, 
                                 Sounds sounds) {
-  
+
+    kTicks = 0;
+    
     kRandom      = new Random();
     kEnvBits     = envBits;
     kKeyMonitor  = null;
@@ -118,6 +123,12 @@ public class Env {
   
   // frame rate
   static public int ticksPerSecond() { return kTicksPerSecond; }
+  
+  // frames since the start of the game
+  static public long ticks() { return kTicks; }
+  
+  // note that the game has advanced by one frame
+  static public void incrementTicks() { ++kTicks; }
   
   // display debug text
   static public boolean debugMode() { return kDebugMode; }

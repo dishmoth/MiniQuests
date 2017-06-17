@@ -32,7 +32,4 @@ public interface KeyMonitor {
   // set details of the on-screen buttons (Android only)
   public void setButtonDetails(int arrowStyle, int fireStyle);
   
-  // make on-screen buttons visible (Android only)
-  public void setButtonDisplay(boolean v);
-  
 } // class KeyMonitor

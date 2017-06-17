@@ -48,7 +48,7 @@ public class MenuResize extends MenuPanel {
   // called when the panel becomes active
   public void enable(SpriteManager spriteManager) {
     
-    mText = new Picture(kTextImage);
+    mText = new Picture(kTextImage, -2.0f);
     spriteManager.addSprite(mText);
 
     mArrows = null;

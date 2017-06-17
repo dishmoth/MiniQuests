@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.dishmoth.miniquests.game.Env;
 
 // on-screen buttons for large-screen android devices
 public class KeyButtons {
@@ -25,12 +26,14 @@ public class KeyButtons {
   
   // number of pixels to leave between the buttons and the screen edge
   private static final int kArrowMarginX     = 7,
-                           kArrowMarginY     = 9;
+                           kArrowMarginY     = 9,
+                           kArrowMargin0     = 4;
   private static final int kArrowMarginInner = 5;
 
   // button colours
-  private static final Color kColourDark   = new Color(0.2f, 0.2f, 0.2f, 1.0f),
-                             kColourBright = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+  private static final float kColourDark   = 0.2f,
+                             kColourBright = 0.7f,
+                             kColourPeriod = 14.0f;
   
   // button touch size (unscaled pixels)
   private static final int kButtonSize = 15;
@@ -98,19 +101,30 @@ public class KeyButtons {
     
   } // setRefSize()
   
+  // return the current control scheme (0 => corners, 1 => buttons)
+  public int buttonScheme() {
+    
+    int s = Env.saveState().touchScreenControls();
+    assert( s >= 0 && s <= 1 );
+    return s;
+    
+  } // scheme()
+  
   // number of pixels needed for buttons on left/right side of screen
   public int marginXSize() {
     
-    return mScale*( kArrowMarginX + 2*kArrowWidth 
-                    + kArrowGapX + kArrowMarginInner );
+    return (buttonScheme() == 0) ? 0 
+                                 : mScale*( kArrowMarginX + 2*kArrowWidth 
+                                            + kArrowGapX + kArrowMarginInner );
     
   } // marginXSize()
   
   // number of pixels needed for buttons at bottom of screen
   public int marginYSize() {
     
-    return mScale*( kArrowMarginY + 2*kArrowHeight 
-                    + kArrowGapY + kArrowMarginInner );
+    return (buttonScheme() == 0) ? 0 
+                                 : mScale*( kArrowMarginY + 2*kArrowHeight 
+                                            + kArrowGapY + kArrowMarginInner );
     
   } // marginYSize()
     
@@ -120,12 +134,22 @@ public class KeyButtons {
     assert( dx == -1 || dx == +1 );
     assert( dy == -1 || dy == +1 );
     
-    int size = mScale*kButtonSize;
-    int x = ( mScale*(kArrowMarginX + kArrowWidth) + (mScale*kArrowGapX)/2 ),
-        y = Gdx.graphics.getHeight() -
-            ( mScale*(kArrowMarginY + kArrowHeight) + (mScale*kArrowGapY)/2 );
+    if ( buttonScheme() == 0 ) {
 
-    return KeyMonitorAndroid.isTouched(x, y, dx*size, -dy*size);
+      return KeyMonitorAndroid.isTouchedFrac( 0.5f + dx*0.5f, 
+                                              0.5f - dy*0.5f, 
+                                              -dx*0.5f,
+                                              dy*1.0f/3.0f );
+        
+    } else {
+
+      int size = mScale*kButtonSize;
+      int x = ( mScale*(kArrowMarginX+kArrowWidth) + (mScale*kArrowGapX)/2 ),
+          y = Gdx.graphics.getHeight() -
+              ( mScale*(kArrowMarginY+kArrowHeight) + (mScale*kArrowGapY)/2 );
+      return KeyMonitorAndroid.isTouched(x, y, dx*size, -dy*size);
+      
+    }
     
   } // arrowTouched()
   
@@ -144,20 +168,32 @@ public class KeyButtons {
   // check whether the fire button is currently pressed
   public boolean fire() {
     
-    int size = mScale*kButtonSize;
-    int x = Gdx.graphics.getWidth() - 
-            ( mScale*(kArrowMarginX + kArrowWidth) + (mScale*kArrowGapX)/2 ),
-        y = Gdx.graphics.getHeight() -
-            ( mScale*(kArrowMarginY + kArrowHeight) + (mScale*kArrowGapY)/2 );
-    return KeyMonitorAndroid.isTouched(x-size, y-size, 2*size, 2*size);
+    if ( buttonScheme() == 0 ) {
+
+      return KeyMonitorAndroid.isTouchedFrac( 0.0f, 
+                                              1.0f/3.0f, 
+                                              1.0f,
+                                              1.0f/3.0f );
+
+    } else {
+    
+      int size = mScale*kButtonSize;
+      int x = Gdx.graphics.getWidth() - 
+              ( mScale*(kArrowMarginX+kArrowWidth) + (mScale*kArrowGapX)/2 ),
+          y = Gdx.graphics.getHeight() -
+              ( mScale*(kArrowMarginY+kArrowHeight) + (mScale*kArrowGapY)/2 );
+      return KeyMonitorAndroid.isTouched(x-size, y-size, 2*size, 2*size);
+    
+    }
     
   } // fire()
   
   // set various details of the on-screen buttons
+  // (0 => hidden, 1 => usually visible, 2 => highlighted, 3 => always visible)
   public void setDetails(int arrowStyle, int fireStyle) {
 
-    assert( arrowStyle >= 0 && arrowStyle <= 2 );
-    assert( fireStyle >= 0 && fireStyle <= 2 );
+    assert( arrowStyle >= 0 && arrowStyle <= 3 );
+    assert( fireStyle >= 0 && fireStyle <= 3 );
     
     mArrowStyle = arrowStyle;
     mFireStyle = fireStyle;
@@ -165,21 +201,40 @@ public class KeyButtons {
   } // setDetails()
   
   // show the buttons
-  public void display(SpriteBatch spriteBatch) {
+  public void display(SpriteBatch spriteBatch, boolean gameMode) {
     
     prepare();
-    
+
     Color oldColour = spriteBatch.getColor();
+    
+    float c = (float)Math.sin(2*Math.PI*((Env.ticks()/kColourPeriod)%1.0f));
+    float colour = (0.5f+0.5f*c)*kColourDark + (0.5f-0.5f*c)*kColourBright;
+    
+    final int scheme = buttonScheme();
     
     final int arrWidth  = mScale*kArrowWidth,
               arrHeight = mScale*kArrowHeight;
-    final int arrX0     = mScale*kArrowMarginX + arrWidth,
-              arrY0     = mScale*kArrowMarginY + arrHeight;
-    final int arrX1     = arrX0 + mScale*kArrowGapX,
-              arrY1     = arrY0 + mScale*kArrowGapY;
+    int arrX0, arrY0, arrX1, arrY1;
 
-    if ( mArrowStyle > 0 ) {
-      spriteBatch.setColor( (mArrowStyle==2) ? kColourBright : kColourDark );
+    if ( scheme == 0 ) {
+      arrX0 = mScale*kArrowMargin0 + arrWidth;
+      arrY0 = mScale*kArrowMargin0 + arrHeight;
+      arrX1 = Gdx.graphics.getWidth() - arrX0;
+      arrY1 = Gdx.graphics.getHeight() - arrY0;
+    } else {
+      arrX0 = mScale*kArrowMarginX + arrWidth;
+      arrY0 = mScale*kArrowMarginY + arrHeight;
+      arrX1 = arrX0 + mScale*kArrowGapX;
+      arrY1 = arrY0 + mScale*kArrowGapY;
+    }
+
+    boolean arrowsOn = (mArrowStyle == 3) ||
+                       (mArrowStyle == 2 && scheme == 1) || 
+                       (mArrowStyle == 1 && scheme == 1 && gameMode);
+    
+    if ( arrowsOn ) {
+      float col = (mArrowStyle>=2) ? colour : kColourDark;
+      spriteBatch.setColor(col, col, col, 1.0f );
       spriteBatch.draw(mArrowImage, arrX0, arrY0, -arrWidth, -arrHeight);
       spriteBatch.draw(mArrowImage, arrX1, arrY0, +arrWidth, -arrHeight);
       spriteBatch.draw(mArrowImage, arrX0, arrY1, -arrWidth, +arrHeight);
@@ -190,12 +245,26 @@ public class KeyButtons {
               fireY      = (arrY0 + arrY1)/2;
     final int fireWidth  = mScale*kFireWidth,
               fireHeight = mScale*kFireHeight;
+
+    boolean fireOn = (mFireStyle == 3) || 
+                     (mFireStyle == 2 && scheme == 1) || 
+                     (mFireStyle == 1 && scheme == 1 && gameMode);
     
-    if ( mFireStyle > 0 ) {
-      spriteBatch.setColor( (mFireStyle==2) ? kColourBright : kColourDark );
-      spriteBatch.draw(mFireImage,
-                       fireX-fireWidth/2, fireY-fireHeight/2,
-                       fireWidth, fireHeight);
+    if ( fireOn ) {
+      float col = (mFireStyle>=2) ? colour : kColourDark;
+      spriteBatch.setColor(col, col, col, 1.0f);
+      if ( scheme == 0 ) {
+        spriteBatch.draw(mFireImage,
+                         arrX0-fireWidth, fireY-fireHeight/2,
+                         fireWidth, fireHeight);
+        spriteBatch.draw(mFireImage,
+                         Gdx.graphics.getWidth()-arrX0, fireY-fireHeight/2,
+                         fireWidth, fireHeight);
+      } else {
+        spriteBatch.draw(mFireImage,
+                         fireX-fireWidth/2, fireY-fireHeight/2,
+                         fireWidth, fireHeight);
+      }
     }
                      
     spriteBatch.setColor(oldColour);

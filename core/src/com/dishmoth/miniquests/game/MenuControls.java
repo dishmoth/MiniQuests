@@ -19,15 +19,18 @@ public class MenuControls extends MenuPanel {
   // check on the fire key
   private boolean mReady;
   
+  // size controls (left and right/smaller and bigger)
+  private MapArrow mArrows[];
+
   // prepare resources
   static void initialize() {
     
     MenuPanel.initialize();
     
     if ( kBackgroundImage == null ) {
-      kBackgroundImage = Env.resources().loadEgaImage("ScreenSizePic.png");
+      kBackgroundImage = Env.resources().loadEgaImage("ControlSchemePic.png");
       kFrameImage.draw(kBackgroundImage, 0, 0);
-      kTextImage = Env.resources().loadEgaImage("ScreenSizeText.png");
+      kTextImage = Env.resources().loadEgaImage("ControlSchemeText.png");
     }
 
   } // initialize()
@@ -45,11 +48,13 @@ public class MenuControls extends MenuPanel {
   // called when the panel becomes active
   public void enable(SpriteManager spriteManager) {
     
-    mText = new Picture(kTextImage);
+    mText = new Picture(kTextImage, -2.0f);
     spriteManager.addSprite(mText);
 
-    Env.keys().setButtonDisplay(true);
+    Env.keys().setButtonDetails(3, 3);
     
+    mArrows = null;
+
     mReady = false;
     
   } // MenuPanel.enable()
@@ -59,15 +64,26 @@ public class MenuControls extends MenuPanel {
 
     final boolean keyFire = Env.keys().fire();
 
+    int scheme = Env.saveState().touchScreenControls();
+    assert( scheme >= 0 );
     if ( keyFire && mReady ) {
-      int scheme = Env.saveState().touchScreenControls();
-      assert( scheme >= 0 );
       scheme = (scheme + 1) % 2;
       Env.saveState().setTouchScreenControls(scheme);
       Env.sounds().play(Sounds.MENU_2);
     }
     mReady = !keyFire;    
     
+    if ( mArrows == null ) {
+      mArrows = new MapArrow[]{ new MapArrow(Env.LEFT),
+                                new MapArrow(Env.RIGHT) };
+      for ( int k = 0 ; k < mArrows.length ; k++ ) {
+        mArrows[k].setColour(1);
+        spriteManager.addSprite(mArrows[k]);
+      }
+    }
+
+    mArrows[0].mDrawDisabled = mArrows[1].mDrawDisabled = (scheme == 0);
+
     return false;
     
   } // MenuPanel.advance()
@@ -77,7 +93,14 @@ public class MenuControls extends MenuPanel {
     
     spriteManager.removeSprite(mText);
 
-    Env.keys().setButtonDisplay(false);
+    Env.keys().setButtonDetails(1, 1);
+    
+    if ( mArrows != null ) {
+      for ( MapArrow arrow : mArrows ) {
+        if ( arrow != null ) spriteManager.removeSprite(arrow);
+      }
+      mArrows = null;
+    }
     
   } // MenuPanel.disable()
   

@@ -50,9 +50,6 @@ abstract public class KeyMonitorGdx implements KeyMonitor {
   // set details of the on-screen buttons (Android only)
   public void setButtonDetails(int arrowStyle, int fireStyle) {}
   
-  // make on-screen buttons visible (Android only)
-  public void setButtonDisplay(boolean v) {}
-
   // draw the on-screen buttons, if used
   public void displayButtons(SpriteBatch spriteBatch) {}
   

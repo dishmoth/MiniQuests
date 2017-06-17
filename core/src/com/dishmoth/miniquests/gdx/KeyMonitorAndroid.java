@@ -34,11 +34,8 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
   private static final float kScreenCmSmall  = 17.5f,
                              kScreenCmBig    = 25.0f;
   
-  // helper object for managing on-screen buttons (or null)
+  // helper object for managing on-screen buttons
   private KeyButtons mKeyButtons;
-  
-  // make on-screen button visible even if they normally wouldn't be
-  private boolean mButtonDisplay;
   
   // constructor
   public KeyMonitorAndroid() {
@@ -47,8 +44,6 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
 
     mKeyButtons = new KeyButtons();
     setButtonSize();
-    
-    mButtonDisplay = false;
     
   } // constructor
   
@@ -101,14 +96,7 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
     }
 
     if ( mMode == KeyMonitor.MODE_GAME ) {
-      if ( Env.saveState().touchScreenControls() == 1 ) {
-        return mKeyButtons.up();
-      } else {
-        return isTouchedFrac( 0.0f,
-                              0.0f,
-                              0.5f,
-                              1.0f/3.0f );
-      }
+      return mKeyButtons.up();
     }
     if ( mMode == KeyMonitor.MODE_MAP ) {
       return isTouchedPix( 0,
@@ -138,14 +126,7 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
     }
     
     if ( mMode == KeyMonitor.MODE_GAME ) {
-      if ( Env.saveState().touchScreenControls() == 1 ) {
-        return mKeyButtons.down();
-      } else {
-        return isTouchedFrac( 1.0f,
-                              1.0f, 
-                              -0.5f,
-                              -1.0f/3.0f );
-      }
+      return mKeyButtons.down();
     }
     if ( mMode == KeyMonitor.MODE_MAP ) {
       return isTouchedPix( 0,
@@ -175,14 +156,7 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
     }
     
     if ( mMode == KeyMonitor.MODE_GAME ) {
-      if ( Env.saveState().touchScreenControls() == 1 ) {
-        return mKeyButtons.left();
-      } else {
-        return isTouchedFrac( 0.0f, 
-                              1.0f, 
-                              0.5f,
-                              -1.0f/3.0f );
-      }
+      return mKeyButtons.left();
     }
     if ( mMode == KeyMonitor.MODE_MAP ) {
       return isTouchedPix( 0,
@@ -218,14 +192,7 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
     }
     
     if ( mMode == KeyMonitor.MODE_GAME ) {
-      if ( Env.saveState().touchScreenControls() == 1 ) {
-        return mKeyButtons.right();
-      } else {
-        return isTouchedFrac( 1.0f, 
-                              0.0f, 
-                              -0.5f,
-                              1.0f/3.0f );
-      }
+      return mKeyButtons.right();
     }
     if ( mMode == KeyMonitor.MODE_MAP ) {
       return isTouchedPix( Env.screenWidth(),
@@ -261,14 +228,7 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
     }
     
     if ( mMode == KeyMonitor.MODE_GAME ) {
-      if ( Env.saveState().touchScreenControls() == 1 ) {
-        return mKeyButtons.fire();
-      } else {
-        return isTouchedFrac( 0.0f, 
-                              1.0f/3.0f, 
-                              1.0f,
-                              1.0f/3.0f );
-      }
+      return mKeyButtons.fire();
     }
     if ( mMode == KeyMonitor.MODE_MAP ) {
       return isTouchedPix( 5,
@@ -352,36 +312,29 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
   @Override
   public void setButtonDetails(int arrowStyle, int fireStyle) {
     
-    if ( mKeyButtons != null ) {
-      mKeyButtons.setDetails(arrowStyle, fireStyle);
-    }
+    mKeyButtons.setDetails(arrowStyle, fireStyle);
     
   } // KeyMonitor.setButtonDetails()
   
   // number of pixels needed for buttons on left and right of screen
   public int buttonsXMargin() { 
     
-    return ( (mKeyButtons!=null) ? mKeyButtons.marginXSize() : 0 );
+    return mKeyButtons.marginXSize();
     
   } // buttonsXSize()
   
   // number of pixels needed for buttons at top and bottom of screen
   public int buttonsYMargin() {
     
-    return ( (mKeyButtons!=null) ? mKeyButtons.marginYSize() : 0 );
+    return mKeyButtons.marginYSize();
     
   } // buttonsYSize()
-  
-  // make on-screen buttons visible even if they normally wouldn't be
-  public void setButtonDisplay(boolean v) { mButtonDisplay = v; }
   
   // draw the on-screen buttons, if used
   @Override
   public void displayButtons(SpriteBatch spriteBatch) {
 
-    if ( mKeyButtons != null && (mMode == MODE_GAME || mButtonDisplay) ) {
-      mKeyButtons.display(spriteBatch);
-    }
+    mKeyButtons.display(spriteBatch, (mMode == MODE_GAME));
     
   } // displayButtons()
   

@@ -217,13 +217,13 @@ public class MiniQuestsGame extends ApplicationAdapter {
     float clear = Env.whiteBackground() ? 1.0f : 0.0f;
     Gdx.gl.glClearColor(clear, clear, clear, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    mScreenBatch.disableBlending();
+    mScreenBatch.enableBlending();
     mScreenBatch.begin();
-    ((KeyMonitorGdx)Env.keys()).displayButtons(mScreenBatch);
     mScreenBatch.draw(mScreenTexture, 
                       xOffset, yOffset, xSize, ySize,
                       0, 0, Env.screenWidth(), Env.screenHeight(), 
                       false, false);
+    ((KeyMonitorGdx)Env.keys()).displayButtons(mScreenBatch);
     mScreenBatch.end();
     
   } // drawGameScreen()

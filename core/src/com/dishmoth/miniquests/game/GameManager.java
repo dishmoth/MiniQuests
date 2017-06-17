@@ -51,6 +51,9 @@ public class GameManager {
     // play queued sounds
     Env.sounds().advance();
     
+    // count the frame
+    Env.incrementTicks();
+    
   } // advance()
 
   // draw the current game screen
