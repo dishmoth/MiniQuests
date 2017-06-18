@@ -11,10 +11,11 @@ public class MenuControls extends MenuPanel {
 
   // text and background images
   private static EgaImage kBackgroundImage = null,
-                          kTextImage       = null;
+                          kTextImage1      = null,
+                          kTextImage2      = null;
 
   // reference to the text sprite
-  private Picture mText;
+  private AnimPicture mText;
   
   // check on the fire key
   private boolean mReady;
@@ -30,7 +31,8 @@ public class MenuControls extends MenuPanel {
     if ( kBackgroundImage == null ) {
       kBackgroundImage = Env.resources().loadEgaImage("ControlSchemePic.png");
       kFrameImage.draw(kBackgroundImage, 0, 0);
-      kTextImage = Env.resources().loadEgaImage("ControlSchemeText.png");
+      kTextImage1 = Env.resources().loadEgaImage("ControlSchemeText.png");
+      kTextImage2 = Env.resources().loadEgaImage("ChangeTextAndroid.png");
     }
 
   } // initialize()
@@ -48,7 +50,10 @@ public class MenuControls extends MenuPanel {
   // called when the panel becomes active
   public void enable(SpriteManager spriteManager) {
     
-    mText = new Picture(kTextImage, -2.0f);
+    mText = new AnimPicture(0, kTextImage1, 
+                            kAnimTitleDelay, kAnimBlankDelay,
+                            kTextImage2, 
+                            kAnimBeginDelay, kAnimBlankDelay);
     spriteManager.addSprite(mText);
 
     Env.keys().setButtonDetails(3, 3);
