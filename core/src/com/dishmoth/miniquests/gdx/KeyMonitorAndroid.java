@@ -26,13 +26,11 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
                              kBigScreenYCm = 7.0f;
   private static final int   kSafePixPerCm = 20;
   
-  // size of the on-screen buttons (centimetres and fraction of screen height)
-  private static final float kButtonsCmMin   = 1.9f,
-                             kButtonsCmMax   = 2.5f;
-  private static final float kButtonsFracMin = 0.10f,
-                             kButtonsFracMax = 0.25f;
-  private static final float kScreenCmSmall  = 17.5f,
-                             kScreenCmBig    = 25.0f;
+  // size of the on-screen buttons (centimetres)
+  private static final float kButtonsCmMin  = 1.9f,
+                             kButtonsCmMax  = 2.5f;
+  private static final float kScreenCmSmall = 17.5f,
+                             kScreenCmBig   = 25.0f;
   
   // helper object for managing on-screen buttons
   private KeyButtons mKeyButtons;
@@ -43,19 +41,18 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
     super();
 
     mKeyButtons = new KeyButtons();
-    setButtonSize();
+    setButtonDefaults();
     
   } // constructor
   
   // choose button size and default on-screen control style
-  private void setButtonSize() {
+  private void setButtonDefaults() {
     
     final float ppcX = Math.max(Gdx.graphics.getPpcX(), kSafePixPerCm),
                 ppcY = Math.max(Gdx.graphics.getPpcY(), kSafePixPerCm);
     
     final int width  = Gdx.graphics.getWidth(),
-              height = Gdx.graphics.getHeight(),
-              size   = Math.min(width, height);
+              height = Gdx.graphics.getHeight();
     
     float xcm = width / ppcX,
           ycm = height / ppcY;
@@ -71,16 +68,12 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
     float h = (diag - kScreenCmSmall)/(kScreenCmBig - kScreenCmSmall);
     h = Math.max(0.0f, Math.min(1.0f, h));
     float buttonsCm = h*kButtonsCmMax + (1-h)*kButtonsCmMin;
-    Env.debug("Button width (cm): target " + buttonsCm); 
     int buttonsPix = Math.round( buttonsCm*ppcX );
-    int pixMax = Math.round( size*kButtonsFracMax ),
-        pixMin = Math.round( size*kButtonsFracMin );
-    Env.debug("Button width (pixels): target " + buttonsPix 
-              + ", min " + pixMin + ", max " + pixMax);
-    buttonsPix = Math.min( pixMax, Math.max( pixMin, buttonsPix ) ); 
-    mKeyButtons.setRefSize(buttonsPix);
+    Env.debug("Button target width: " + buttonsCm + "cm, " 
+              + buttonsPix + " pixels"); 
+    mKeyButtons.setDefaultSize(buttonsPix);
     
-  } // setButtonSize()
+  } // setButtonDefaults()
   
   // check whether the up button is currently pressed
   @Override

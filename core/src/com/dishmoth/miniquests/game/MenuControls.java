@@ -19,7 +19,7 @@ public class MenuControls extends MenuPanel {
   // check on the fire key
   private boolean mReady;
   
-  // size controls (left and right/smaller and bigger)
+  // button size controls (left and right/smaller and bigger)
   private MapArrow mArrows[];
 
   // prepare resources
@@ -62,16 +62,31 @@ public class MenuControls extends MenuPanel {
   // called every frame when the panel is active
   public boolean advance(SpriteManager spriteManager) {
 
-    final boolean keyFire = Env.keys().fire();
+    final boolean keyFire  = Env.keys().fire(),
+                  keyLeft  = Env.keys().left(),
+                  keyRight = Env.keys().right();
 
-    int scheme = Env.saveState().touchScreenControls();
+    int scheme  = Env.saveState().touchScreenControls(),
+        size    = Env.saveState().buttonSize(),
+        maxSize = SaveState.MAX_BUTTON_SIZE;
     assert( scheme >= 0 );
-    if ( keyFire && mReady ) {
-      scheme = (scheme + 1) % 2;
-      Env.saveState().setTouchScreenControls(scheme);
-      Env.sounds().play(Sounds.MENU_2);
+    assert( size >= 0 && size <= maxSize );
+    if ( mReady ) {
+      if ( keyFire ) {
+        scheme = (scheme + 1) % 2;
+        Env.saveState().setTouchScreenControls(scheme);
+        Env.sounds().play(Sounds.MENU_2);
+      } else if ( keyLeft && scheme == 1 && size > 0 ) {
+        size -= 1;
+        Env.saveState().setButtonSize(size);
+        Env.sounds().play(Sounds.MENU_2);
+      } else if ( keyRight && scheme == 1 && size < maxSize ) {
+        size += 1;
+        Env.saveState().setButtonSize(size);
+        Env.sounds().play(Sounds.MENU_2);
+      }
     }
-    mReady = !keyFire;    
+    mReady = (!keyFire && !keyLeft && !keyRight);    
     
     if ( mArrows == null ) {
       mArrows = new MapArrow[]{ new MapArrow(Env.LEFT),
@@ -82,7 +97,8 @@ public class MenuControls extends MenuPanel {
       }
     }
 
-    mArrows[0].mDrawDisabled = mArrows[1].mDrawDisabled = (scheme == 0);
+    mArrows[0].mDrawDisabled = (scheme == 0 || size == 0);
+    mArrows[1].mDrawDisabled = (scheme == 0 || size == maxSize);
 
     return false;
     

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.dishmoth.miniquests.game.Env;
+import com.dishmoth.miniquests.game.SaveState;
 
 // on-screen buttons for large-screen android devices
 public class KeyButtons {
@@ -30,6 +31,10 @@ public class KeyButtons {
                            kArrowMargin0     = 4;
   private static final int kArrowMarginInner = 5;
 
+  // size range of the buttons (relative to screen size)
+  private static final float kButtonsFracMin = 0.04f,
+                             kButtonsFracMax = 0.18f;
+
   // button colours
   private static final float kColourDark   = 0.2f,
                              kColourBright = 0.7f,
@@ -38,8 +43,9 @@ public class KeyButtons {
   // button touch size (unscaled pixels)
   private static final int kButtonSize = 15;
   
-  // pixel scale for the button images
-  private int mScale;
+  // pixel scale range for the button images
+  private int mScaleRange[],
+              mScaleDefault;
   
   // texture holding images
   private Texture mButtonTexture;
@@ -58,9 +64,10 @@ public class KeyButtons {
     mButtonTexture = null;
     mArrowImage = mFireImage = null;
 
-    mScale = 1;
-
     mArrowStyle = mFireStyle = 1;
+
+    setScaleRange();
+    mScaleDefault = 1;
     
   } // constructor
 
@@ -90,16 +97,71 @@ public class KeyButtons {
     mArrowImage = mFireImage = null;
     
   } // dispose()
+
+  // set the min and max scaling factors
+  private void setScaleRange() {
+    
+    final int screenSize = Math.min(Gdx.graphics.getWidth(),
+                                    Gdx.graphics.getHeight());
+    float minSize = Math.round(kButtonsFracMin * screenSize),
+          maxSize = Math.round(kButtonsFracMax * screenSize);
+    
+    final int buttonPixels = 2*kArrowHeight + kArrowGapY;
+    final int numScales    = SaveState.MAX_BUTTON_SIZE + 1;
+    int scaleMin = Math.max(1, Math.round(minSize / buttonPixels)),
+        scaleMax = Math.max(Math.round(maxSize / buttonPixels),
+                            scaleMin + numScales - 1);
+    Env.debug("Button pixel scale: " + scaleMin + " to " + scaleMax);
+
+    mScaleRange = new int[numScales];
+    int scaleStep = (scaleMax - scaleMin)/(numScales - 1),
+        bigSteps  = (scaleMax - scaleMin) - scaleStep*(numScales - 1);
+    mScaleRange[0] = scaleMin;
+    for ( int k = 1 ; k < numScales ; k++ ) {
+      mScaleRange[k] = mScaleRange[k-1] + scaleStep;
+      if ( k >= numScales - bigSteps ) mScaleRange[k] += 1;
+    }
+    assert( mScaleRange[numScales-1] == scaleMax );
+    
+  } // setScaleRange()
   
   // specify the target width (in pixels) for the arrow buttons 
-  public void setRefSize(int pixels) {
+  public void setDefaultSize(int pixels) {
 
     assert( pixels > 0 );
 
     final int buttonPixels = 2*kArrowWidth + kArrowGapX;
-    mScale = (int)Math.ceil( pixels/(float)buttonPixels );
+    float targetScale = pixels/(float)buttonPixels;
     
-  } // setRefSize()
+    int best = 0;
+    for ( int k = 1 ; k < mScaleRange.length ; k++ ) {
+      if ( Math.abs(mScaleRange[k] - targetScale) 
+                          < Math.abs(mScaleRange[best] - targetScale) ) {
+        best = k;
+      }
+    }
+    mScaleDefault = mScaleRange[best];
+    Env.debug("Button pixel scale: default " + mScaleDefault 
+              + " (target " + targetScale + ")");
+    
+    if ( Env.saveState().buttonSize() < 0 ) {
+      Env.saveState().setButtonSize(best);
+    }
+    
+  } // setDefaultSize()
+
+  // current pixel scaling factor
+  public int scale() {
+    
+    if ( buttonScheme() == 0 ) {
+      return mScaleDefault;
+    } else {
+      int index = Env.saveState().buttonSize();
+      assert( index >= 0 && index < mScaleRange.length );
+      return mScaleRange[index];
+    }
+    
+  } // scale()
   
   // return the current control scheme (0 => corners, 1 => buttons)
   public int buttonScheme() {
@@ -114,8 +176,8 @@ public class KeyButtons {
   public int marginXSize() {
     
     return (buttonScheme() == 0) ? 0 
-                                 : mScale*( kArrowMarginX + 2*kArrowWidth 
-                                            + kArrowGapX + kArrowMarginInner );
+                                 : scale()*( kArrowMarginX + 2*kArrowWidth 
+                                             + kArrowGapX + kArrowMarginInner );
     
   } // marginXSize()
   
@@ -123,8 +185,8 @@ public class KeyButtons {
   public int marginYSize() {
     
     return (buttonScheme() == 0) ? 0 
-                                 : mScale*( kArrowMarginY + 2*kArrowHeight 
-                                            + kArrowGapY + kArrowMarginInner );
+                                 : scale()*( kArrowMarginY + 2*kArrowHeight 
+                                             + kArrowGapY + kArrowMarginInner );
     
   } // marginYSize()
     
@@ -143,10 +205,11 @@ public class KeyButtons {
         
     } else {
 
-      int size = mScale*kButtonSize;
-      int x = ( mScale*(kArrowMarginX+kArrowWidth) + (mScale*kArrowGapX)/2 ),
+      final int scale = scale();
+      int size = scale*kButtonSize;
+      int x = ( scale*(kArrowMarginX+kArrowWidth) + (scale*kArrowGapX)/2 ),
           y = Gdx.graphics.getHeight() -
-              ( mScale*(kArrowMarginY+kArrowHeight) + (mScale*kArrowGapY)/2 );
+              ( scale*(kArrowMarginY+kArrowHeight) + (scale*kArrowGapY)/2 );
       return KeyMonitorAndroid.isTouched(x, y, dx*size, -dy*size);
       
     }
@@ -177,11 +240,12 @@ public class KeyButtons {
 
     } else {
     
-      int size = mScale*kButtonSize;
+      final int scale = scale();
+      int size = scale*kButtonSize;
       int x = Gdx.graphics.getWidth() - 
-              ( mScale*(kArrowMarginX+kArrowWidth) + (mScale*kArrowGapX)/2 ),
+              ( scale*(kArrowMarginX+kArrowWidth) + (scale*kArrowGapX)/2 ),
           y = Gdx.graphics.getHeight() -
-              ( mScale*(kArrowMarginY+kArrowHeight) + (mScale*kArrowGapY)/2 );
+              ( scale*(kArrowMarginY+kArrowHeight) + (scale*kArrowGapY)/2 );
       return KeyMonitorAndroid.isTouched(x-size, y-size, 2*size, 2*size);
     
     }
@@ -211,21 +275,22 @@ public class KeyButtons {
     float colour = (0.5f+0.5f*c)*kColourDark + (0.5f-0.5f*c)*kColourBright;
     
     final int scheme = buttonScheme();
+    final int scale = scale();
     
-    final int arrWidth  = mScale*kArrowWidth,
-              arrHeight = mScale*kArrowHeight;
+    final int arrWidth  = scale*kArrowWidth,
+              arrHeight = scale*kArrowHeight;
     int arrX0, arrY0, arrX1, arrY1;
 
     if ( scheme == 0 ) {
-      arrX0 = mScale*kArrowMargin0 + arrWidth;
-      arrY0 = mScale*kArrowMargin0 + arrHeight;
+      arrX0 = scale*kArrowMargin0 + arrWidth;
+      arrY0 = scale*kArrowMargin0 + arrHeight;
       arrX1 = Gdx.graphics.getWidth() - arrX0;
       arrY1 = Gdx.graphics.getHeight() - arrY0;
     } else {
-      arrX0 = mScale*kArrowMarginX + arrWidth;
-      arrY0 = mScale*kArrowMarginY + arrHeight;
-      arrX1 = arrX0 + mScale*kArrowGapX;
-      arrY1 = arrY0 + mScale*kArrowGapY;
+      arrX0 = scale*kArrowMarginX + arrWidth;
+      arrY0 = scale*kArrowMarginY + arrHeight;
+      arrX1 = arrX0 + scale*kArrowGapX;
+      arrY1 = arrY0 + scale*kArrowGapY;
     }
 
     boolean arrowsOn = (mArrowStyle == 3) ||
@@ -243,8 +308,8 @@ public class KeyButtons {
 
     final int fireX      = Gdx.graphics.getWidth() - (arrX0 + arrX1)/2,
               fireY      = (arrY0 + arrY1)/2;
-    final int fireWidth  = mScale*kFireWidth,
-              fireHeight = mScale*kFireHeight;
+    final int fireWidth  = scale*kFireWidth,
+              fireHeight = scale*kFireHeight;
 
     boolean fireOn = (mFireStyle == 3) || 
                      (mFireStyle == 2 && scheme == 1) || 

@@ -8,6 +8,7 @@ package com.dishmoth.miniquests.gdx;
 
 import com.badlogic.gdx.Gdx;
 import com.dishmoth.miniquests.game.Env;
+import com.dishmoth.miniquests.game.SaveState;
 import com.dishmoth.miniquests.game.ScreenScale;
 
 // class for keeping track of the pixel scaling factor on Android (and Ouya)
@@ -17,11 +18,9 @@ public class ScreenScaleAndroid extends ScreenScale {
   private static final float kShrinkTouchscreen = 0.75f,
                              kShrinkTelevision  = 0.85f;
   
-  // maximum that the (saved) screen size value can take
-  private static final int kMaxSizeVal = 20;
-  
-  // minimum that the (saved) screen size value can take
-  private int mMinSizeVal;
+  // range that the (saved) screen size value can take
+  private int mMaxSizeVal,
+              mMinSizeVal;
   
   // range that the pixel scale for the game screen can take
   private int mMaxScale,
@@ -61,8 +60,9 @@ public class ScreenScaleAndroid extends ScreenScale {
     mMinScale = Math.max(1, (int)Math.ceil(mMaxScale / 50.0));
     Env.debug("Pixel scale: range " + mMinScale + " to " + mMaxScale);
     
-    int numSteps = Math.min(kMaxSizeVal, mMaxScale - mMinScale);
-    mMinSizeVal = kMaxSizeVal - numSteps;
+    mMaxSizeVal = SaveState.MAX_SCREEN_SIZE;
+    int numSteps = Math.min(mMaxSizeVal, mMaxScale - mMinScale);
+    mMinSizeVal = mMaxSizeVal - numSteps;
     
     mStepSmall = (mMaxScale - mMinScale) / Math.max(1, numSteps);
     mStepBig   = mStepSmall + 1;
@@ -94,7 +94,7 @@ public class ScreenScaleAndroid extends ScreenScale {
   
   // return the range that the screen size value can take
   @Override
-  public int maxSizeVal() { return kMaxSizeVal; }
+  public int maxSizeVal() { return mMaxSizeVal; }
   @Override
   public int minSizeVal() { return mMinSizeVal; }
 
@@ -104,8 +104,8 @@ public class ScreenScaleAndroid extends ScreenScale {
     
     int size = Env.saveState().screenSize();
     assert( size >= 0 );
-    if ( size < mMinSizeVal || size > kMaxSizeVal ) {
-      size = Math.max(mMinSizeVal, Math.min(kMaxSizeVal, size));
+    if ( size < mMinSizeVal || size > mMaxSizeVal ) {
+      size = Math.max(mMinSizeVal, Math.min(mMaxSizeVal, size));
       Env.saveState().setScreenSize(size);
     }
     return size;
@@ -116,7 +116,7 @@ public class ScreenScaleAndroid extends ScreenScale {
   @Override
   public void setSizeVal(int size) {
 
-    size = Math.max(mMinSizeVal, Math.min(kMaxSizeVal, size));
+    size = Math.max(mMinSizeVal, Math.min(mMaxSizeVal, size));
     Env.saveState().setScreenSize( size );
 
   } // setSizeVal()
@@ -151,7 +151,7 @@ public class ScreenScaleAndroid extends ScreenScale {
     
     final float targetScale = defaultScale();
 
-    for ( int size = mMinSizeVal ; size < kMaxSizeVal ; size++ ) {
+    for ( int size = mMinSizeVal ; size < mMaxSizeVal ; size++ ) {
       int scale0 = scale(size),
           scale1 = scale(size+1);
       if ( scale1 >= targetScale ) {
@@ -163,7 +163,7 @@ public class ScreenScaleAndroid extends ScreenScale {
       }
     }
 
-    return kMaxSizeVal;
+    return mMaxSizeVal;
     
   } // defaultSizeVal()
   

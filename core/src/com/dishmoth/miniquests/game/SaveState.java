@@ -24,11 +24,15 @@ public class SaveState {
   private boolean mPlayedBefore;
   
   // size factor for the game screen, if adjustable (-1 => undefined)
-  private static final int kMaxScreenSize = 20;
+  public static final int MAX_SCREEN_SIZE = 20;
   private int mScreenSize;
   
   // format for on-screen buttons (-1 => undefined, 0 => corners, 1 => buttons)
   private int mTouchScreenControls;
+  
+  // size factor for the on-screen buttons, if present (-1 => undefined) 
+  public static final int MAX_BUTTON_SIZE = 5;
+  private int mButtonSize;
   
   // best hero rating for each quest (0 if not completed yet)
   private int mQuestScores[];
@@ -52,6 +56,7 @@ public class SaveState {
 
     mScreenSize = -1;
     mTouchScreenControls = -1;
+    mButtonSize = -1;
     
     mQuestScores = new int[ TinyStory.NUM_QUESTS ];
     Arrays.fill(mQuestScores, 0);
@@ -187,7 +192,7 @@ public class SaveState {
   // set the size factor for the game screen
   public void setScreenSize(int size) { 
     
-    assert( size >= 0 && size <= kMaxScreenSize );
+    assert( size >= 0 && size <= MAX_SCREEN_SIZE );
     mScreenSize = size;
     
   } // setScreenSize()
@@ -202,6 +207,17 @@ public class SaveState {
     mTouchScreenControls = scheme;
     
   } // setScreenSize()
+  
+  // size factor for the on-screen buttons (-1 if undecided)
+  public int buttonSize() { return mButtonSize; }
+  
+  // set the size factor for the on-screen buttons
+  public void setButtonSize(int size) {
+    
+    assert( size >= 0 && size <= MAX_BUTTON_SIZE );
+    mButtonSize = size;
+    
+  } // setButtonSize()
   
   // best hero rating for a quest (0 if not completed yet)
   public int questScore(int questNum) {
