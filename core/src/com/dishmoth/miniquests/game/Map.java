@@ -56,12 +56,29 @@ public class Map extends Sprite {
   // references to direction arrows if present
   private MapArrow mArrows[];
   
-  // constructor
+  // constructor (start at quest location)
   public Map(MapData mapData, int startPoint) {
-  
-    mMapData = mapData;
 
+    reset();
+    
+    mMapData = mapData;
     mPos = mMapData.startPos(startPoint);
+    
+  } // constructor
+  
+  // constructor (restart after pause)
+  public Map(MapData mapData, int restartData[]) {
+
+    reset();
+    
+    mMapData = mapData;
+    assert( restartData != null && restartData.length == 1 );
+    mPos = restartData[0];
+    
+  } // constructor
+  
+  // reset state
+  private void reset() {
     
     mScrollDirec = -1;
     mScrollDist = 0;
@@ -70,10 +87,13 @@ public class Map extends Sprite {
     mDungeonEntrance = false;
     mDungeonTrigger = false;
     
-  } // constructor
+  } // reset()
   
   // freeze the map for a time
   public void pause(int delay) { assert(delay > 0); mPauseTimer = delay; }
+  
+  // get information for restarting the map here
+  public int[] getRestartData() { return new int[]{ mPos }; }
   
   // notification that there is a dungeon here
   public void dungeonEntrance() { 

@@ -242,18 +242,22 @@ public class QuitStory extends Story {
     if ( mFinishedTimer > 0 ) {
       if ( --mFinishedTimer == 0 ) {
         if ( mYesSelected ) {
-          if ( Env.saveState().questStats() != null ) {
-            spriteManager.removeAllSprites();
-            int questNum = Env.saveState().questStats().questNum();
+          spriteManager.removeAllSprites();
+          if ( mOldStory instanceof TinyStory ) {
             Env.saveState().setQuestStats(null);
-            Env.saveState().saveMaybe();
+            int questNum = ((TinyStory)mOldStory).questNumber(); 
             newStory = new MapStory(questNum);
-            storyEvents.add(new Story.EventGameBegins());
+          } else if ( mOldStory instanceof ScrollStory ) {
+            assert( Env.saveState().questStats() != null );
+            int questNum = Env.saveState().questStats().questNum(); 
+            Env.saveState().setQuestStats(null);
+            newStory = new MapStory(questNum);
           } else {
-            assert( usingTouchscreen() );
-            Env.exit();
-            mFinishedTimer = 300; // delay while the 'exit' takes hold
+            newStory = new MenuStory();
+            ((MenuStory)newStory).startOnTraining();
           }
+          Env.saveState().saveMaybe();
+          storyEvents.add(new Story.EventGameBegins());
         } else {
           if ( mBackground != null ) spriteManager.removeSprite(mBackground);
           if ( mQuitPic != null )    spriteManager.removeSprite(mQuitPic);

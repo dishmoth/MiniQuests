@@ -46,6 +46,9 @@ public class MapStory extends Story {
   // current quest on offer (or -1)
   private int mQuest;
   
+  // map data for restarting after pause (or null) 
+  private int mRestartData[];
+  
   // time until the quest begins
   private int mTimer;
   
@@ -74,6 +77,15 @@ public class MapStory extends Story {
     
   } // initialize()
   
+  // get an image of a map location (null for home location)
+  static public EgaImage getMapImage(int restartData[]) {
+    
+    initialize();
+    int pos = ( restartData == null ? kMapData.startPos(-1) : restartData[0] );
+    return kMapData.image(pos);
+    
+  } // getMapRestartImage()
+  
   // constructor
   public MapStory(int quest) {
 
@@ -81,7 +93,21 @@ public class MapStory extends Story {
 
     assert( quest >= -1 && quest < TinyStory.NUM_QUESTS );
     mQuest = quest;
+    mRestartData = null;
+    
+    mTimer = 0;
+    
+  } // constructor
+  
+  // constructor
+  public MapStory(int restart[]) {
 
+    initialize();
+
+    assert( restart != null );
+    mRestartData = restart;
+    mQuest = -1;
+    
     mTimer = 0;
     
   } // constructor
@@ -101,14 +127,19 @@ public class MapStory extends Story {
         // first frame of the story, so set everything up
         mText = null;
         mStones = null;
-        mMap = new Map(kMapData, mQuest);
+        if ( mRestartData == null ) {
+          mMap = new Map(kMapData, mQuest);
+        } else {
+          mMap = new Map(kMapData, mRestartData);
+        }
         spriteManager.addSprite(mMap);
-        if ( mQuest == -1 ) {
+        if ( mQuest == -1 && mRestartData == null ) {
           spriteManager.addSprite(new AnimPicture(kInitDelay, kIntroImage, 
                                                   kIntroDelay, -1));
           mMap.pause(kInitDelay + kIntroDelay + kIntroPause);
           Env.sounds().play(Sounds.VENTURE, kInitDelay);
         }
+        mRestartData = null;
         mEscPressed = true;
         Env.keys().setMode(KeyMonitor.MODE_MAP);
         Env.saveState().setPlayedBefore();
@@ -192,10 +223,10 @@ public class MapStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
-        if ( Env.platform() == Env.Platform.ANDROID ) {
-          Env.exit();
-          mTimer = 300; // delay while the 'exit' takes hold
-        }
+        spriteManager.removeAllSprites();
+        newStory = new MenuStory();
+        ((MenuStory)newStory).startOnMap( mMap.getRestartData() );
+        storyEvents.add(new Story.EventGameBegins());
       }
       mEscPressed = true;
     } else {

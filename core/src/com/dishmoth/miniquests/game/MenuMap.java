@@ -1,5 +1,5 @@
 /*
- *  MenuStart.java
+ *  MenuMap.java
  *  Copyright Simon Hern 2017
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -9,17 +9,19 @@ package com.dishmoth.miniquests.game;
 import java.util.LinkedList;
 
 // menu option for continuing a game from the map screen
-public class MenuStart extends MenuPanel {
+public class MenuMap extends MenuPanel {
 
-  // text and background images
-  private static EgaImage kBackgroundImage   = null,
-                          kNewGameTextImage  = null,
+  // text images
+  private static EgaImage kNewGameTextImage  = null,
                           kContinueTextImage = null;
 
   // reference to the text sprite
   private EgaImage    mTextImage;
   private AnimPicture mText;
 
+  // data to restart the map from (or null)
+  private int mMapRestartData[];
+  
   // check on the fire key
   private boolean mReady;
   
@@ -28,32 +30,51 @@ public class MenuStart extends MenuPanel {
     
     MenuPanel.initialize();
 
-    if ( kBackgroundImage == null ) {
-      final int width  = Env.screenWidth(),
-                height = Env.screenHeight();
-      EgaImage image = Env.resources().loadEgaImage("Map.png");
-      kBackgroundImage = new EgaImage(0, 0, width, height);
-      image.draw(kBackgroundImage, -2*(width+1), -2*(height+1));
-      EgaTools.fadeImage(kBackgroundImage);
-      kFrameImage.draw(kBackgroundImage, 0, 0);
-
+    if ( kNewGameTextImage == null ) {
       kNewGameTextImage = Env.resources().loadEgaImage("NewGameText.png");
       kContinueTextImage = Env.resources().loadEgaImage("ContGameText.png");
     }
 
   } // initialize()
   
-  // constructor
-  public MenuStart(boolean newGame) {
+  // constructor (new game)
+  public MenuMap() {
 
     initialize();
 
-    mBackground = new Picture(kBackgroundImage, 0.0f);
-    mTextImage = ( newGame ? kNewGameTextImage : kContinueTextImage );
+    mBackground = makeBackgroundImage(null);
+    mTextImage = kNewGameTextImage;
     mText = null;
+    mMapRestartData = null;
     
   } // constructor
 
+  // constructor (continue game)
+  public MenuMap(boolean newGame, int mapRestartData[]) {
+
+    initialize();
+
+    mBackground = makeBackgroundImage(mapRestartData);
+    mTextImage = ( newGame ? kNewGameTextImage : kContinueTextImage );
+    mText = null;
+    mMapRestartData = mapRestartData;
+    
+  } // constructor
+
+  // make a background picture based on map location (or null)
+  private Picture makeBackgroundImage(int mapRestartData[]) {
+
+    EgaImage mapImage = MapStory.getMapImage(mapRestartData);
+    
+    EgaImage image = new EgaImage(0, 0, Env.screenWidth(), Env.screenHeight());
+    mapImage.draw(image, 0, 0);
+    EgaTools.fadeImage(image);
+    kFrameImage.draw(image, 0, 0);
+    
+    return new Picture(image);
+    
+  } // makeBackgroundImage()
+  
   // called when the panel becomes active
   public void enable(SpriteManager spriteManager) {
 
@@ -92,8 +113,12 @@ public class MenuStart extends MenuPanel {
     
     storyEvents.add(new Story.EventGameBegins());
     spriteManager.removeAllSprites();
-    return new MapStory(-1);
+    if ( mMapRestartData == null ) {
+      return new MapStory(-1);
+    } else {
+      return new MapStory(mMapRestartData);
+    }
     
   } // MenuPanel.exitMenu()
  
-} // class MenuStart
+} // class MenuMap

@@ -118,7 +118,7 @@ public class MapDataMain extends MapData {
     
   } // recolourForest()
   
-  // a starting location for the map (home and quests 
+  // a starting location for the map (home -1, or a quest number)
   public int startPos(int type) {
     
     assert( type >= -1 && type < kQuestPos.length );

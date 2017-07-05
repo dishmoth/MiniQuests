@@ -21,6 +21,10 @@ public class MenuStory extends Story {
   // menu option objects
   private ArrayList<MenuPanel> mPanels;
 
+  // which panel to display first
+  private boolean mStartOnTraining;
+  private int     mStartOnMap[];  
+  
   // position of the current menu view relative to the top of the panels
   private int mYPos;
   
@@ -42,7 +46,26 @@ public class MenuStory extends Story {
   // constructor
   public MenuStory() {
 
+    mStartOnTraining = false;
+    mStartOnMap = null;
+    
   } // constructor
+  
+  // display the training panel first
+  public void startOnTraining() {
+    
+    mStartOnTraining = true;
+    mStartOnMap = null;
+    
+  } // startOnTraining()
+  
+  // display the map panel first
+  public void startOnMap(int restartData[]) {
+    
+    mStartOnMap = restartData;
+    mStartOnTraining = false;
+    
+  } // startOnMap()
   
   // process events and advance 
   @Override
@@ -57,9 +80,9 @@ public class MenuStory extends Story {
 
       if ( event instanceof Story.EventGameBegins ) {
         // first frame of the story, so set everything up
-        makePanels(spriteManager);
         mYPos = 0;
         mScroll = 0;
+        makePanels(spriteManager);
         mPauseTimer = kPauseStartDelay;
         mExitTimer = 0;
         mEscPressed = true;
@@ -171,10 +194,10 @@ public class MenuStory extends Story {
     
     if ( Env.saveState().fullTrainingNeeded() ) {
       mPanels.add(new MenuTraining());
-      mPanels.add(new MenuStart(true));
+      mPanels.add(new MenuMap());
     } else {
       boolean newGame = !Env.saveState().playedBefore();
-      mPanels.add(new MenuStart(newGame));
+      mPanels.add(new MenuMap(newGame, mStartOnMap));
       mPanels.add(new MenuTraining());
     }
     
@@ -208,9 +231,21 @@ public class MenuStory extends Story {
       mPanels.add(new MenuControls());
     }
     
+    int startPanel = 0;
+    for ( int k = 0 ; k < mPanels.size() ; k++ ) {
+      if ( mStartOnTraining && mPanels.get(k) instanceof MenuTraining ) {
+        startPanel = k;
+        break;
+      } else if ( mStartOnMap != null && mPanels.get(k) instanceof MenuMap ) {
+        startPanel = k;
+        break;
+      }
+    }
+    mYPos = startPanel*Env.screenHeight();
+    
     setPanelPositions();
     for ( MenuPanel panel : mPanels ) panel.prepare(spriteManager);
-    
+
   } // makePanels()
 
   // update the vertical positions of all panels
