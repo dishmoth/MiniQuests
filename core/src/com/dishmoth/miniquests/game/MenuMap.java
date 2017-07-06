@@ -42,7 +42,7 @@ public class MenuMap extends MenuPanel {
 
     initialize();
 
-    mBackground = makeBackgroundImage(null);
+    mBackground = makeBackgroundImage(null, null);
     mTextImage = kNewGameTextImage;
     mText = null;
     mMapRestartData = null;
@@ -50,11 +50,13 @@ public class MenuMap extends MenuPanel {
   } // constructor
 
   // constructor (continue game)
-  public MenuMap(boolean newGame, int mapRestartData[]) {
+  public MenuMap(boolean newGame,
+                 int mapRestartData[],
+                 int requiredColours[]) {
 
     initialize();
 
-    mBackground = makeBackgroundImage(mapRestartData);
+    mBackground = makeBackgroundImage(mapRestartData, requiredColours);
     mTextImage = ( newGame ? kNewGameTextImage : kContinueTextImage );
     mText = null;
     mMapRestartData = mapRestartData;
@@ -62,13 +64,17 @@ public class MenuMap extends MenuPanel {
   } // constructor
 
   // make a background picture based on map location (or null)
-  private Picture makeBackgroundImage(int mapRestartData[]) {
+  private Picture makeBackgroundImage(int mapRestartData[],
+                                      int requiredColours[]) {
 
     EgaImage mapImage = MapStory.getMapImage(mapRestartData);
     
     EgaImage image = new EgaImage(0, 0, Env.screenWidth(), Env.screenHeight());
     mapImage.draw(image, 0, 0);
     EgaTools.fadeImage(image);
+    if ( requiredColours != null ) {
+      EgaTools.limitColours(image, 16, requiredColours);
+    }
     kFrameImage.draw(image, 0, 0);
     
     return new Picture(image);
