@@ -14,9 +14,6 @@ public class SaveState {
   // current save version number
   private static final int kVersion = 2;
   
-  // version for loaded state
-  private int mRestartVersion;
-  
   // what training is needed (0 => none, 1 => quick, 2 => full (no save found))
   private int mTraining;
   
@@ -37,7 +34,8 @@ public class SaveState {
   // best hero rating for each quest (0 if not completed yet)
   private int mQuestScores[];
 
-  // save/restore information for the game
+  // save/restore information for the current quest
+  private int       mRestartVersion;
   private BitBuffer mRestartData;
 
   // reference to the quest stats (times, deaths, etc. for debugging)
@@ -49,8 +47,6 @@ public class SaveState {
   // constructor
   public SaveState() {
     
-    mRestartVersion = kVersion;
-    
     mTraining = 2;
     mPlayedBefore = false;
 
@@ -61,6 +57,7 @@ public class SaveState {
     mQuestScores = new int[ TinyStory.NUM_QUESTS ];
     Arrays.fill(mQuestScores, 0);
     
+    mRestartVersion = kVersion;
     mRestartData = new BitBuffer();
 
     mQuestStats = null;
@@ -79,64 +76,75 @@ public class SaveState {
       return;
     }
     
-    mRestartData.fromBytes(data);
-    decode();
+    BitBuffer buffer = new BitBuffer();
+    buffer.fromBytes(data);
+    decode(buffer);
     
   } // load()
   
   // restore the game state from a string (for debugging)
   public void load(String data) {
 
-    mRestartData.fromString(data);
-    
-    decode();
+    BitBuffer buffer = new BitBuffer();
+    buffer.fromString(data);
+    decode(buffer);
     
   } // load(String)
   
   // restore state from the encoded bits
-  private void decode() {
+  private void decode(BitBuffer buffer) {
     
-    Env.debug("Loading game state (\"" + mRestartData + "\")");
+    Env.debug("Loading game state (\"" + buffer + "\")");
     
-    int version = mRestartData.read(8);
+    mRestartData.clear();
+    buffer.toStart();
+    
+    // version (8 bits)
+    int version = buffer.read(8);
     if ( version < 0 || version > kVersion ) {
       Env.debug("Failed to read saved version");
-      mRestartData.clear();
       return;
     } else {
       Env.debug("Loading version " + version);
     }
     
+    // quest scores (num quests x4 bits, padded to multiple of 8 bits)
     final int numQuestsToRead = (version == 0) ? 2
                               : (version == 1) ? 3
                                                : 4;
     for ( int k = 0 ; k < numQuestsToRead ; k++ ) {
-      int score = mRestartData.read(4);
+      int score = buffer.read(4);
       if ( score < 0 || score > 5 ) {
         Env.debug("Failed to read score for quest " + k);
         Arrays.fill(mQuestScores, 0);
-        mRestartData.clear();
         return;
       } else {
         Env.debug("Loaded quest " + k + ": score " + score);
         mQuestScores[k] = score;
       }
     }
-    if ( (numQuestsToRead % 2) == 1 && mRestartData.numBitsToRead() > 0 ) {
-      int padding = mRestartData.read(4);
-      if ( padding != 0 ) mRestartData.clear();
+    if ( (numQuestsToRead % 2) == 1 && buffer.numBitsToRead() > 0 ) {
+      int padding = buffer.read(4);
+      if ( padding != 0 ) {
+        Env.debug("Failed to read quest scores (unexpected data)");
+        return;
+      }
     }
     
+    // quest restart data (all the rest)
+    if ( buffer.numBitsToRead() > 0 ) {
+      Env.debug("Game state includes quest data");
+      mRestartVersion = version;
+      mRestartData.append(buffer);
+      mRestartData.toStart();
+    }
+
+    // other info (not saved)
     if ( mTraining == 2 ) {
       mTraining = ( (Env.platform()==Env.Platform.ANDROID || 
                      Env.platform()==Env.Platform.OUYA) ? 0 : 1 );
     }
     mPlayedBefore = true;
-    
-    if ( mRestartData.numBitsToRead() > 0 ) {
-      Env.debug("Game state includes quest data");
-      mRestartVersion = version;
-    }
     
   } // decode()
   
@@ -148,13 +156,26 @@ public class SaveState {
         
     BitBuffer buffer = new BitBuffer();
     
+    // version (8 bits)
     buffer.write(kVersion, 8);
     
+    // quest scores (num quests x4 bits, padded to multiple of 8 bits)
     for ( int k = 0 ; k < mQuestScores.length ; k++ ) {
       buffer.write(mQuestScores[k], 4);
     }
-    
-    buffer.appendBytes(mRestartData);
+    if ( (mQuestScores.length % 2) == 1 ) {
+      buffer.write(0, 4);
+    }
+  
+    // quest restart data (appended)
+    if ( mRestartData.numBits() > 0 ) {
+      if ( mRestartVersion == kVersion ) {
+        mRestartData.toStart();
+        buffer.append(mRestartData);
+      } else {
+        Env.debug("Cannot save restart data: version not current");
+      }
+    }
     
     Env.debug("Saving game state (\"" + buffer + "\")");
     
@@ -193,6 +214,7 @@ public class SaveState {
   public void setScreenSize(int size) { 
     
     assert( size >= 0 && size <= MAX_SCREEN_SIZE );
+    if ( mScreenSize != size ) mNeedToSave = true;
     mScreenSize = size;
     
   } // setScreenSize()
@@ -204,6 +226,7 @@ public class SaveState {
   public void setTouchScreenControls(int scheme) { 
     
     assert( scheme >= 0 && scheme <= 1 );
+    if ( mTouchScreenControls != scheme ) mNeedToSave = true;
     mTouchScreenControls = scheme;
     
   } // setScreenSize()
@@ -215,6 +238,7 @@ public class SaveState {
   public void setButtonSize(int size) {
     
     assert( size >= 0 && size <= MAX_BUTTON_SIZE );
+    if ( mButtonSize != size ) mNeedToSave = true;
     mButtonSize = size;
     
   } // setButtonSize()
@@ -232,7 +256,10 @@ public class SaveState {
     
     assert( questNum >= 0 && questNum < TinyStory.NUM_QUESTS );
     assert( score >= 1 && score <= 5 );
-    if ( mQuestScores[questNum] < score ) mQuestScores[questNum] = score;
+    if ( mQuestScores[questNum] < score ) {
+      mQuestScores[questNum] = score;
+      mNeedToSave = true;
+    }
     
   } // updateQuestScore()
   
@@ -240,14 +267,29 @@ public class SaveState {
   public BitBuffer restartData() { return mRestartData; }
 
   // whether the state includes a saved quest
-  public boolean hasRestartData() { return (mRestartData.numBitsToRead()>0); }
+  public boolean hasRestartData() { return (mRestartData.numBits() > 0); }
 
   // version of the saved quest data
   public int restartVersion() { return mRestartVersion; }
 
-  // called if the saved data has been redefined
-  public void updateRestartData() { mNeedToSave = true; }
-
+  // new saved data from the current quest 
+  public void setRestartData(BitBuffer data) {
+    
+    mRestartData = data;
+    mRestartVersion = kVersion;
+    mNeedToSave = true;
+    
+  } // setRestartData()
+  
+  // clear any saved data from a quest 
+  public void clearRestartData() {
+    
+    mRestartData.clear();
+    mRestartVersion = kVersion;
+    mNeedToSave = true;
+    
+  } // setRestartData()
+  
   // return the quest stats
   public QuestStats questStats() { return mQuestStats; }
   

@@ -17,7 +17,7 @@ public class BitBuffer {
   // buffer for storing the bits
   private byte mBuffer[];
 
-  // number of bits currently in the buffer
+  // number of bits currently in the buffer (read or unread)
   private int mNumBits;
   
   // next bit to read or write (non-negative index)
@@ -64,10 +64,27 @@ public class BitBuffer {
     mNumBits = 0;
     mIndex = 0;
     
-  } // clearForWrite()
+  } // clear()
+  
+  // move the buffer's read index back to the start (ready to read)
+  public void toStart() {
+    
+    mIndex = 0;
+    
+  } // toStart()
+
+  // move the buffer's read index to the end (ready to write)
+  public void toEnd() {
+    
+    mIndex = mNumBits;
+    
+  } // toEnd()
 
   // how many bits remain in the buffer for reading
   public int numBitsToRead() { return (mNumBits - mIndex); }
+  
+  // how many bits are in the buffer, read or unread
+  public int numBits() { return mNumBits; }
   
   // reads a positive integer (of specified number of bits) from the buffer 
   // (returns -1 if the bits run out)
@@ -92,6 +109,7 @@ public class BitBuffer {
   } // read()
   
   // write the value to the buffer, assuming it is the specified number of bits
+  // (the current index must already be at the end of the buffer)
   public void write(int value, int numBits) {
     
     assert( numBits >= 1 && numBits <= 31 );
@@ -128,21 +146,22 @@ public class BitBuffer {
   // write a single boolean value to the buffer
   public void writeBit(boolean value) { write( (value?1:0), 1); }
   
-  // add the contents of another bit buffer
-  public void appendBytes(BitBuffer other) {
+  // write the (unread) bits from another buffer onto the end of this one
+  // (both buffers are left read to the end)
+  public void append(BitBuffer other) {
 
-    int numBytes1 = (mNumBits+7)/8,
-        numBytes2 = (other.mNumBits+7)/8;
-    
-    if ( mBuffer.length < numBytes1 + numBytes2 ) {
-      mBuffer = copyOf(mBuffer, numBytes1+numBytes2+kCapacity);
+    assert( mIndex == mNumBits );
+
+    int numBytes = (mNumBits + other.mNumBits + 7)/8;
+    if ( mBuffer.length < numBytes ) {
+      mBuffer = copyOf(mBuffer, numBytes+kCapacity);
     }
     
-    for ( int k = 0 ; k < numBytes2 ; k++ ) {
-      mBuffer[numBytes1+k] = other.mBuffer[k];
+    while ( other.numBitsToRead() > 0 ) {
+      int num = Math.min(other.numBitsToRead(), 16);
+      int val = other.read(num);
+      write(val, num);
     }
-    
-    mNumBits = mIndex = 8*(numBytes1 + numBytes2);
     
   } // append()
   

@@ -207,14 +207,14 @@ public class MenuStory extends Story {
       Env.debug("Restart data available "
                 + "(version " + Env.saveState().restartVersion() + ")");
       TinyStory restartStory = new TinyStory();
-      boolean okay = restartStory.restore(Env.saveState().restartVersion(), 
-                                          Env.saveState().restartData());
+      boolean okay = restartStory.restore();
       if ( okay ) {
         int usedColours[] = mPanels.get(0).colours();
         MenuPanel restartPanel = new MenuRestart(restartStory, usedColours);
         mPanels.add(0, restartPanel);
       } else {
         Env.debug("Could not restore quest restart data");
+        Env.saveState().clearRestartData();
       }
       
     } else {

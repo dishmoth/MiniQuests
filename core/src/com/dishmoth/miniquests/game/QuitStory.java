@@ -256,7 +256,7 @@ public class QuitStory extends Story {
             newStory = new MenuStory();
             ((MenuStory)newStory).startOnTraining();
           }
-          Env.saveState().saveMaybe();
+          Env.saveState().save();
           storyEvents.add(new Story.EventGameBegins());
         } else {
           if ( mBackground != null ) spriteManager.removeSprite(mBackground);

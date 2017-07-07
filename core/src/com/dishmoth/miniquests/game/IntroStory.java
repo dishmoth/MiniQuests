@@ -133,6 +133,7 @@ public class IntroStory extends Story {
           storyEvents.add(new Story.EventGameBegins());
           spriteManager.removeAllSprites();
           Env.saveState().setTrainingDone();
+          Env.saveState().clearRestartData();
         } else if ( mStage == 4 ) {
           mFadeOut.pause(false);
           mChangeTimer = kFinalDelay;

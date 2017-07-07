@@ -370,11 +370,10 @@ public class TinyStory extends Story {
       Env.keys().setButtonDetails(0, 0);
       final int score = questScore();
       Env.saveState().updateQuestScore(mQuestNum, score);
-      Env.saveState().restartData().clear();
-      Env.saveState().updateRestartData();
+      Env.saveState().clearRestartData();
       Env.saveState().reportQuestStats();
       Env.saveState().setQuestStats(null);
-      Env.saveState().saveMaybe();
+      Env.saveState().save();
       newStory = new EndStory(score, mQuestNum);
       storyEvents.add(new Story.EventGameBegins());
     }
@@ -435,8 +434,7 @@ public class TinyStory extends Story {
   // save the game state 
   private void recordRestartState() {
     
-    BitBuffer buffer = Env.saveState().restartData();
-    buffer.clear();
+    BitBuffer buffer = new BitBuffer();
 
     buffer.write(mQuestNum, 4);
     buffer.write(currentRoomIndex(), 8);
@@ -446,15 +444,19 @@ public class TinyStory extends Story {
     
     for ( Room room : mRoomList ) room.save(buffer);
 
-    Env.saveState().updateRestartData();
+    Env.saveState().setRestartData(buffer);
     Env.saveState().saveMaybe();
     
   } // recordRestartState()
 
   // restore the state of a quest from save data 
-  public boolean restore(int version, BitBuffer bufferOriginal) {
+  public boolean restore() {
 
-    BitBuffer buffer = new BitBuffer(bufferOriginal);
+    if ( !Env.saveState().hasRestartData() ) return false;
+    
+    int version = Env.saveState().restartVersion();
+    BitBuffer buffer = Env.saveState().restartData();
+    buffer.toStart();
     
     mQuestNum = buffer.read(4);
     if ( mQuestNum < 0 || mQuestNum >= NUM_QUESTS ) return false;
