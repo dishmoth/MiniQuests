@@ -243,18 +243,13 @@ public class QuitStory extends Story {
       if ( --mFinishedTimer == 0 ) {
         if ( mYesSelected ) {
           spriteManager.removeAllSprites();
-          if ( mOldStory instanceof TinyStory ) {
-            Env.saveState().setQuestStats(null);
-            int questNum = ((TinyStory)mOldStory).questNumber(); 
-            newStory = new MapStory(questNum);
-          } else if ( mOldStory instanceof ScrollStory ) {
-            assert( Env.saveState().questStats() != null );
-            int questNum = Env.saveState().questStats().questNum(); 
-            Env.saveState().setQuestStats(null);
-            newStory = new MapStory(questNum);
-          } else {
-            newStory = new MenuStory();
+          newStory = new MenuStory();
+          if ( mOldStory instanceof TrainingStory ) {
             ((MenuStory)newStory).startOnTraining();
+          } else {
+            assert( mOldStory instanceof TinyStory || 
+                    mOldStory instanceof ScrollStory );
+            Env.saveState().setQuestStats(null);
           }
           Env.saveState().save();
           storyEvents.add(new Story.EventGameBegins());
