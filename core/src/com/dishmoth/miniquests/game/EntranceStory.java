@@ -1,5 +1,5 @@
 /*
- *  IntroStory.java
+ *  EntranceStory.java
  *  Copyright Simon Hern 2011
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -9,8 +9,8 @@ package com.dishmoth.miniquests.game;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-// instruction screens
-public class IntroStory extends Story {
+// show some instruction screens at the dungeon entrance
+public class EntranceStory extends Story {
 
   // times until things happen
   private static final int kInitialDelay = 30,
@@ -52,7 +52,7 @@ public class IntroStory extends Story {
   private boolean mEscPressed;
   
   // constructor
-  public IntroStory(int questNum) {
+  public EntranceStory(int questNum) {
 
     if ( kMissionText == null ) {
       kMissionText = Env.resources().loadEgaImage("MissionText.png");
@@ -172,4 +172,4 @@ public class IntroStory extends Story {
     
   } // Story.advance()
 
-} // class IntroStory
+} // class EntranceStory

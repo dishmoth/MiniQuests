@@ -214,7 +214,7 @@ public class MapStory extends Story {
     // enter a dungeon
     if ( mTimer > 0 ) {
       if ( --mTimer == 0 ) {
-        newStory = new IntroStory(mQuest);
+        newStory = new EntranceStory(mQuest);
         storyEvents.add(new Story.EventGameBegins());
         tidySprites(spriteManager);
       }
