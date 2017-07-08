@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class SaveState {
   
   // current save version number
-  private static final int kVersion = 2;
+  private static final int kVersion = 3;
   
   // what training is needed (0 => none, 1 => quick, 2 => full (no save found))
   private int mTraining;
@@ -111,6 +111,7 @@ public class SaveState {
     // quest scores (num quests x4 bits, padded to multiple of 8 bits)
     final int numQuestsToRead = (version == 0) ? 2
                               : (version == 1) ? 3
+                              : (version == 2) ? 4
                                                : 4;
     for ( int k = 0 ; k < numQuestsToRead ; k++ ) {
       int score = buffer.read(4);
@@ -130,11 +131,59 @@ public class SaveState {
         return;
       }
     }
-    
-    // quest restart data (all the rest)
+
+    // screen size (8 bits, since version 3)
+    if ( version >= 3 ) {
+      int size = buffer.read(8);
+      if ( size < 0 ) {
+        Env.debug("Failed to read screen size value");
+        return;
+      } else if ( size <= MAX_SCREEN_SIZE ) {
+        Env.debug("Loaded screen size value: " + size);
+        mScreenSize = size;
+      }
+    }
+
+    // touch-screen control scheme (4 bits, since version 3)
+    if ( version >= 3 ) {
+      int val = buffer.read(4);
+      if ( val < 0 ) {
+        Env.debug("Failed to read touch-screen control value");
+        return;
+      } else if ( val == 0 || val == 1 ) {
+        Env.debug("Loaded touch-screen control value: " + val);
+        mTouchScreenControls = val;
+      }
+    }
+
+    // touch-screen button size (4 bits, since version 3)
+    if ( version >= 3 ) {
+      int size = buffer.read(4);
+      if ( size < 0 ) {
+        Env.debug("Failed to read touch-screen button size");
+        return;
+      } else if ( size <= MAX_BUTTON_SIZE ) {
+        Env.debug("Loaded touch-screen button size: " + size);
+        mButtonSize = size;
+      }
+    }
+
+    // quest restart data
     if ( buffer.numBitsToRead() > 0 ) {
       Env.debug("Game state includes quest data");
-      mRestartVersion = version;
+      // restart version (8 bits, since version 3)
+      if ( version >= 3 ) {
+        int ver = buffer.read(8);
+        if ( ver < 0 || ver > version || buffer.numBitsToRead() == 0 ) {
+          Env.debug("Failed to read quest restart version");
+          return;
+        }
+        Env.debug("Loaded quest restart version: " + ver);
+        mRestartVersion = ver;
+      } else {
+        mRestartVersion = version;
+      }
+      // restart data (the rest of the buffer)
       mRestartData.append(buffer);
       mRestartData.toStart();
     }
@@ -167,14 +216,33 @@ public class SaveState {
       buffer.write(0, 4);
     }
   
-    // quest restart data (appended)
+    // screen size (8 bits, -1 if not defined)
+    if ( mScreenSize >= 0 && mScreenSize <= MAX_SCREEN_SIZE ) {
+      buffer.write(mScreenSize, 8);
+    } else {
+      buffer.write(255, 8);
+    }
+    
+    // touch-screen control scheme (4 bits, -1 if not defined)
+    if ( mTouchScreenControls == 0 || mTouchScreenControls == 1 ) {
+      buffer.write(mTouchScreenControls, 4);
+    } else {
+      buffer.write(15, 4);
+    }
+    
+    // touch-screen button size (4 bits, -1 if not defined)
+    if ( mButtonSize >= 0 && mButtonSize <= MAX_BUTTON_SIZE ) {
+      buffer.write(mButtonSize, 4);
+    } else {
+      buffer.write(15, 4);
+    }
+    
+    // quest restart data (8 bits for version, data appended)
     if ( mRestartData.numBits() > 0 ) {
-      if ( mRestartVersion == kVersion ) {
-        mRestartData.toStart();
-        buffer.append(mRestartData);
-      } else {
-        Env.debug("Cannot save restart data: version not current");
-      }
+      buffer.write(mRestartVersion, 8);
+      mRestartData.toStart();
+      buffer.append(mRestartData);
+      mRestartData.toStart();
     }
     
     Env.debug("Saving game state (\"" + buffer + "\")");
