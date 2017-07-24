@@ -14,11 +14,9 @@ public class SaveState {
   // current save version number
   private static final int kVersion = 3;
   
-  // what training is needed (0 => none, 1 => quick, 2 => full (no save found))
-  private int mTraining;
-  
-  // whether the player has seen the map screen yet (true if save found)
-  private boolean mPlayedBefore;
+  // how much prompting is needed based on player's progress 
+  // (0 => none, 1 => reminders, 2 => new game, 3 => hero training)
+  private int mPrompting;
   
   // size factor for the game screen, if adjustable (-1 => undefined)
   public static final int MAX_SCREEN_SIZE = 20;
@@ -47,8 +45,7 @@ public class SaveState {
   // constructor
   public SaveState() {
     
-    mTraining = 2;
-    mPlayedBefore = false;
+    mPrompting = 3;
 
     mScreenSize = -1;
     mTouchScreenControls = -1;
@@ -96,6 +93,7 @@ public class SaveState {
     
     Env.debug("Loading game state (\"" + buffer + "\")");
     
+    mPrompting = 3;
     mRestartData.clear();
     buffer.toStart();
     
@@ -108,30 +106,6 @@ public class SaveState {
       Env.debug("Loading version " + version);
     }
     
-    // quest scores (num quests x4 bits, padded to multiple of 8 bits)
-    final int numQuestsToRead = (version == 0) ? 2
-                              : (version == 1) ? 3
-                              : (version == 2) ? 4
-                                               : 4;
-    for ( int k = 0 ; k < numQuestsToRead ; k++ ) {
-      int score = buffer.read(4);
-      if ( score < 0 || score > 5 ) {
-        Env.debug("Failed to read score for quest " + k);
-        Arrays.fill(mQuestScores, 0);
-        return;
-      } else {
-        Env.debug("Loaded quest " + k + ": score " + score);
-        mQuestScores[k] = score;
-      }
-    }
-    if ( (numQuestsToRead % 2) == 1 && buffer.numBitsToRead() > 0 ) {
-      int padding = buffer.read(4);
-      if ( padding != 0 ) {
-        Env.debug("Failed to read quest scores (unexpected data)");
-        return;
-      }
-    }
-
     // screen size (8 bits, since version 3)
     if ( version >= 3 ) {
       int size = buffer.read(8);
@@ -168,6 +142,42 @@ public class SaveState {
       }
     }
 
+    // if the game hasn't been played yet then only the settings are saved 
+    if ( version >= 3 ) {
+      if ( buffer.numBitsToRead() == 0 ) {
+        Env.debug("Only loaded settings");
+        return;
+      }
+    }
+    
+    // user has played before, reduce the prompting needed
+    mPrompting = ( Env.platform() == Env.Platform.ANDROID || 
+                   Env.platform() == Env.Platform.OUYA ) ? 0 : 1;
+    
+    // quest scores (num quests x4 bits, padded to multiple of 8 bits)
+    final int numQuestsToRead = (version == 0) ? 2
+                              : (version == 1) ? 3
+                              : (version == 2) ? 4
+                                               : 4;
+    for ( int k = 0 ; k < numQuestsToRead ; k++ ) {
+      int score = buffer.read(4);
+      if ( score < 0 || score > 5 ) {
+        Env.debug("Failed to read score for quest " + k);
+        Arrays.fill(mQuestScores, 0);
+        return;
+      } else {
+        Env.debug("Loaded quest " + k + ": score " + score);
+        mQuestScores[k] = score;
+      }
+    }
+    if ( (numQuestsToRead % 2) == 1 && buffer.numBitsToRead() > 0 ) {
+      int padding = buffer.read(4);
+      if ( padding != 0 ) {
+        Env.debug("Failed to read quest scores (unexpected data)");
+        return;
+      }
+    }
+
     // quest restart data
     if ( buffer.numBitsToRead() > 0 ) {
       Env.debug("Game state includes quest data");
@@ -188,13 +198,6 @@ public class SaveState {
       mRestartData.toStart();
     }
 
-    // other info (not saved)
-    if ( mTraining == 2 ) {
-      mTraining = ( (Env.platform()==Env.Platform.ANDROID || 
-                     Env.platform()==Env.Platform.OUYA) ? 0 : 1 );
-    }
-    mPlayedBefore = true;
-    
   } // decode()
   
   // save the game state
@@ -204,18 +207,11 @@ public class SaveState {
     mNeedToSave = false;
         
     BitBuffer buffer = new BitBuffer();
-    
+    boolean startedGame = (mPrompting <= 1);
+
     // version (8 bits)
     buffer.write(kVersion, 8);
     
-    // quest scores (num quests x4 bits, padded to multiple of 8 bits)
-    for ( int k = 0 ; k < mQuestScores.length ; k++ ) {
-      buffer.write(mQuestScores[k], 4);
-    }
-    if ( (mQuestScores.length % 2) == 1 ) {
-      buffer.write(0, 4);
-    }
-  
     // screen size (8 bits, -1 if not defined)
     if ( mScreenSize >= 0 && mScreenSize <= MAX_SCREEN_SIZE ) {
       buffer.write(mScreenSize, 8);
@@ -237,8 +233,18 @@ public class SaveState {
       buffer.write(15, 4);
     }
     
+    // quest scores (num quests x4 bits, padded to multiple of 8 bits)
+    if ( startedGame ) {
+      for ( int k = 0 ; k < mQuestScores.length ; k++ ) {
+        buffer.write(mQuestScores[k], 4);
+      }
+      if ( (mQuestScores.length % 2) == 1 ) {
+        buffer.write(0, 4);
+      }
+    }
+  
     // quest restart data (8 bits for version, data appended)
-    if ( mRestartData.numBits() > 0 ) {
+    if ( startedGame && mRestartData.numBits() > 0 ) {
       buffer.write(mRestartVersion, 8);
       mRestartData.toStart();
       buffer.append(mRestartData);
@@ -260,20 +266,34 @@ public class SaveState {
     
   } // saveMaybe()
   
-  // whether to put the player through full hero training
-  public boolean fullTrainingNeeded() { return (mTraining == 2); }
+  // whether to prompt the player to do hero training
+  public boolean heroTrainingNeeded() { return (mPrompting >= 3); }
 
-  // whether to give the player a reminder of the controls
-  public boolean quickTrainingNeeded() { return (mTraining == 1); }
+  // player has done the training
+  public void heroTrainingDone() { mPrompting = Math.min(mPrompting, 2); }
 
-  // the player does not need further training
-  public void setTrainingDone() { mTraining = 0; }
+  // whether the player has started a game yet
+  public boolean newGameNeeded() { return (mPrompting >= 2); }
 
-  // whether the player has seen the map screen before
-  public boolean playedBefore() { return mPlayedBefore; }
-  
   // the player has started playing (seen the map screen at least)
-  public void setPlayedBefore() { mPlayedBefore = true; }
+  public void newGameDone() { 
+    
+    if ( mPrompting >= 2 ) {
+      mNeedToSave = true;
+      mPrompting = Math.min(mPrompting, 1);
+      if ( Env.platform() == Env.Platform.ANDROID || 
+           Env.platform() == Env.Platform.OUYA ) {
+        mPrompting = 0;
+      }
+    }
+    
+  } // setPlayedBefore()
+  
+  // whether to give the player a reminder of the controls
+  public boolean remindersNeeded() { return (mPrompting >= 1); }
+
+  // player has seen enough reminders
+  public void remindersDone() { mPrompting = 0; }
   
   // size factor for the game screen (-1 if undecided) 
   public int screenSize() { return mScreenSize; }

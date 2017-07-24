@@ -58,7 +58,7 @@ public class EntranceStory extends Story {
       kMissionText = Env.resources().loadEgaImage("MissionText.png");
     }
 
-    if ( kMoveText == null && Env.saveState().quickTrainingNeeded() ) {
+    if ( kMoveText == null && Env.saveState().remindersNeeded() ) {
       String gdxText = ( Env.platform()==Env.Platform.ANDROID ? "Android" 
                                                               : "" );
       kMoveText = Env.resources().loadEgaImage("MoveText"+gdxText+".png");
@@ -132,7 +132,6 @@ public class EntranceStory extends Story {
           newStory = new TinyStory(mQuestNum);
           storyEvents.add(new Story.EventGameBegins());
           spriteManager.removeAllSprites();
-          Env.saveState().setTrainingDone();
           Env.saveState().clearRestartData();
         } else if ( mStage == 4 ) {
           mFadeOut.pause(false);
@@ -149,7 +148,7 @@ public class EntranceStory extends Story {
             if ( mArrows != null ) spriteManager.addSprite(mArrows);
           }
           mKeyTimer = kKeyDelay;
-          if ( !Env.saveState().quickTrainingNeeded() ) {
+          if ( !Env.saveState().remindersNeeded() ) {
             if ( mStage == 1 ) mStage = 3;
           }
         }

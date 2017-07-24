@@ -266,7 +266,7 @@ public class TrainingStory extends Story {
             spriteManager.removeAllSprites();
             newStory = new MenuStory();
             storyEvents.add(new Story.EventGameBegins());
-            Env.saveState().setTrainingDone();
+            Env.saveState().heroTrainingDone();
             Env.saveState().saveMaybe();
           } break;
           default: {

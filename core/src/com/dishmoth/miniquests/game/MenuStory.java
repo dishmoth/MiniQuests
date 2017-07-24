@@ -194,10 +194,10 @@ public class MenuStory extends Story {
     
     mPanels.add(new MenuTraining());
 
-    if ( Env.saveState().fullTrainingNeeded() ) {
+    if ( Env.saveState().heroTrainingNeeded() ) {
       mPanels.add(new MenuMap());
     } else {
-      boolean newGame = !Env.saveState().playedBefore();
+      boolean newGame = Env.saveState().newGameNeeded();
       int usedColours[] = mPanels.get(0).colours();
       mPanels.add(0, new MenuMap(newGame, mStartOnMap, usedColours));
     }

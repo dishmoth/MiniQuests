@@ -142,7 +142,7 @@ public class MapStory extends Story {
         mRestartData = null;
         mEscPressed = true;
         Env.keys().setMode(KeyMonitor.MODE_MAP);
-        Env.saveState().setPlayedBefore();
+        Env.saveState().newGameDone();
         it.remove();
       } // Story.EventGameBegins
 
