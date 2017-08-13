@@ -232,6 +232,8 @@ public class MenuStory extends Story {
       mPanels.add(new MenuControls());
     }
     
+    mPanels.add(new MenuCredits());
+    
     int startPanel = 0;
     for ( int k = 0 ; k < mPanels.size() ; k++ ) {
       if ( mStartOnTraining && mPanels.get(k) instanceof MenuTraining ) {
