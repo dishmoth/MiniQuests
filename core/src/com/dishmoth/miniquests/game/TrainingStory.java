@@ -23,6 +23,11 @@ public class TrainingStory extends Story {
                            kRevealChangeDelay = 15,
                            kFinalChangeDelay  = 30;
   
+  // how fast the text animates
+  private static final int kAnimTextDelay   = 90,
+                           kAnimAnyKeyDelay = 60,
+                           kAnimBlankDelay  = 20;
+  
   // text (and background) images
   private static EgaImage kStartPic    = null,
                           kMoveText    = null,
@@ -30,7 +35,8 @@ public class TrainingStory extends Story {
                           kEndText     = null,
                           kLesson1Text = null,
                           kLesson2Text = null,
-                          kLesson3Text = null;
+                          kLesson3Text = null,
+                          kAnyKeyText  = null;
   
   // list of all rooms that make up this story
   private Room mRoomList[];
@@ -45,8 +51,8 @@ public class TrainingStory extends Story {
   private boolean mFrozen;
 
   // reference to the current text and background (or null)
-  private Picture mTextPic,
-                  mBackgroundPic;
+  private Sprite      mTextPic;
+  private Picture     mBackgroundPic;
   private TouchArrows mArrows;
 
   // count down until key presses are recognized
@@ -78,6 +84,7 @@ public class TrainingStory extends Story {
       kLesson1Text = Env.resources().loadEgaImage("Lesson1Text.png");
       kLesson2Text = Env.resources().loadEgaImage("Lesson2Text.png");
       kLesson3Text = Env.resources().loadEgaImage("Lesson3Text.png");
+      kAnyKeyText  = Env.resources().loadEgaImage("BeginText"+gdxText+".png");
     }
     
     mRoomList = new Room[]{ new RoomZ01(),
@@ -218,7 +225,10 @@ public class TrainingStory extends Story {
             mChangeTimer = kRevealChangeDelay;
           } break;
           case 3: {
-            mTextPic = new Picture(kLesson1Text);
+            mTextPic = new AnimPicture(0, kLesson1Text, 
+                                       kAnimTextDelay, kAnimBlankDelay,
+                                       kAnyKeyText, 
+                                       kAnimAnyKeyDelay, kAnimBlankDelay);
           } break;
           case 4: {
             mTextPic = new Picture(kMoveText);
