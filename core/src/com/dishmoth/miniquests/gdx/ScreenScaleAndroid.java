@@ -36,6 +36,7 @@ public class ScreenScaleAndroid extends ScreenScale {
   public ScreenScaleAndroid(int width, int height) {
     
     assert( Env.platform() == Env.Platform.ANDROID ||
+            Env.platform() == Env.Platform.IOS ||
             Env.platform() == Env.Platform.OUYA );
     
     refresh(width, height);
@@ -126,11 +127,13 @@ public class ScreenScaleAndroid extends ScreenScale {
 
     final float shrink =
                   (Env.platform()==Env.Platform.ANDROID) ? kShrinkTouchscreen
+                : (Env.platform()==Env.Platform.IOS)     ? kShrinkTouchscreen
                 : (Env.platform()==Env.Platform.OUYA)    ? kShrinkTelevision
                                                          : 1.0f;
     float scale = shrink * mMaxScale;
 
-    if ( Env.platform() == Env.Platform.ANDROID ) {
+    if ( Env.platform() == Env.Platform.ANDROID ||
+         Env.platform() == Env.Platform.IOS ) {
       assert( Env.keys() != null );
       KeyMonitorAndroid keyMonitor = (KeyMonitorAndroid)Env.keys();
       int maxWidth  = Gdx.graphics.getWidth() - 2*keyMonitor.buttonsXMargin(),

@@ -117,7 +117,8 @@ public class QuitStory extends Story {
   // whether we are running on a touchscreen device (android but not ouya)
   private boolean usingTouchscreen() { 
     
-    return ( Env.platform() == Env.Platform.ANDROID );
+    return ( Env.platform() == Env.Platform.ANDROID ||
+             Env.platform() == Env.Platform.IOS );
     
   } // isTouchscreen()
   

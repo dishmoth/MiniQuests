@@ -76,6 +76,7 @@ public class TrainingStory extends Story {
     if ( kStartPic == null ) {
       String gdxText = ( Env.platform()==Env.Platform.OUYA    ? "Controller" 
                        : Env.platform()==Env.Platform.ANDROID ? "Android" 
+                       : Env.platform()==Env.Platform.IOS     ? "Android" 
                                                               : "" );      
       kStartPic    = Env.resources().loadEgaImage("TrainingPic.png");
       kMoveText    = Env.resources().loadEgaImage("MoveText"+gdxText+".png");
@@ -232,7 +233,8 @@ public class TrainingStory extends Story {
           } break;
           case 4: {
             mTextPic = new Picture(kMoveText);
-            if ( Env.platform() == Env.Platform.ANDROID &&
+            if ( (Env.platform() == Env.Platform.ANDROID ||
+                  Env.platform() == Env.Platform.IOS) &&
                  Env.saveState().touchScreenControls() == 0 ) {
               mArrows = new TouchArrows(1);
             }
@@ -249,7 +251,8 @@ public class TrainingStory extends Story {
           } break;
           case 8: {
             mTextPic = new Picture(kFireText);
-            if ( Env.platform() == Env.Platform.ANDROID &&
+            if ( (Env.platform() == Env.Platform.ANDROID ||
+                  Env.platform() == Env.Platform.IOS) &&
                  Env.saveState().touchScreenControls() == 0 ) {
               mArrows = new TouchArrows(2);
             }

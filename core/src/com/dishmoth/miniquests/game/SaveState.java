@@ -152,6 +152,7 @@ public class SaveState {
     
     // user has played before, reduce the prompting needed
     mPrompting = ( Env.platform() == Env.Platform.ANDROID || 
+                   Env.platform() == Env.Platform.IOS || 
                    Env.platform() == Env.Platform.OUYA ) ? 0 : 1;
     
     // quest scores (num quests x4 bits, padded to multiple of 8 bits)
@@ -282,6 +283,7 @@ public class SaveState {
       mNeedToSave = true;
       mPrompting = Math.min(mPrompting, 1);
       if ( Env.platform() == Env.Platform.ANDROID || 
+           Env.platform() == Env.Platform.IOS || 
            Env.platform() == Env.Platform.OUYA ) {
         mPrompting = 0;
       }

@@ -173,7 +173,8 @@ public class MenuStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
-        if ( Env.platform() == Env.Platform.ANDROID ) {
+        if ( Env.platform() == Env.Platform.ANDROID ||
+             Env.platform() == Env.Platform.IOS ) {
           Env.exit();
           if ( mScroll == 0 ) mPauseTimer = 300; // delay while the 'exit' takes hold
         }
@@ -224,11 +225,13 @@ public class MenuStory extends Story {
     }
 
     if ( Env.platform() == Env.Platform.ANDROID || 
+         Env.platform() == Env.Platform.IOS || 
          Env.platform() == Env.Platform.OUYA ) {
       mPanels.add(new MenuResize());
     }
     
-    if ( Env.platform() == Env.Platform.ANDROID ) {
+    if ( Env.platform() == Env.Platform.ANDROID ||
+         Env.platform() == Env.Platform.IOS ) {
       mPanels.add(new MenuControls());
     }
     

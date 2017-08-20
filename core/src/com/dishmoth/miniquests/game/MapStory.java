@@ -68,6 +68,7 @@ public class MapStory extends Story {
 
     String gdxText = ( Env.platform()==Env.Platform.OUYA    ? "Controller" 
                      : Env.platform()==Env.Platform.ANDROID ? "Android" 
+                     : Env.platform()==Env.Platform.IOS     ? "Android" 
                                                             : "" );      
     kIntroImage = Env.resources().loadEgaImage("IntroText.png");
     kEnterImage = Env.resources().loadEgaImage("EnterText"+gdxText+".png");

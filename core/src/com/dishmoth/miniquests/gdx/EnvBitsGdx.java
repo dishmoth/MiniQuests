@@ -38,6 +38,8 @@ public class EnvBitsGdx implements EnvBits {
       mPlatform = Env.Platform.DESKTOP;
     } else if ( Gdx.app.getType() == ApplicationType.WebGL ) {
       mPlatform = Env.Platform.HTML;
+    } else if ( Gdx.app.getType() == ApplicationType.iOS ) {
+      mPlatform = Env.Platform.IOS;
     } else if ( Gdx.app.getType() == ApplicationType.Android ) {
       mPlatform = Env.Platform.ANDROID;
     

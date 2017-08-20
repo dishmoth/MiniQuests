@@ -27,6 +27,7 @@ public class Env {
                          DESKTOP, // libgdx, PC application
                          ANDROID, // libgdx, Android phone or tablet
                          OUYA,    // libgdx, Android console
+                         IOS,     // libgdx, iOS phone or tablet
                          HTML };  // HTML5/WebGL through GWT
   
   // whether to display debug messages, timing statistics, etc.

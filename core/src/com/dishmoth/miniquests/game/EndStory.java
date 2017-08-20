@@ -164,10 +164,11 @@ public class EndStory extends Story {
       }
     }
     
-    // quest aborted
+    // quest aborted (allow a quick exit on mobile devices)
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null &&
-           Env.platform() == Env.Platform.ANDROID ) {
+           (Env.platform() == Env.Platform.ANDROID || 
+            Env.platform() == Env.Platform.IOS) ) {
         newStory = new MapStory(mQuest);
         storyEvents.add(new Story.EventGameBegins());
         spriteManager.removeAllSprites();

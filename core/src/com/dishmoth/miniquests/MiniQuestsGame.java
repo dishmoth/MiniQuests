@@ -66,10 +66,12 @@ public class MiniQuestsGame extends ApplicationAdapter {
     
     Env.addKeyMonitor( 
           (Env.platform() == Env.Platform.ANDROID) ? new KeyMonitorAndroid()
+        : (Env.platform() == Env.Platform.IOS)     ? new KeyMonitorAndroid()
         : (Env.platform() == Env.Platform.OUYA)    ? new KeyMonitorOuya()
                                                    : new KeyMonitorDesktop() );
 
     if ( Env.platform() == Env.Platform.ANDROID ||
+         Env.platform() == Env.Platform.IOS ||
          Env.platform() == Env.Platform.OUYA ) {
       Env.setScreenScale( new ScreenScaleAndroid(Gdx.graphics.getWidth(),
                                                  Gdx.graphics.getHeight()) );

@@ -60,6 +60,7 @@ public class EntranceStory extends Story {
 
     if ( kMoveText == null && Env.saveState().remindersNeeded() ) {
       String gdxText = ( Env.platform()==Env.Platform.ANDROID ? "Android" 
+                       : Env.platform()==Env.Platform.IOS     ? "Android" 
                                                               : "" );
       kMoveText = Env.resources().loadEgaImage("MoveText"+gdxText+".png");
       kFireText = Env.resources().loadEgaImage("FireText"+gdxText+".png");
@@ -141,7 +142,8 @@ public class EntranceStory extends Story {
                    : (mStage == 2) ? new Picture(kMoveText, -2)
                                    : new Picture(kFireText, -2);
           spriteManager.addSprite(mTextPic);
-          if ( Env.platform() == Env.Platform.ANDROID ) {
+          if ( Env.platform() == Env.Platform.ANDROID ||
+               Env.platform() == Env.Platform.IOS ) {
             if      ( mStage == 2 ) mArrows = new TouchArrows(1);
             else if ( mStage == 3 ) mArrows = new TouchArrows(2);
             else                    mArrows = null;

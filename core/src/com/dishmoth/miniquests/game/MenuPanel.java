@@ -31,6 +31,7 @@ abstract public class MenuPanel {
     if ( kBeginText == null ) {
       String gdxText = ( Env.platform()==Env.Platform.OUYA    ? "Controller" 
                        : Env.platform()==Env.Platform.ANDROID ? "Android" 
+                       : Env.platform()==Env.Platform.IOS     ? "Android" 
                                                               : "" );      
       kBeginText = Env.resources().loadEgaImage("BeginText"+gdxText+".png");
       

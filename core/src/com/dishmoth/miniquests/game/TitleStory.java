@@ -57,6 +57,7 @@ public class TitleStory extends Story {
       
       String gdxText = ( Env.platform()==Env.Platform.OUYA    ? "Controller" 
                        : Env.platform()==Env.Platform.ANDROID ? "Android" 
+                       : Env.platform()==Env.Platform.IOS     ? "Android" 
                                                               : "" );      
       kBeginText = Env.resources().loadEgaImage("BeginText"+gdxText+".png");
     }
@@ -137,7 +138,8 @@ public class TitleStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
-        if ( Env.platform() == Env.Platform.ANDROID ) {
+        if ( Env.platform() == Env.Platform.ANDROID ||
+             Env.platform() == Env.Platform.IOS ) {
           Env.exit();
           mKeyTimer = 300; // delay while the 'exit' takes hold
         }
