@@ -130,7 +130,7 @@ public class EntranceStory extends Story {
       if ( --mChangeTimer == 0 ) {
         mStage++;
         if ( mStage == 5 ) {
-          newStory = new TinyStory(mQuestNum);
+          newStory = new QuestStory(mQuestNum);
           storyEvents.add(new Story.EventGameBegins());
           spriteManager.removeAllSprites();
           Env.saveState().clearRestartData();

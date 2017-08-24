@@ -19,7 +19,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "A09"
@@ -328,7 +328,7 @@ public class RoomA09 extends Room {
         mLavaDone = true;
         Env.sounds().play(Sounds.SUCCESS, 3);
         kExits[1].mDoor.setClosed(false);
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
       }
     }
     

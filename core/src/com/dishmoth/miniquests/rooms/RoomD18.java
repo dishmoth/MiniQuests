@@ -18,7 +18,7 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Spikes;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 
 // the room "D18"
 public class RoomD18 extends Room {
@@ -209,7 +209,7 @@ public class RoomD18 extends Room {
       } else if ( mEndTimer == kChestOpenDelay ) {
         mChest.setOpen(true);
       } else if ( mEndTimer == 0 ) {
-        storyEvents.add(new TinyStory.EventPlayerWins());
+        storyEvents.add(new QuestStory.EventPlayerWins());
       }
     }
 

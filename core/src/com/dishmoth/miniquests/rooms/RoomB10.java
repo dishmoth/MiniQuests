@@ -23,7 +23,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "B10"
@@ -315,13 +315,13 @@ public class RoomB10 extends Room {
       Env.sounds().play(Sounds.SUCCESS, 2);
       mUpperActivated = true;
       mUpperTimer = 5*kTimeBlockShift;
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
     }
     if ( !mLowerActivated && checkSwitchStates(kSwitchStatesLower) ) {
       Env.sounds().play(Sounds.SUCCESS, 2);
       mLowerActivated = true;
       mLowerTimer = 5*kTimeBlockShift;
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
     }
 
     // just for fun, blow up the critter

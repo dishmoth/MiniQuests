@@ -60,8 +60,8 @@ public class MapStory extends Story {
     
     if ( kQuestImages != null ) return;
     
-    kQuestImages = new EgaImage[TinyStory.NUM_QUESTS];
-    for ( int k = 0 ; k < TinyStory.NUM_QUESTS ; k++ ) {
+    kQuestImages = new EgaImage[QuestStory.NUM_QUESTS];
+    for ( int k = 0 ; k < QuestStory.NUM_QUESTS ; k++ ) {
       kQuestImages[k] = Env.resources().loadEgaImage("Quest" + (k+1) 
                                                      + "Text.png");
     }
@@ -92,7 +92,7 @@ public class MapStory extends Story {
 
     initialize();
 
-    assert( quest >= -1 && quest < TinyStory.NUM_QUESTS );
+    assert( quest >= -1 && quest < QuestStory.NUM_QUESTS );
     mQuest = quest;
     mRestartData = null;
     
@@ -167,8 +167,8 @@ public class MapStory extends Story {
         
       else if ( event instanceof MapDataMain.EventAtStones ) {
         // the player is at the stones
-        boolean questsComplete[] = new boolean[TinyStory.NUM_QUESTS];
-        for ( int k = 0 ; k < TinyStory.NUM_QUESTS ; k++ ) {
+        boolean questsComplete[] = new boolean[QuestStory.NUM_QUESTS];
+        for ( int k = 0 ; k < QuestStory.NUM_QUESTS ; k++ ) {
           questsComplete[k] = ( Env.saveState().questScore(k) > 0 );
         }
         mStones = new MapStones(questsComplete);

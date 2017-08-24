@@ -20,7 +20,7 @@ import com.dishmoth.miniquests.game.Splatter;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.Statue;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Wall;
 import com.dishmoth.miniquests.game.WallLeft;
 
@@ -192,7 +192,7 @@ public class RoomB04 extends Room {
         for ( Statue s : mStatues ) s.setColour(1);
         Env.sounds().play(Sounds.SWITCH_ON);
         mCompleted = true;
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
       }
     } else {
       mStatuesTimer = kTimeStatues;

@@ -27,7 +27,7 @@ import com.dishmoth.miniquests.game.Splatter;
 import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "A10"
@@ -480,7 +480,7 @@ public class RoomA10 extends Room {
       }
       
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
 
     // check for scrolling
     EventRoomScroll scroll = checkHorizontalScroll();
@@ -539,7 +539,7 @@ public class RoomA10 extends Room {
       if ( mTimer == finishTime ) {
         assert( mPlayer != null );
         mDragonKilled = true;
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
         mMode = 10;
         mTimer = -1;
       }
@@ -592,7 +592,7 @@ public class RoomA10 extends Room {
         mTimer = -1;
         if ( mLeftBridge.getYPos() == 1 ) {
           mMode = 8;
-          storyEvents.add(new TinyStory.EventSaveGame());
+          storyEvents.add(new QuestStory.EventSaveGame());
           Env.sounds().play(Sounds.SUCCESS);
         }
       }
@@ -649,7 +649,7 @@ public class RoomA10 extends Room {
         mTimer = -1;
         if ( mRightBridge.getYPos() == 1 ) {
           mMode = 5;
-          storyEvents.add(new TinyStory.EventSaveGame());
+          storyEvents.add(new QuestStory.EventSaveGame());
           Env.sounds().play(Sounds.SUCCESS);
         }
       }
@@ -721,7 +721,7 @@ public class RoomA10 extends Room {
       if ( mNumSwitchesDone > 0 && (mTimer%period) > periodMin ) {
         mMode = 2;
         mTimer = -1;
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
         Env.sounds().play(Sounds.SUCCESS, 3);
       }
     }

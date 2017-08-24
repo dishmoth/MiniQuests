@@ -25,7 +25,7 @@ import com.dishmoth.miniquests.game.Splatter;
 import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 
 // the room "C08"
 public class RoomC08 extends Room {
@@ -291,7 +291,7 @@ public class RoomC08 extends Room {
         it.remove();
       }
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
 
     // add enemies
     if ( mSwitchDone && !mFlameDone ) {
@@ -350,7 +350,7 @@ public class RoomC08 extends Room {
             if ( sp instanceof Critter ) ((Critter)sp).destroy(-1);
           }        
           Env.sounds().play(Sounds.SUCCESS);
-          storyEvents.add(new TinyStory.EventSaveGame());
+          storyEvents.add(new QuestStory.EventSaveGame());
         } else {
           mFlame.setColours( kFlameColours[mFlameColour] );
           mFlame.setFlame(true);

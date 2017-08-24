@@ -51,7 +51,7 @@ public class SaveState {
     mTouchScreenControls = -1;
     mButtonSize = -1;
     
-    mQuestScores = new int[ TinyStory.NUM_QUESTS ];
+    mQuestScores = new int[ QuestStory.NUM_QUESTS ];
     Arrays.fill(mQuestScores, 0);
     
     mRestartVersion = kVersion;
@@ -336,7 +336,7 @@ public class SaveState {
   // best hero rating for a quest (0 if not completed yet)
   public int questScore(int questNum) {
     
-    assert( questNum >= 0 && questNum < TinyStory.NUM_QUESTS );
+    assert( questNum >= 0 && questNum < QuestStory.NUM_QUESTS );
     return mQuestScores[questNum];
     
   } // questScore()
@@ -344,7 +344,7 @@ public class SaveState {
   // update the best score for a quest
   public void updateQuestScore(int questNum, int score) {
     
-    assert( questNum >= 0 && questNum < TinyStory.NUM_QUESTS );
+    assert( questNum >= 0 && questNum < QuestStory.NUM_QUESTS );
     assert( score >= 1 && score <= 5 );
     if ( mQuestScores[questNum] < score ) {
       mQuestScores[questNum] = score;

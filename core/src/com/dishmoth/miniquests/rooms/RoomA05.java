@@ -20,7 +20,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 
 // the room "A05"
 public class RoomA05 extends Room {
@@ -220,7 +220,7 @@ public class RoomA05 extends Room {
       }
       
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
 
     // replace the death blocks
     if ( mDeathTimer > 0 ) {

@@ -22,7 +22,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "C15"
@@ -288,7 +288,7 @@ public class RoomC15 extends Room {
         it.remove();
       }
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
     
     // light up the switches or open the gate
     if ( mSwitchesDone ) {
@@ -345,7 +345,7 @@ public class RoomC15 extends Room {
         mGate = null;
         Env.sounds().play(Sounds.GATE);
         spriteManager.addSprite(mPath);
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
       }
     }
     

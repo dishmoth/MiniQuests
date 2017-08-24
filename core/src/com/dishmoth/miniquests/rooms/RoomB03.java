@@ -18,7 +18,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Triffid;
 import com.dishmoth.miniquests.game.WallSwitch;
 
@@ -321,14 +321,14 @@ public class RoomB03 extends Room {
       }
 
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
     
     // check pop-up triffid
     if ( mPopupTriffidState == 0 && mPlayer != null &&
          mPlayer.getXPos() == 0 && mPlayer.getYPos() == 2 ) {
       mPopupTriffidState = 1;
       spriteManager.addSprite( makePopupTriffid() );
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
       Env.sounds().play(Sounds.TRIFFID_EMERGE);
     }
 

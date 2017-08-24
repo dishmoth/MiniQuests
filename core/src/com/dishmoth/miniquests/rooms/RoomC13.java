@@ -19,7 +19,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "C13"
@@ -342,7 +342,7 @@ public class RoomC13 extends Room {
       mPath1.setComplete();
       spriteManager.addSprite(mPath1);
       Env.sounds().play(Sounds.SUCCESS);
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
       assert( mPath2 == null );      
       makeLift(spriteManager);
     }

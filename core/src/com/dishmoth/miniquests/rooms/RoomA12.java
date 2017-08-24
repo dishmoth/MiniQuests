@@ -19,7 +19,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 
 // the room "A12"
 public class RoomA12 extends Room {
@@ -205,7 +205,7 @@ public class RoomA12 extends Room {
           }
           if ( mXPos == 8 && mYPos == 4 && allFlamesOn() ) {
             mDone = true;
-            storyEvents.add(new TinyStory.EventSaveGame());
+            storyEvents.add(new QuestStory.EventSaveGame());
             Env.sounds().play(Sounds.SUCCESS);
           }
           kExits[1].mDoor.setClosed( !allFlamesOn() ); 

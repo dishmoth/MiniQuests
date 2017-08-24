@@ -1,5 +1,5 @@
 /*
- *  TinyStory.java
+ *  QuestStory.java
  *  Copyright Simon Hern 2010
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -71,18 +71,18 @@ import com.dishmoth.miniquests.rooms.RoomD17;
 import com.dishmoth.miniquests.rooms.RoomD18;
 import com.dishmoth.miniquests.rooms.RoomD19;
 
-// the main game class
-public class TinyStory extends Story {
+// the main game class controlling a quest
+public class QuestStory extends Story {
 
   // story event: the quest has been completed
   public static class EventPlayerWins extends StoryEvent {
     public EventPlayerWins() {}
-  } // class TinyStory.EventPlayerWins
+  } // class QuestStory.EventPlayerWins
 
   // story event: something has happened that makes it worth saving
   public static class EventSaveGame extends StoryEvent {
     public EventSaveGame() {}
-  } // class TinyStory.EventSaveGame
+  } // class QuestStory.EventSaveGame
   
   // how many quests there are
   public static final int NUM_QUESTS = 4;
@@ -119,7 +119,7 @@ public class TinyStory extends Story {
   private boolean mEscPressed;
 
   // constructor (for a specific quest)
-  public TinyStory(int questNum) {
+  public QuestStory(int questNum) {
 
     mQuestNum = questNum;
     
@@ -133,7 +133,7 @@ public class TinyStory extends Story {
   } // constructor
 
   // constructor (for restore from a save; must call restart() before playing)
-  public TinyStory() {
+  public QuestStory() {
 
     mQuestNum = -1;
     mRoomList = null;
@@ -520,4 +520,4 @@ public class TinyStory extends Story {
     
   } // questScore()
   
-} // class TinyStory
+} // class QuestStory

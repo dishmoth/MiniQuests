@@ -22,7 +22,7 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Splatter;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "C06"
@@ -185,7 +185,7 @@ public class RoomC06 extends Room {
     if ( !mCritterKilled ) {
       if ( spriteManager.findSpriteOfType(Critter.class) == null ) {
         mCritterKilled = true;
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
       }
     }
 

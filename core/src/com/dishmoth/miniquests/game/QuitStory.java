@@ -248,7 +248,7 @@ public class QuitStory extends Story {
           if ( mOldStory instanceof TrainingStory ) {
             ((MenuStory)newStory).startOnTraining();
           } else {
-            assert( mOldStory instanceof TinyStory || 
+            assert( mOldStory instanceof QuestStory || 
                     mOldStory instanceof ScrollStory );
             Env.saveState().setQuestStats(null);
           }

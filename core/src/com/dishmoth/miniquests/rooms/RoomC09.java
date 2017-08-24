@@ -21,7 +21,7 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Spinner;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 
 // the room "C09"
 public class RoomC09 extends Room {
@@ -220,7 +220,7 @@ public class RoomC09 extends Room {
       mPathDone = true;
       kExits[1].mDoor.setClosed(false);
       Env.sounds().play(Sounds.SUCCESS);
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
     }
         
   } // Room.advance()

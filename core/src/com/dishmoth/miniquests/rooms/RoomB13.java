@@ -22,7 +22,7 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Splatter;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Triffid;
 import com.dishmoth.miniquests.game.TriffidBoss;
 
@@ -418,7 +418,7 @@ public class RoomB13 extends Room {
       }
       
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
     
     // create sentry triffids
     
@@ -475,7 +475,7 @@ public class RoomB13 extends Room {
       } else if ( mEndTimer == kChestOpenDelay ) {
         mChest.setOpen(true);
       } else if ( mEndTimer == 0 ) {
-        storyEvents.add(new TinyStory.EventPlayerWins());
+        storyEvents.add(new QuestStory.EventPlayerWins());
       }
     }
 

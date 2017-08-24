@@ -22,7 +22,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "A06"
@@ -268,7 +268,7 @@ public class RoomA06 extends Room {
     if ( !mSwitchesDone && mSwitch1.isOn() && mSwitch2.isOn() ) {
       mSwitchesDone = true;
       switchesTriggered(spriteManager, false);
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
       Env.sounds().play(Sounds.SUCCESS, 3);
     }
 
@@ -277,7 +277,7 @@ public class RoomA06 extends Room {
          mButton1.getState() > 0 && mButton2.getState() > 0 ) {
       mButtonsDone = true;
       kExits[1].mDoor.setClosed(false);
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
       Env.sounds().play(Sounds.SUCCESS, 3);
     }
     

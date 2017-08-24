@@ -18,7 +18,7 @@ public class MenuRestart extends MenuPanel {
   private AnimPicture mText;
   
   // data to continue the quest
-  private TinyStory              mRestartStory   = null;
+  private QuestStory             mRestartStory   = null;
   private SpriteManager          mRestartSprites = new SpriteManager();
   private LinkedList<StoryEvent> mRestartEvents  = new LinkedList<StoryEvent>();
   
@@ -37,7 +37,7 @@ public class MenuRestart extends MenuPanel {
   } // initialize()
   
   // constructor
-  public MenuRestart(TinyStory restartStory, int requiredColours[]) {
+  public MenuRestart(QuestStory restartStory, int requiredColours[]) {
 
     initialize();
 

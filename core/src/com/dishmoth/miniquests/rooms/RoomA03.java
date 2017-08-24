@@ -26,7 +26,7 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "A01"
@@ -425,7 +425,7 @@ public class RoomA03 extends Room {
       if ( done ) {
         mSwitchesDone = true;
         for ( FloorSwitch s : mSwitches ) spriteManager.removeSprite(s);
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
         mSwitches = null;
         scroll = scrollToZone(0, 0);
         if ( scroll == null ) {
@@ -476,7 +476,7 @@ public class RoomA03 extends Room {
         scroll = scrollToZone(1, 1);
         assert( scroll != null );
         storyEvents.add(scroll);
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
         mCutSceneTimer = kTimeScene2;
         Env.sounds().stop(Sounds.FLAME);
       }
@@ -491,7 +491,7 @@ public class RoomA03 extends Room {
         for ( Sprite s : spriteManager.list() ) {
           if ( s instanceof FlameBeam ) ((FlameBeam)s).setFlame(false);
         }
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
         Env.sounds().stop(Sounds.FLAME);
         Env.sounds().play(Sounds.SUCCESS, 3);
       }
@@ -514,7 +514,7 @@ public class RoomA03 extends Room {
         int delay = ( mPlayer.getDirec() == Env.RIGHT || 
                       mPlayer.getDirec() == Env.UP ) ? 0 : 5;
         Env.sounds().play(Sounds.SUCCESS, delay);
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
       }
     }
     

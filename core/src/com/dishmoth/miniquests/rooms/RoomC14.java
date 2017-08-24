@@ -128,7 +128,7 @@ public class RoomC14 extends Room {
   private static final int kUnlockDelay = 25;
   
   // time delay before the player respawns - in the room above
-  // (note: we're overriding the default behaviour in TinyStory)
+  // (note: we're overriding the default behaviour in QuestStory)
   private static final int kPlayerDeathDelay = 30;
   
   // reference to the lift blocks
@@ -149,7 +149,7 @@ public class RoomC14 extends Room {
   // time until the door unlocks
   private int mUnlockTimer;
 
-  // time until the player respawns (overriding the behaviour in TinyStory)
+  // time until the player respawns (overriding the behaviour in QuestStory)
   private int mPlayerDeathTimer;
   
   // status of the room

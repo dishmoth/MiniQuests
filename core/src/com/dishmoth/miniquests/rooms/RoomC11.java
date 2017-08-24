@@ -23,7 +23,7 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 
 // the room "C11"
 public class RoomC11 extends Room {
@@ -383,7 +383,7 @@ public class RoomC11 extends Room {
       vanishBlocks(false);
       kExits[1].mDoor.setClosed(false);
       Env.sounds().play(Sounds.SUCCESS);
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
     }
 
     // dispose of any falling sprites

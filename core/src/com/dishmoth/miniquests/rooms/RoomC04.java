@@ -20,7 +20,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "C04"
@@ -408,7 +408,7 @@ public class RoomC04 extends Room {
     if ( mCutSceneTimer == 0 ) {
       spriteManager.enableAdvanceForAll();
       Env.sounds().play(Sounds.SUCCESS);
-      storyEvents.add(new TinyStory.EventSaveGame());
+      storyEvents.add(new QuestStory.EventSaveGame());
     }
 
     return advanceFinished;

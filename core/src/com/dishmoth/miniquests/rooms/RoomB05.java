@@ -17,7 +17,7 @@ import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Triffid;
 
 // the room "B05"
@@ -157,7 +157,7 @@ public class RoomB05 extends Room {
         it.remove();
       }
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
     
   } // Room.advance()
   

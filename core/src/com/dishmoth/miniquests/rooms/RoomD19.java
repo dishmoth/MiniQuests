@@ -131,7 +131,7 @@ public class RoomD19 extends Room {
                            kWaterZapDelay = kWaterZapPause + kWaterZapFlash;
   
   // time delay before the player respawns - in the room above
-  // (note: we're overriding the default behaviour in TinyStory)
+  // (note: we're overriding the default behaviour in QuestStory)
   private static final int kPlayerDeathDelay = 30;
   
   // time until returning to original room
@@ -143,7 +143,7 @@ public class RoomD19 extends Room {
   // time until water changes back to normal
   private int mWaterZapTimer;
   
-  // time until the player respawns (overriding the behaviour in TinyStory)
+  // time until the player respawns (overriding the behaviour in QuestStory)
   private int mPlayerDeathTimer;
   
   // number of monsters spawned so far

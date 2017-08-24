@@ -20,7 +20,7 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Triffid;
 import com.dishmoth.miniquests.game.WallSwitch;
 
@@ -261,7 +261,7 @@ public class RoomB11 extends Room {
       }
 
     }
-    if ( saveGameEvent ) storyEvents.add(new TinyStory.EventSaveGame());
+    if ( saveGameEvent ) storyEvents.add(new QuestStory.EventSaveGame());
     
     // move the bridge blocks
     if ( mBridgeTimer > 0 ) {

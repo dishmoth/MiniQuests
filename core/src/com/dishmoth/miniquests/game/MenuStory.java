@@ -207,7 +207,7 @@ public class MenuStory extends Story {
     
       Env.debug("Restart data available "
                 + "(version " + Env.saveState().restartVersion() + ")");
-      TinyStory restartStory = new TinyStory();
+      QuestStory restartStory = new QuestStory();
       boolean okay = restartStory.restore();
       if ( okay ) {
         int usedColours[] = mPanels.get(0).colours();

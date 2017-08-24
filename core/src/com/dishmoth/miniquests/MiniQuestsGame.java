@@ -20,7 +20,7 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.GameManager;
 import com.dishmoth.miniquests.game.MapStory;
 import com.dishmoth.miniquests.game.MenuStory;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.TitleStory;
 import com.dishmoth.miniquests.gdx.EnvBitsGdx;
 import com.dishmoth.miniquests.gdx.KeyMonitorAndroid;
@@ -86,7 +86,7 @@ public class MiniQuestsGame extends ApplicationAdapter {
     //mGameManager = new GameManager(new MenuStory());
     //mGameManager = new GameManager(new TrainingStory());
     //mGameManager = new GameManager(new MapStory(-1));
-    //mGameManager = new GameManager(new TinyStory(3));
+    //mGameManager = new GameManager(new QuestStory(3));
     mGameManager.advance();
     
     mScreenBatch = new SpriteBatch();

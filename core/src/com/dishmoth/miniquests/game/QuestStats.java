@@ -184,7 +184,7 @@ public class QuestStats {
     assert( version == 0 ); // version
     
     int questNum = data[index++];
-    assert( questNum >= 0 && questNum < TinyStory.NUM_QUESTS );
+    assert( questNum >= 0 && questNum < QuestStory.NUM_QUESTS );
     char questTag = (char)('A'+questNum);
     Env.debug("Quest " + questTag + " stats");
     

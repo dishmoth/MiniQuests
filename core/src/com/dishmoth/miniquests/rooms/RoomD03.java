@@ -19,7 +19,7 @@ import com.dishmoth.miniquests.game.Spikes;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.Statue;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.TinyStory;
+import com.dishmoth.miniquests.game.QuestStory;
 
 // the room "D03"
 public class RoomD03 extends Room {
@@ -220,7 +220,7 @@ public class RoomD03 extends Room {
           mStatueTimers[k] = kStatueEndDelay;
         }
         Env.sounds().play(Sounds.SUCCESS, 5);
-        storyEvents.add(new TinyStory.EventSaveGame());
+        storyEvents.add(new QuestStory.EventSaveGame());
         mSpikesDone = true;
       }
     }
