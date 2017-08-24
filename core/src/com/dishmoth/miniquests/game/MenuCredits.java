@@ -11,7 +11,7 @@ public class MenuCredits extends MenuPanel {
 
   // delay until the next y-pos scroll
   private static final int kScrollDelay        = 4,
-                           kScrollDelayInitial = 40;
+                           kScrollDelayInitial = 20;
 
   // gap between the image after wrap-around
   private static final int kScrollYGap = 16;
@@ -32,7 +32,7 @@ public class MenuCredits extends MenuPanel {
     MenuPanel.initialize();
     
     if ( kBackgroundImage == null ) {
-      kBackgroundImage = Env.resources().loadEgaImage("TitleScreen.png");
+      kBackgroundImage = Env.resources().loadEgaImage("TitleScreenDark.png");
       kFrameImage.draw(kBackgroundImage, 0, 0);
       kTextImage = Env.resources().loadEgaImage("CreditsText.png");
     }
