@@ -191,50 +191,58 @@ public class MenuStory extends Story {
   // create an appropriate set of panels
   private void makePanels(SpriteManager spriteManager) {
     
+    QuestStory restartStory = null;
+    if ( Env.saveState().hasRestartData() ) {
+      Env.debug("Restart data available "
+                + "(version " + Env.saveState().restartVersion() + ")");
+      restartStory = new QuestStory();
+      boolean okay = restartStory.restore();
+      if ( !okay ) {
+        Env.debug("Could not restore quest restart data");
+        Env.saveState().clearRestartData();
+        restartStory = null;
+      }
+    } else {
+      Env.debug("No quest restart data found");
+    }
+    
     mPanels = new ArrayList<MenuPanel>();
     
+    // MenuTraining
     mPanels.add(new MenuTraining());
 
+    // MenuMap
     if ( Env.saveState().heroTrainingNeeded() ) {
       mPanels.add(new MenuMap());
     } else {
-      boolean newGame = Env.saveState().newGameNeeded();
+      int textType = ( Env.saveState().newGameNeeded() ? 0    // New Game
+                     : (restartStory == null)          ? 1    // Continue Game
+                                                       : 2 ); // New Quest
       int usedColours[] = mPanels.get(0).colours();
-      mPanels.add(0, new MenuMap(newGame, mStartOnMap, usedColours));
+      mPanels.add(0, new MenuMap(textType, mStartOnMap, usedColours));
     }
     
-    if ( Env.saveState().hasRestartData() ) {
-    
-      Env.debug("Restart data available "
-                + "(version " + Env.saveState().restartVersion() + ")");
-      QuestStory restartStory = new QuestStory();
-      boolean okay = restartStory.restore();
-      if ( okay ) {
-        int usedColours[] = mPanels.get(0).colours();
-        MenuPanel restartPanel = new MenuRestart(restartStory, usedColours);
-        mPanels.add(0, restartPanel);
-      } else {
-        Env.debug("Could not restore quest restart data");
-        Env.saveState().clearRestartData();
-      }
-      
-    } else {
-      
-      Env.debug("No quest restart data found");
-      
+    // MenuRestart
+    if ( restartStory != null ) {
+      int usedColours[] = mPanels.get(0).colours();
+      MenuPanel restartPanel = new MenuRestart(restartStory, usedColours);
+      mPanels.add(0, restartPanel);
     }
 
+    // MenuResize
     if ( Env.platform() == Env.Platform.ANDROID || 
          Env.platform() == Env.Platform.IOS || 
          Env.platform() == Env.Platform.OUYA ) {
       mPanels.add(new MenuResize());
     }
     
+    // MenuControls
     if ( Env.platform() == Env.Platform.ANDROID ||
          Env.platform() == Env.Platform.IOS ) {
       mPanels.add(new MenuControls());
     }
     
+    // MenuCredits
     mPanels.add(new MenuCredits());
     
     int startPanel = 0;

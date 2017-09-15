@@ -13,6 +13,7 @@ public class MenuMap extends MenuPanel {
 
   // text images
   private static EgaImage kNewGameTextImage  = null,
+                          kNewQuestTextImage  = null,
                           kContinueTextImage = null;
 
   // reference to the text sprite
@@ -32,6 +33,7 @@ public class MenuMap extends MenuPanel {
 
     if ( kNewGameTextImage == null ) {
       kNewGameTextImage = Env.resources().loadEgaImage("NewGameText.png");
+      kNewQuestTextImage = Env.resources().loadEgaImage("NewQuestText.png");
       kContinueTextImage = Env.resources().loadEgaImage("ContGameText.png");
     }
 
@@ -49,15 +51,18 @@ public class MenuMap extends MenuPanel {
     
   } // constructor
 
-  // constructor (continue game)
-  public MenuMap(boolean newGame,
+  // constructor (0 => new game, 1 => continue game, 2 => new quest)
+  public MenuMap(int textType,
                  int mapRestartData[],
                  int requiredColours[]) {
 
     initialize();
 
     mBackground = makeBackgroundImage(mapRestartData, requiredColours);
-    mTextImage = ( newGame ? kNewGameTextImage : kContinueTextImage );
+    assert( textType >= 0 && textType <= 2 );
+    mTextImage = ( textType == 0 ? kNewGameTextImage
+                 : textType == 1 ? kContinueTextImage
+                                 : kNewQuestTextImage );
     mText = null;
     mMapRestartData = mapRestartData;
     
