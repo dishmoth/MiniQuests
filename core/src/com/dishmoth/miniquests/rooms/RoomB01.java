@@ -29,6 +29,7 @@ import com.dishmoth.miniquests.game.TreesRight;
 import com.dishmoth.miniquests.game.TreesUp;
 import com.dishmoth.miniquests.game.Wall;
 import com.dishmoth.miniquests.game.WallRight;
+import com.dishmoth.miniquests.game.Room.EventNewEntryPoint;
 
 // the room "B01"
 public class RoomB01 extends Room {
@@ -142,12 +143,12 @@ public class RoomB01 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { // note: dummy exit at index 0
+          = { // note: dummy exits at index 0 (start) and index 3 (switch)
               new Exit(1,1, Env.UP,    4,6,  "#k",1, -1, RoomB02.NAME, 2),
               new Exit(0,2, Env.RIGHT, 7,-2, "SS",0, -1, RoomB02.NAME, 0) };
 
   // time delay before the entrance gate closes
-  private static final int kTimeEntranceGate = 45;
+  private static final int kTimeEntranceGate = 40;
   
   // step time to slow the door as it rises
   private static final int kTimeHiddenDoor = 4;
@@ -201,17 +202,26 @@ public class RoomB01 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint <= kExits.length );
+    assert( entryPoint >= 0 && entryPoint <= 3 );
     
     if ( entryPoint == 0 ) {
       // special case: start of game
       final int zoneX = 1,
                 zoneY = 0;
       mPlayer = new Player(zoneX*Room.kSize + 5, 
-                           zoneY*Room.kSize - 1, 
+                           zoneY*Room.kSize, 
                            0, Env.UP);
       mPlayer.addBrain(new Brain.ZombieModule(new int[]{ Env.NONE,1,
-                                                         Env.UP,30 }));
+                                                         Env.UP,25 }));
+      mCameraLevel = -1;
+      mCamera.set(zoneX*Room.kSize, zoneY*Room.kSize, 0);
+    } else if ( entryPoint == 3 ) {
+      // special case: switch triggered
+      final int zoneX = 0,
+                zoneY = 2;
+      mPlayer = new Player(zoneX*Room.kSize + 4, 
+                           zoneY*Room.kSize + 7, 
+                           -4, Env.LEFT);
       mCameraLevel = -1;
       mCamera.set(zoneX*Room.kSize, zoneY*Room.kSize, 0);
     } else {
@@ -469,7 +479,8 @@ public class RoomB01 extends Room {
     }
     
     // process the story event list
-    
+
+    int newEntryPoint = -1;
     for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
       StoryEvent event = it.next();
 
@@ -480,12 +491,16 @@ public class RoomB01 extends Room {
         s.freezeState(true);
         Env.sounds().play(Sounds.SWITCH_ON);
         mSwitchDone = true;
+        newEntryPoint = 3;
         assert( mHiddenDoor == null );
         raiseHiddenDoor();
         it.remove();
       }
 
     } // for (event)
+    if ( newEntryPoint >= 0 ) {
+      storyEvents.add(new EventNewEntryPoint(newEntryPoint));
+    }
 
     // close the entrance gate behind the player
     

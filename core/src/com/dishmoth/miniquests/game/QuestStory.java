@@ -287,6 +287,7 @@ public class QuestStory extends Story {
         spriteManager.addSprite(mPlayer);
         Env.saveState().questStats().newRoom( currentRoomIndex() );
         mPlayerDeathTimer = 0;
+        saveGame = true;
         Env.keys().setMode(KeyMonitor.MODE_GAME);
         Env.keys().setButtonDetails(1, 1);
         mEscPressed = true;
