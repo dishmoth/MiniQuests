@@ -18,8 +18,8 @@ public class MenuRestart extends MenuPanel {
   private AnimPicture mText;
   
   // data to continue the quest
-  private QuestStory             mRestartStory   = null;
-  private SpriteManager          mRestartSprites = new SpriteManager();
+  private Story                  mRestartStory   = null;
+  private SpriteManager          mRestartSprites = null;
   private LinkedList<StoryEvent> mRestartEvents  = new LinkedList<StoryEvent>();
   
   // check on the fire key
@@ -37,11 +37,14 @@ public class MenuRestart extends MenuPanel {
   } // initialize()
   
   // constructor
-  public MenuRestart(QuestStory restartStory, int requiredColours[]) {
+  public MenuRestart(Story restartStory,
+                     SpriteManager restartSprites,
+                     int requiredColours[]) {
 
     initialize();
 
     mRestartStory = restartStory;
+    mRestartSprites = restartSprites;
     makeBackground(requiredColours);
     
     mText = null;
@@ -51,8 +54,11 @@ public class MenuRestart extends MenuPanel {
   // construct a copy of the saved game screen for a background
   private void makeBackground(int requiredColours[]) {
     
-    mRestartEvents.add(new Story.EventGameBegins());
-    mRestartStory.advance(mRestartEvents, mRestartSprites);
+    if ( mRestartSprites == null ) {
+      mRestartSprites = new SpriteManager();
+      mRestartEvents.add(new Story.EventGameBegins());
+      mRestartStory.advance(mRestartEvents, mRestartSprites);
+    }
 
     EgaCanvas oldScreen = new EgaCanvas(Env.screenWidth(), Env.screenHeight());
     mRestartSprites.draw(oldScreen);
@@ -107,7 +113,7 @@ public class MenuRestart extends MenuPanel {
     for ( StoryEvent e : mRestartEvents ) storyEvents.add(e);
     
     spriteManager.removeAllSprites();
-    spriteManager.list().addAll(mRestartSprites.list());
+    spriteManager.copySprites(mRestartSprites);
     
     return mRestartStory;
     

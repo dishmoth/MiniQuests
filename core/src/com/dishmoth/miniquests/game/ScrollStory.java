@@ -131,7 +131,9 @@ public class ScrollStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
-        newStory = new QuitStory(this);
+        //newStory = new QuitStory(this);
+        newStory = new MenuStory();
+        ((MenuStory)newStory).startOnQuest(this);
         storyEvents.add(new Story.EventGameBegins());
       }
       mEscPressed = true;

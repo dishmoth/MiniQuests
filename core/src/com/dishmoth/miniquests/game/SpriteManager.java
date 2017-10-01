@@ -84,6 +84,14 @@ public class SpriteManager {
     
   } // removeAll()
 
+  // copy the sprites from another SpriteManager object
+  public void copySprites(SpriteManager source) {
+
+    mSpriteList.clear();
+    mSpriteList.addAll(source.mSpriteList);
+    
+  } // copySprites()
+  
   // return a Sprite of the specified type, or null if none present
   // Sprite returned is the first in the manager's list
   public Sprite findSpriteOfType(Class<?> cl) {

@@ -23,7 +23,8 @@ public class MenuStory extends Story {
 
   // which panel to display first
   private boolean mStartOnTraining;
-  private int     mStartOnMap[];  
+  private int     mStartOnMap[];
+  private Story   mStartOnQuest;
   
   // position of the current menu view relative to the top of the panels
   private int mYPos;
@@ -48,6 +49,7 @@ public class MenuStory extends Story {
 
     mStartOnTraining = false;
     mStartOnMap = null;
+    mStartOnQuest = null;
     
   } // constructor
   
@@ -56,6 +58,7 @@ public class MenuStory extends Story {
     
     mStartOnTraining = true;
     mStartOnMap = null;
+    mStartOnQuest = null;
     
   } // startOnTraining()
   
@@ -64,8 +67,18 @@ public class MenuStory extends Story {
     
     mStartOnMap = restartData;
     mStartOnTraining = false;
+    mStartOnQuest = null;
     
   } // startOnMap()
+  
+  // display the paused quest panel first
+  public void startOnQuest(Story quest) {
+    
+    mStartOnQuest = quest;
+    mStartOnTraining = false;
+    mStartOnMap = null;
+
+  } // startOnQuest()
   
   // process events and advance 
   @Override
@@ -191,12 +204,18 @@ public class MenuStory extends Story {
   // create an appropriate set of panels
   private void makePanels(SpriteManager spriteManager) {
     
-    QuestStory restartStory = null;
-    if ( Env.saveState().hasRestartData() ) {
+    Story restartStory = null;
+    SpriteManager restartSprites = null;
+    if ( mStartOnQuest != null ) {
+      restartStory = mStartOnQuest;
+      restartSprites = new SpriteManager();
+      restartSprites.copySprites(spriteManager);
+      spriteManager.removeAllSprites();
+    } else if ( Env.saveState().hasRestartData() ) {
       Env.debug("Restart data available "
                 + "(version " + Env.saveState().restartVersion() + ")");
       restartStory = new QuestStory();
-      boolean okay = restartStory.restore();
+      boolean okay = ((QuestStory)restartStory).restore();
       if ( !okay ) {
         Env.debug("Could not restore quest restart data");
         Env.saveState().clearRestartData();
@@ -205,6 +224,7 @@ public class MenuStory extends Story {
     } else {
       Env.debug("No quest restart data found");
     }
+    assert( spriteManager.list().size() == 0 );
     
     mPanels = new ArrayList<MenuPanel>();
     
@@ -225,7 +245,9 @@ public class MenuStory extends Story {
     // MenuRestart
     if ( restartStory != null ) {
       int usedColours[] = mPanels.get(0).colours();
-      MenuPanel restartPanel = new MenuRestart(restartStory, usedColours);
+      MenuPanel restartPanel = new MenuRestart(restartStory,
+                                               restartSprites,
+                                               usedColours);
       mPanels.add(0, restartPanel);
     }
 
@@ -247,10 +269,14 @@ public class MenuStory extends Story {
     
     int startPanel = 0;
     for ( int k = 0 ; k < mPanels.size() ; k++ ) {
-      if ( mStartOnTraining && mPanels.get(k) instanceof MenuTraining ) {
+      MenuPanel panel = mPanels.get(k);
+      if ( mStartOnTraining && panel instanceof MenuTraining ) {
         startPanel = k;
         break;
-      } else if ( mStartOnMap != null && mPanels.get(k) instanceof MenuMap ) {
+      } else if ( mStartOnMap != null && panel instanceof MenuMap ) {
+        startPanel = k;
+        break;
+      } else if ( mStartOnQuest != null && panel instanceof MenuRestart ) {
         startPanel = k;
         break;
       }
