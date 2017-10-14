@@ -13,7 +13,8 @@ public class MenuTraining extends MenuPanel {
 
   // text and background images
   private static EgaImage kBackgroundImage = null,
-                          kTextImage       = null;
+                          kTextImage       = null,
+                          kContinueImage   = null;
 
   // reference to the text sprite
   private AnimPicture mText;
@@ -35,6 +36,7 @@ public class MenuTraining extends MenuPanel {
       EgaTools.fadeImage(kBackgroundImage);
       kFrameImage.draw(kBackgroundImage, 0, 0);
       kTextImage = Env.resources().loadEgaImage("TrainingText.png");
+      kContinueImage = Env.resources().loadEgaImage("TrainingContinueText.png");
     }
 
   } // initialize()
@@ -83,7 +85,8 @@ public class MenuTraining extends MenuPanel {
   // called when the panel becomes active
   public void enable(SpriteManager spriteManager) {
     
-    mText = new AnimPicture(0, kTextImage, 
+    EgaImage image = ( mRestartStory == null ? kTextImage : kContinueImage );
+    mText = new AnimPicture(0, image, 
                             kAnimTitleDelay, kAnimBlankDelay,
                             kBeginText, 
                             kAnimBeginDelay, kAnimBlankDelay);
