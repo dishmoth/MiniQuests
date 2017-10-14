@@ -18,6 +18,10 @@ public class MenuTraining extends MenuPanel {
   // reference to the text sprite
   private AnimPicture mText;
   
+  // data to continue a paused story
+  private Story         mRestartStory   = null;
+  private SpriteManager mRestartSprites = null;
+
   // check on the fire key
   private boolean mReady;
   
@@ -44,6 +48,37 @@ public class MenuTraining extends MenuPanel {
     mText = null;
     
   } // constructor
+  
+  // constructor (from paused story)
+  public MenuTraining(Story restartStory,
+                      SpriteManager restartSprites,
+                      int requiredColours[]) {
+
+    initialize();
+
+    mRestartStory = restartStory;
+    mRestartSprites = restartSprites;
+    
+    makeBackground(requiredColours);
+    mText = null;
+    
+  } // constructor
+  
+  // construct a copy of the paused game screen for a background
+  private void makeBackground(int requiredColours[]) {
+    
+    EgaCanvas oldScreen = new EgaCanvas(Env.screenWidth(), Env.screenHeight());
+    mRestartSprites.draw(oldScreen);
+
+    EgaImage image = new EgaImage(0, 0, 
+                                  Env.screenWidth(), Env.screenHeight(),
+                                  oldScreen.pixels(), 0.0f);
+    EgaTools.fadeImage(image);
+    EgaTools.limitColours(image, 16, requiredColours);
+    kFrameImage.draw(image, 0, 0);
+    mBackground = new Picture(image, 0.0f);
+    
+  } // makeBackground()
   
   // called when the panel becomes active
   public void enable(SpriteManager spriteManager) {
@@ -80,10 +115,17 @@ public class MenuTraining extends MenuPanel {
   // set up the next story for when the menu closes (some panels only)
   public Story exitMenu(LinkedList<StoryEvent> storyEvents,
                         SpriteManager          spriteManager) {
-    
-    storyEvents.add(new Story.EventGameBegins());
-    spriteManager.removeAllSprites();
-    return new TrainingStory();
+
+    if ( mRestartStory == null ) {
+      storyEvents.add(new Story.EventGameBegins());
+      spriteManager.removeAllSprites();
+      return new TrainingStory();
+    } else {
+      storyEvents.add(new Story.EventStoryContinue());
+      spriteManager.removeAllSprites();
+      spriteManager.copySprites(mRestartSprites);
+      return mRestartStory;
+    }
     
   } // MenuPanel.exitMenu()
  

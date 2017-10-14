@@ -66,10 +66,17 @@ public class TrainingStory extends Story {
 
   // what's currently happening
   private int mStage;
-  
+
+  // current style of the on-screen buttons (Android only)
+  private int mButtonArrow,
+              mButtonFire;
+
   // keep track of whether the escape key is held down
   private boolean mEscPressed;
 
+  // sprites that are not displayed when paused
+  private LinkedList<Sprite> mHiddenSprites = new LinkedList<Sprite>();
+  
   // constructor
   public TrainingStory() {
 
@@ -108,6 +115,11 @@ public class TrainingStory extends Story {
     for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
       if ( it.next() instanceof Story.EventStoryContinue ) {
         Env.keys().setMode(KeyMonitor.MODE_GAME);
+        setButtonDetails(mButtonArrow, mButtonFire);
+        for ( Sprite s : mHiddenSprites ) s.mDrawDisabled = false;
+        mHiddenSprites.clear();
+        mEscPressed = true;
+        mKeyReady = false;
         it.remove();
         return null;
       }
@@ -142,7 +154,7 @@ public class TrainingStory extends Story {
         mKeyTimer = kKeyDelay;
         mChangeTimer = kChangeDelay;
         Env.keys().setMode(KeyMonitor.MODE_GAME);
-        Env.keys().setButtonDetails(0, 0);
+        setButtonDetails(0, 0);
         mEscPressed = true;
         mKeyReady = false;
         it.remove();
@@ -187,7 +199,7 @@ public class TrainingStory extends Story {
     if ( mTextPic != null && mChangeTimer == 0 ) {
       if ( mKeyTimer > 0 ) mKeyTimer--;
       if ( mKeyTimer == 0 ) {
-        if ( Env.keys().any() ) {
+        if ( Env.keys().any() && !Env.keys().escape() ) {
           if ( mKeyReady ) {
             mChangeTimer = kChangeDelay;
             if ( mStage ==  1 ) mChangeTimer = kRevealChangeDelay;
@@ -198,8 +210,8 @@ public class TrainingStory extends Story {
               spriteManager.removeSprite(mArrows);
               mArrows = null;
             }
-            Env.keys().setButtonDetails( ((mStage>=4 && mStage<12) ? 1 : 0), 
-                                         ((mStage>=8 && mStage<12) ? 1 : 0) );
+            setButtonDetails( ((mStage>=4 && mStage<12) ? 1 : 0), 
+                              ((mStage>=8 && mStage<12) ? 1 : 0) );
             Env.sounds().play(Sounds.MENU_1);
           }
           mKeyReady = false;
@@ -238,7 +250,7 @@ public class TrainingStory extends Story {
                  Env.saveState().touchScreenControls() == 0 ) {
               mArrows = new TouchArrows(1);
             }
-            Env.keys().setButtonDetails(2, 0);
+            setButtonDetails(2, 0);
           } break;
           case 5: {
             unfreezeScene(spriteManager);
@@ -256,7 +268,7 @@ public class TrainingStory extends Story {
                  Env.saveState().touchScreenControls() == 0 ) {
               mArrows = new TouchArrows(2);
             }
-            Env.keys().setButtonDetails(1, 2);
+            setButtonDetails(1, 2);
             mPlayer.removeBrain();
             mKeyTimer += kKeyDelay;
           } break;
@@ -272,7 +284,7 @@ public class TrainingStory extends Story {
           case 12: {
             freezeScene(spriteManager);
             mTextPic = new Picture(kEndText);
-            Env.keys().setButtonDetails(0, 0);
+            setButtonDetails(0, 0);
             //Env.sounds().playQuestDoneSound();
           } break;
           case 13: {
@@ -299,8 +311,18 @@ public class TrainingStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
-        newStory = new QuitStory(this);
+        //newStory = new QuitStory(this);
+        newStory = new MenuStory();
+        ((MenuStory)newStory).startOnTraining(this);
         storyEvents.add(new Story.EventGameBegins());
+        if ( mTextPic != null && !mTextPic.mDrawDisabled ) {
+          mTextPic.mDrawDisabled = true;
+          mHiddenSprites.add(mTextPic);
+        }
+        if ( mArrows != null && !mArrows.mDrawDisabled ) {
+          mArrows.mDrawDisabled = true;
+          mHiddenSprites.add(mArrows);
+        }
       }
       mEscPressed = true;
     } else {
@@ -356,4 +378,13 @@ public class TrainingStory extends Story {
     
   } // clearRoom()
 
+  // set and record the style of the on-screen buttons (Android only)
+  private void setButtonDetails(int arrowStyle, int fireStyle) {
+    
+    mButtonArrow = arrowStyle;
+    mButtonFire = fireStyle;
+    Env.keys().setButtonDetails(mButtonArrow, mButtonFire);
+
+  } // setButtonDetails()
+  
 } // class TrainingStory

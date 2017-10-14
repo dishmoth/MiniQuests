@@ -40,11 +40,11 @@ public class MenuMap extends MenuPanel {
   } // initialize()
   
   // constructor (new game)
-  public MenuMap() {
+  public MenuMap(int requiredColours[]) {
 
     initialize();
 
-    mBackground = makeBackgroundImage(null, null);
+    mBackground = makeBackgroundImage(null, requiredColours);
     mTextImage = kNewGameTextImage;
     mText = null;
     mMapRestartData = null;

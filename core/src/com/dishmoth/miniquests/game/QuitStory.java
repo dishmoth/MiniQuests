@@ -246,7 +246,7 @@ public class QuitStory extends Story {
           spriteManager.removeAllSprites();
           newStory = new MenuStory();
           if ( mOldStory instanceof TrainingStory ) {
-            ((MenuStory)newStory).startOnTraining();
+            ((MenuStory)newStory).startOnTraining(mOldStory);
           } else {
             assert( mOldStory instanceof QuestStory || 
                     mOldStory instanceof ScrollStory );

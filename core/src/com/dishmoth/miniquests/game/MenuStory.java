@@ -22,9 +22,9 @@ public class MenuStory extends Story {
   private ArrayList<MenuPanel> mPanels;
 
   // which panel to display first
-  private boolean mStartOnTraining;
-  private int     mStartOnMap[];
-  private Story   mStartOnQuest;
+  private Story mStartOnTraining;
+  private int   mStartOnMap[];
+  private Story mStartOnQuest;
   
   // position of the current menu view relative to the top of the panels
   private int mYPos;
@@ -47,16 +47,16 @@ public class MenuStory extends Story {
   // constructor
   public MenuStory() {
 
-    mStartOnTraining = false;
+    mStartOnTraining = null;
     mStartOnMap = null;
     mStartOnQuest = null;
     
   } // constructor
   
   // display the training panel first
-  public void startOnTraining() {
+  public void startOnTraining(Story training) {
     
-    mStartOnTraining = true;
+    mStartOnTraining = training;
     mStartOnMap = null;
     mStartOnQuest = null;
     
@@ -66,7 +66,7 @@ public class MenuStory extends Story {
   public void startOnMap(int restartData[]) {
     
     mStartOnMap = restartData;
-    mStartOnTraining = false;
+    mStartOnTraining = null;
     mStartOnQuest = null;
     
   } // startOnMap()
@@ -75,7 +75,7 @@ public class MenuStory extends Story {
   public void startOnQuest(Story quest) {
     
     mStartOnQuest = quest;
-    mStartOnTraining = false;
+    mStartOnTraining = null;
     mStartOnMap = null;
 
   } // startOnQuest()
@@ -204,13 +204,13 @@ public class MenuStory extends Story {
   // create an appropriate set of panels
   private void makePanels(SpriteManager spriteManager) {
     
+    SpriteManager oldSprites = new SpriteManager();
+    oldSprites.copySprites(spriteManager);
+    spriteManager.removeAllSprites();
+
     Story restartStory = null;
-    SpriteManager restartSprites = null;
     if ( mStartOnQuest != null ) {
       restartStory = mStartOnQuest;
-      restartSprites = new SpriteManager();
-      restartSprites.copySprites(spriteManager);
-      spriteManager.removeAllSprites();
     } else if ( Env.saveState().hasRestartData() ) {
       Env.debug("Restart data available "
                 + "(version " + Env.saveState().restartVersion() + ")");
@@ -224,16 +224,38 @@ public class MenuStory extends Story {
     } else {
       Env.debug("No quest restart data found");
     }
-    assert( spriteManager.list().size() == 0 );
     
     mPanels = new ArrayList<MenuPanel>();
     
+    // MenuCredits
+    mPanels.add(new MenuCredits());
+    
+    // MenuControls
+    if ( Env.platform() == Env.Platform.ANDROID ||
+         Env.platform() == Env.Platform.IOS ) {
+      mPanels.add(0, new MenuControls());
+    }
+    
+    // MenuResize
+    if ( Env.platform() == Env.Platform.ANDROID || 
+         Env.platform() == Env.Platform.IOS || 
+         Env.platform() == Env.Platform.OUYA ) {
+      mPanels.add(0, new MenuResize());
+    }
+    
     // MenuTraining
-    mPanels.add(new MenuTraining());
+    if ( mStartOnTraining == null ) {
+      mPanels.add(0, new MenuTraining());
+    } else {
+      int usedColours[] = mPanels.get(0).colours();
+      mPanels.add(0, new MenuTraining(mStartOnTraining, oldSprites, usedColours));
+    }
 
     // MenuMap
     if ( Env.saveState().heroTrainingNeeded() ) {
-      mPanels.add(new MenuMap());
+      assert( restartStory == null );
+      int usedColours[] = mPanels.get(0).colours();
+      mPanels.add(1, new MenuMap(usedColours));
     } else {
       int textType = ( Env.saveState().newGameNeeded() ? 0    // New Game
                      : (restartStory == null)          ? 1    // Continue Game
@@ -245,32 +267,19 @@ public class MenuStory extends Story {
     // MenuRestart
     if ( restartStory != null ) {
       int usedColours[] = mPanels.get(0).colours();
-      MenuPanel restartPanel = new MenuRestart(restartStory,
-                                               restartSprites,
-                                               usedColours);
+      MenuPanel restartPanel;
+      if ( mStartOnQuest != null ) {
+        restartPanel = new MenuRestart(restartStory, oldSprites, usedColours);
+      } else {
+        restartPanel = new MenuRestart(restartStory, usedColours);
+      }
       mPanels.add(0, restartPanel);
     }
 
-    // MenuResize
-    if ( Env.platform() == Env.Platform.ANDROID || 
-         Env.platform() == Env.Platform.IOS || 
-         Env.platform() == Env.Platform.OUYA ) {
-      mPanels.add(new MenuResize());
-    }
-    
-    // MenuControls
-    if ( Env.platform() == Env.Platform.ANDROID ||
-         Env.platform() == Env.Platform.IOS ) {
-      mPanels.add(new MenuControls());
-    }
-    
-    // MenuCredits
-    mPanels.add(new MenuCredits());
-    
     int startPanel = 0;
     for ( int k = 0 ; k < mPanels.size() ; k++ ) {
       MenuPanel panel = mPanels.get(k);
-      if ( mStartOnTraining && panel instanceof MenuTraining ) {
+      if ( mStartOnTraining != null && panel instanceof MenuTraining ) {
         startPanel = k;
         break;
       } else if ( mStartOnMap != null && panel instanceof MenuMap ) {

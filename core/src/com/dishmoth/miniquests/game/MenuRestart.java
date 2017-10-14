@@ -36,7 +36,21 @@ public class MenuRestart extends MenuPanel {
 
   } // initialize()
   
-  // constructor
+  // constructor (from saved data)
+  public MenuRestart(Story restartStory,
+                     int requiredColours[]) {
+
+    initialize();
+
+    mRestartStory = restartStory;
+    mRestartSprites = null;
+    makeBackground(requiredColours);
+    
+    mText = null;
+    
+  } // constructor
+  
+  // constructor (from paused game)
   public MenuRestart(Story restartStory,
                      SpriteManager restartSprites,
                      int requiredColours[]) {
