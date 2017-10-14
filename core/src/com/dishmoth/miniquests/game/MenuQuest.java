@@ -1,5 +1,5 @@
 /*
- *  MenuRestart.java
+ *  MenuQuest.java
  *  Copyright Simon Hern 2017
  *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
  */
@@ -9,7 +9,7 @@ package com.dishmoth.miniquests.game;
 import java.util.LinkedList;
 
 // menu option to continue from a save point
-public class MenuRestart extends MenuPanel {
+public class MenuQuest extends MenuPanel {
 
   // text and background images
   private static EgaImage kTextImage = null;
@@ -37,8 +37,8 @@ public class MenuRestart extends MenuPanel {
   } // initialize()
   
   // constructor (from saved data)
-  public MenuRestart(Story restartStory,
-                     int requiredColours[]) {
+  public MenuQuest(Story restartStory,
+                   int requiredColours[]) {
 
     initialize();
 
@@ -51,9 +51,9 @@ public class MenuRestart extends MenuPanel {
   } // constructor
   
   // constructor (from paused game)
-  public MenuRestart(Story restartStory,
-                     SpriteManager restartSprites,
-                     int requiredColours[]) {
+  public MenuQuest(Story restartStory,
+                   SpriteManager restartSprites,
+                   int requiredColours[]) {
 
     initialize();
 
@@ -133,4 +133,4 @@ public class MenuRestart extends MenuPanel {
     
   } // MenuPanel.exitMenu()
  
-} // class MenuRestart
+} // class MenuQuest

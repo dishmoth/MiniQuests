@@ -63,9 +63,9 @@ public class MenuStory extends Story {
   } // startOnTraining()
   
   // display the map panel first
-  public void startOnMap(int restartData[]) {
+  public void startOnMap(int mapData[]) {
     
-    mStartOnMap = restartData;
+    mStartOnMap = mapData;
     mStartOnTraining = null;
     mStartOnQuest = null;
     
@@ -208,18 +208,18 @@ public class MenuStory extends Story {
     oldSprites.copySprites(spriteManager);
     spriteManager.removeAllSprites();
 
-    Story restartStory = null;
+    Story questStory = null;
     if ( mStartOnQuest != null ) {
-      restartStory = mStartOnQuest;
+      questStory = mStartOnQuest;
     } else if ( Env.saveState().hasRestartData() ) {
       Env.debug("Restart data available "
                 + "(version " + Env.saveState().restartVersion() + ")");
-      restartStory = new QuestStory();
-      boolean okay = ((QuestStory)restartStory).restore();
+      questStory = new QuestStory();
+      boolean okay = ((QuestStory)questStory).restore();
       if ( !okay ) {
         Env.debug("Could not restore quest restart data");
         Env.saveState().clearRestartData();
-        restartStory = null;
+        questStory = null;
       }
     } else {
       Env.debug("No quest restart data found");
@@ -253,27 +253,27 @@ public class MenuStory extends Story {
 
     // MenuMap
     if ( Env.saveState().heroTrainingNeeded() ) {
-      assert( restartStory == null );
+      assert( questStory == null );
       int usedColours[] = mPanels.get(0).colours();
       mPanels.add(1, new MenuMap(usedColours));
     } else {
       int textType = ( Env.saveState().newGameNeeded() ? 0    // New Game
-                     : (restartStory == null)          ? 1    // Continue Game
+                     : (questStory == null)            ? 1    // Continue Game
                                                        : 2 ); // New Quest
       int usedColours[] = mPanels.get(0).colours();
       mPanels.add(0, new MenuMap(textType, mStartOnMap, usedColours));
     }
     
-    // MenuRestart
-    if ( restartStory != null ) {
+    // MenuQuest
+    if ( questStory != null ) {
       int usedColours[] = mPanels.get(0).colours();
-      MenuPanel restartPanel;
+      MenuPanel questPanel;
       if ( mStartOnQuest != null ) {
-        restartPanel = new MenuRestart(restartStory, oldSprites, usedColours);
+        questPanel = new MenuQuest(questStory, oldSprites, usedColours);
       } else {
-        restartPanel = new MenuRestart(restartStory, usedColours);
+        questPanel = new MenuQuest(questStory, usedColours);
       }
-      mPanels.add(0, restartPanel);
+      mPanels.add(0, questPanel);
     }
 
     int startPanel = 0;
@@ -285,7 +285,7 @@ public class MenuStory extends Story {
       } else if ( mStartOnMap != null && panel instanceof MenuMap ) {
         startPanel = k;
         break;
-      } else if ( mStartOnQuest != null && panel instanceof MenuRestart ) {
+      } else if ( mStartOnQuest != null && panel instanceof MenuQuest ) {
         startPanel = k;
         break;
       }
