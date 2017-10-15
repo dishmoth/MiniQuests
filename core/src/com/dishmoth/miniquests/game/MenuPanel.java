@@ -33,7 +33,7 @@ abstract public class MenuPanel {
                        : Env.platform()==Env.Platform.ANDROID ? "Android" 
                        : Env.platform()==Env.Platform.IOS     ? "Android" 
                                                               : "" );      
-      kBeginText = Env.resources().loadEgaImage("BeginText"+gdxText+".png");
+      kBeginText = Env.resources().loadEgaImage("StartText"+gdxText+".png");
       
       kFrameImage = Env.resources().loadEgaImage("MenuFramePic.png");
     }

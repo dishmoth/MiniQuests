@@ -92,7 +92,7 @@ public class TrainingStory extends Story {
       kLesson1Text = Env.resources().loadEgaImage("Lesson1Text.png");
       kLesson2Text = Env.resources().loadEgaImage("Lesson2Text.png");
       kLesson3Text = Env.resources().loadEgaImage("Lesson3Text.png");
-      kAnyKeyText  = Env.resources().loadEgaImage("BeginText"+gdxText+".png");
+      kAnyKeyText  = Env.resources().loadEgaImage("StartText"+gdxText+".png");
     }
     
     mRoomList = new Room[]{ new RoomZ01(),
