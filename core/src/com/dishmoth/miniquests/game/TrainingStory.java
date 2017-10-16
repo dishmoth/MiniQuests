@@ -311,6 +311,7 @@ public class TrainingStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
+        Env.sounds().stopAll();
         //newStory = new QuitStory(this);
         newStory = new MenuStory();
         ((MenuStory)newStory).startOnTraining(this);

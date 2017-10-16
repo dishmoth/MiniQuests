@@ -129,14 +129,4 @@ public class SoundsGdx extends Sounds {
     
   } // Sounds.stop()
 
-  // stop all looping sounds
-  @Override
-  public void stopAll() {
-
-    for ( int id = 0 ; id < kNumSounds ; id++ ) {
-      if ( isLooped(id) ) stop(id);
-    }
-    
-  } // Sounds.stopAll()
-
 } // class SoundsGdx

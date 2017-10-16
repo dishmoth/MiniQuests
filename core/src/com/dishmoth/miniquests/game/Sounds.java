@@ -220,6 +220,13 @@ abstract public class Sounds {
   abstract public void stop(int id);
 
   // stop all looping sounds
-  abstract public void stopAll();
+  public void stopAll() {
+
+    for ( int id = 0 ; id < kNumSounds ; id++ ) {
+      if ( isLooped(id) ) stop(id);
+    }
+    mDelayedSounds.clear();
+    
+  } // Sounds.stopAll()
 
 } // class Sounds

@@ -382,6 +382,7 @@ public class QuestStory extends Story {
     // quest aborted
     if ( Env.keys().escape() ) {
       if ( !mEscPressed && newStory == null ) {
+        Env.sounds().stopAll();
         //newStory = new QuitStory(this);
         newStory = new MenuStory();
         ((MenuStory)newStory).startOnQuest(this);
