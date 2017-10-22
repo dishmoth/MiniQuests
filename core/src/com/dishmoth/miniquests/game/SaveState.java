@@ -48,7 +48,7 @@ public class SaveState {
     mPrompting = 3;
 
     mScreenSize = -1;
-    mTouchScreenControls = -1;
+    mTouchScreenControls = 1;
     mButtonSize = -1;
     
     mQuestScores = new int[ QuestStory.NUM_QUESTS ];
@@ -94,6 +94,11 @@ public class SaveState {
     Env.debug("Loading game state (\"" + buffer + "\")");
     
     mPrompting = 3;
+
+    mScreenSize = -1;
+    mTouchScreenControls = -1;
+    mButtonSize = -1;
+
     mRestartData.clear();
     buffer.toStart();
     
