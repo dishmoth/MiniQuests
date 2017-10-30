@@ -71,7 +71,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.dishmoth.miniquests.android/com.dishmoth.miniquests.android.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.dishmoth.miniquests/com.dishmoth.miniquests.MainActivity'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
