@@ -50,7 +50,7 @@ public class MiniQuestsGame extends ApplicationAdapter {
 
     EnvBitsGdx envBits = new EnvBitsGdx();
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v4.0.1, 17th February 2015)");
+      envBits.debug("Mini Quests (v4.1.0, 30th October 2017)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
  
