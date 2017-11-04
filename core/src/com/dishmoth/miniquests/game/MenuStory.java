@@ -258,7 +258,7 @@ public class MenuStory extends Story {
       mPanels.add(1, new MenuMap(usedColours));
     } else {
       int textType = ( Env.saveState().newGameNeeded() ? 0    // New Game
-                     : (questStory == null)            ? 1    // Continue Game
+                     : (questStory == null)            ? 2    // New Quest
                                                        : 2 ); // New Quest
       int usedColours[] = mPanels.get(0).colours();
       mPanels.add(0, new MenuMap(textType, mStartOnMap, usedColours));
