@@ -1,7 +1,7 @@
 /*
  *  RoomA03.java
- *  Copyright Simon Hern 2010
- *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
+ *  Copyright (c) 2017 Simon Hern
+ *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
 
 package com.dishmoth.miniquests.rooms;
@@ -29,7 +29,7 @@ import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.WallSwitch;
 
-// the room "A01"
+// the room "A03"
 public class RoomA03 extends Room {
 
   // unique identifier for this room

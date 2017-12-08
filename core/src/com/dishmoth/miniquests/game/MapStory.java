@@ -1,7 +1,7 @@
 /*
  *  MapStory.java
- *  Copyright Simon Hern 2011
- *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
+ *  Copyright (c) 2017 Simon Hern
+ *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
 
 package com.dishmoth.miniquests.game;
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class MapStory extends Story {
 
   // quest names
-  private static EgaImage  kQuestImages[] = null;
+  private static EgaImage kQuestImages[] = null;
 
   // other text images
   private static EgaImage kIntroImage,

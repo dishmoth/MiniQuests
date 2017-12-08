@@ -1,7 +1,7 @@
 /*
  *  KeyButtons.java
- *  Copyright Simon Hern 2013
- *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
+ *  Copyright (c) 2017 Simon Hern
+ *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
 
 package com.dishmoth.miniquests.gdx;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.SaveState;
 
-// on-screen buttons for large-screen android devices
+// on-screen buttons for android devices
 public class KeyButtons {
 
   // image sizes (pixels)

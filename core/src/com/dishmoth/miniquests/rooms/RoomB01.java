@@ -1,7 +1,7 @@
 /*
  *  RoomB01.java
- *  Copyright Simon Hern 2011
- *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
+ *  Copyright (c) 2017 Simon Hern
+ *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
 
 package com.dishmoth.miniquests.rooms;
@@ -29,7 +29,6 @@ import com.dishmoth.miniquests.game.TreesRight;
 import com.dishmoth.miniquests.game.TreesUp;
 import com.dishmoth.miniquests.game.Wall;
 import com.dishmoth.miniquests.game.WallRight;
-import com.dishmoth.miniquests.game.Room.EventNewEntryPoint;
 
 // the room "B01"
 public class RoomB01 extends Room {

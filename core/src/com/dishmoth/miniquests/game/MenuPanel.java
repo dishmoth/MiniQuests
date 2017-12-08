@@ -1,7 +1,7 @@
 /*
  *  MenuPanel.java
- *  Copyright Simon Hern 2017
- *  Contact: dishmoth@yahoo.co.uk, www.dishmoth.com
+ *  Copyright (c) 2017 Simon Hern
+ *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
 
 package com.dishmoth.miniquests.game;
