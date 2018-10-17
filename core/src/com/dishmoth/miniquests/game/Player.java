@@ -208,6 +208,7 @@ public class Player extends Sprite3D {
          newSprite instanceof Flame ||
          newSprite instanceof FlameBeam ||
          newSprite instanceof Liquid ||
+         newSprite instanceof Snake ||
          newSprite instanceof Spook ) {
       mSpritesToWatch.add(newSprite);
     }
@@ -504,6 +505,17 @@ public class Player extends Sprite3D {
           mKilled = true;
         }
         mLiquidSubmersion = Math.max(mLiquidSubmersion, submersion);
+      }
+      
+      else if ( sp instanceof Snake ) {
+        Snake s = (Snake)sp;
+        for ( int dz = 0 ; dz < kPlayerHeight ; dz++ ) {
+          if ( s.hits(mXPos, mYPos, mZPos+dz) ||
+               (mStepping && s.hits(mStepXPos, mStepYPos, mStepZPos+dz)) ) {
+            mKilled = true;
+            break;
+          }
+        }
       }
       
       else if ( sp instanceof Spook ) {

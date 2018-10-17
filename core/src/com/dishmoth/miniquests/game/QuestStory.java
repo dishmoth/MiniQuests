@@ -70,6 +70,11 @@ import com.dishmoth.miniquests.rooms.RoomD16;
 import com.dishmoth.miniquests.rooms.RoomD17;
 import com.dishmoth.miniquests.rooms.RoomD18;
 import com.dishmoth.miniquests.rooms.RoomD19;
+import com.dishmoth.miniquests.rooms.RoomE01;
+import com.dishmoth.miniquests.rooms.RoomE02;
+import com.dishmoth.miniquests.rooms.RoomE03;
+import com.dishmoth.miniquests.rooms.RoomE04;
+import com.dishmoth.miniquests.rooms.RoomE05;
 
 // the main game class controlling a quest
 public class QuestStory extends Story {
@@ -217,7 +222,6 @@ public class QuestStory extends Story {
                                 new RoomD18(),
                                 new RoomD19() };
       } break;
-      /*
       case 4: {
         mRoomList = new Room[]{ new RoomE01(),
                                 new RoomE02(),
@@ -225,7 +229,6 @@ public class QuestStory extends Story {
                                 new RoomE04(),
                                 new RoomE05() };
       } break;
-      */
       default: {
         assert( false );
       } break;
@@ -279,7 +282,7 @@ public class QuestStory extends Story {
         if ( mCurrentRoom == null ) {
           Env.debug("New game started");
           mCurrentRoom = mRoomList[0];
-          //mCurrentRoom = findRoom( RoomD19.NAME ); //!!!
+          //mCurrentRoom = findRoom( RoomE01.NAME ); //!!!
           mLastEntryPoint = 0; //0;
         }
         mCurrentRoom.createSprites(spriteManager);

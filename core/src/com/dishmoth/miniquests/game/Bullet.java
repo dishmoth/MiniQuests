@@ -98,6 +98,7 @@ public class Bullet extends Sprite3D {
          newSprite instanceof FloorBossHead ||
          newSprite instanceof Player ||
          newSprite instanceof Spinner ||
+         newSprite instanceof Snake ||
          newSprite instanceof Spook ||
          newSprite instanceof Statue ||
          newSprite instanceof Triffid ||
@@ -241,6 +242,17 @@ public class Bullet extends Sprite3D {
         }
       }
       
+      else if ( sp instanceof Snake ) {
+        Snake target = (Snake)sp;
+        if ( target.hitsHead(mXPos, mYPos, mZPos) ) {
+          mHitTarget = true;
+          target.shotInHead();
+        } else if ( target.hitsBody(mXPos, mYPos, mZPos) ) {
+          mHitTarget = true;
+          target.shotInBody();
+        }
+      }
+      
       else if ( sp instanceof Spinner ) {
         Spinner target = (Spinner)sp;
         if ( target.hits(mXPos, mYPos, mZPos) ) {
@@ -249,7 +261,7 @@ public class Bullet extends Sprite3D {
         }
       }
       
-      if ( sp instanceof Spook ) {
+      else if ( sp instanceof Spook ) {
         Spook target = (Spook)sp;
         if ( target.hits(mXPos, mYPos, mZPos) ) {
           target.destroy(mDirec);

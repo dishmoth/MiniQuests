@@ -452,7 +452,7 @@ public class Critter extends Sprite3D implements Obstacle {
     
   } // hits()
   
-  // whether the player intersects a position range
+  // whether the critter intersects a position range
   public boolean hits(int x0, int x1, int y0, int y1, int z0, int z1) {
 
     assert( x1 >= x0 && y1 >= y0 && z1 >= z0 );
