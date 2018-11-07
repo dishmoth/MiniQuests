@@ -36,8 +36,7 @@ public class RoomE01 extends Room {
                                                 "0000000000" } };
   
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#h",   // 
-                                                  "Th" }; // 
+  private static final String kBlockColours[] = { "#k" }; // 
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]  = {}; // note: dummy exit at index 0

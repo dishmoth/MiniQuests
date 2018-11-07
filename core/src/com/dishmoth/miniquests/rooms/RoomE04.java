@@ -1,5 +1,5 @@
 /*
- *  RoomE04.java
+ *  RoomE03.java
  *  Copyright (c) 2017 Simon Hern
  *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
@@ -9,8 +9,6 @@ package com.dishmoth.miniquests.rooms;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
-import com.dishmoth.miniquests.game.Critter;
-import com.dishmoth.miniquests.game.CritterTrack;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
@@ -24,216 +22,54 @@ public class RoomE04 extends Room {
   // unique identifier for this room
   public static final String NAME = "E04";
   
-  // main blocks for the room
-  private static final String kBlocks1[][] = { { "0000000000",
-                                                 "0000000000",
-                                                 "0011111100",
-                                                 "0010000100",
-                                                 "0010000100",
-                                                 "0010000100",
-                                                 "0010000100",
-                                                 "0011111100",
-                                                 "0000000000",
-                                                 "0000000000" } };
-  private static final String kBlocks2[][] = { { "0",
-                                                 "0",
-                                                 "0" } };
+  // the basic blocks for the room
+  private static final String kBlocks[][] = { { "0000000000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000111000",
+                                                "0000001000",
+                                                "0000001000",
+                                                "0000111000",
+                                                "0000000000",
+                                                "0000000000",
+                                                "0000000000" } };
 
-  // stair details
-  private static final int kStairStart     = -40,
-                           kStairEnd       = +2,
-                           kStairTime      = 1,
-                           kStairStartTime = 20;
-  
-  // blocks making a staircase
-  private static final String kStairBlocks[][] = { { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "1     " },
-                                                     
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     " 1    " },  
-                                                     
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "  1   " },  
-                                                     
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "   1  " },  
-                                                     
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "    1 " },
-  
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "     1" },
-  
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "     1",
-                                                     "      " },
-  
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "     1",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "      ",
-                                                     "      ",
-                                                     "     1",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "      ",
-                                                     "     1",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "     1",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "    1 ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "   1  ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "  1   ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { " 1    ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "1     ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " }, 
-
-                                                   { "      ",
-                                                     "1     ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " }, 
-
-                                                   { "      ",
-                                                     "      ",
-                                                     "1     ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " }, 
-
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "1     ",
-                                                     "      ",
-                                                     "      " },
-
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "1     ",
-                                                     "      " } };
+  // start and end of the maze
+  private static final int kStartXPos = 4,
+                           kStartYPos = 3,
+                           kEndXPos   = 4,
+                           kEndYPos   = 6;
   
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#V",   // blue 
-                                                  "#c" }; // orange 
+  private static final String kBlockColours[] = { "#l",   // green
+                                                  "#T",   // brown
+                                                  "lT" }; // brown with centre
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 4,0,  "#V",0, 0, RoomE03.NAME, 0),
-              new Exit(Env.DOWN,  2,42, "#V",1, 0, RoomE01.NAME, 0) };
+          = { new Exit(Env.LEFT,  5,0, "#l",0, -1, RoomE04.NAME, 2), 
+              new Exit(Env.DOWN,  5,0, "#l",0, -1, RoomE04.NAME, 3), 
+              new Exit(Env.RIGHT, 5,0, "#l",0, -1, RoomE04.NAME, 0), 
+              new Exit(Env.UP,    5,0, "#l",0, -1, RoomE04.NAME, 1) };
+              
+  // dummy exit objects for the true maze exits 
+  private static final Exit kMazeExits[] 
+          = { new Exit(0,0,0,"  ",0,0, RoomE06.NAME, 1),
+              new Exit(0,0,0,"  ",0,0, RoomE05.NAME, 0) };
 
-  // details of different camera height levels
-  private static final CameraLevel kCameraLevels[]
-                                     = { new CameraLevel(0, -100, 10),
-                                         new CameraLevel(8, 2, 20),
-                                         new CameraLevel(18, 14, 30),
-                                         new CameraLevel(28, 24, 40),
-                                         new CameraLevel(38, 34, +100) };
+  // track whether the player is currently in the maze
+  private boolean mInMaze;
   
-  // path followed by enemies in this room
-  private static final CritterTrack kCritterTrack 
-                      = new CritterTrack(new String[]{ "          ",
-                                                       "          ",
-                                                       "  ++++++  ",
-                                                       "  +    +  ",
-                                                       "  +    +  ",
-                                                       "  +    +  ",
-                                                       "  +    +  ",
-                                                       "  ++++++  ",
-                                                       "          ",
-                                                       "          " });
-
-  // references to critters
-  private Critter mCritters[];
-
-  // stairs that appear when the room is complete
-  private BlockArray mStairBlocks;
-
-  // time until next movement of stairs
-  private int mStairTimer;
-  
-  // whether the room has been done yet
-  private boolean mCompleted;
+  // position in the overall maze
+  private int mMazeXPos,
+              mMazeYPos;
   
   // constructor
   public RoomE04() {
-    
+
     super(NAME);
 
-    mCompleted = false;
+    mInMaze = false;
     
   } // constructor
 
@@ -243,7 +79,7 @@ public class RoomE04 extends Room {
   public Player createPlayer(int entryPoint) {
 
     assert( entryPoint >= 0 && entryPoint < kExits.length );
-    setPlayerAtExit(kExits[entryPoint], kCameraLevels);
+    setPlayerAtExit(kExits[entryPoint]);
     return mPlayer;
     
   } // createPlayer()
@@ -251,86 +87,69 @@ public class RoomE04 extends Room {
   // create the sprites for this room
   @Override
   public void createSprites(SpriteManager spriteManager) {
-    
-    spriteManager.addSprite( new BlockArray(kBlocks1, kBlockColours, 0,0,0) );
-    spriteManager.addSprite( new BlockArray(kBlocks2, kBlockColours, 2,0,42) );
-    
-    addBasicWalls(kExits, spriteManager);
 
-    mStairBlocks = null;
+    if ( !mInMaze ) {
+      // player has just entered the maze
+      mMazeXPos = kStartXPos;
+      mMazeYPos = kStartYPos;
+      mInMaze = true;
+    }
 
-    if ( mCompleted ) {
-      spriteManager.addSprite( new BlockArray(kStairBlocks, kBlockColours, 
-                                              2, 2, kStairEnd) );
-    } else {
-      mCritters = new Critter[]{ new Critter(2,5,0, Env.DOWN, kCritterTrack),
-                                 new Critter(6,2,0, Env.RIGHT, kCritterTrack),
-                                 new Critter(7,7,0, Env.UP, kCritterTrack) };    
-      for ( Critter c : mCritters ) {
-        c.easilyStunned(true);
-        spriteManager.addSprite(c);
+    // adjust the blocks to show the current position
+    String blocks[][] = new String[1][ kBlocks[0].length ];
+    for ( int k = 0 ; k < kBlocks[0].length ; k++ ) {
+      if ( k == kBlocks[0].length-1-mMazeYPos ) {
+        assert( kBlocks[0][k].charAt(mMazeXPos) == '1' );
+        blocks[0][k] = kBlocks[0][k].substring(0, mMazeXPos)
+                     + "2"
+                     + kBlocks[0][k].substring(mMazeXPos+1);
+      } else {
+        blocks[0][k] = kBlocks[0][k];
       }
     }
     
+    spriteManager.addSprite( new BlockArray(blocks, kBlockColours, 0, 0, 0) );
+    
+    addBasicWalls(kExits, spriteManager);
+
   } // Room.createSprites()
-  
-  // room is no longer current, delete any unnecessary references 
-  @Override
-  public void discardResources() {
-    
-    mCritters = null;
-    mStairBlocks = null;
-    
-  } // Room.discardResources()
   
   // update the room (events may be added or processed)
   @Override
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
-    // check exits
     final int exitIndex = checkExits(kExits);
     if ( exitIndex != -1 ) {
-      storyEvents.add(new EventRoomChange(kExits[exitIndex].mDestination,
-                                          kExits[exitIndex].mEntryPoint));
+      Exit exit = kExits[exitIndex];
+
+      final int direc = exit.mWallSide;
+      mMazeXPos += Env.STEP_X[direc];
+      mMazeYPos += Env.STEP_Y[direc];
+      
+      if ( mMazeXPos == kStartXPos-1 && mMazeYPos == kStartYPos ) {
+        // retreat from the maze
+        mInMaze = false;
+        exit = kMazeExits[0];
+      }
+      
+      else if ( kBlocks[0][Room.kSize-1-mMazeYPos].charAt(mMazeXPos) != '1' ) {
+        // back to start of maze
+        mMazeXPos = kStartXPos;
+        mMazeYPos = kStartYPos;
+      }
+      
+      else if ( mMazeXPos == kEndXPos && mMazeYPos == kEndYPos ) {
+        // leave by the true exit
+        mInMaze = false;
+        exit = kMazeExits[1];
+      }
+      
+      storyEvents.add(new EventRoomChange(exit.mDestination,
+                                          exit.mEntryPoint));
       return;
     }
 
-    // check enemies
-    if ( mCritters != null ) {
-      boolean allStunned = true;
-      for ( Critter c : mCritters ) { 
-        if ( !c.isStunned() ) allStunned = false;
-      }
-      if ( allStunned ) {
-        for ( Critter c : mCritters ) c.destroy(-1);
-        mCritters = null;
-        mCompleted = true;
-        mStairBlocks = new BlockArray(kStairBlocks, kBlockColours, 
-                                      2, 2, kStairStart);
-        spriteManager.addSprite( mStairBlocks );
-        mStairTimer = kStairStartTime;
-      }
-    }
-
-    // check camera level
-    EventRoomScroll scroll = checkVerticalScroll(kCameraLevels);
-    if ( scroll != null ) storyEvents.add(scroll);
-
-    // move stairs
-    if ( mStairBlocks != null ) {
-      if ( mStairTimer > 0 ) {
-        mStairTimer--;
-      } else {
-        mStairBlocks.shiftPos(0, 0, +1);
-        if ( mStairBlocks.getZPos() == kStairEnd ) {
-          mStairBlocks = null;
-        } else {
-          mStairTimer = kStairTime;
-        }
-      }
-    }
-    
   } // Room.advance()
 
 } // class RoomE04

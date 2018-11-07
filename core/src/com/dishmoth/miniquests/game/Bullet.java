@@ -249,7 +249,7 @@ public class Bullet extends Sprite3D {
           target.shotInHead();
         } else if ( target.hitsBody(mXPos, mYPos, mZPos) ) {
           mHitTarget = true;
-          target.shotInBody();
+          target.shotInBody(mXPos, mYPos);
         }
       }
       

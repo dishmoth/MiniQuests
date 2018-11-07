@@ -175,7 +175,7 @@ public class SnakeImage {
                        int direc, int direcPrev,
                        boolean endTailStep) {
 
-    assert( direc >= 0 && direc < 4 );
+    assert( direc >= -1 && direc < 4 );
     assert( direcPrev >= -1 && direcPrev < 4 );
     
     if ( endTailStep ) {
@@ -187,7 +187,14 @@ public class SnakeImage {
                                 { 0, 3, 0, 0 },   // LEFT
                                 { 3, 1, 1, 1 } }; // DOWN
       
-      if ( direcPrev == Env.NONE ) direcPrev = (direc + 2) % 4;
+      if ( direc == Env.NONE && direcPrev == Env.NONE ) {
+        direc = Env.DOWN;
+        direcPrev = Env.RIGHT;
+      } else if ( direc == Env.NONE ) {
+        direc = (direcPrev + 2) % 4;
+      } else if ( direcPrev == Env.NONE ) {
+        direcPrev = (direc + 2) % 4;
+      }
       final int index = indices[direc][direcPrev];
       
       mBodyImages[index].draw3D(canvas, 2*xPos, 2*yPos, zPos);

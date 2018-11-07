@@ -19,23 +19,23 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   } // class Snake.EventKilled
 
   // time to take various actions
-  private static final int kStepTime1  = 4,
-                           kStepTime2  = 4,
-                           kFlashTime  = 4,
-                           kDeathTime1 = 8,
-                           kDeathTime2 = 0;
+  protected static final int kFlashTime  = 4,
+                             kDeathTime1 = 8,
+                             kDeathTime2 = 0;
   
   // different colour schemes
-  private static final char kColourSchemes[][] = { { 'a', 'a' },   // red (death)
-                                                   { 'G', 'm' },   // 
-                                                   { 'l', 'z' } }; //
+  protected static final char kColourSchemes[][] = { { 'a', 'a' },   // red (death)
+                                                     { 'G', 'm' },   // green
+                                                     { 'D', 'z' },   // pink
+                                                     { 'q', '4' },   // orange 
+                                                     { 'o', 'o' } }; // ? (flash) 
 
   // snake images
-  private static SnakeImage kSnakeImages[] = null;
+  protected static SnakeImage kSnakeImages[] = null;
   
   // size of the snake parts
-  private static final int kHeightHead = 4,
-                           kHeightBody = 3;
+  protected static final int kHeightHead = 4,
+                             kHeightBody = 3;
 
   // current position (x, y in block units, z in pixels)
   protected int mXPos,
@@ -48,38 +48,42 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   // previous directions, oldest first
   protected ArrayList<Integer> mBody = new ArrayList<Integer>();
   
+  // time between movement steps
+  protected int mStepTime1,
+                mStepTime2;
+  
   // time remaining to complete the current action
-  private int mActionTimer;
+  protected int mActionTimer;
   
   // whether current action is to take a step forward
-  private boolean mStepping;
+  protected boolean mStepping;
   
   // whether the head can move
-  private boolean mStuck;
+  protected boolean mStuck;
 
   // what happens when the snake can't move
   protected boolean mDieWhenStuck;
   
   // target number of body pieces
-  private int mFullLength;
+  protected int mFullLength;
   
   // snake death animation 
   protected boolean mDying;
   
   // possible positions where the snake can move
-  private Track mTrack;
+  protected Track mTrack;
   
   // which colour scheme to use
-  private int mColour;
+  protected int mColour;
 
   // temporary change of colour
-  private int mFlashColour;
+  protected int mFlashColour;
   
   // time remaining for colour change 
-  private int mFlashTimer;
+  protected int mFlashTimer;
 
   // list of objects to navigate around
-  private LinkedList<Obstacle> mObstacles = new LinkedList<Obstacle>();
+  protected LinkedList<Obstacle> mObstacles = new LinkedList<Obstacle>();
 
   // reference to the player (or null)
   protected Player mPlayer;
@@ -114,7 +118,8 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     
     assert( direc >= 0 && direc < 4 );
     mDirec = direc;
-    mActionTimer = kStepTime2;
+    mStepTime1 = mStepTime2 = 3;
+    mActionTimer = mStepTime2;
     mStepping = false;
     mStuck = false;
     mDieWhenStuck = true;
@@ -142,6 +147,23 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     mZPos += dz;
     
   } // shiftPos()
+
+  // change speed (delay time during steps)
+  public void setSpeed(int stepTime) {
+    
+    assert( stepTime > 0 );
+    mStepTime1 = mStepTime2 = stepTime;
+    
+  } // setSpeed(step)
+  
+  // change speed (delay time during steps)
+  public void setSpeed(int stepTime1, int stepTime2) {
+    
+    assert( stepTime1 > 0 && stepTime2 > 0 );
+    mStepTime1 = stepTime1;
+    mStepTime2 = stepTime2;
+    
+  } // setSpeed(step1,step2)
   
   // choose the colour scheme
   public void setColour(int scheme) {
@@ -202,16 +224,17 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   public void grow(int len) { mFullLength += len; }
   public void shrink(int len) { mFullLength = Math.max(0, mFullLength-len); }
   public void setLength(int len) { mFullLength = len; }
+  public int length() { return mFullLength; }
   
   // whether the monster can move in a particular direction
-  protected boolean canMove(int direc) {
+  protected boolean canMove(int x, int y, int direc) {
 
-    if ( mTrack != null && !mTrack.canMove(mXPos, mYPos, mZPos, direc) ) {
+    if ( mTrack != null && !mTrack.canMove(x, y, mZPos, direc) ) {
       return false;
     }
       
-    final int xDest = mXPos + Env.STEP_X[direc],
-              yDest = mYPos + Env.STEP_Y[direc];
+    final int xDest = x + Env.STEP_X[direc],
+              yDest = y + Env.STEP_Y[direc];
     if ( hitsBody(xDest, yDest, mZPos) ) return false;
 
     boolean platform = false;
@@ -227,7 +250,33 @@ abstract public class Snake extends Sprite3D implements Obstacle {
         
   } // canMove()
 
-  // decide which direction to move in next
+  // whether the monster can move in a particular direction
+  protected boolean canMove(int direc) {
+
+    return canMove(mXPos, mYPos, direc);
+        
+  } // canMove()
+
+  // returns a new direction from the possibilities (-1 if stuck) 
+  static protected int randomTurn(int direction,
+                                  boolean forward,
+                                  boolean turnLeft,
+                                  boolean turnRight) {
+    
+    if ( forward ) {
+      if ( !turnRight && !turnLeft ) return direction;
+      if ( Env.randomBoolean() ) return direction;
+    }
+    if ( turnRight && turnLeft ) {
+      return Env.fold(direction+(Env.randomBoolean() ? +1 : -1), 4);
+    }
+    if ( turnLeft && !turnRight ) return Env.fold(direction+1, 4);
+    if ( turnRight && !turnLeft ) return Env.fold(direction-1, 4);
+    return -1;
+
+  } // randomTurn()
+  
+  // decide which direction to move in next (-1 if none possible)
   protected int chooseDirection() {
 
     final int direcRight = Env.fold(mDirec-1, 4),
@@ -261,16 +310,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     }
     */
     
-    if ( forward ) {
-      if ( !turnRight && !turnLeft ) return mDirec;
-      if ( Env.randomBoolean() ) return mDirec;
-    }
-    if ( turnRight && turnLeft ) {
-      return ( Env.randomBoolean() ? direcLeft : direcRight );
-    }
-    if ( turnLeft && !turnRight ) return direcLeft;
-    if ( turnRight && !turnLeft ) return direcRight;
-    return -1;
+    return randomTurn(mDirec, forward, turnLeft, turnRight);
 
   } // chooseDirection()
   
@@ -304,7 +344,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     } else if ( mStepping ) {
       
       // at the end of a step
-      mActionTimer = kStepTime2;
+      mActionTimer = mStepTime2;
       mStepping = false;      
       
       if ( mBody.size() > mFullLength || mStuck ) mBody.remove(0);
@@ -333,7 +373,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
         mFlashColour = 0;
         mStepping = false;
       } else {
-        mActionTimer = kStepTime1;
+        mActionTimer = mStepTime1;
         mStepping = true;
       }
       
@@ -344,7 +384,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   } // Sprite.advance()
 
   // true if the end of the tail is stepping at the same speed as the head
-  private boolean tailStepping() {
+  protected boolean tailStepping() {
     
     return (mStepping && (mBody.size() == mFullLength+1 || mStuck));
 
@@ -385,11 +425,13 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     
   } // hits()
   
-  //
-  public void shotInBody() {}
+  // register a hit on the snake's body
+  public void shotInBody(int x, int y) {}
+  
+  // register a hit on the snake's head
   public void shotInHead() {}
   
-  // display the spook
+  // display the snake
   @Override
   public void draw(EgaCanvas canvas) {
 

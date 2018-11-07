@@ -36,6 +36,8 @@ public class SnakeA extends Snake {
 
     super(x, y, z, direc, kTrack);
     
+    mDieWhenStuck = true;
+    setSpeed(4);
     setColour(1);
    
   } // constructor
@@ -109,20 +111,10 @@ public class SnakeA extends Snake {
     final int score = Math.max(scoreForward, Math.max(scoreRight, scoreLeft));
     assert( score >= 0 );
     
-    final boolean forward   = (scoreForward == score),
-                  turnRight = (scoreRight == score),
-                  turnLeft  = (scoreLeft == score);
-
-    if ( forward ) {
-      if ( !turnRight && !turnLeft ) return mDirec;
-      if ( Env.randomBoolean() ) return mDirec;
-    }
-    if ( turnRight && turnLeft ) {
-      return ( Env.randomBoolean() ? direcLeft : direcRight );
-    }
-    if ( turnLeft && !turnRight ) return direcLeft;
-    if ( turnRight && !turnLeft ) return direcRight;
-    return -1;
+    return randomTurn(mDirec,
+                      (scoreForward == score),
+                      (scoreLeft == score),
+                      (scoreRight == score));
 
   } // Snake.chooseDirection()
 
@@ -144,7 +136,7 @@ public class SnakeA extends Snake {
   } // Snake.advance()
 
   //
-  public void shotInBody() { shotInHead(); }
+  public void shotInBody(int x, int y) { shotInHead(); }
   public void shotInHead() {
     if (!mDying) {
       grow(1); //2);
