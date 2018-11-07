@@ -11,6 +11,9 @@ import java.util.LinkedList;
 // a decorative bit of barrier that fits in with the Fence class
 public class FenceGate extends Sprite3D implements Obstacle {
 
+  // colour schemes for the gate
+  private static final char kColours[][] = { { 'm' }, { '0' } };
+
   // details of the image
   private static final int   kImageWidth   = 5,
                              kImageHeight  = 9;
@@ -19,45 +22,45 @@ public class FenceGate extends Sprite3D implements Obstacle {
                              kRefYPos      = 8;
 
   // pixels for the image
-  private static final String kPixelsRightClosed = "  mmm"
-                                                 + "mmm m"
-                                                 + "m mmm"
-                                                 + "mmm m"
-                                                 + "m m m"
-                                                 + "m mmm"
-                                                 + "mmm m"
-                                                 + "m m  "
-                                                 + "m    ",
+  private static final String kPixelsRightClosed = "  000"
+                                                 + "000 0"
+                                                 + "0 000"
+                                                 + "000 0"
+                                                 + "0 0 0"
+                                                 + "0 000"
+                                                 + "000 0"
+                                                 + "0 0  "
+                                                 + "0    ",
                                                  
-                              kPixelsRightOpen   = "  mmm"
-                                                 + "mm  m"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "m    "
-                                                 + "m    ",
+                              kPixelsRightOpen   = "  000"
+                                                 + "00  0"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "0    "
+                                                 + "0    ",
                                                  
-                              kPixelsUpClosed    = "mmm  "
-                                                 + "m mmm"
-                                                 + "mmm m"
-                                                 + "m mmm"
-                                                 + "m m m"
-                                                 + "mmm m"
-                                                 + "m mmm"
-                                                 + "  m m"
-                                                 + "    m",
+                              kPixelsUpClosed    = "000  "
+                                                 + "0 000"
+                                                 + "000 0"
+                                                 + "0 000"
+                                                 + "0 0 0"
+                                                 + "000 0"
+                                                 + "0 000"
+                                                 + "  0 0"
+                                                 + "    0",
 
-                              kPixelsUpOpen      = "mmm  "
-                                                 + "m  mm"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "m   m"
-                                                 + "    m"
-                                                 + "    m";
+                              kPixelsUpOpen      = "000  "
+                                                 + "0  00"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "0   0"
+                                                 + "    0"
+                                                 + "    0";
 
   // depths for one row of the image
   private static final float kDepthsRight[] = { 0.0f, 0.0f, 1.0f, 1.0f, 2.0f },
@@ -65,10 +68,10 @@ public class FenceGate extends Sprite3D implements Obstacle {
   private static final float kDepthOffset   = -0.01f;
   
   // image of the gate
-  private static EgaImage kImageRightClosed = null,
-                          kImageRightOpen   = null,
-                          kImageUpClosed    = null,
-                          kImageUpOpen      = null;
+  private static EgaImage kImageRightClosed[] = null,
+                          kImageRightOpen[]   = null,
+                          kImageUpClosed[]    = null,
+                          kImageUpOpen[]      = null;
   
   // position of base point of fence
   final private int mXPos,
@@ -76,7 +79,10 @@ public class FenceGate extends Sprite3D implements Obstacle {
                     mZPos;
   
   // which direction the fence runs along
-  private int mDirec;
+  final private int mDirec;
+  
+  // index of the colour to use
+  final private int mColourScheme;
   
   // state of the gate
   private boolean mIsClosed;
@@ -98,24 +104,42 @@ public class FenceGate extends Sprite3D implements Obstacle {
       depthsUp[k] = kDepthsUp[k % kDepthsUp.length] + kDepthOffset;
     }
 
-    kImageRightClosed = new EgaImage(kRefXPosRight, kRefYPos, 
-                                     kImageWidth, kImageHeight,
-                                     kPixelsRightClosed, depthsRight);
-    kImageRightOpen = new EgaImage(kRefXPosRight, kRefYPos, 
-                                   kImageWidth, kImageHeight,
-                                   kPixelsRightOpen, depthsRight);
+    kImageRightClosed = new EgaImage[kColours.length];
+    kImageRightOpen   = new EgaImage[kColours.length];
+    kImageUpClosed    = new EgaImage[kColours.length];
+    kImageUpOpen      = new EgaImage[kColours.length];
     
-    kImageUpClosed = new EgaImage(kRefXPosUp, kRefYPos, 
-                                  kImageWidth, kImageHeight,
-                                  kPixelsUpClosed, depthsUp);
-    kImageUpOpen = new EgaImage(kRefXPosUp, kRefYPos, 
-                                kImageWidth, kImageHeight,
-                                kPixelsUpOpen, depthsUp);
+    for ( int col = 0 ; col < kColours.length ; col++ ) {
+      kImageRightClosed[col] = new EgaImage(kRefXPosRight, kRefYPos, 
+                                            kImageWidth, kImageHeight,
+                                            EgaTools.convertColours(
+                                                         kPixelsRightClosed,
+                                                         kColours[col]),
+                                            depthsRight);
+      kImageRightOpen[col] = new EgaImage(kRefXPosRight, kRefYPos, 
+                                          kImageWidth, kImageHeight,
+                                          EgaTools.convertColours(
+                                                       kPixelsRightOpen,
+                                                       kColours[col]),
+                                          depthsRight);
+      kImageUpClosed[col] = new EgaImage(kRefXPosUp, kRefYPos, 
+                                         kImageWidth, kImageHeight,
+                                         EgaTools.convertColours(
+                                                      kPixelsUpClosed,
+                                                      kColours[col]),
+                                         depthsUp);
+      kImageUpOpen[col] = new EgaImage(kRefXPosUp, kRefYPos, 
+                                       kImageWidth, kImageHeight,
+                                       EgaTools.convertColours(
+                                                    kPixelsUpOpen,
+                                                    kColours[col]),
+                                       depthsUp);
+    }
     
   } // initialize()
   
   // constructor
-  public FenceGate(int xPos, int yPos, int zPos, int direc) {
+  public FenceGate(int xPos, int yPos, int zPos, int direc, int colourScheme) {
     
     initialize();
     
@@ -126,6 +150,9 @@ public class FenceGate extends Sprite3D implements Obstacle {
     assert( direc == Env.RIGHT || direc == Env.UP );
     mDirec = direc;
     
+    assert ( colourScheme >= 0 && colourScheme < kColours.length );
+    mColourScheme = colourScheme;
+
     mIsClosed = false;
     
   } // constructor
@@ -182,10 +209,10 @@ public class FenceGate extends Sprite3D implements Obstacle {
               yPos = mYPos - mCamera.yPos(),
               zPos = mZPos - mCamera.zPos();
 
-    EgaImage image = ( mDirec == Env.RIGHT 
-                     ? ( mIsClosed ? kImageRightClosed : kImageRightOpen )
-                     : ( mIsClosed ? kImageUpClosed    : kImageUpOpen    ) );
-    image.draw3D(canvas, 2*xPos, 2*yPos, zPos);
+    EgaImage images[] = ( mDirec == Env.RIGHT 
+                      ? ( mIsClosed ? kImageRightClosed : kImageRightOpen )
+                      : ( mIsClosed ? kImageUpClosed    : kImageUpOpen    ) );
+    images[mColourScheme].draw3D(canvas, 2*xPos, 2*yPos, zPos);
     
   } // Sprite.draw()
 

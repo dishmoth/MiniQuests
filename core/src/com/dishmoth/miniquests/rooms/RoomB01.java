@@ -286,7 +286,7 @@ public class RoomB01 extends Room {
     
     mEntranceGate = new FenceGate(zoneX*Room.kSize+4, 
                                   zoneY*Room.kSize+9, 
-                                  0, Env.RIGHT);
+                                  0, Env.RIGHT, 0);
     spriteManager.addSprite(mEntranceGate);
 
     if ( mSwitchDone ) {
@@ -432,7 +432,7 @@ public class RoomB01 extends Room {
     
     FenceGate gate = new FenceGate(zoneX*Room.kSize, 
                                    zoneY*Room.kSize+3, 
-                                   0, Env.UP);
+                                   0, Env.UP, 0);
     spriteManager.addSprite(gate);
     gate.setClosed(true);
     
