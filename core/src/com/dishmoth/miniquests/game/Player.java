@@ -206,6 +206,7 @@ public class Player extends Sprite3D {
     
     if ( newSprite instanceof Critter ||
          newSprite instanceof Flame ||
+         newSprite instanceof FlameArea ||
          newSprite instanceof FlameBeam ||
          newSprite instanceof Liquid ||
          newSprite instanceof Snake ||
@@ -480,6 +481,15 @@ public class Player extends Sprite3D {
         Flame f = (Flame)sp;
         if ( f.hits(mXPos, mYPos, mZPos+0.5f*kPlayerHeight,
                     1.0f, 0.5f*kPlayerHeight) ) {
+          mKilled = true;
+          break;
+        }
+      }
+      
+      else if ( sp instanceof FlameArea ) {
+        FlameArea fa = (FlameArea)sp;
+        if ( fa.hits(mXPos+0.5f, mYPos+0.5f, mZPos+0.5f*kPlayerHeight,
+                     0.499f, 0.5f*kPlayerHeight) ) {
           mKilled = true;
           break;
         }

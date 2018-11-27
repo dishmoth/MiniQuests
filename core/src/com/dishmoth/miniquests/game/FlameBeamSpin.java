@@ -26,7 +26,6 @@ public class FlameBeamSpin extends FlameBeam {
                 mYPos,
                 mZPos;
   
-  
   // angular speed (radians per second)
   private float mAngSpeed;
   
