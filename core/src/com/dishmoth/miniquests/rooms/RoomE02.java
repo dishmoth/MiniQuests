@@ -13,13 +13,14 @@ import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.FloorSwitch;
+import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SnakeB;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.WallSwitch;
+import com.dishmoth.miniquests.game.Room.EventRoomScroll;
 
 // the room "E02"
 public class RoomE02 extends Room {
@@ -37,13 +38,40 @@ public class RoomE02 extends Room {
                                                 "0000000000",
                                                 "0  0  0  0",
                                                 "0  0  0  0",
+                                                "0000000000" },
+  
+                                              { "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
                                                 "0000000000" } };
+  
+  //
+  private static final String kBlocksSide[][] = { { "      0000",
+                                                    "      0000",
+                                                    "      0000",
+                                                    "      0000",
+                                                    "      0000",
+                                                    "      0000",
+                                                    "      0000",
+                                                    "      0000",
+                                                    "      0000",
+                                                    "      0000" } };  
   
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "#h" }; // 
   
   // details of exit/entry points for the room 
-  private static final Exit kExits[]  = {}; // note: dummy exit at index 0
+  private static final Exit kExits[]
+          = { new Exit(2,2, Env.RIGHT, 3,0, "#h",0, -1, RoomE01.NAME, 2), 
+              new Exit(2,1, Env.RIGHT, 3,0, "#h",0, -1, RoomE01.NAME, 1), 
+              new Exit(2,0, Env.DOWN,  7,0, "#h",0, -1, RoomE03.NAME, 0),
+              new Exit(2,0, Env.RIGHT, 5,0, "#h",0, -1, RoomE09.NAME, 1)};
 
   // whether the floor switches are completed
   private boolean mSwitchesDone;
@@ -65,18 +93,8 @@ public class RoomE02 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length+1 );
-    
-    // special behaviour
-    if ( entryPoint == 0 ) {
-      // special case: start of game
-      mPlayer = new Player(9, 6, 0, Env.LEFT);
-      mCameraLevel = -1;
-      mCamera.set(0, 0, 0);
-    } else {
-      setPlayerAtExit(kExits[entryPoint-1]);
-    }
-    
+    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    setPlayerAtExit(kExits[entryPoint]);
     return mPlayer;
     
   } // createPlayer()
@@ -85,23 +103,72 @@ public class RoomE02 extends Room {
   @Override
   public void createSprites(SpriteManager spriteManager) {
 
-    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
+    int zoneX, zoneY;
 
-    addBasicWalls(kExits, spriteManager);
+    for ( zoneY = 0 ; zoneY <= 2 ; zoneY++ ) {
+      for ( zoneX = 0 ; zoneX <= 2 ; zoneX++ ) {
+        addBasicZone(zoneX, zoneY, 
+                     (zoneX==2), (zoneY==2), (zoneX==0), (zoneY==0),
+                     kExits, spriteManager);
+        if ( zoneX != 1 || zoneY != 1 ) {
+          spriteManager.addSprite(new Liquid(zoneX*Room.kSize,
+                                             zoneY*Room.kSize,
+                                             -2, 2));
+        }
+      }
+    }
 
-    spriteManager.addSprite( new SnakeB(3,3,0, Env.DOWN) );
+    // zone (2,0)
+
+    zoneX = 2;
+    zoneY = 0;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocksSide, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+    
+    // zone (1,1)
+
+    zoneX = 1;
+    zoneY = 1;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocks, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, -2) );
+    
+    //spriteManager.addSprite( new SnakeB(3,3,0, Env.DOWN) );
     
     if ( !mSwitchesDone ) {
       mSwitches = new FloorSwitch[16];
       int k = 0;
       for ( int i = 0 ; i <= 9 ; i += 3 ) {
         for ( int j = 0 ; j <= 9 ; j += 3 ) {
-          mSwitches[k++] = new FloorSwitch(i, j, 0, "#i", "#h");
+          mSwitches[k++] = new FloorSwitch(zoneX*Room.kSize+i,
+                                           zoneY*Room.kSize+j,
+                                           0, "#i", "#h");
         }
       }
       for ( FloorSwitch s : mSwitches ) spriteManager.addSprite(s);
     }
   
+    // zone (2,1)
+
+    zoneX = 2;
+    zoneY = 1;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocksSide, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+    
+    // zone (2,2)
+
+    zoneX = 2;
+    zoneY = 2;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocksSide, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
@@ -115,11 +182,20 @@ public class RoomE02 extends Room {
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
+    // check exits
+    
     final int exitIndex = checkExits(kExits);
     if ( exitIndex != -1 ) {
       storyEvents.add(new EventRoomChange(kExits[exitIndex].mDestination,
                                           kExits[exitIndex].mEntryPoint));
       return;
+    }
+
+    // check for scrolling
+    
+    EventRoomScroll scroll = checkHorizontalScroll();
+    if ( scroll != null ) {
+      storyEvents.add(scroll);
     }
 
     // process the story event list

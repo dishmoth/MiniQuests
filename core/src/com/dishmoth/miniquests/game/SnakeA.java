@@ -23,7 +23,8 @@ public class SnakeA extends Snake {
                                                               "##########",
                                                               "#  #  #  #",
                                                               "#  #  #  #",
-                                                              "##########"});
+                                                              "##########"},
+                                                 10, 10);
   
   // temporary workspace: 0 for head, increasing for body, 999 for empty
   private int mWaypoints[][] = { { 999, 999, 999, 999 },

@@ -6,7 +6,6 @@
 
 package com.dishmoth.miniquests.rooms;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
@@ -14,13 +13,12 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Fence;
 import com.dishmoth.miniquests.game.FenceGate;
+import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SnakeC;
-import com.dishmoth.miniquests.game.SnakeImage;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.Room.EventRoomScroll;
 
 // the room "E03"
 public class RoomE03 extends Room {
@@ -28,18 +26,18 @@ public class RoomE03 extends Room {
   // unique identifier for this room
   public static final String NAME = "E03";
   
-  // all visible blocks for the room
-  private static final String kBlocks[][] = { { "   0000000",
-                                                "   0000000",
-                                                "   0000000",
-                                                "   0000000",
-                                                "   0000000",
-                                                "      0   ",
-                                                "      0   ",
-                                                "      0   ",
-                                                "      0   ",
-                                                "      0   ",
+  private static final String kBlocks[][] = { { "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
                                                 "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000",
+                                                "0  0  0  0",
+                                                "0  0  0  0",
+                                                "0000000000" },
+                                              
+                                              { "0000000000",
                                                 "0  0  0  0",
                                                 "0  0  0  0",
                                                 "0000000000",
@@ -49,14 +47,39 @@ public class RoomE03 extends Room {
                                                 "0  0  0  0",
                                                 "0  0  0  0",
                                                 "0000000000" } };
+
+  //
+  private static final String kBlocks21[][] = { { "     00000",
+                                                  "     00000",
+                                                  "     00000",
+                                                  "0000000000",
+                                                  "     00000",
+                                                  "     00000",
+                                                  "     00000",
+                                                  "          ",
+                                                  "          ",
+                                                  "          " } };
+  
+  //
+  private static final String kBlocks12[][] = { { "     000000000000000",
+                                                  "     000000000000000",
+                                                  "     000000000000000",
+                                                  "                    ",
+                                                  "                    ",
+                                                  "                    ",
+                                                  "                    ",
+                                                  "                    ",
+                                                  "                    ",
+                                                  "                    " } };
   
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "#g" }; // 
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
-          = { // note: dummy exit at index 0
-              new Exit(0,1, Env.UP,  6,0, "#g",0, -1, RoomE01.NAME, 1) };
+          = { new Exit(1,2, Env.UP,    7,0, "#g",0, -1, RoomE02.NAME, 2),
+              new Exit(2,1, Env.RIGHT, 6,0, "#g",0, -1, RoomE02.NAME, 2),
+              new Exit(2,2, Env.UP,    5,0, "#g",0, -1, RoomE09.NAME, 2) };
 
   // constructor
   public RoomE03() {
@@ -70,18 +93,8 @@ public class RoomE03 extends Room {
   @Override
   public Player createPlayer(int entryPoint) {
 
-    assert( entryPoint >= 0 && entryPoint < kExits.length+1 );
-    
-    // special behaviour
-    if ( entryPoint == 0 ) {
-      // special case: start of game
-      mPlayer = new Player(9, 6, 0, Env.LEFT);
-      mCameraLevel = -1;
-      mCamera.set(0, 0, 0);
-    } else {
-      setPlayerAtExit(kExits[entryPoint-1]);
-    }
-    
+    assert( entryPoint >= 0 && entryPoint < kExits.length );
+    setPlayerAtExit(kExits[entryPoint]);
     return mPlayer;
     
   } // createPlayer()
@@ -91,59 +104,62 @@ public class RoomE03 extends Room {
   public void createSprites(SpriteManager spriteManager) {
 
     int zoneX, zoneY;
-    
-    // zone (0,0)
 
-    zoneX = 0;
-    zoneY = 0;
-
-    addBasicZone(zoneX, zoneY, 
-                 false, false, true, true,
-                 kExits, spriteManager);
-
-    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
-
-    spriteManager.addSprite( new SnakeC(3,3,0, Env.DOWN) );
-    
-    // zone (1,0)
-
-    zoneX = 1;
-    zoneY = 0;
-
-    addBasicZone(zoneX, zoneY, 
-                 true, false, false, true,
-                 kExits, spriteManager);
-
-    // zone (0,1)
-
-    zoneX = 0;
-    zoneY = 1;
-
-    addBasicZone(zoneX, zoneY, 
-                 false, true, true, false,
-                 kExits, spriteManager);
-
-    spriteManager.addSprite(new Fence(zoneX*Room.kSize+3, 
-                                      zoneY*Room.kSize+5,
-                                      0, 3, Env.RIGHT, 1));
-    spriteManager.addSprite(new Fence(zoneX*Room.kSize+7, 
-                                      zoneY*Room.kSize+5,
-                                      0, 3, Env.RIGHT, 1));
-
-    FenceGate gate = new FenceGate(zoneX*Room.kSize+5, 
-                                   zoneY*Room.kSize+5, 
-                                   0, Env.RIGHT, 1);
-    gate.setClosed(true);
-    spriteManager.addSprite(gate);
+    for ( zoneY = 0 ; zoneY <= 2 ; zoneY++ ) {
+      for ( zoneX = 0 ; zoneX <= 2 ; zoneX++ ) {
+        addBasicZone(zoneX, zoneY, 
+                     (zoneX==2), (zoneY==2), (zoneX==0), (zoneY==0),
+                     kExits, spriteManager);
+        if ( zoneX != 1 || zoneY != 1 ) {
+          spriteManager.addSprite(new Liquid(zoneX*Room.kSize,
+                                             zoneY*Room.kSize,
+                                             -2, 2));
+        }
+      }
+    }
     
     // zone (1,1)
 
     zoneX = 1;
     zoneY = 1;
+    
+    spriteManager.addSprite(
+                new BlockArray(kBlocks, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, -2) );
 
-    addBasicZone(zoneX, zoneY, 
-                 true, true, false, false,
-                 kExits, spriteManager);
+    //spriteManager.addSprite( new SnakeC(3,3,0, Env.DOWN) );
+    
+
+    // zone (2,1)
+
+    zoneX = 2;
+    zoneY = 1;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocks21, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+
+    spriteManager.addSprite(new Fence(zoneX*Room.kSize+5, 
+                                      zoneY*Room.kSize+3,
+                                      0, 3, Env.UP, 1));
+    spriteManager.addSprite(new Fence(zoneX*Room.kSize+5, 
+                                      zoneY*Room.kSize+7,
+                                      0, 3, Env.UP, 1));
+
+    FenceGate gate = new FenceGate(zoneX*Room.kSize+5, 
+                                   zoneY*Room.kSize+5, 
+                                   0, Env.UP, 1);
+    //gate.setClosed(true);
+    spriteManager.addSprite(gate);
+    
+    // zone (1,2)
+    
+    zoneX = 1;
+    zoneY = 2;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocks12, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
   } // Room.createSprites()
   
@@ -158,6 +174,8 @@ public class RoomE03 extends Room {
   public void advance(LinkedList<StoryEvent> storyEvents,
                       SpriteManager          spriteManager) {
 
+    // check exits
+    
     final int exitIndex = checkExits(kExits);
     if ( exitIndex != -1 ) {
       storyEvents.add(new EventRoomChange(kExits[exitIndex].mDestination,
