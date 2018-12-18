@@ -287,4 +287,16 @@ public class BlockArray extends Sprite3D implements Obstacle {
     
   } // Sprite.draw()
 
+  // display the blocks on a canvas using a specified camera
+  public void draw(EgaCanvas canvas, Camera camera) {
+
+    if ( mImage == null ) return;
+    
+    final int x0 = mXPos - camera.xPos(),
+              y0 = mYPos - camera.yPos(),
+              z0 = mZPos - camera.zPos();
+    mImage.draw3D(canvas, 2*x0, 2*y0, z0);
+    
+  } // draw(Camera)
+
 } // class BlockArray

@@ -28,28 +28,84 @@ public class RoomE02 extends Room {
   // unique identifier for this room
   public static final String NAME = "E02";
   
-  // all visible blocks for the room
-  private static final String kBlocks[][] = { { "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
-                                                "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
-                                                "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
-                                                "0000000000" },
+  // blocks for zone (1,1)
+  private static final String kBlocks11[][] = { { "0000000000",
+                                                  "0  0  0  0",
+                                                  "0  0  0  0",
+                                                  "0000000000",
+                                                  "0  0  0  0",
+                                                  "0  0  0  0",
+                                                  "0000000000",
+                                                  "0  0  0  0",
+                                                  "0  0  0  0",
+                                                  "0000000000" },
   
-                                              { "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
-                                                "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
-                                                "0000000000",
-                                                "0  0  0  0",
-                                                "0  0  0  0",
-                                                "0000000000" } };
+                                                { "0000000000",
+                                                  "0  0  0  0",
+                                                  "0  0  0  0",
+                                                  "0000000000",
+                                                  "0  0  0  0",
+                                                  "0  0  0  0",
+                                                  "0000000000",
+                                                  "0  0  0  0",
+                                                  "0  0  0  0",
+                                                  "0000000000" } };
+  
+  // blocks for zone (2,2)
+  private static final String kBlocks22[][] = { { "      0000",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "      0000" },
+  
+                                                { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "      0000",
+                                                  "          " },
+  
+                                                { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "       000",
+                                                  "          " },
+  
+                                                { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "        00",
+                                                  "          " },
+  
+                                                { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "         0",
+                                                  "          " } };
   
   //
   private static final String kBlocksSide[][] = { { "      0000",
@@ -68,8 +124,9 @@ public class RoomE02 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
-          = { new Exit(2,2, Env.RIGHT, 3,0, "#h",0, -1, RoomE01.NAME, 2), 
-              new Exit(2,1, Env.RIGHT, 3,0, "#h",0, -1, RoomE01.NAME, 1), 
+          = { new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE01.NAME, 2),
+              new Exit(2,2, Env.RIGHT, 1,8, "#h",0, -1, RoomE01.NAME, 3),
+              new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE01.NAME, 4), 
               new Exit(2,0, Env.DOWN,  7,0, "#h",0, -1, RoomE03.NAME, 0),
               new Exit(2,0, Env.RIGHT, 5,0, "#h",0, -1, RoomE09.NAME, 1)};
 
@@ -133,7 +190,7 @@ public class RoomE02 extends Room {
     zoneY = 1;
 
     spriteManager.addSprite(
-                new BlockArray(kBlocks, kBlockColours,
+                new BlockArray(kBlocks11, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, -2) );
     
     //spriteManager.addSprite( new SnakeB(3,3,0, Env.DOWN) );
@@ -166,7 +223,7 @@ public class RoomE02 extends Room {
     zoneY = 2;
 
     spriteManager.addSprite(
-                new BlockArray(kBlocksSide, kBlockColours,
+                new BlockArray(kBlocks22, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
     
   } // Room.createSprites()
