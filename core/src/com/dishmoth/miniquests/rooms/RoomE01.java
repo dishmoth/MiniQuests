@@ -253,6 +253,10 @@ public class RoomE01 extends Room {
 
   } // constructor
 
+  // whether the door to room E02 is open yet
+  // (note: this function may be called by room E02)
+  public boolean door4Open() { return mSwitch00Done; }
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override

@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
+import com.dishmoth.miniquests.game.Fence;
+import com.dishmoth.miniquests.game.FenceGate;
 import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
@@ -50,6 +52,18 @@ public class RoomE02 extends Room {
                                                   "0  0  0  0",
                                                   "0  0  0  0",
                                                   "0000000000" } };
+  
+  // blocks for zone (2,1)
+  private static final String kBlocks21[][] = { { "          ",
+                                                  "          ",
+                                                  "00    0000",
+                                                  "00    0000",
+                                                  "00    0000",
+                                                  "00    0000",
+                                                  "00    0000",
+                                                  "00    0000",
+                                                  "00    0000",
+                                                  "          " } };  
   
   // blocks for zone (2,2)
   private static final String kBlocks22[][] = { { "      0000",
@@ -202,7 +216,7 @@ public class RoomE02 extends Room {
         for ( int j = 0 ; j <= 9 ; j += 3 ) {
           mSwitches[k++] = new FloorSwitch(zoneX*Room.kSize+i,
                                            zoneY*Room.kSize+j,
-                                           0, "#i", "#h");
+                                           0, "#H", "#h");
         }
       }
       for ( FloorSwitch s : mSwitches ) spriteManager.addSprite(s);
@@ -214,8 +228,42 @@ public class RoomE02 extends Room {
     zoneY = 1;
 
     spriteManager.addSprite(
-                new BlockArray(kBlocksSide, kBlockColours,
+                new BlockArray(kBlocks21, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+    
+    spriteManager.addSprite(new Fence(zoneX*Room.kSize+0,
+                                      zoneY*Room.kSize+1,
+                                      0, 3, Env.UP, 1));
+    spriteManager.addSprite(new Fence(zoneX*Room.kSize+0,
+                                      zoneY*Room.kSize+5,
+                                      0, 3, Env.UP, 1));
+    FenceGate gate1 = new FenceGate(zoneX*Room.kSize+0, 
+                                    zoneY*Room.kSize+3, 
+                                    0, Env.UP, 1);
+    gate1.setClosed(true);
+    spriteManager.addSprite(gate1);
+
+    spriteManager.addSprite(new Fence(zoneX*Room.kSize+6,
+                                      zoneY*Room.kSize+1,
+                                      0, 3, Env.UP, 1));
+    spriteManager.addSprite(new Fence(zoneX*Room.kSize+6,
+                                      zoneY*Room.kSize+5,
+                                      0, 3, Env.UP, 1));
+    FenceGate gate2 = new FenceGate(zoneX*Room.kSize+6, 
+                                    zoneY*Room.kSize+3, 
+                                    0, Env.UP, 1);
+    gate2.setClosed(true);
+    spriteManager.addSprite(gate2);
+
+    spriteManager.addSprite(new FloorSwitch(zoneX*Room.kSize+8,
+                                            zoneY*Room.kSize+2,
+                                            0, "#D", "#2"));
+    
+    RoomE01 adjacentRoom = (RoomE01)findRoom(RoomE01.NAME);
+    assert( adjacentRoom != null );
+    if ( !adjacentRoom.door4Open() ) {
+      kExits[2].mDoor.setClosed(true);
+    }
     
     // zone (2,2)
 
