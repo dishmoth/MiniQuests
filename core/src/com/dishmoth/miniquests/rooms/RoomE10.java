@@ -40,7 +40,7 @@ public class RoomE10 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  2,0, "tc",0, -1, RoomE01.NAME, 1), 
+          = { new Exit(Env.LEFT,  2,0, "tc",0, -1, RoomE02.NAME, 1), 
               new Exit(Env.RIGHT, 5,2, "tc",0, -1, RoomE11.NAME, 0) };
 
   // rate at which the floor tiles update
