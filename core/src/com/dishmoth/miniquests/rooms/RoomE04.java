@@ -54,7 +54,7 @@ public class RoomE04 extends Room {
               
   // dummy exit objects for the true maze exits 
   private static final Exit kMazeExits[] 
-          = { new Exit(0,0,0,"  ",0,0, RoomE06.NAME, 1),
+          = { new Exit(0,0,0,"  ",0,0, RoomE10.NAME, 1),
               new Exit(0,0,0,"  ",0,0, RoomE05.NAME, 0) };
 
   // track whether the player is currently in the maze

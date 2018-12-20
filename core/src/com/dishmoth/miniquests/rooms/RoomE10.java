@@ -17,7 +17,7 @@ import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
 // the room "E06"
-public class RoomE06 extends Room {
+public class RoomE10 extends Room {
 
   // unique identifier for this room
   public static final String NAME = "E06";
@@ -65,7 +65,7 @@ public class RoomE06 extends Room {
   private int mUpdateCounter;
 
   // constructor
-  public RoomE06() {
+  public RoomE10() {
 
     super(NAME);
 

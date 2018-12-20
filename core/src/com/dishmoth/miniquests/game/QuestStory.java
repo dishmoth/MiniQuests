@@ -75,10 +75,10 @@ import com.dishmoth.miniquests.rooms.RoomE02;
 import com.dishmoth.miniquests.rooms.RoomE03;
 import com.dishmoth.miniquests.rooms.RoomE04;
 import com.dishmoth.miniquests.rooms.RoomE05;
-import com.dishmoth.miniquests.rooms.RoomE06;
 import com.dishmoth.miniquests.rooms.RoomE07;
 import com.dishmoth.miniquests.rooms.RoomE08;
 import com.dishmoth.miniquests.rooms.RoomE09;
+import com.dishmoth.miniquests.rooms.RoomE10;
 
 // the main game class controlling a quest
 public class QuestStory extends Story {
@@ -232,10 +232,10 @@ public class QuestStory extends Story {
                                 new RoomE03(),
                                 new RoomE04(),
                                 new RoomE05(),
-                                new RoomE06(),
                                 new RoomE07(),
                                 new RoomE08(),
-                                new RoomE09() };
+                                new RoomE09(),
+                                new RoomE10() };
       } break;
       default: {
         assert( false );
