@@ -1,5 +1,5 @@
 /*
- *  RoomE03.java
+ *  RoomE11.java
  *  Copyright (c) 2017 Simon Hern
  *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
@@ -16,11 +16,11 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
-// the room "E04"
-public class RoomE04 extends Room {
+// the room "E11"
+public class RoomE11 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "E04";
+  public static final String NAME = "E11";
   
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "0000000000",
@@ -47,15 +47,15 @@ public class RoomE04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  5,0, "#l",0, -1, RoomE04.NAME, 2), 
-              new Exit(Env.DOWN,  5,0, "#l",0, -1, RoomE04.NAME, 3), 
-              new Exit(Env.RIGHT, 5,0, "#l",0, -1, RoomE04.NAME, 0), 
-              new Exit(Env.UP,    5,0, "#l",0, -1, RoomE04.NAME, 1) };
+          = { new Exit(Env.LEFT,  5,0, "#l",0, -1, RoomE11.NAME, 2), 
+              new Exit(Env.DOWN,  5,0, "#l",0, -1, RoomE11.NAME, 3), 
+              new Exit(Env.RIGHT, 5,0, "#l",0, -1, RoomE11.NAME, 0), 
+              new Exit(Env.UP,    5,0, "#l",0, -1, RoomE11.NAME, 1) };
               
   // dummy exit objects for the true maze exits 
   private static final Exit kMazeExits[] 
           = { new Exit(0,0,0,"  ",0,0, RoomE10.NAME, 1),
-              new Exit(0,0,0,"  ",0,0, RoomE05.NAME, 0) };
+              new Exit(0,0,0,"  ",0,0, RoomE12.NAME, 0) };
 
   // track whether the player is currently in the maze
   private boolean mInMaze;
@@ -65,7 +65,7 @@ public class RoomE04 extends Room {
               mMazeYPos;
   
   // constructor
-  public RoomE04() {
+  public RoomE11() {
 
     super(NAME);
 
@@ -152,4 +152,4 @@ public class RoomE04 extends Room {
 
   } // Room.advance()
 
-} // class RoomE04
+} // class RoomE11

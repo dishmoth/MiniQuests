@@ -73,12 +73,12 @@ import com.dishmoth.miniquests.rooms.RoomD19;
 import com.dishmoth.miniquests.rooms.RoomE01;
 import com.dishmoth.miniquests.rooms.RoomE02;
 import com.dishmoth.miniquests.rooms.RoomE03;
-import com.dishmoth.miniquests.rooms.RoomE04;
-import com.dishmoth.miniquests.rooms.RoomE05;
 import com.dishmoth.miniquests.rooms.RoomE07;
 import com.dishmoth.miniquests.rooms.RoomE08;
 import com.dishmoth.miniquests.rooms.RoomE09;
 import com.dishmoth.miniquests.rooms.RoomE10;
+import com.dishmoth.miniquests.rooms.RoomE11;
+import com.dishmoth.miniquests.rooms.RoomE12;
 
 // the main game class controlling a quest
 public class QuestStory extends Story {
@@ -230,12 +230,12 @@ public class QuestStory extends Story {
         mRoomList = new Room[]{ new RoomE01(),
                                 new RoomE02(),
                                 new RoomE03(),
-                                new RoomE04(),
-                                new RoomE05(),
                                 new RoomE07(),
                                 new RoomE08(),
                                 new RoomE09(),
-                                new RoomE10() };
+                                new RoomE10(),
+                                new RoomE11(),
+                                new RoomE12() };
       } break;
       default: {
         assert( false );

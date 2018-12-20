@@ -1,5 +1,5 @@
 /*
- *  RoomE06.java
+ *  RoomE10.java
  *  Copyright (c) 2017 Simon Hern
  *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
@@ -16,11 +16,11 @@ import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
-// the room "E06"
+// the room "E10"
 public class RoomE10 extends Room {
 
   // unique identifier for this room
-  public static final String NAME = "E06";
+  public static final String NAME = "E10";
   
   // the basic blocks for the room
   private static final String kBlocks[][] = { { "   0000   ",
@@ -41,7 +41,7 @@ public class RoomE10 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { new Exit(Env.LEFT,  2,0, "tc",0, -1, RoomE01.NAME, 1), 
-              new Exit(Env.RIGHT, 5,2, "tc",0, -1, RoomE04.NAME, 0) };
+              new Exit(Env.RIGHT, 5,2, "tc",0, -1, RoomE11.NAME, 0) };
 
   // rate at which the floor tiles update
   private static final int kUpdateTime = 3;
@@ -257,4 +257,4 @@ public class RoomE10 extends Room {
     
   } // Room.advance()
 
-} // class RoomE06
+} // class RoomE10
