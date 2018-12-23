@@ -70,6 +70,7 @@ import com.dishmoth.miniquests.rooms.RoomD16;
 import com.dishmoth.miniquests.rooms.RoomD17;
 import com.dishmoth.miniquests.rooms.RoomD18;
 import com.dishmoth.miniquests.rooms.RoomD19;
+import com.dishmoth.miniquests.rooms.RoomE01;
 import com.dishmoth.miniquests.rooms.RoomE02;
 import com.dishmoth.miniquests.rooms.RoomE03;
 import com.dishmoth.miniquests.rooms.RoomE04;
@@ -227,7 +228,8 @@ public class QuestStory extends Story {
                                 new RoomD19() };
       } break;
       case 4: {
-        mRoomList = new Room[]{ new RoomE02(),
+        mRoomList = new Room[]{ new RoomE01(),
+                                new RoomE02(),
                                 new RoomE03(),
                                 new RoomE04(),
                                 new RoomE07(),

@@ -215,7 +215,7 @@ public class RoomE02 extends Room {
   
   // details of exit/entry points for the room
   private static final Exit kExits[]
-          = { new Exit(0,2, Env.UP,   4,6, "#k",0, -1, RoomE02.NAME, 0),
+          = { new Exit(0,2, Env.UP,   4,6, "#k",0, -1, RoomE01.NAME, 1),
               new Exit(0,2, Env.LEFT, 6,0, "#k",0, -1, RoomE02.NAME, 1),
               new Exit(0,1, Env.LEFT, 6,0, "#k",0, -1, RoomE03.NAME, 0),
               new Exit(0,1, Env.LEFT, 1,8, "#k",1, -1, RoomE03.NAME, 1),
@@ -380,8 +380,6 @@ public class RoomE02 extends Room {
                                 "#k", 1);
     spriteManager.addSprite(mBridge02);
     
-    kExits[0].mDoor.setClosed(true); //??
-
     // zone (1,1)
 
     zoneX = 1;
