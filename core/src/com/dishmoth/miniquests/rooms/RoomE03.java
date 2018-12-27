@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
+import com.dishmoth.miniquests.game.Critter;
+import com.dishmoth.miniquests.game.CritterTrack;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Fence;
@@ -65,49 +67,61 @@ public class RoomE03 extends Room {
                                                   "00    0000",
                                                   "          " } };  
   
+  // blocks for zone (1,2)
+  private static final String kBlocks12[][] = { { "        00",
+                                                  "        0 ",
+                                                  "        0 ",
+                                                  "        0 ",
+                                                  "        0 ",
+                                                  "  0  0  0 ",
+                                                  "  0000000 ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          " } };  
+  
   // blocks for zone (2,2)
-  private static final String kBlocks22[][] = { { "      0000",
-                                                  "      0000",
-                                                  "      0000",
-                                                  "      0000",
-                                                  "      0000",
-                                                  "      0000",
-                                                  "      0000",
-                                                  "      0000",
-                                                  "      0000",
-                                                  "      0000" },
-  
-                                                { "          ",
+  private static final String kBlocks22[][] = { { "00        ",
+                                                  "          ",
+                                                  "          ",
+                                                  "         0",
                                                   "          ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "      0000",
                                                   "          " },
   
                                                 { "          ",
                                                   "          ",
+                                                  "         0",
                                                   "          ",
                                                   "          ",
                                                   "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "       000",
-                                                  "          " },
+                                                  "   1111   ",
+                                                  "   1  1   ",
+                                                  "   1  1   ",
+                                                  "   1111   " },
   
                                                 { "          ",
+                                                  "         0",
+                                                  "          ",
+                                                  " 1111     ",
+                                                  " 1  1     ",
+                                                  " 1  1     ",
+                                                  " 1111     ",
+                                                  "          ",
+                                                  "       0  ",
+                                                  "          " },
+  
+                                                { "  11110000",
+                                                  "  1  1    ",
+                                                  "  1  1    ",
+                                                  "  1111    ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "        00",
+                                                  "        0 ",
                                                   "          " },
   
                                                 { "          ",
@@ -134,16 +148,31 @@ public class RoomE03 extends Room {
                                                     "      0000" } };  
   
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "#h" }; // 
+  private static final String kBlockColours[] = { "#h",
+                                                  "Nh" }; // 
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
-          = { new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE02.NAME, 2),
+          = { new Exit(2,2, Env.UP,    1,0, "#h",0, -1, RoomE02.NAME, 1),
+              new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE02.NAME, 2),
               new Exit(2,2, Env.RIGHT, 1,8, "#h",0, -1, RoomE02.NAME, 3),
               new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4), 
               new Exit(2,0, Env.DOWN,  7,0, "#h",0, -1, RoomE04.NAME, 0),
-              new Exit(2,0, Env.RIGHT, 5,0, "#h",0, -1, RoomE09.NAME, 1)};
+              new Exit(2,0, Env.RIGHT, 5,0, "#h",0, -1, RoomE09.NAME, 1) };
 
+  // details of the paths followed by enemies
+  private static final CritterTrack kCritterTrack22
+                    = new CritterTrack(new String[]{ "  ++++    ",
+                                                     "  +  +    ",
+                                                     "  +  +    ",
+                                                     " +++++    ",
+                                                     " +  +     ",
+                                                     " +  +     ",
+                                                     " ++++++   ",
+                                                     "   +  +   ",
+                                                     "   +  +   ",
+                                                     "   ++++   " }, 20, 20); 
+  
   // whether the floor switches are completed
   private boolean mSwitchesDone;
   
@@ -262,9 +291,18 @@ public class RoomE03 extends Room {
     RoomE02 adjacentRoom = (RoomE02)findRoom(RoomE02.NAME);
     assert( adjacentRoom != null );
     if ( !adjacentRoom.door4Open() ) {
-      kExits[2].mDoor.setClosed(true);
+      kExits[3].mDoor.setClosed(true);
     }
     
+    // zone (1,2)
+
+    zoneX = 1;
+    zoneY = 2;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocks12, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+
     // zone (2,2)
 
     zoneX = 2;
@@ -273,6 +311,17 @@ public class RoomE03 extends Room {
     spriteManager.addSprite(
                 new BlockArray(kBlocks22, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+
+    Critter critters[] = new Critter[] 
+             { new Critter(23,20,2, Env.RIGHT, kCritterTrack22),
+               new Critter(21,25,4, Env.UP,    kCritterTrack22),
+               new Critter(24,24,4, Env.DOWN,  kCritterTrack22),
+               new Critter(25,29,6, Env.LEFT,  kCritterTrack22) };
+    for ( int k = 0 ; k < critters.length ; k++ ) {
+      critters[k].easilyKilled(true);
+      critters[k].setColour(1);
+      spriteManager.addSprite(critters[k]);
+    }    
     
   } // Room.createSprites()
   

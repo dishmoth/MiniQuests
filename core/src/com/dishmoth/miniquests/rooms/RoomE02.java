@@ -216,10 +216,10 @@ public class RoomE02 extends Room {
   // details of exit/entry points for the room
   private static final Exit kExits[]
           = { new Exit(0,2, Env.UP,   4,6, "#k",0, -1, RoomE01.NAME, 1),
-              new Exit(0,2, Env.LEFT, 6,0, "#k",0, -1, RoomE02.NAME, 1),
-              new Exit(0,1, Env.LEFT, 6,0, "#k",0, -1, RoomE03.NAME, 0),
-              new Exit(0,1, Env.LEFT, 1,8, "#k",1, -1, RoomE03.NAME, 1),
-              new Exit(0,0, Env.LEFT, 4,0, "#k",0, -1, RoomE03.NAME, 2), 
+              new Exit(0,2, Env.LEFT, 6,0, "#k",0, -1, RoomE03.NAME, 0),
+              new Exit(0,1, Env.LEFT, 6,0, "#k",0, -1, RoomE03.NAME, 1),
+              new Exit(0,1, Env.LEFT, 1,8, "#k",1, -1, RoomE03.NAME, 2),
+              new Exit(0,0, Env.LEFT, 4,0, "#k",0, -1, RoomE03.NAME, 3), 
               new Exit(0,0, Env.DOWN, 3,0, "#k",0, -1, RoomE09.NAME, 0) };
   
   // references to objects in zone (0,0)
