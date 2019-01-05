@@ -74,6 +74,7 @@ import com.dishmoth.miniquests.rooms.RoomE01;
 import com.dishmoth.miniquests.rooms.RoomE02;
 import com.dishmoth.miniquests.rooms.RoomE03;
 import com.dishmoth.miniquests.rooms.RoomE04;
+import com.dishmoth.miniquests.rooms.RoomE06;
 import com.dishmoth.miniquests.rooms.RoomE07;
 import com.dishmoth.miniquests.rooms.RoomE08;
 import com.dishmoth.miniquests.rooms.RoomE09;
@@ -232,6 +233,7 @@ public class QuestStory extends Story {
                                 new RoomE02(),
                                 new RoomE03(),
                                 new RoomE04(),
+                                new RoomE06(),
                                 new RoomE07(),
                                 new RoomE08(),
                                 new RoomE09(),
