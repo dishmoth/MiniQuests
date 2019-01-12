@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
+import com.dishmoth.miniquests.game.BlockStairs;
 import com.dishmoth.miniquests.game.Critter;
 import com.dishmoth.miniquests.game.CritterTrack;
 import com.dishmoth.miniquests.game.Env;
@@ -24,7 +25,8 @@ import com.dishmoth.miniquests.game.SnakeB;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.Room.EventRoomScroll;
+import com.dishmoth.miniquests.game.WallSwitch;
+import com.dishmoth.miniquests.game.ZoneSwitch;
 
 // the room "E03"
 public class RoomE03 extends Room {
@@ -32,6 +34,9 @@ public class RoomE03 extends Room {
   // unique identifier for this room
   public static final String NAME = "E03";
   
+  // rate at which the raft tiles move
+  private static final int kRaftMoveTime  = 8;
+
   // blocks for zone (1,1)
   private static final String kBlocks11[][] = { { "0000000000",
                                                   "0  0  0  0",
@@ -58,23 +63,23 @@ public class RoomE03 extends Room {
   // blocks for zone (2,1)
   private static final String kBlocks21[][] = { { "          ",
                                                   "          ",
-                                                  "00    0000",
-                                                  "00    0000",
-                                                  "00    0000",
-                                                  "00    0000",
-                                                  "00    0000",
-                                                  "00    0000",
-                                                  "00    0000",
+                                                  "000   0000",
+                                                  "000   0000",
+                                                  "000   0000",
+                                                  "000   0000",
+                                                  "000   0000",
+                                                  "000   0000",
+                                                  "000   0000",
                                                   "          " } };  
   
   // blocks for zone (1,2)
-  private static final String kBlocks12[][] = { { "        00",
+  private static final String kBlocks12[][] = { { " 0   0  00",
                                                   "        0 ",
                                                   "        0 ",
                                                   "        0 ",
                                                   "        0 ",
-                                                  "  0  0  0 ",
-                                                  "  0000000 ",
+                                                  "        0 ",
+                                                  "    00000 ",
                                                   "          ",
                                                   "          ",
                                                   "          " } };  
@@ -147,9 +152,13 @@ public class RoomE03 extends Room {
                                                     "      0000",
                                                     "      0000" } };  
   
+  // block pattern for the raft
+  private static final String kBlocksRaft[][] = { { "222", "222", "222" } };
+  
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "#h",
-                                                  "Nh" }; // 
+                                                  "Nh",
+                                                  "Hh"}; // 
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
@@ -173,10 +182,24 @@ public class RoomE03 extends Room {
                                                      "   +  +   ",
                                                      "   ++++   " }, 20, 20); 
   
-  // whether the floor switches are completed
+  // references to objects in zone (1,2)
+  private BlockStairs mStairs12;
+  private ZoneSwitch  mStairSwitch12;
+  private WallSwitch  mSwitches12[];
+
+  // flags for zone (1,2)
+  private boolean mRaftDone;
+  
+  // references to objects in zone (2,2)
+  private FloorSwitch mRaftSwitch22;
+  private BlockArray  mRaft;
+  private int         mRaftTimer;
+  private boolean     mRaftForward;
+  
+  // whether the snake floor switches are completed
   private boolean mSwitchesDone;
   
-  // set of floor switches
+  // set of snake floor switches
   private FloorSwitch mSwitches[];
 
   // constructor
@@ -184,6 +207,8 @@ public class RoomE03 extends Room {
 
     super(NAME);
 
+    mRaftDone = false;
+    
     mSwitchesDone = false;
     
   } // constructor
@@ -303,6 +328,24 @@ public class RoomE03 extends Room {
                 new BlockArray(kBlocks12, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
+    mStairs12 = new BlockStairs(zoneX*Room.kSize+3, zoneY*Room.kSize+3, 0,
+                                zoneX*Room.kSize+3, zoneY*Room.kSize+7, 8,
+                                "Hh", 1);
+    spriteManager.addSprite(mStairs12);
+    
+    mStairSwitch12 = new ZoneSwitch(zoneX*Room.kSize+3, zoneY*Room.kSize+7);
+    spriteManager.addSprite(mStairSwitch12);
+
+    mSwitches12 = new WallSwitch[4];
+    for ( int k = 0 ; k < mSwitches12.length ; k++ ) {
+      final int zPos = 2 + 2*k;
+      WallSwitch ws = new WallSwitch(zoneX, zoneY, Env.UP, 3, zPos, 
+                                      new String[]{"c7","u7"}, false);
+      if ( mRaftDone ) ws.setState(1); 
+      mSwitches12[k] = ws;
+      spriteManager.addSprite(ws);
+    }
+    
     // zone (2,2)
 
     zoneX = 2;
@@ -323,6 +366,14 @@ public class RoomE03 extends Room {
       spriteManager.addSprite(critters[k]);
     }    
     
+    mRaft = new BlockArray(kBlocksRaft, kBlockColours,
+                           zoneX*Room.kSize+3, zoneY*Room.kSize-3,
+                           (mRaftDone ? 0 : -4));
+    spriteManager.addSprite(mRaft);
+    
+    mRaftTimer = kRaftMoveTime;
+    mRaftForward = true;
+    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
@@ -330,6 +381,51 @@ public class RoomE03 extends Room {
   public void discardResources() {
 
   } // Room.discardResources()
+  
+  // move the raft, return true if the player is on it
+  private boolean updateRaft() {
+
+    assert(mRaftDone);
+    
+    if ( mRaftTimer > 0 ) {
+      mRaftTimer--;
+      return false;
+    }
+
+    final int raftSize = 3;
+
+    boolean playerOnboard = false;
+    if ( mPlayer != null ) {
+      final int dx = mPlayer.getXPos() - mRaft.getXPos(),
+                dy = mPlayer.getYPos() - mRaft.getYPos();
+      playerOnboard = ( dx >= 0 && dx < raftSize &&
+                        dy >= 0 && dy < raftSize );
+    }
+    
+    final int yStart = 17,
+              yEnd   = 5;
+    if ( mRaft.getZPos() < 0 ) {
+      mRaft.shiftPos(0, 0, 1);
+      mRaftTimer = kRaftMoveTime;
+      if ( mRaft.getZPos() == 0 ) {
+        Env.sounds().play(Sounds.SUCCESS);
+        mRaftTimer *= 2;
+      }
+    } else if ( mRaftForward ) {
+      mRaft.shiftPos(0, -1, 0);
+      if ( playerOnboard ) mPlayer.slidePos(Env.DOWN, 1);
+      if ( mRaft.getYPos() == yEnd ) mRaftForward = false;
+      mRaftTimer = kRaftMoveTime;
+    } else {
+      mRaft.shiftPos(0, +1, 0);
+      if ( playerOnboard ) mPlayer.slidePos(Env.UP, 1);
+      if ( mRaft.getYPos() == yStart ) mRaftForward = true;
+      mRaftTimer = kRaftMoveTime;
+    }
+  
+    return playerOnboard;
+    
+  } // updateRaft()
   
   // update the room (events may be added or processed)
   @Override
@@ -345,12 +441,9 @@ public class RoomE03 extends Room {
       return;
     }
 
-    // check for scrolling
+    // check for scrolling (might be overridden by raft movement later)
     
     EventRoomScroll scroll = checkHorizontalScroll();
-    if ( scroll != null ) {
-      storyEvents.add(scroll);
-    }
 
     // process the story event list
     
@@ -362,6 +455,38 @@ public class RoomE03 extends Room {
                         ((FloorSwitch.EventStateChange)event).mSwitch;
         s.freezeState(true);
         Env.sounds().play(Sounds.SWITCH_ON);
+        if ( s == mRaftSwitch22 ) {
+          mRaftDone = true;
+        }
+        it.remove();
+      }
+      
+      if ( event instanceof WallSwitch.EventStateChange ) {
+        if ( !mRaftDone ) {
+          boolean allDone = true;
+          for ( WallSwitch ws : mSwitches12 ) {
+            if ( ws.getState() == 0 ) allDone = false;
+          }
+          if ( allDone ) {
+            mRaftSwitch22 = new FloorSwitch(21, 29, 0, "#c", "#h");
+            spriteManager.addSprite(mRaftSwitch22);
+            Env.sounds().play(Sounds.SUCCESS);
+          }
+        }
+        it.remove();
+      }
+      
+      if ( event instanceof ZoneSwitch.EventStateChange ) {
+        ZoneSwitch s = (ZoneSwitch)
+                       ((ZoneSwitch.EventStateChange)event).mSwitch;
+        assert( s == mStairSwitch12 );
+        if ( s.isOn() ) {
+          mStairs12.setZEnd(0);
+          Env.sounds().play(Sounds.SWITCH_ON);
+        } else {
+          mStairs12.setZEnd(8);
+          Env.sounds().play(Sounds.SWITCH_OFF);        
+        }
         it.remove();
       }
       
@@ -388,6 +513,27 @@ public class RoomE03 extends Room {
         SnakeB snake = (SnakeB)spriteManager.findSpriteOfType(SnakeB.class);
         snake.kill();
       }
+    }
+    
+    // move the raft (and check for scrolling)
+
+    if ( mRaftDone ) {
+      final boolean playerOnRaft = updateRaft();
+      if ( playerOnRaft && !mPlayer.isActing() ) {
+        final int x = mPlayer.getXPos() - mCamera.xPos(),
+                  y = mPlayer.getYPos() - mCamera.yPos();
+        if      ( x >= kSize ) scroll = new EventRoomScroll(+kSize, 0, 0);
+        else if ( y >= kSize ) scroll = new EventRoomScroll(0, +kSize, 0);
+        else if ( x < 0 )      scroll = new EventRoomScroll(-kSize, 0, 0);
+        else if ( y < 0 )      scroll = new EventRoomScroll(0, -kSize, 0);
+        else                   scroll = null;
+      }
+    }
+
+    // finalize scrolling
+    
+    if ( scroll != null ) {
+      storyEvents.add(scroll);
     }
     
   } // Room.advance()

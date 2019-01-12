@@ -26,7 +26,7 @@ public class RoomE01 extends Room {
   // unique identifier for this room
   public static final String NAME = "E01";
   
-  // rate at which the floor tiles move
+  // rate at which the raft tiles move
   private static final int kRaftMoveTime  = 8;
 
   // main blocks for the room
