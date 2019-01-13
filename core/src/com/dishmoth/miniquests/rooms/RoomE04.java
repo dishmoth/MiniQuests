@@ -61,9 +61,9 @@ public class RoomE04 extends Room {
                                                   "          " } };
   
   //
-  private static final String kBlocks12[][] = { { "     000000000000000",
-                                                  "     000000000000000",
-                                                  "     000000000000000",
+  private static final String kBlocks12[][] = { { " 0000000000000000000",
+                                                  " 0000000000000000000",
+                                                  " 0000000000000000000",
                                                   "                    ",
                                                   "                    ",
                                                   "                    ",
@@ -77,7 +77,7 @@ public class RoomE04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
-          = { new Exit(1,2, Env.UP,    7,0, "#g",0, -1, RoomE03.NAME, 4),
+          = { new Exit(1,2, Env.UP,    2,0, "#g",0, -1, RoomE03.NAME, 5),
               new Exit(2,1, Env.RIGHT, 6,0, "#g",0, -1, RoomE03.NAME, 3),
               new Exit(2,2, Env.UP,    5,0, "#g",0, -1, RoomE09.NAME, 2) };
 

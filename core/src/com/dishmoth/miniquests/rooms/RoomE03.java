@@ -23,6 +23,7 @@ import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.SnakeB;
 import com.dishmoth.miniquests.game.Sounds;
+import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.WallSwitch;
@@ -36,7 +37,88 @@ public class RoomE03 extends Room {
   
   // rate at which the raft tiles move
   private static final int kRaftMoveTime  = 8;
+  
+  // rate at which critters spawn (zone (2,0))
+  private static final int kCritterSpawnTime = 80;
 
+  // blocks for zone (2,0)
+  private static final String kBlocks20[][] = { { "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "0          ",
+                                                  "     0     ",
+                                                  "           " },
+                                                
+                                                { "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  " 0         ",
+                                                  "      0    ",
+                                                  "           " },
+                                                
+                                                { "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "  0        ",
+                                                  "       0   ",
+                                                  "           " },
+                                                
+                                                { "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "   000000  ",
+                                                  "   0    000",
+                                                  "   0    0  ",
+                                                  "   0       " },
+                                                
+                                                { "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "          0",
+                                                  "           ",
+                                                  "           ",
+                                                  "           " },
+                                                                                                
+                                                { "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "          0",
+                                                  "          0",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           " },
+                                                                                                
+                                                { "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "          0",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           ",
+                                                  "           " } };
+  
   // blocks for zone (1,1)
   private static final String kBlocks11[][] = { { "0000000000",
                                                   "0  0  0  0",
@@ -140,18 +222,6 @@ public class RoomE03 extends Room {
                                                   "         0",
                                                   "          " } };
   
-  //
-  private static final String kBlocksSide[][] = { { "      0000",
-                                                    "      0000",
-                                                    "      0000",
-                                                    "      0000",
-                                                    "      0000",
-                                                    "      0000",
-                                                    "      0000",
-                                                    "      0000",
-                                                    "      0000",
-                                                    "      0000" } };  
-  
   // block pattern for the raft
   private static final String kBlocksRaft[][] = { { "222", "222", "222" } };
   
@@ -165,11 +235,15 @@ public class RoomE03 extends Room {
           = { new Exit(2,2, Env.UP,    1,0, "#h",0, -1, RoomE02.NAME, 1),
               new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE02.NAME, 2),
               new Exit(2,2, Env.RIGHT, 1,8, "#h",0, -1, RoomE02.NAME, 3),
-              new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4), 
-              new Exit(2,0, Env.DOWN,  7,0, "#h",0, -1, RoomE04.NAME, 0),
-              new Exit(2,0, Env.RIGHT, 5,0, "#h",0, -1, RoomE09.NAME, 1) };
+              new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4),
+              new Exit(2,0, Env.RIGHT, 2,0, "#h",1, -1, RoomE09.NAME, 1), 
+              new Exit(2,0, Env.DOWN,  2,0, "#h",0, -1, RoomE04.NAME, 0) };
 
   // details of the paths followed by enemies
+  private static final CritterTrack kCritterTrack20
+                    = new CritterTrack(new String[]{ "   ++++++",
+                                                     "++++    +",
+                                                     "     ++++" }, 19, 1); 
   private static final CritterTrack kCritterTrack22
                     = new CritterTrack(new String[]{ "  ++++    ",
                                                      "  +  +    ",
@@ -181,6 +255,11 @@ public class RoomE03 extends Room {
                                                      "   +  +   ",
                                                      "   +  +   ",
                                                      "   ++++   " }, 20, 20); 
+  
+  // references to objects in zone (2,0)
+  private BlockStairs mStairs20;
+  private ZoneSwitch  mStairSwitch20;
+  private int         mCritterTimer20;
   
   // references to objects in zone (1,2)
   private BlockStairs mStairs12;
@@ -236,9 +315,9 @@ public class RoomE03 extends Room {
                      (zoneX==2), (zoneY==2), (zoneX==0), (zoneY==0),
                      kExits, spriteManager);
         if ( zoneX != 1 || zoneY != 1 ) {
-          spriteManager.addSprite(new Liquid(zoneX*Room.kSize,
-                                             zoneY*Room.kSize,
-                                             -2, 2));
+          Liquid gunk = new Liquid(zoneX*Room.kSize, zoneY*Room.kSize, -2, 2);
+          gunk.setLethalDepth(2);
+          spriteManager.addSprite(gunk);
         }
       }
     }
@@ -249,8 +328,18 @@ public class RoomE03 extends Room {
     zoneY = 0;
 
     spriteManager.addSprite(
-                new BlockArray(kBlocksSide, kBlockColours,
-                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+                new BlockArray(kBlocks20, kBlockColours,
+                               zoneX*Room.kSize-1, zoneY*Room.kSize, -6) );
+
+    mStairs20 = new BlockStairs(zoneX*Room.kSize+6, zoneY*Room.kSize+6, 6,
+                                zoneX*Room.kSize+9, zoneY*Room.kSize+6, 6,
+                                "Nh", 1);
+    spriteManager.addSprite(mStairs20);
+
+    mStairSwitch20 = new ZoneSwitch(zoneX*Room.kSize+6, zoneY*Room.kSize+6);
+    spriteManager.addSprite(mStairSwitch20);
+    
+    mCritterTimer20 = kCritterSpawnTime/2;
     
     // zone (1,1)
 
@@ -311,7 +400,7 @@ public class RoomE03 extends Room {
 
     spriteManager.addSprite(new FloorSwitch(zoneX*Room.kSize+8,
                                             zoneY*Room.kSize+2,
-                                            0, "#D", "#2"));
+                                            0, "#c", "#2"));
     
     RoomE02 adjacentRoom = (RoomE02)findRoom(RoomE02.NAME);
     assert( adjacentRoom != null );
@@ -479,13 +568,24 @@ public class RoomE03 extends Room {
       if ( event instanceof ZoneSwitch.EventStateChange ) {
         ZoneSwitch s = (ZoneSwitch)
                        ((ZoneSwitch.EventStateChange)event).mSwitch;
-        assert( s == mStairSwitch12 );
-        if ( s.isOn() ) {
-          mStairs12.setZEnd(0);
-          Env.sounds().play(Sounds.SWITCH_ON);
+        if ( s == mStairSwitch20 ) {
+          if ( s.isOn() ) {
+            mStairs20.setZStart(0);
+            Env.sounds().play(Sounds.SWITCH_ON);
+          } else {
+            mStairs20.setZStart(6);
+            Env.sounds().play(Sounds.SWITCH_OFF);        
+          }
+        } else if ( s == mStairSwitch12 ) {
+          if ( s.isOn() ) {
+            mStairs12.setZEnd(0);
+            Env.sounds().play(Sounds.SWITCH_ON);
+          } else {
+            mStairs12.setZEnd(8);
+            Env.sounds().play(Sounds.SWITCH_OFF);        
+          }
         } else {
-          mStairs12.setZEnd(8);
-          Env.sounds().play(Sounds.SWITCH_OFF);        
+          assert(false);
         }
         it.remove();
       }
@@ -512,6 +612,25 @@ public class RoomE03 extends Room {
         mSwitchesDone = true;
         SnakeB snake = (SnakeB)spriteManager.findSpriteOfType(SnakeB.class);
         snake.kill();
+      }
+    }
+
+    // kill and spawn critters in zone (2,0)
+    
+    if ( --mCritterTimer20 <= 0 ) {
+      mCritterTimer20 = kCritterSpawnTime;
+      Critter crit = new Critter(19,2,-4, Env.RIGHT, kCritterTrack20);
+      crit.easilyKilled(true);
+      crit.setColour(1);
+      spriteManager.addSprite(crit);
+    }
+    for ( Sprite s : spriteManager.list() ) {
+      if ( s instanceof Critter ) {
+        Critter c = (Critter)s;
+        if ( c.getXPos() == 24 && c.getYPos() == 1 && !c.isActing() ) {
+          spriteManager.removeSprite(c);
+          break;
+        }
       }
     }
     
