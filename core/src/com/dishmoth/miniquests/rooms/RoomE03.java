@@ -269,6 +269,14 @@ public class RoomE03 extends Room {
   // flags for zone (1,2)
   private boolean mRaftDone;
   
+  // reference to objects in zone (2,1)
+  private FenceGate   mGate21a,
+                      mGate21b;
+  private FloorSwitch mGateSwitch21;
+  
+  // flags for zone (2,1)
+  private boolean mGatesDone;
+  
   // references to objects in zone (2,2)
   private FloorSwitch mRaftSwitch22;
   private BlockArray  mRaft;
@@ -287,7 +295,7 @@ public class RoomE03 extends Room {
     super(NAME);
 
     mRaftDone = false;
-    
+    mGatesDone = false;
     mSwitchesDone = false;
     
   } // constructor
@@ -380,11 +388,10 @@ public class RoomE03 extends Room {
     spriteManager.addSprite(new Fence(zoneX*Room.kSize+0,
                                       zoneY*Room.kSize+5,
                                       0, 3, Env.UP, 1));
-    FenceGate gate1 = new FenceGate(zoneX*Room.kSize+0, 
-                                    zoneY*Room.kSize+3, 
-                                    0, Env.UP, 1);
-    gate1.setClosed(true);
-    spriteManager.addSprite(gate1);
+    mGate21a = new FenceGate(zoneX*Room.kSize+0, 
+                             zoneY*Room.kSize+3, 
+                             0, Env.UP, 1);
+    spriteManager.addSprite(mGate21a);
 
     spriteManager.addSprite(new Fence(zoneX*Room.kSize+6,
                                       zoneY*Room.kSize+1,
@@ -392,15 +399,21 @@ public class RoomE03 extends Room {
     spriteManager.addSprite(new Fence(zoneX*Room.kSize+6,
                                       zoneY*Room.kSize+5,
                                       0, 3, Env.UP, 1));
-    FenceGate gate2 = new FenceGate(zoneX*Room.kSize+6, 
-                                    zoneY*Room.kSize+3, 
-                                    0, Env.UP, 1);
-    gate2.setClosed(true);
-    spriteManager.addSprite(gate2);
+    mGate21b = new FenceGate(zoneX*Room.kSize+6, 
+                             zoneY*Room.kSize+3, 
+                             0, Env.UP, 1);
+    spriteManager.addSprite(mGate21b);
 
-    spriteManager.addSprite(new FloorSwitch(zoneX*Room.kSize+8,
-                                            zoneY*Room.kSize+2,
-                                            0, "#c", "#2"));
+    if ( !mGatesDone ) {
+      mGateSwitch21 = new FloorSwitch(zoneX*Room.kSize+8,
+                                      zoneY*Room.kSize+2,
+                                      0, "#c", "#h");
+      spriteManager.addSprite(mGateSwitch21);
+      mGate21a.setClosed(true);
+      mGate21b.setClosed(true);
+    } else {
+      mGateSwitch21 = null;
+    }
     
     RoomE02 adjacentRoom = (RoomE02)findRoom(RoomE02.NAME);
     assert( adjacentRoom != null );
@@ -546,6 +559,12 @@ public class RoomE03 extends Room {
         Env.sounds().play(Sounds.SWITCH_ON);
         if ( s == mRaftSwitch22 ) {
           mRaftDone = true;
+        } else if ( s == mGateSwitch21 ) {
+          mGatesDone = true;
+          mGate21a.setClosed(false);
+          mGate21b.setClosed(false);
+        } else {
+          assert(false);
         }
         it.remove();
       }
