@@ -45,9 +45,10 @@ public class Splatter extends Particles {
         float xPos = x,
               yPos = y,
               zPos = z + h + 0.5f;
+        float hfac    = ( height > 1 ? h/(height-1.0f) : 0.5f );
         float xVel = xHitVel,
               yVel = yHitVel,
-              zVel = kZSpeedMin + (kZSpeedMax-kZSpeedMin)*h/(height-1.0f);
+              zVel = kZSpeedMin + (kZSpeedMax-kZSpeedMin)*hfac;
 
         final float theta = 0.25f*(float)Math.PI*Env.randomFloat(-1,+1);
         final float v1 = kSpeed*(float)Math.cos(theta),
