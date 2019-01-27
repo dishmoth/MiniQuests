@@ -17,7 +17,7 @@ import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
-import com.dishmoth.miniquests.game.SnakeA;
+import com.dishmoth.miniquests.game.SnakeB;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
@@ -243,6 +243,12 @@ public class RoomE02 extends Room {
                   mSwitch02bDone,
                   mStairs02Done;
   
+  // set of snake floor switches
+  private FloorSwitch mSnakeSwitches[];
+
+  // whether the snake floor switches are completed
+  private boolean mSnakeSwitchesDone;
+  
   // constructor
   public RoomE02() {
 
@@ -251,6 +257,8 @@ public class RoomE02 extends Room {
     mSwitch00Done = mStairs00Done = false;
     mSwitch02aDone = mSwitch02bDone = mStairs02Done = false;
 
+    mSnakeSwitchesDone = false;
+    
   } // constructor
 
   // whether the door to room E02 is open yet
@@ -390,9 +398,22 @@ public class RoomE02 extends Room {
                                zoneX*Room.kSize, zoneY*Room.kSize, -2) );
 
     //spriteManager.addSprite(
-    //            new SnakeA(zoneX*Room.kSize+3, zoneY*Room.kSize+3, 0,
+    //            new SnakeB(zoneX*Room.kSize+3, zoneY*Room.kSize+3, 0,
     //                       Env.DOWN) );
     
+    if ( !mSnakeSwitchesDone ) {
+      mSnakeSwitches = new FloorSwitch[16];
+      int k = 0;
+      for ( int i = 0 ; i <= 9 ; i += 3 ) {
+        for ( int j = 0 ; j <= 9 ; j += 3 ) {
+          mSnakeSwitches[k++] = new FloorSwitch(zoneX*Room.kSize+i,
+                                                  zoneY*Room.kSize+j,
+                                                  0, "#S", "#k");
+        }
+      }
+      for ( FloorSwitch s : mSnakeSwitches ) spriteManager.addSprite(s);
+    }
+  
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
@@ -459,6 +480,13 @@ public class RoomE02 extends Room {
         }
         it.remove();
       }
+
+      if ( event instanceof Player.EventKilled ) {
+        if ( !mSnakeSwitchesDone ) {
+          for ( FloorSwitch s : mSnakeSwitches ) s.unfreezeState();
+        }
+      }
+      
     } // for (event)
 
     // check the stairs
@@ -499,6 +527,23 @@ public class RoomE02 extends Room {
       }
     }
     
+    // check the snake switches
+    
+    if ( !mSnakeSwitchesDone ) {
+      boolean done = true;
+      for ( FloorSwitch s : mSnakeSwitches ) {
+        if ( !s.isOn() ) {
+          done = false;
+          break;
+        }
+      }
+      if ( done ) {
+        mSnakeSwitchesDone = true;
+        SnakeB snake = (SnakeB)spriteManager.findSpriteOfType(SnakeB.class);
+        snake.kill();
+      }
+    }
+
   } // Room.advance()
 
 } // class RoomE02

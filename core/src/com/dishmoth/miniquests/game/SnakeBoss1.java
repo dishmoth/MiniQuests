@@ -1,5 +1,5 @@
 /*
- *  SnakeA.java
+ *  SnakeBoss1.java
  *  Copyright (c) 2018 Simon Hern
  *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
@@ -7,10 +7,9 @@
 package com.dishmoth.miniquests.game;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 
-// a specific snake
-public class SnakeA extends Snake {
+// the first snake boss
+public class SnakeBoss1 extends Snake {
   
   // the snake is specialized to a particular path
   private static final Track kTrack = new CritterTrack
@@ -33,7 +32,7 @@ public class SnakeA extends Snake {
                                  { 999, 999, 999, 999 } };
 
   // constructor
-  public SnakeA(int x, int y, int z, int direc) {
+  public SnakeBoss1(int x, int y, int z, int direc) {
 
     super(x, y, z, direc, kTrack);
     
@@ -50,8 +49,8 @@ public class SnakeA extends Snake {
       Arrays.fill(mWaypoints[k], 999);
     }
     
-    int x = mXPos,
-        y = mYPos;
+    int x = mXPos - 10,
+        y = mYPos - 10;
     for ( int k = mBody.size() ; k >= 0 ; k-- ) {
       if ( k < mBody.size() ) {
         final int dir = mBody.get(k);
@@ -94,14 +93,14 @@ public class SnakeA extends Snake {
   protected int chooseDirection() {
 
     // continue to a junction
-    if ( (mXPos % 3) != 0 || (mYPos % 3) != 0 ) {
+    if ( ((mXPos-10) % 3) != 0 || ((mYPos-10) % 3) != 0 ) {
       return ( canMove(mDirec) ? mDirec : -1 );
     }
     
     prepareWaypoints();
     
-    final int x = mXPos / 3,
-              y = mYPos / 3;
+    final int x = (mXPos-10) / 3,
+              y = (mYPos-10) / 3;
     final int direcRight = Env.fold(mDirec-1, 4),
               direcLeft  = Env.fold(mDirec+1, 4);
     final int depth = 2;
@@ -119,30 +118,13 @@ public class SnakeA extends Snake {
 
   } // Snake.chooseDirection()
 
-  // move the snake
-  @Override
-  public void advance(LinkedList<Sprite> addTheseSprites,
-                      LinkedList<Sprite> killTheseSprites,
-                      LinkedList<StoryEvent> newStoryEvents) {
-  
-    if ( mPlayer == null ) {
-      setLength(2);
-      mDieWhenStuck = false;
-    } else {
-      mDieWhenStuck = true;
-    }
-    
-    super.advance(addTheseSprites, killTheseSprites, newStoryEvents);
-
-  } // Snake.advance()
-
   //
   public void shotInBody(int x, int y) { shotInHead(); }
   public void shotInHead() {
-    if (!mDying) {
-      grow(1); //2);
+    if (!mDying && !mHibernating) {
+      grow(1);
       flash(0);
     }
   } // Snake.shotInHead()
 
-} // class SnakeA
+} // class SnakeBoss1

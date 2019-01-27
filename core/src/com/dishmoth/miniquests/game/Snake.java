@@ -70,6 +70,9 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   // snake death animation 
   protected boolean mDying;
   
+  // snake is going back to egg form
+  protected boolean mHibernating;
+  
   // possible positions where the snake can move
   protected Track mTrack;
   
@@ -124,6 +127,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     mStuck = false;
     mDieWhenStuck = true;
     mDying = false;
+    mHibernating = false;
 
     mTrack = track;
     
@@ -207,9 +211,9 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   } // Sprite.observeDeparture()
   
   // methods required for the Obstacle interface
-  public boolean isEmpty(int x, int y, int z) { return !hits(x,y,z); }
-  public boolean isPlatform(int x, int y, int z) { return false; }
-  public boolean isVoid(int x, int y, int z) { return false; }
+  @Override public boolean isEmpty(int x, int y, int z) { return !hits(x,y,z); }
+  @Override public boolean isPlatform(int x, int y, int z) { return false; }
+  @Override public boolean isVoid(int x, int y, int z) { return false; }
 
   // temporary change of colour
   public void flash(int colour) {
@@ -320,6 +324,12 @@ abstract public class Snake extends Sprite3D implements Obstacle {
                       LinkedList<Sprite> killTheseSprites,
                       LinkedList<StoryEvent> newStoryEvents) {
 
+    if ( mPlayer == null && !mHibernating ) {
+      mFullLength = 2;
+      mDieWhenStuck = false;
+      mHibernating = true;
+    }
+        
     if ( mActionTimer > 0 ) {
 
       // action is in progress
@@ -336,10 +346,14 @@ abstract public class Snake extends Sprite3D implements Obstacle {
         y -= Env.STEP_Y[direc];
       }
       final byte colour = EgaTools.decodePixel(kColourSchemes[mColour][0]);
-      addTheseSprites.add(new Splatter(x, y, mZPos, -1, 2, colour, -1));
+      addTheseSprites.add(new Splatter(x, y, mZPos, -1, 1, colour, -1));
       mActionTimer = kDeathTime2;
-      if (mBody.size() > 0) mBody.remove(0);
-      else                  killTheseSprites.add(this);
+      if (mBody.size() > 0) {
+        mBody.remove(0);
+      } else {
+        killTheseSprites.add(this);
+        newStoryEvents.add(new EventKilled(this));
+      }
       
     } else if ( mStepping ) {
       
@@ -348,13 +362,27 @@ abstract public class Snake extends Sprite3D implements Obstacle {
       mStepping = false;      
       
       if ( mBody.size() > mFullLength || mStuck ) mBody.remove(0);
+      if ( mHibernating && mBody.size() > 1 ) mBody.remove(0);
       
     } else {
 
       // at the start of a step
+      if ( mHibernating && mBody.size() == 0 ) {
+        killTheseSprites.add(this);
+        addTheseSprites.add(new SnakeEgg(mXPos, mYPos, mZPos, 1));
+        return;
+      }
+
       if ( mBody.size() > mFullLength ) mBody.remove(0);
  
       int direc = chooseDirection();
+      
+      final boolean atJunction = ( (mXPos-10)%3 == 0 && (mYPos-10)%3 == 0 );
+      if ( mHibernating && atJunction ) {
+        direc = -1;
+        mFullLength = 0;
+      }
+      
       if ( direc < 0 ) {
         mStuck = true;
       } else {
@@ -372,11 +400,14 @@ abstract public class Snake extends Sprite3D implements Obstacle {
         mFlashTimer = kDeathTime1;
         mFlashColour = 0;
         mStepping = false;
+      } else if ( mStuck && mHibernating ){
+        mActionTimer = (mBody.size() > 0 ? 0 : mStepTime1);
+        mStepping = false;
       } else {
         mActionTimer = mStepTime1;
         mStepping = true;
       }
-      
+
     }
 
     if ( mFlashTimer > 0 ) mFlashTimer -= 1;

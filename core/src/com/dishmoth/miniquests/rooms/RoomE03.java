@@ -21,7 +21,9 @@ import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
-import com.dishmoth.miniquests.game.SnakeB;
+import com.dishmoth.miniquests.game.Snake;
+import com.dishmoth.miniquests.game.SnakeBoss1;
+import com.dishmoth.miniquests.game.SnakeEgg;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
@@ -256,6 +258,9 @@ public class RoomE03 extends Room {
                                                      "   +  +   ",
                                                      "   ++++   " }, 20, 20); 
   
+  // flags for zone (1,1)
+  private boolean mSnakeDone;
+  
   // references to objects in zone (2,0)
   private BlockStairs mStairs20;
   private ZoneSwitch  mStairSwitch20;
@@ -283,12 +288,6 @@ public class RoomE03 extends Room {
   private int         mRaftTimer;
   private boolean     mRaftForward;
   
-  // whether the snake floor switches are completed
-  private boolean mSwitchesDone;
-  
-  // set of snake floor switches
-  private FloorSwitch mSwitches[];
-
   // constructor
   public RoomE03() {
 
@@ -296,7 +295,7 @@ public class RoomE03 extends Room {
 
     mRaftDone = false;
     mGatesDone = false;
-    mSwitchesDone = false;
+    mSnakeDone = false;
     
   } // constructor
 
@@ -358,21 +357,8 @@ public class RoomE03 extends Room {
                 new BlockArray(kBlocks11, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, -2) );
     
-    //spriteManager.addSprite( new SnakeB(3,3,0, Env.DOWN) );
+    spriteManager.addSprite(new SnakeEgg(13, 13, 0, 1));
     
-    if ( !mSwitchesDone ) {
-      mSwitches = new FloorSwitch[16];
-      int k = 0;
-      for ( int i = 0 ; i <= 9 ; i += 3 ) {
-        for ( int j = 0 ; j <= 9 ; j += 3 ) {
-          mSwitches[k++] = new FloorSwitch(zoneX*Room.kSize+i,
-                                           zoneY*Room.kSize+j,
-                                           0, "#H", "#h");
-        }
-      }
-      for ( FloorSwitch s : mSwitches ) spriteManager.addSprite(s);
-    }
-  
     // zone (2,1)
 
     zoneX = 2;
@@ -469,7 +455,7 @@ public class RoomE03 extends Room {
     }    
     
     mRaft = new BlockArray(kBlocksRaft, kBlockColours,
-                           zoneX*Room.kSize+3, zoneY*Room.kSize-3,
+                           zoneX*Room.kSize+3, zoneY*Room.kSize-2,
                            (mRaftDone ? 0 : -4));
     spriteManager.addSprite(mRaft);
     
@@ -504,7 +490,7 @@ public class RoomE03 extends Room {
                         dy >= 0 && dy < raftSize );
     }
     
-    final int yStart = 17,
+    final int yStart = 18,
               yEnd   = 5;
     if ( mRaft.getZPos() < 0 ) {
       mRaft.shiftPos(0, 0, 1);
@@ -609,30 +595,14 @@ public class RoomE03 extends Room {
         it.remove();
       }
       
-      if ( event instanceof Player.EventKilled ) {
-        if ( !mSwitchesDone ) {
-          for ( FloorSwitch s : mSwitches ) s.unfreezeState();
-        }
+      if ( event instanceof Snake.EventKilled ) {
+        mSnakeDone = true;
+        mGate21a.setClosed(false);
+        mGate21b.setClosed(false);
+        it.remove();
       }
       
     } // for (event)
-
-    // check the switches
-    
-    if ( !mSwitchesDone ) {
-      boolean done = true;
-      for ( FloorSwitch s : mSwitches ) {
-        if ( !s.isOn() ) {
-          done = false;
-          break;
-        }
-      }
-      if ( done ) {
-        mSwitchesDone = true;
-        SnakeB snake = (SnakeB)spriteManager.findSpriteOfType(SnakeB.class);
-        snake.kill();
-      }
-    }
 
     // kill and spawn critters in zone (2,0)
     
@@ -668,6 +638,27 @@ public class RoomE03 extends Room {
       }
     }
 
+    // update the snake boss
+    
+    if ( !mSnakeDone && mGatesDone ) {
+      SnakeEgg egg = (SnakeEgg)spriteManager.findSpriteOfType(SnakeEgg.class);
+      if ( egg != null && mPlayer != null && !mPlayer.isActing() &&
+           mPlayer.getXPos() == 19 && mPlayer.getYPos() == 14 ) {
+        if ( !mGate21a.isClosed() || !mGate21b.isClosed() ) {
+          mGate21a.setClosed(true);
+          mGate21b.setClosed(true);
+          Env.sounds().play(Sounds.GATE);
+        }
+      } else if ( egg != null && mPlayer != null &&
+                  (mPlayer.getXPos() >= 20 || mPlayer.getXPos() < 10 ||
+                   mPlayer.getYPos() >= 20 || mPlayer.getYPos() < 10) ){
+        if ( mGate21a.isClosed() || mGate21b.isClosed() ) {
+          mGate21a.setClosed(false);
+          mGate21b.setClosed(false);
+        }
+      }
+    }
+    
     // finalize scrolling
     
     if ( scroll != null ) {

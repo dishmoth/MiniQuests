@@ -160,6 +160,9 @@ public class FenceGate extends Sprite3D implements Obstacle {
   // open or close the gate
   public void setClosed(boolean c) { mIsClosed = c; }
   
+  // whether the gate is open or closed
+  public boolean isClosed() { return mIsClosed; } 
+  
   // whether the player can stand at the specified position
   public boolean isPlatform(int x, int y, int z) {
 
