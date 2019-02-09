@@ -37,9 +37,9 @@ public class RoomE02 extends Room {
                                                   "0         ",
                                                   "0 11      ",
                                                   "0         ",
-                                                  "0         ",
-                                                  "0         ",
-                                                  "0000000   " },
+                                                  "0    0000 ",
+                                                  "0    0  0 ",
+                                                  "000000  0 " },
                                                 
                                                 { "          ",
                                                   "          ",
@@ -220,7 +220,7 @@ public class RoomE02 extends Room {
               new Exit(0,1, Env.LEFT, 6,0, "#k",0, -1, RoomE03.NAME, 1),
               new Exit(0,1, Env.LEFT, 1,8, "#k",1, -1, RoomE03.NAME, 2),
               new Exit(0,0, Env.LEFT, 4,0, "#k",0, -1, RoomE03.NAME, 3), 
-              new Exit(0,0, Env.DOWN, 3,0, "#k",0, -1, RoomE09.NAME, 0) };
+              new Exit(0,0, Env.DOWN, 8,0, "#k",0, -1, RoomE09.NAME, 0) };
   
   // references to objects in zone (0,0)
   private BlockStairs mStairs00a,

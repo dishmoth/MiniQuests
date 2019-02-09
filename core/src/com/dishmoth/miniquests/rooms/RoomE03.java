@@ -238,7 +238,6 @@ public class RoomE03 extends Room {
               new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE02.NAME, 2),
               new Exit(2,2, Env.RIGHT, 1,8, "#h",0, -1, RoomE02.NAME, 3),
               new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4),
-              new Exit(2,0, Env.RIGHT, 2,0, "#h",1, -1, RoomE09.NAME, 1), 
               new Exit(2,0, Env.DOWN,  2,0, "#h",0, -1, RoomE04.NAME, 0) };
 
   // details of the paths followed by enemies
@@ -608,7 +607,7 @@ public class RoomE03 extends Room {
     
     if ( --mCritterTimer20 <= 0 ) {
       mCritterTimer20 = kCritterSpawnTime;
-      Critter crit = new Critter(19,2,-4, Env.RIGHT, kCritterTrack20);
+      Critter crit = new Critter(24,1,-4, Env.RIGHT, kCritterTrack20);
       crit.easilyKilled(true);
       crit.setColour(1);
       spriteManager.addSprite(crit);
@@ -616,7 +615,7 @@ public class RoomE03 extends Room {
     for ( Sprite s : spriteManager.list() ) {
       if ( s instanceof Critter ) {
         Critter c = (Critter)s;
-        if ( c.getXPos() == 24 && c.getYPos() == 1 && !c.isActing() ) {
+        if ( c.getXPos() == 19 && c.getYPos() == 2 && !c.isActing() ) {
           spriteManager.removeSprite(c);
           break;
         }
