@@ -67,7 +67,7 @@ public class RoomE07 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  6,0, "#c",0, -1, RoomE09.NAME, 1),
+          = { new Exit(Env.LEFT,  6,0, "#c",0, -1, RoomE06.NAME, 1),
               new Exit(Env.RIGHT, 6,0, "#c",0, -1, RoomE07.NAME, 0),
               new Exit(Env.DOWN,  1,0, "t6",0, -1, RoomE07.NAME, 1),
               new Exit(Env.RIGHT, 1,0, "#6",0, -1, RoomE07.NAME, 2) };
