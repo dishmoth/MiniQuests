@@ -234,7 +234,7 @@ public class RoomE03 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
-          = { new Exit(2,2, Env.UP,    1,0, "#h",0, -1, RoomE02.NAME, 1),
+          = { new Exit(2,2, Env.UP,    1,0, "#h",0, -1, RoomE05.NAME, 1),
               new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE02.NAME, 2),
               new Exit(2,2, Env.RIGHT, 1,8, "#h",0, -1, RoomE02.NAME, 3),
               new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4),
