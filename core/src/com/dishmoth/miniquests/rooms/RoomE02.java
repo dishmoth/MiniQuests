@@ -352,15 +352,15 @@ public class RoomE02 extends Room {
                 new BlockArray(kBlocks02, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
-    final int z02a = (mStairs02Done ? 0 : -6);
+    final int z02a = (mStairs02Done ? 6 : 0);
     mStairs02a = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+9, z02a,
-                                 zoneX*Room.kSize+3, zoneY*Room.kSize+9, 0,
+                                 zoneX*Room.kSize+3, zoneY*Room.kSize+9, 6,
                                  "Sk", 4);
     spriteManager.addSprite(mStairs02a);
 
-    final int z02b = (mStairs02Done ? -6 : 0);
+    final int z02b = (mStairs02Done ? 0 : 6);
     mStairs02b = new BlockStairs(zoneX*Room.kSize+4, zoneY*Room.kSize+5, z02b,
-                                 zoneX*Room.kSize+4, zoneY*Room.kSize+8, 0,
+                                 zoneX*Room.kSize+4, zoneY*Room.kSize+8, 6,
                                  "Sk", 4);
     spriteManager.addSprite(mStairs02b);
 
@@ -511,18 +511,18 @@ public class RoomE02 extends Room {
 
       if ( mPlayer.getXPos() == 0 && mPlayer.getYPos() == 29 &&
            mPlayer.getZPos() == 6 && !mStairs02a.moving() &&
-           mStairs02a.getZStart() == 0 ) {
+           mStairs02a.getZStart() == 6 ) {
         Env.sounds().play(Sounds.SWITCH_ON);
-        mStairs02a.setZStart(-6);
-        mStairs02b.setZStart(0);
+        mStairs02a.setZStart(0);
+        mStairs02b.setZStart(6);
         mStairs02Done = false;
       }
       if ( mPlayer.getXPos() == 4 && mPlayer.getYPos() == 25 &&
            mPlayer.getZPos() == 6 && !mStairs02b.moving() &&
-           mStairs02b.getZStart() == 0 ) {
+           mStairs02b.getZStart() == 6 ) {
         Env.sounds().play(Sounds.SWITCH_ON);
-        mStairs02a.setZStart(0);
-        mStairs02b.setZStart(-6);
+        mStairs02a.setZStart(6);
+        mStairs02b.setZStart(0);
         mStairs02Done = true;
       }
     }

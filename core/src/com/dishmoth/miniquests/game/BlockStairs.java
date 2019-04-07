@@ -18,6 +18,9 @@ public class BlockStairs extends Sprite3D implements Obstacle {
   private int mZStart,
               mZEnd;
 
+  // number of blocks deep (>= 1)
+  final private int mDepth;
+  
   // individual stair blocks
   // (note: these are owned by the BlockStairs object not the SpriteManager)
   private BlockArray mBlocks[];
@@ -28,14 +31,20 @@ public class BlockStairs extends Sprite3D implements Obstacle {
   // constructor
   public BlockStairs(int xStart, int yStart, int zStart,
                      int xEnd, int yEnd, int zEnd,
-                     String blockColour, int blockHeight) {
+                     String blockColour, int depth) {
   
+    assert( xStart == xEnd || yStart == yEnd );
+    assert( blockColour != null && blockColour.length() == 2 );
+    assert( depth >= 1 );
+
+    mDepth = depth;
+    
     mZStart = zStart;
     mZEnd = zEnd;
     
     buildBlocks(xStart, yStart, zStart,
                 xEnd, yEnd, zEnd,
-                blockColour, blockHeight);
+                blockColour);
     updateBlocks();
     
     mTimer = 0;
@@ -45,14 +54,10 @@ public class BlockStairs extends Sprite3D implements Obstacle {
   // build the individual stair blocks
   private void buildBlocks(int xStart, int yStart, int zStart,
                            int xEnd, int yEnd, int zEnd,
-                           String colour, int height) {
+                           String colour) {
 
-    assert( xStart == xEnd || yStart == yEnd );
-    assert( colour != null && colour.length() == 2 );
-    assert( height >= 1 );
-
-    final String blockPattern[][] = new String[height][1];
-    for ( int k = 0 ; k < height ; k++ ) blockPattern[k][0] = "0";
+    final String blockPattern[][] = new String[mDepth][1];
+    for ( int k = 0 ; k < mDepth ; k++ ) blockPattern[k][0] = "0";
     final String blockColour[] = new String[]{colour};
     
     final int len = Math.max(Math.abs(xEnd - xStart),
@@ -65,9 +70,8 @@ public class BlockStairs extends Sprite3D implements Obstacle {
     for ( int k = 0 ; k < len ; k++ ) {
       final int x = xStart+k*dx,
                 y = yStart+k*dy,
-                z = (k<len/2 ? zStart : zEnd);
-      mBlocks[k] = new BlockArray(blockPattern, blockColour,
-                                  x, y, z);
+                z = (k<len/2 ? zStart : zEnd) - 2*(mDepth - 1);
+      mBlocks[k] = new BlockArray(blockPattern, blockColour, x, y, z);
     }
     
   } // buildBlocks()
@@ -107,8 +111,12 @@ public class BlockStairs extends Sprite3D implements Obstacle {
   } // setZEnd()
   
   // return the current (not target) z-positions of the start and end blocks
-  public int getZStart() { return mBlocks[0].getZPos(); }
-  public int getZEnd() { return mBlocks[mBlocks.length-1].getZPos(); }
+  public int getZStart() {
+    return mBlocks[0].getZPos() + 2*(mDepth-1);
+  }
+  public int getZEnd() {
+    return mBlocks[mBlocks.length-1].getZPos() + 2*(mDepth-1);
+  }
   
   // returns true if the stair blocks are moving to target position
   public boolean moving() { return (mTimer > 0); }
@@ -150,17 +158,17 @@ public class BlockStairs extends Sprite3D implements Obstacle {
         boolean update = false;
         BlockArray blockStart = mBlocks[0],
                    blockEnd   = mBlocks[mBlocks.length-1];
-        if ( blockStart.getZPos() < mZStart ) {
+        if ( blockStart.getZPos() + 2*(mDepth-1) < mZStart ) {
           blockStart.shiftPos(0, 0, 1);
           update = true;
-        } else if ( blockStart.getZPos() > mZStart ) {
+        } else if ( blockStart.getZPos() + 2*(mDepth-1) > mZStart ) {
           blockStart.shiftPos(0, 0, -1);
           update = true;
         }
-        if ( blockEnd.getZPos() < mZEnd ) {
+        if ( blockEnd.getZPos() + 2*(mDepth-1) < mZEnd ) {
           blockEnd.shiftPos(0, 0, 1);
           update = true;
-        } else if ( blockEnd.getZPos() > mZEnd ) {
+        } else if ( blockEnd.getZPos() + 2*(mDepth-1) > mZEnd ) {
           blockEnd.shiftPos(0, 0, -1);
           update = true;
         }

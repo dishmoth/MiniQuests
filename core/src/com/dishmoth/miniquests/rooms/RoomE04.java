@@ -174,11 +174,11 @@ public class RoomE04 extends Room {
                 new BlockArray(kBlocks12, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
-    int z1 = -6,
-        z2 = -6;
+    int z1 = 0,
+        z2 = 0;
     if ( mStairs12Done ) {
-      z1 = -4;
-      z2 = 2;
+      z1 = 2;
+      z2 = 8;
     } else {
       mStairSwitch12 = new ZoneSwitch(zoneX*Room.kSize+4, zoneY*Room.kSize+9);
       spriteManager.addSprite(mStairSwitch12);
@@ -251,8 +251,8 @@ public class RoomE04 extends Room {
         if ( s == mStairSwitch12 ) {
           if ( s.isOn() ) {
             mStairs12Done = true;
-            mStairs12.setZStart(-4);
-            mStairs12.setZEnd(2);
+            mStairs12.setZStart(2);
+            mStairs12.setZEnd(8);
             spriteManager.removeSprite(mStairSwitch12);
             mStairSwitch12 = null;
             Env.sounds().play(Sounds.SWITCH_ON);
