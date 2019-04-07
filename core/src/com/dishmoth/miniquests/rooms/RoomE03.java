@@ -173,16 +173,12 @@ public class RoomE03 extends Room {
                                                      "   +  +   ",
                                                      "   +  +   ",
                                                      "   ++++   " }, 20, 20); 
+
+  // references to objects in zone (1,0)
+  private BlockStairs mStairs10;
   
   // flags for zone (1,1)
   private boolean mSnakeDone;
-  
-  // flags for zone (2,0)
-  private boolean mStairs20Done;
-  
-  // references to objects in zone (2,0)
-  private BlockStairs mStairs20;
-  private ZoneSwitch  mStairSwitch20;
   
   // references to objects in zone (1,2)
   private BlockStairs mStairs12;
@@ -191,6 +187,13 @@ public class RoomE03 extends Room {
 
   // flags for zone (1,2)
   private boolean mRaftDone;
+  
+  // flags for zone (2,0)
+  private boolean mStairs20Done;
+  
+  // references to objects in zone (2,0)
+  private BlockStairs mStairs20;
+  private ZoneSwitch  mStairSwitch20;
   
   // reference to objects in zone (2,1)
   private FenceGate   mGate21a,
@@ -248,6 +251,17 @@ public class RoomE03 extends Room {
       }
     }
 
+    // zone (1,0)
+    
+    zoneX = 1;
+    zoneY = 0;
+
+    int z10 = (mSnakeDone ? 0 : -9);
+    mStairs10 = new BlockStairs(zoneX*Room.kSize+5, zoneY*Room.kSize+0, 0,
+                                zoneX*Room.kSize+5, zoneY*Room.kSize+9, z10,
+                                "#h", 1);
+    spriteManager.addSprite(mStairs10);
+    
     // zone (2,0)
 
     zoneX = 2;
@@ -267,7 +281,6 @@ public class RoomE03 extends Room {
                                 zoneX*Room.kSize+4, zoneY*Room.kSize+5, z2,
                                 "Nh", 1);
     spriteManager.addSprite(mStairs20);
-
     
     // zone (1,1)
 
@@ -538,6 +551,8 @@ public class RoomE03 extends Room {
         mSnakeDone = true;
         mGate21a.setClosed(false);
         mGate21b.setClosed(false);
+        mStairs10.setZEnd(0);
+        Env.sounds().play(Sounds.SUCCESS);
         it.remove();
       }
       
