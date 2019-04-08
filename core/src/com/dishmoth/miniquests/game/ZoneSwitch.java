@@ -48,6 +48,19 @@ public class ZoneSwitch extends Sprite3D {
     
   } // constructor
 
+  // constructor (single block)
+  public ZoneSwitch(int x, int y, int z) {
+    
+    mXMin = mXMax = x;
+    mYMin = mYMax = y;
+    mZMin = mZMax = z;
+   
+    mIsOn = false;
+    mToggleState = false;
+    mStateFrozen = false;
+    
+  } // constructor
+
   // constructor (rectangular zone)
   public ZoneSwitch(int x0, int y0, int z0, int x1, int y1, int z1) {
     

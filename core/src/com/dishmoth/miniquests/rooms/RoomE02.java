@@ -22,6 +22,7 @@ import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.WallSwitch;
+import com.dishmoth.miniquests.game.ZoneSwitch;
 
 // the room "E02"
 public class RoomE02 extends Room {
@@ -225,6 +226,8 @@ public class RoomE02 extends Room {
   // references to objects in zone (0,0)
   private BlockStairs mStairs00a,
                       mStairs00b;
+  private ZoneSwitch  mStairSwitch00a,
+                      mStairSwitch00b;
   private FloorSwitch mSwitch00;
   
   // flags for zone (0,0)
@@ -235,6 +238,8 @@ public class RoomE02 extends Room {
   private BlockStairs mStairs02a,
                       mStairs02b,
                       mBridge02;
+  private ZoneSwitch  mStairSwitch02a,
+                      mStairSwitch02b;
   private WallSwitch  mSwitch02a,
                       mSwitch02b;
   
@@ -320,11 +325,17 @@ public class RoomE02 extends Room {
                                  "Sk", 1);
     spriteManager.addSprite(mStairs00a);
     
+    mStairSwitch00a = new ZoneSwitch(zoneX*Room.kSize+0, zoneY*Room.kSize+8, 8);
+    spriteManager.addSprite(mStairSwitch00a);    
+    
     final int z00b = (mStairs00Done ? 2 : 8);
     mStairs00b = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+0, z00b,
                                  zoneX*Room.kSize+0, zoneY*Room.kSize+3, 8,
                                  "Sk", 1);
     spriteManager.addSprite(mStairs00b);
+    
+    mStairSwitch00b = new ZoneSwitch(zoneX*Room.kSize+0, zoneY*Room.kSize+0, 8);
+    spriteManager.addSprite(mStairSwitch00b);
     
     if ( mSwitch00Done ) {
       mSwitch00 = null;
@@ -358,12 +369,18 @@ public class RoomE02 extends Room {
                                  "Sk", 4);
     spriteManager.addSprite(mStairs02a);
 
+    mStairSwitch02a = new ZoneSwitch(zoneX*Room.kSize+0, zoneY*Room.kSize+9);
+    spriteManager.addSprite(mStairSwitch02a);
+    
     final int z02b = (mStairs02Done ? 0 : 6);
     mStairs02b = new BlockStairs(zoneX*Room.kSize+4, zoneY*Room.kSize+5, z02b,
                                  zoneX*Room.kSize+4, zoneY*Room.kSize+8, 6,
                                  "Sk", 4);
     spriteManager.addSprite(mStairs02b);
 
+    mStairSwitch02b = new ZoneSwitch(zoneX*Room.kSize+4, zoneY*Room.kSize+5);
+    spriteManager.addSprite(mStairSwitch02b);
+    
     mSwitch02a = new WallSwitch(0, 2, Env.UP, 1, 8, 
                                 new String[]{"P7","u7"}, false);
     spriteManager.addSprite(mSwitch02a);
@@ -481,6 +498,43 @@ public class RoomE02 extends Room {
         it.remove();
       }
 
+      if ( event instanceof ZoneSwitch.EventStateChange ) {
+        ZoneSwitch s = (ZoneSwitch)
+                       ((ZoneSwitch.EventStateChange)event).mSwitch;
+        if ( s == mStairSwitch00a ) {
+          if ( s.isOn() && mStairs00a.getZStart() == 8 ) {
+            Env.sounds().play(Sounds.SWITCH_ON);
+            mStairs00a.setZStart(2);
+            mStairs00b.setZStart(8);
+            mStairs00Done = false;
+          }
+        } else if ( s == mStairSwitch00b ) {
+          if ( s.isOn() && mStairs00b.getZStart() == 8 ) {
+            Env.sounds().play(Sounds.SWITCH_ON);
+            mStairs00a.setZStart(8);
+            mStairs00b.setZStart(2);
+            mStairs00Done = true;
+          }
+        } else if ( s == mStairSwitch02a ) {
+          if ( s.isOn() && mStairs02a.getZStart() == 6 ) {
+            Env.sounds().play(Sounds.SWITCH_ON);
+            mStairs02a.setZStart(0);
+            mStairs02b.setZStart(6);
+            mStairs02Done = false;
+          }
+        } else if ( s == mStairSwitch02b ) {
+          if ( s.isOn() && mStairs02b.getZStart() == 6 ) {
+            Env.sounds().play(Sounds.SWITCH_ON);
+            mStairs02a.setZStart(6);
+            mStairs02b.setZStart(0);
+            mStairs02Done = true;
+          }
+        } else {
+          assert(false);
+        }
+        it.remove();
+      }
+
       if ( event instanceof Player.EventKilled ) {
         if ( !mSnakeSwitchesDone ) {
           for ( FloorSwitch s : mSnakeSwitches ) s.unfreezeState();
@@ -489,44 +543,6 @@ public class RoomE02 extends Room {
       
     } // for (event)
 
-    // check the stairs
-    
-    if ( mPlayer != null ) {
-      if ( mPlayer.getXPos() == 0 && mPlayer.getYPos() == 8 &&
-           mPlayer.getZPos() == 8 && !mStairs00a.moving() && 
-           mStairs00a.getZStart() == 8 ) {
-        Env.sounds().play(Sounds.SWITCH_ON);
-        mStairs00a.setZStart(2);
-        mStairs00b.setZStart(8);
-        mStairs00Done = false;
-      }
-      if ( mPlayer.getXPos() == 0 && mPlayer.getYPos() == 0 &&
-           mPlayer.getZPos() == 8 && !mStairs00b.moving() &&
-           mStairs00b.getZStart() == 8 ) {
-        Env.sounds().play(Sounds.SWITCH_ON);
-        mStairs00a.setZStart(8);
-        mStairs00b.setZStart(2);
-        mStairs00Done = true;
-      }
-
-      if ( mPlayer.getXPos() == 0 && mPlayer.getYPos() == 29 &&
-           mPlayer.getZPos() == 6 && !mStairs02a.moving() &&
-           mStairs02a.getZStart() == 6 ) {
-        Env.sounds().play(Sounds.SWITCH_ON);
-        mStairs02a.setZStart(0);
-        mStairs02b.setZStart(6);
-        mStairs02Done = false;
-      }
-      if ( mPlayer.getXPos() == 4 && mPlayer.getYPos() == 25 &&
-           mPlayer.getZPos() == 6 && !mStairs02b.moving() &&
-           mStairs02b.getZStart() == 6 ) {
-        Env.sounds().play(Sounds.SWITCH_ON);
-        mStairs02a.setZStart(6);
-        mStairs02b.setZStart(0);
-        mStairs02Done = true;
-      }
-    }
-    
     // check the snake switches
     
     if ( !mSnakeSwitchesDone ) {
