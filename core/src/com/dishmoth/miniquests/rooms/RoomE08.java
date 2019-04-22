@@ -17,10 +17,8 @@ import com.dishmoth.miniquests.game.FlameArea;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
-import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
-import com.dishmoth.miniquests.game.WallSwitch;
 
 // the room "E08"
 public class RoomE08 extends Room {
@@ -56,8 +54,8 @@ public class RoomE08 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.LEFT,  8,0, "NY",0, -1, RoomE08.NAME, 1),
-              new Exit(Env.RIGHT, 1,0, "#Y",0, -1, RoomE08.NAME, 0) };
+          = { new Exit(Env.RIGHT, 8,0, "#Y",0, -1, RoomE04.NAME, 1),
+              new Exit(Env.DOWN,  5,0, "NY",0, -1, RoomE09.NAME, 0) };
 
   // reference to some objects
   private Liquid    mLiquid;
