@@ -25,7 +25,6 @@ import com.dishmoth.miniquests.game.Snake;
 import com.dishmoth.miniquests.game.SnakeBoss1;
 import com.dishmoth.miniquests.game.SnakeEgg;
 import com.dishmoth.miniquests.game.Sounds;
-import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 import com.dishmoth.miniquests.game.WallSwitch;
