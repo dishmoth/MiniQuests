@@ -108,6 +108,9 @@ public class Bullet extends Sprite3D {
     }
     
     else if ( newSprite instanceof Obstacle ) {
+      if ( newSprite instanceof Barrier ) {
+        if ( !((Barrier)newSprite).blocks(this) ) return;
+      }
       mObstacles.add((Obstacle)newSprite);
     }
 

@@ -187,6 +187,9 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     super.observeArrival(newSprite);
     
     if ( newSprite instanceof Obstacle ) {
+      if ( newSprite instanceof Barrier ) {
+        if ( !((Barrier)newSprite).blocks(this) ) return;
+      }
       mObstacles.add((Obstacle)newSprite);
     } else if ( newSprite instanceof Player ) {
       assert( mPlayer == null );

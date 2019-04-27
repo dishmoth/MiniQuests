@@ -9,6 +9,7 @@ package com.dishmoth.miniquests.rooms;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.Barrier;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.BlockStairs;
 import com.dishmoth.miniquests.game.Critter;
@@ -243,6 +244,11 @@ public class RoomE04 extends Room {
                               kBlockColours[0], 1);
     spriteManager.addSprite(mPath02);
     
+    spriteManager.addSprite(new Barrier(zoneX*Room.kSize+3, zoneY*Room.kSize+7,
+                                        0, Player.class));
+    spriteManager.addSprite(new Barrier(zoneX*Room.kSize+3, zoneY*Room.kSize+9,
+                                        0, Player.class));
+    
     mCritterTimer02 = 15;
     
     // zone (1,2)
@@ -366,7 +372,7 @@ public class RoomE04 extends Room {
       mCritterTimer02--;
       if ( mCritterTimer02 <= 0 ) {
         Critter c = new Critter(4,29,-6, Env.DOWN, kCritterTrack02);
-        c.setColour(1);
+        c.setColour(3);
         c.easilyKilled(true);
         spriteManager.addSprite(c);
         mCritterTimer02 = 100;

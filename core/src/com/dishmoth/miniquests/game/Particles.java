@@ -41,6 +41,9 @@ public class Particles extends Sprite3D {
     super.observeArrival(newSprite);
     
     if ( newSprite instanceof Obstacle ) {
+      if ( newSprite instanceof Barrier ) {
+        if ( !((Barrier)newSprite).blocks(this) ) return;
+      }
       mObstacles.add((Obstacle)newSprite);
     }
     
