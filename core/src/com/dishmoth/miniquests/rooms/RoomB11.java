@@ -173,7 +173,7 @@ public class RoomB11 extends Room {
     addBasicWalls(kExits, spriteManager);
 
     Critter critter = new Critter(2,9,10, Env.RIGHT, kCritterTrack);
-    critter.easilyStunned(true);
+    critter.setStunTime(70);
     spriteManager.addSprite(critter);
 
     Triffid triffid = new Triffid(3,7,10, Env.DOWN);

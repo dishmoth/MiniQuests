@@ -186,7 +186,7 @@ public class RoomB10 extends Room {
 
     if ( !mCritterDead ) {
       mCritter = new Critter(1,4,10, Env.UP, kCritterTrack);
-      mCritter.easilyStunned(true);
+      mCritter.setStunTime(70);
       spriteManager.addSprite(mCritter);
     }
 

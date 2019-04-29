@@ -20,9 +20,8 @@ public class Critter extends Sprite3D implements Obstacle {
                            kHalfStepTime1 = (kStepTime1 + kUpStepTime1)/2;
   
   // time for various effects when hit
-  private static final int kFreezeTime     = 50,
-                           kFreezeLongTime = 70,
-                           kFlashTime      = 4;
+  private static final int kFreezeTimeDefault = 50,
+                           kFlashTime         = 4;
 
   // different colour schemes (0,1 => basic colours, 2 => flash, 3 => splatter)
   private static final char kColourSchemes[][] = { { '2', 'G', 'I', '2' },
@@ -69,11 +68,11 @@ public class Critter extends Sprite3D implements Obstacle {
   // height fallen so far
   private int mFallDistance;
 
+  // how long the critter stays frozen for (may be zero)
+  private int mFreezeTime;
+
   // time remaining until the critter goes back to normal
   private int mFreezeTimer;
-
-  // true for a critter that is easily stunned
-  private boolean mLongFreeze;
 
   // which colour scheme to use
   private int mColour;
@@ -135,8 +134,8 @@ public class Critter extends Sprite3D implements Obstacle {
     mFalling = false;
     mFallDistance = 0;
 
+    mFreezeTime = kFreezeTimeDefault;
     mFreezeTimer = 0;
-    mLongFreeze = false;
 
     mColour = 0;
     
@@ -168,7 +167,7 @@ public class Critter extends Sprite3D implements Obstacle {
   // whether the critter is performing an action
   public boolean isActing() { return ( mActionTimer > 0 || mStepping ); }
 
-  // register freezing collision
+  // register a collision
   public void stun(int direc) { 
     
     assert( direc >= -1 && direc < 4 );
@@ -176,7 +175,7 @@ public class Critter extends Sprite3D implements Obstacle {
       destroy(direc);
       return;
     }
-    mFreezeTimer = ( mLongFreeze ? kFreezeLongTime : kFreezeTime ); 
+    mFreezeTimer = mFreezeTime; 
     Env.sounds().play(Sounds.CRITTER_STUN);
     
   } // stun()
@@ -196,11 +195,11 @@ public class Critter extends Sprite3D implements Obstacle {
   public void setTrack(Track track) { mTrack = track; }
   public Track getTrack() { return mTrack; }
   
-  // set whether the critter stays stunned for a long time
-  public void easilyStunned(boolean v) { mLongFreeze = v; }
-  
   // set whether the critter is killed by bullets
   public void easilyKilled(boolean v) { mInstantKill = v; }
+  
+  // set how long a shot stuns the critter for (may be zero)
+  public void setStunTime(int t) { mFreezeTime = Math.max(0, t); }
   
   // query whether critter is frozen
   public boolean isStunned() { return (mFreezeTimer > 0); }
@@ -495,9 +494,7 @@ public class Critter extends Sprite3D implements Obstacle {
               y0 = mCamera.yPos(),
               z0 = mCamera.zPos();
 
-    final int freezeTime = (mLongFreeze ? kFreezeLongTime : kFreezeTime);
-    final boolean flash = (mFreezeTimer > (freezeTime-kFlashTime));
-    
+    final boolean flash = (mFreezeTimer > Math.max(0, mFreezeTime-kFlashTime));
     CritterImage image = flash 
                        ? kCritterFlashImages[mColour] 
                        : kCritterImages[mColour];

@@ -267,7 +267,7 @@ public class RoomE12 extends Room {
                                  new Critter(6,2,0, Env.RIGHT, kCritterTrack),
                                  new Critter(7,7,0, Env.UP, kCritterTrack) };    
       for ( Critter c : mCritters ) {
-        c.easilyStunned(true);
+        c.setStunTime(70);
         spriteManager.addSprite(c);
       }
     }
