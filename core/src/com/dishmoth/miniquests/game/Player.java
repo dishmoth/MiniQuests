@@ -491,8 +491,7 @@ public class Player extends Sprite3D {
       
       else if ( sp instanceof FlameArea ) {
         FlameArea fa = (FlameArea)sp;
-        if ( fa.hits(mXPos+0.5f, mYPos+0.5f, mZPos+0.5f*kPlayerHeight,
-                     0.499f, 0.5f*kPlayerHeight) ) {
+        if ( fa.hits(mXPos, mYPos, mZPos+kPlayerHeight/2) ) {
           mKilled = true;
           break;
         }

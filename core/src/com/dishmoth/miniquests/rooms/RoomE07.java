@@ -68,10 +68,44 @@ public class RoomE07 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { new Exit(Env.LEFT,  6,0, "#c",0, -1, RoomE06.NAME, 1),
-              new Exit(Env.RIGHT, 6,0, "#c",0, -1, RoomE07.NAME, 0),
-              new Exit(Env.DOWN,  1,0, "t6",0, -1, RoomE07.NAME, 1),
-              new Exit(Env.RIGHT, 1,0, "#6",0, -1, RoomE07.NAME, 2) };
+              new Exit(Env.RIGHT, 6,0, "#c",0, -1, RoomE07.NAME, 2),
+              new Exit(Env.DOWN,  1,0, "t6",0, -1, RoomE07.NAME, 3),
+              new Exit(Env.RIGHT, 1,0, "#6",0, -1, RoomE07.NAME, 1) };
 
+  // area covered by the flames for different numbers of switches
+  private static final String kFlamePattern[][] = { { "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO" },
+                                                    
+                                                    { "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "..OOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO" },
+                                                    
+                                                    { "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "....OO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO" },
+                                                    
+                                                    { "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "......",
+                                                      "OOOOOO",
+                                                      "OOOOOO",
+                                                      "OOOOOO" } };
+                                                    
+  
   // references to the wall switches
   private WallSwitch mSwitches[];
 
@@ -83,9 +117,7 @@ public class RoomE07 extends Room {
   
   // reference to some objects
   private Liquid    mLiquid;
-  private FlameArea mFlame1,
-                    mFlame2,
-                    mFlame3;
+  private FlameArea mFlames;
   
   // delay while something moves
   private int mTimer;
@@ -125,13 +157,9 @@ public class RoomE07 extends Room {
     if ( mSwitchesHit == 4 ) mLiquid.setZPos(-3);
 
     if ( mSwitchesHit < 4 ) {
-      mFlame1 = new FlameArea(2.0f, 8.0f, 3.0f, 6.05f, -1.0f);
-      mFlame2 = new FlameArea(2.0f, 8.0f, 6.05f, 6.95f, -1.0f);
-      mFlame3 = new FlameArea(2.0f, 8.0f, 6.95f, 10.0f, -1.0f);
-      spriteManager.addSprite(mFlame1);
-      spriteManager.addSprite(mFlame2);
-      spriteManager.addSprite(mFlame3);
-      if ( mSwitchesHit > 0 ) mFlame2.setFlame(false);
+      mFlames = new FlameArea(2, 3, -1, kFlamePattern[mSwitchesHit]);
+      mFlames.setTimeCycle(20, 75);
+      spriteManager.addSprite(mFlames);
     }
   
     String switchColours1[] = { "c7", "u7" },
@@ -166,7 +194,7 @@ public class RoomE07 extends Room {
     mSwitches = null;
     mBridgeBlocks = null;
     mLiquid = null;
-    mFlame1 = mFlame2 = mFlame3 = null;
+    mFlames = null;
     
   } // Room.discardResources()
   
@@ -189,12 +217,10 @@ public class RoomE07 extends Room {
         assert( mSwitchesHit < 4 );
         mSwitchesHit += 1;
         if ( mSwitchesHit < 4 ) {
-          if ( mSwitchesHit == 1 ) mFlame2.setFlame(false);
+          mFlames.setPattern(kFlamePattern[mSwitchesHit]);
           mTimer = kBridgeDelay;
         } else {
-          mFlame1.setFlame(false);
-          mFlame2.setFlame(false);
-          mFlame3.setFlame(false);
+          mFlames.setFlame(false);
           mTimer = kLiquidDelay1;
         }
         it.remove();

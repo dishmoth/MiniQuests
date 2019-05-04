@@ -24,19 +24,30 @@ public class FlameArea extends FlameParticles {
   private static final float kFlameHeight = 5.0f; 
   
   // cycle behaviour times
-  private static final int kTimeOn     = 20,
-                           kTimeOff    = 75,
-                           kTimeChange = 30;
+  private static final int kTimeChange = 30;
   
   // colour scheme
   private static final byte kColours[] = { 40, 13, 21 }; // purple
   
-  // corner positions of the area
-  protected float mXPos0,
-                  mXPos1,
-                  mYPos0,
-                  mYPos1,
-                  mZPos;
+  // bottom-left corner position of the area
+  protected int mXPos,
+                mYPos,
+                mZPos;
+  
+  // full size of the area
+  protected int mXSize,
+                mYSize;
+  
+  // number of flaming squares
+  protected int mArea;
+  
+  // which parts of the area have flames
+  // ('O' = deadly flame, 'o' = harmless flame, '.' = deadly but no flame)
+  protected String mPattern[] = null; 
+  
+  // how long the on/off cycle lasts (zero by default for no cycle)
+  protected int mTimeOn,
+                mTimeOff;
   
   // behaviour change time (increasing)
   protected int mTimer;
@@ -45,19 +56,20 @@ public class FlameArea extends FlameParticles {
   protected float mStrength;
   
   // constructor
-  public FlameArea(float x0, float x1, float y0, float y1, float z) {
+  public FlameArea(int x, int y, int z, String pattern[]) {
 
-    mXPos0 = Math.min(x0, x1);
-    mXPos1 = Math.max(x0, x1);
-    mYPos0 = Math.min(y0, y1);
-    mYPos1 = Math.max(y0, y1);
-    mZPos  = z;
+    mXPos = x;
+    mYPos = y;
+    mZPos = z;
+    
+    setPattern(pattern);
     
     setPhysics(kSpeed, kGravity);
     setLifeTime(kLifeTimeMin, kLifeTimeMax);
     setColours(kColours);
     
     mIsOn = true;
+    mTimeOn = mTimeOff = 0;
     mTimer = 0;
     updateStrength();
     
@@ -68,10 +80,10 @@ public class FlameArea extends FlameParticles {
 
     if ( mTimer < kTimeChange ) {
       mStrength = mTimer/(float)kTimeChange;
-    } else if ( mTimer < kTimeChange + kTimeOn ) {
+    } else if ( mTimer < kTimeChange + mTimeOn ) {
       mStrength = 1.0f;
-    } else if ( mTimer < 2*kTimeChange + kTimeOn ) {
-      mStrength = (2*kTimeChange + kTimeOn - mTimer) / (float)kTimeChange;
+    } else if ( mTimer < 2*kTimeChange + mTimeOn ) {
+      mStrength = (2*kTimeChange + mTimeOn - mTimer) / (float)kTimeChange;
     } else {
       mStrength = 0.0f;
     }
@@ -80,16 +92,49 @@ public class FlameArea extends FlameParticles {
 
   } // updateStrength()
 
-  // change position
-  public void setArea(float x0, float x1, float y0, float y1, float z) {
+  // set which parts of the area have flames
+  // ('O' = deadly flame, 'o' = harmless flame, '.' = deadly but no flame)
+  public void setPattern(String pattern[]) {
 
-    mXPos0 = Math.min(x0, x1);
-    mXPos1 = Math.max(x0, x1);
-    mYPos0 = Math.min(y0, y1);
-    mYPos1 = Math.max(y0, y1);
-    mZPos  = z;
+    assert( pattern != null && pattern[0] != null );
+
+    mYSize = pattern.length;
+    mXSize = pattern[0].length();
+    
+    mArea = 0;
+    for ( int iy = 0 ; iy < mYSize ; iy++ ) {
+      String row = pattern[iy];
+      assert( row != null && row.length() == mXSize );
+      for ( int ix = 0 ; ix < mXSize; ix++ ) {
+        char ch = row.charAt(ix);
+        assert( ch == ' ' || ch == 'O' || ch == 'o' || ch == '.' );
+        if ( ch == 'O' || ch == 'o' ) mArea++;
+      }
+    }
+    
+    mPattern = pattern;
+    
+  } // setPattern()
   
-  } // setArea()
+  // set the flames to cycle on and off (zero values for infinite times)
+  public void setTimeCycle(int timeOn, int timeOff) {
+
+    assert( timeOn >= 0 && timeOff >= 0 );
+
+    if ( mTimer < kTimeChange ) {
+      // no change
+    } else if ( mTimer < kTimeChange + mTimeOn ) {
+      mTimer = kTimeChange;
+    } else if ( mTimer < 2*kTimeChange + mTimeOn ) {
+      mTimer += timeOn - mTimeOn;
+    } else {
+      mTimer = 2*kTimeChange + timeOn;
+    }
+    mTimeOn = timeOn;
+    mTimeOff = timeOff;
+    updateStrength();
+    
+  } // setTimeCycle()
   
   // change the state of the flame
   @Override
@@ -97,22 +142,37 @@ public class FlameArea extends FlameParticles {
     
     mIsOn = on;
 
-    if ( !mIsOn ) {
+    if ( mIsOn ) {
+      if ( mTimer >= 2*kTimeChange + mTimeOn ) {
+        mTimer = 0;
+      } else if ( mTimer >= kTimeChange + mTimeOn ) {
+        mTimer = 2*kTimeChange + mTimeOn - mTimer;
+      }
+    } else {
       if ( mTimer < kTimeChange ) {
-        mTimer = 2*kTimeChange + kTimeOn - mTimer;
-      } else if ( mTimer < kTimeChange + kTimeOn ) {
-        mTimer = kTimeChange + kTimeOn;
+        mTimer = 2*kTimeChange + mTimeOn - mTimer;
+      } else if ( mTimer < kTimeChange + mTimeOn ) {
+        mTimer = kTimeChange + mTimeOn;
       }
     }
+    updateStrength();
     
   } // FlameParticles.setFlame()
   
+  // run the flame for a bit
+  @Override
+  public void warmUp(int warmUpTime) {
+
+    if ( mIsOn && mTimeOn == 0 ) mTimer = kTimeChange; 
+    super.warmUp(warmUpTime);
+        
+  } // FlameParticles.warmUp()
+
   // how many particles to create each frame on average
   @Override
   protected float newParticlesPerFrame() {
     
-    final float area = Math.abs((mXPos1 - mXPos0) * (mYPos1 - mYPos0));
-    return (kParticleDensity * area * mStrength); 
+    return (kParticleDensity * mArea * mStrength); 
     
   } // FlameParticles.newParticlesPerFrame()
 
@@ -123,9 +183,22 @@ public class FlameArea extends FlameParticles {
     assert( pos != null && pos.length == 3 );
     assert( direc != null && direc.length == 3 );
 
-    pos[0] = Env.randomFloat(mXPos0, mXPos1);
-    pos[1] = Env.randomFloat(mYPos0, mYPos1);
-    pos[2] = mZPos;
+    int n = Env.randomInt(mArea);
+    for ( int iy = 0 ; iy < mYSize && n >= 0 ; iy++ ) {
+      String row = mPattern[mYSize - 1 - iy];
+      for ( int ix = 0 ; ix < mXSize && n >= 0  ; ix++ ) {
+        char ch = row.charAt(ix);
+        if ( ch == 'O' || ch == 'o' ) {
+          if ( n == 0 ) {
+            pos[0] = mXPos + ix + Env.randomFloat();
+            pos[1] = mYPos + iy + Env.randomFloat();
+            pos[2] = mZPos;
+          }
+          n--;
+        }
+      }
+    }
+    assert( n < 0 );
 
     direc[0] = 0.0f;
     direc[1] = 0.0f;
@@ -141,21 +214,28 @@ public class FlameArea extends FlameParticles {
 
     super.advance(addTheseSprites, killTheseSprites, newStoryEvents);
 
-    if ( mIsOn || mTimer > 0 ) {
-      if ( ++mTimer > kTimeOn + kTimeOff + 2*kTimeChange ) mTimer = 0;
-      updateStrength();
+    if ( mIsOn && mTimeOn == 0 ) {
+      mTimer = Math.min(mTimer+1, kTimeChange);
+    } else if ( !mIsOn && mTimeOff == 0 ) {
+      mTimer = Math.min(mTimer+1, 2*kTimeChange+mTimeOn);
+    } else if ( mIsOn || mTimer > 0 ) {
+      if ( ++mTimer > mTimeOn + mTimeOff + 2*kTimeChange ) mTimer = 0;
     }
+    updateStrength();
     
   } // Sprite3D.advance()
 
-  // whether the flames hit a point (within specified tolerances)
-  public boolean hits(float x, float y, float z, float xyTol, float zTol) {
+  // whether the flames hit a point
+  public boolean hits(int x, int y, int z) {
 
     if ( !mIsOn || mStrength < 0.75f ) return false;
     
-    return ( x > mXPos0 - xyTol && x < mXPos1 + xyTol && 
-             y > mYPos0 - xyTol && y < mYPos1 + xyTol &&
-             z > mZPos - zTol && z < mZPos + kFlameHeight + zTol );
+    if ( x < mXPos || x >= mXPos + mXSize ||
+         y < mYPos || y >= mYPos + mYSize ||
+         z < mZPos || z > mZPos + kFlameHeight ) return false;
+    
+    char ch = mPattern[mYPos+mYSize-1-y].charAt(x-mXPos);
+    return ( ch == 'O' || ch == '.' );
     
   } // hits()
 
