@@ -35,12 +35,21 @@ public class RoomE12 extends Room {
                                                  "0011111100",
                                                  "0000000000",
                                                  "0000000000" } };
-  private static final String kBlocks2[][] = { { "0",
-                                                 "0",
-                                                 "0" } };
+  
+  // high-up blocks for the room
+  private static final String kBlocks2[][] = { { "    3     ",
+                                                 "    3     ",
+                                                 "    3     ",
+                                                 "33333     ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "111       ",
+                                                 "          " } };
 
   // stair details
-  private static final int kStairStart     = -40,
+  private static final int kStairStart     = -42,
                            kStairEnd       = +2,
                            kStairTime      = 1,
                            kStairStartTime = 20;
@@ -51,149 +60,160 @@ public class RoomE12 extends Room {
                                                      "      ",
                                                      "      ",
                                                      "      ",
-                                                     "1     " },
+                                                     "2     " },
                                                      
                                                    { "      ",
                                                      "      ",
                                                      "      ",
                                                      "      ",
-                                                     "      ",
-                                                     " 1    " },  
+                                                     "2     ",
+                                                     "      " },  
                                                      
                                                    { "      ",
                                                      "      ",
                                                      "      ",
+                                                     "2     ",
                                                      "      ",
-                                                     "      ",
-                                                     "  1   " },  
+                                                     "      " },  
                                                      
                                                    { "      ",
                                                      "      ",
+                                                     "2     ",
                                                      "      ",
                                                      "      ",
-                                                     "      ",
-                                                     "   1  " },  
+                                                     "      " },  
                                                      
                                                    { "      ",
+                                                     "2     ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "2     ",
                                                      "      ",
                                                      "      ",
                                                      "      ",
                                                      "      ",
-                                                     "    1 " },
+                                                     "      " },
+  
+                                                   { " 2    ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "  2   ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "   2  ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "    2 ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "     2",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "      ",
+                                                     "     2",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "      ",
+                                                     "      ",
+                                                     "     2",
+                                                     "      ",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "     2",
+                                                     "      ",
+                                                     "      " },
+  
+                                                   { "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "     2",
+                                                     "      " },
   
                                                    { "      ",
                                                      "      ",
                                                      "      ",
                                                      "      ",
                                                      "      ",
-                                                     "     1" },
-  
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "     1",
-                                                     "      " },
-  
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "     1",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "      ",
-                                                     "      ",
-                                                     "     1",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "      ",
-                                                     "     1",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "     1",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "    1 ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "   1  ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "  1   ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { " 1    ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " },
-  
-                                                   { "1     ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " }, 
-
-                                                   { "      ",
-                                                     "1     ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " }, 
-
-                                                   { "      ",
-                                                     "      ",
-                                                     "1     ",
-                                                     "      ",
-                                                     "      ",
-                                                     "      " }, 
-
-                                                   { "      ",
-                                                     "      ",
-                                                     "      ",
-                                                     "1     ",
-                                                     "      ",
-                                                     "      " },
+                                                     "     2" }, 
 
                                                    { "      ",
                                                      "      ",
                                                      "      ",
                                                      "      ",
-                                                     "1     ",
-                                                     "      " } };
+                                                     "      ",
+                                                     "    2 " }, 
+
+                                                   { "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "   2  " }, 
+
+                                                   { "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "  2   " },
+
+                                                   { "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     " 2    " },
+
+                                                   { "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "      ",
+                                                     "2     " } };
   
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "#V",   // blue 
-                                                  "#c" }; // orange 
+                                                  "#c",   // orange
+                                                  "Kc",   // orange
+                                                  "#A" }; // green
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { new Exit(Env.RIGHT, 4,0,  "#V",0, 0, RoomE11.NAME, 0),
-              new Exit(Env.DOWN,  2,42, "#V",1, 0, RoomE02.NAME, 0) };
+              new Exit(Env.LEFT,  1,42, "#c",1, 4, RoomE07.NAME, 3),
+              new Exit(Env.LEFT,  6,42, "#A",1, 4, RoomE07.NAME, 1),
+              new Exit(Env.UP,    4,42, "#A",0, 4, RoomE12.NAME, 3) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
@@ -253,7 +273,7 @@ public class RoomE12 extends Room {
   public void createSprites(SpriteManager spriteManager) {
     
     spriteManager.addSprite( new BlockArray(kBlocks1, kBlockColours, 0,0,0) );
-    spriteManager.addSprite( new BlockArray(kBlocks2, kBlockColours, 2,0,42) );
+    spriteManager.addSprite( new BlockArray(kBlocks2, kBlockColours, 0,0,42) );
     
     addBasicWalls(kExits, spriteManager);
 
