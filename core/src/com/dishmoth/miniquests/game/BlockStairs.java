@@ -121,6 +121,23 @@ public class BlockStairs extends Sprite3D implements Obstacle {
   // returns true if the stair blocks are moving to target position
   public boolean moving() { return (mTimer > 0); }
   
+  // change the stair start/end z-positions without any transition
+  public void reset(int zStart, int zEnd) {
+    
+    mZStart = zStart;
+    mZEnd = zEnd;
+    mTimer = 0;
+
+    BlockArray b0 = mBlocks[0];
+    b0.setPos(b0.getXPos(), b0.getYPos(), mZStart - 2*(mDepth - 1));
+
+    BlockArray b1 = mBlocks[mBlocks.length-1];
+    b1.setPos(b1.getXPos(), b1.getYPos(), mZEnd - 2*(mDepth - 1));
+
+    updateBlocks();
+    
+  } // reset()
+  
   // whether the player can stand at the specified position
   @Override
   public boolean isPlatform(int x, int y, int z) {
