@@ -213,7 +213,7 @@ public class RoomE12 extends Room {
           = { new Exit(Env.RIGHT, 4,0,  "#V",0, 0, RoomE11.NAME, 0),
               new Exit(Env.LEFT,  1,42, "#c",1, 4, RoomE07.NAME, 3),
               new Exit(Env.LEFT,  6,42, "#A",1, 4, RoomE07.NAME, 1),
-              new Exit(Env.UP,    4,42, "#A",0, 4, RoomE12.NAME, 3) };
+              new Exit(Env.UP,    4,42, "#A",0, 4, RoomE02.NAME, 6) };
 
   // details of different camera height levels
   private static final CameraLevel kCameraLevels[]
