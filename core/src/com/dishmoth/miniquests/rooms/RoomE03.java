@@ -157,8 +157,8 @@ public class RoomE03 extends Room {
               new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE02.NAME, 2),
               new Exit(2,2, Env.RIGHT, 1,8, "#h",0, -1, RoomE02.NAME, 3),
               new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4),
-              new Exit(2,0, Env.DOWN,  4,8, "Nh",4, -1, RoomE04.NAME, 3),
-              new Exit(1,0, Env.DOWN,  5,0, "#h",0, -1, RoomE04.NAME, 2) };
+              new Exit(2,0, Env.DOWN,  4,8, "Nh",4, -1, RoomE04.NAME, 4),
+              new Exit(1,0, Env.DOWN,  5,0, "#h",0, -1, RoomE04.NAME, 3) };
 
   // details of the paths followed by enemies
   private static final CritterTrack kCritterTrack22

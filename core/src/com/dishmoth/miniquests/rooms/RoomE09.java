@@ -31,7 +31,7 @@ public class RoomE09 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { new Exit(Env.UP,    5,0, "#6",0, -1, RoomE08.NAME, 1),
-              new Exit(Env.RIGHT, 5,0, "#6",0, -1, RoomE04.NAME, 0) };
+              new Exit(Env.RIGHT, 5,0, "#6",0, -1, RoomE04.NAME, 1) };
 
   // stair heights for the different room states
   // for each position, hex value shows which of the incoming stairs are raised

@@ -73,7 +73,7 @@ public class RoomE08 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 6,4, "#Y",0, -1, RoomE04.NAME, 1),
+          = { new Exit(Env.RIGHT, 6,4, "#Y",0, -1, RoomE04.NAME, 2),
               new Exit(Env.DOWN,  5,4, "NY",0, -1, RoomE09.NAME, 0) };
 
   // regions covered by flames

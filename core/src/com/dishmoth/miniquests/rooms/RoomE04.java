@@ -35,6 +35,28 @@ public class RoomE04 extends Room {
   // unique identifier for this room
   public static final String NAME = "E04";
   
+  // blocks for zone (0,0)
+  private static final String kBlocks00[][] = { { "  0       ",
+                                                  "  0       ",
+                                                  "  0       ",
+                                                  "  0       ",
+                                                  "000       ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          " } };
+  // blocks for zone (0,1)
+  private static final String kBlocks01[][] = { { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "000       ",
+                                                  "  0       ",
+                                                  "  0       ",
+                                                  "  0       ",
+                                                  "  0       ",
+                                                  "  0       " } };
   // blocks for zone (1,1)
   private static final String kBlocks11[][] = { { "0000000000",
                                                   "0  0  0  0",
@@ -133,7 +155,8 @@ public class RoomE04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
-          = { new Exit(0,1, Env.LEFT,  5,0, "#g",0, -1, RoomE09.NAME, 1),
+          = { new Exit(0,0, Env.LEFT,  5,0, "#g",0, -1, RoomE10.NAME, 0),
+              new Exit(0,1, Env.LEFT,  5,0, "#g",0, -1, RoomE09.NAME, 1),
               new Exit(0,2, Env.LEFT,  6,0, "#g",0, -1, RoomE08.NAME, 0),
               new Exit(0,2, Env.UP,    5,0, "#g",1, -1, RoomE03.NAME, 5),
               new Exit(1,2, Env.UP,    4,8, "#g",0, -1, RoomE03.NAME, 4),
@@ -206,6 +229,24 @@ public class RoomE04 extends Room {
         }
       }
     }
+    
+    // zone (0,0)
+
+    zoneX = 0;
+    zoneY = 0;
+    
+    spriteManager.addSprite(
+                new BlockArray(kBlocks00, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+    
+    // zone (0,1)
+
+    zoneX = 0;
+    zoneY = 1;
+    
+    spriteManager.addSprite(
+                new BlockArray(kBlocks01, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
     
     // zone (1,1)
 
