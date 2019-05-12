@@ -138,12 +138,12 @@ public class RoomE04 extends Room {
                                                   "      0   " } };
   
   // blocks for zone (2,2)
-  private static final String kBlocks22[][] = { { "000       ",
-                                                  "000       ",
-                                                  "000       ",
-                                                  "000       ",
-                                                  "000       ",
-                                                  "000       ",
+  private static final String kBlocks22[][] = { { "000    000",
+                                                  "000    000",
+                                                  "000    000",
+                                                  "000    000",
+                                                  "000    000",
+                                                  "000    000",
                                                   "          ",
                                                   "          ",
                                                   "          ",
@@ -160,7 +160,8 @@ public class RoomE04 extends Room {
               new Exit(0,2, Env.LEFT,  6,0, "#g",0, -1, RoomE08.NAME, 0),
               new Exit(0,2, Env.UP,    5,0, "#g",1, -1, RoomE03.NAME, 5),
               new Exit(1,2, Env.UP,    4,8, "#g",0, -1, RoomE03.NAME, 4),
-              new Exit(2,2, Env.UP,    1,0, "#g",1, -1, RoomE06.NAME, 2) };
+              new Exit(2,2, Env.UP,    1,0, "#g",1, -1, RoomE06.NAME, 2),
+              new Exit(2,2, Env.RIGHT, 6,0, "#g",1, -1, RoomE13.NAME, 1)};
 
   // details of the paths followed by enemies
   private static final CritterTrack kCritterTrack02
@@ -190,6 +191,13 @@ public class RoomE04 extends Room {
   private BlockStairs mStairs12;
   private ZoneSwitch  mStairSwitch12;
 
+  // flags for zone (2,2)
+  private boolean mSwitch22Done;
+  
+  // references to objects in zone (2,2)
+  private FloorSwitch mSwitch22;
+  private BlockStairs mPath22;
+  
   // constructor
   public RoomE04() {
 
@@ -197,6 +205,7 @@ public class RoomE04 extends Room {
 
     mSwitch02Done = false;
     mStairs12Done = false;
+    mSwitch22Done = false;
     
   } // constructor
 
@@ -338,6 +347,23 @@ public class RoomE04 extends Room {
                 new BlockArray(kBlocks22, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
+    int z22;
+    if ( mSwitch22Done ) {
+      z22 = 0;
+      mSwitch22 = null;
+    } else {
+      z22 = -4;
+      mSwitch22 = new FloorSwitch(zoneX*Room.kSize+8, zoneY*Room.kSize+7, 0,
+                                  "#M", "#g");
+      spriteManager.addSprite(mSwitch22);
+    }
+
+    mPath22 = new BlockStairs(zoneX*Room.kSize+3, zoneY*Room.kSize+7, z22,
+                              zoneX*Room.kSize+6, zoneY*Room.kSize+7, z22,
+                              kBlockColours[0], 1);
+    spriteManager.addSprite(mPath22);
+    
+    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
@@ -380,6 +406,13 @@ public class RoomE04 extends Room {
           mPath02.setZStart(0);
           mPath02.setZEnd(0);
           mSwitch02Done = true;
+          s.freezeState(true);
+          Env.sounds().play(Sounds.SWITCH_ON);
+        } else if ( s == mSwitch22 ) {
+          assert( !mSwitch22Done );
+          mPath22.setZStart(0);
+          mPath22.setZEnd(0);
+          mSwitch22Done = true;
           s.freezeState(true);
           Env.sounds().play(Sounds.SWITCH_ON);
         } else {
