@@ -69,7 +69,7 @@ public class RoomE07 extends Room {
   private static final Exit kExits[] 
           = { new Exit(Env.LEFT,  6,0, "#c",0, -1, RoomE06.NAME, 1),
               new Exit(Env.RIGHT, 6,0, "#c",0, -1, RoomE12.NAME, 2),
-              new Exit(Env.DOWN,  1,0, "t6",0, -1, RoomE13.NAME, 0),
+              new Exit(Env.DOWN,  2,0, "t6",0, -1, RoomE13.NAME, 0),
               new Exit(Env.RIGHT, 1,0, "#6",0, -1, RoomE12.NAME, 1) };
 
   // area covered by the flames for different numbers of switches

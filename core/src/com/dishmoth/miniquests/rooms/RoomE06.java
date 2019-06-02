@@ -54,6 +54,7 @@ public class RoomE06 extends Room {
   private static final Exit kExits[] 
           = { new Exit(Env.UP,    8,0, "#Z",0, -1, RoomE02.NAME, 5),
               new Exit(Env.RIGHT, 6,0, "#Z",0, -1, RoomE07.NAME, 0),
+              new Exit(Env.DOWN,  8,0, "NZ",0, -1, RoomE04.NAME, 6),
               new Exit(Env.DOWN,  1,0, "Nn",0, -1, RoomE04.NAME, 5) };
 
   // pattern painted on part of the floor
