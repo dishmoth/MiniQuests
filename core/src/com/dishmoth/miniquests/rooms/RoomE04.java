@@ -36,27 +36,98 @@ public class RoomE04 extends Room {
   public static final String NAME = "E04";
   
   // blocks for zone (0,0)
-  private static final String kBlocks00[][] = { { "  0       ",
-                                                  "  0       ",
-                                                  "  0       ",
-                                                  "  0       ",
-                                                  "000       ",
+  private static final String kBlocks00[][] = { { "          ",
                                                   "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "0000      ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
                                                   "          " } };
-  // blocks for zone (0,1)
+  // main blocks for zone (0,1)
   private static final String kBlocks01[][] = { { "          ",
                                                   "          ",
+                                                  "    0     ",
+                                                  "          ",
+                                                  "  0   0   ",
+                                                  "          ",
+                                                  "    0     ",
                                                   "          ",
                                                   "          ",
-                                                  "000       ",
-                                                  "  0       ",
-                                                  "  0       ",
-                                                  "  0       ",
-                                                  "  0       ",
-                                                  "  0       " } };
+                                                  "          " } };
+
+  // changing blocks for zone (0,1)
+  private static final String kBlockStates01[][][] = { { { "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "    0     ",
+                                                           "00 000 000",
+                                                           "    0     ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          " } },
+  
+                                                       { { "    0     ",
+                                                           "    0     ",
+                                                           "          ",
+                                                           "          ",
+                                                           "  00 00   ",
+                                                           "  0   0   ",
+                                                           "          ",
+                                                           "  0   0   ",
+                                                           "  00 00   ",
+                                                           "          ",
+                                                           "          ",
+                                                           "    0     ",
+                                                           "    0     ",
+                                                           "    0     ",
+                                                           "    0     ",
+                                                           "    0     ",
+                                                           "    0     ",
+                                                           "    0     " } },
+                                                   
+                                                       { { "          ",
+                                                           "          ",
+                                                           "    0     ",
+                                                           "    0     ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "    0     ",
+                                                           "    0     ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          " } } };
+
+  // invisible (temporary) blocks for zone (0,1)
+  private static final String kBlockBarriers01[][] = { { "          ",
+                                                         "          ",
+                                                         "   * *    ",
+                                                         "  *   *   ",
+                                                         " * * * *  ",
+                                                         "  *   *   ",
+                                                         "   * *    ",
+                                                         "          ",
+                                                         "          ",
+                                                         "          " } };
+
   // blocks for zone (1,1)
   private static final String kBlocks11[][] = { { "0000000000",
                                                   "0  0  0  0",
@@ -155,7 +226,7 @@ public class RoomE04 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[]
-          = { new Exit(0,0, Env.LEFT,  5,0, "#g",0, -1, RoomE10.NAME, 0),
+          = { new Exit(0,0, Env.LEFT,  4,0, "#g",0, -1, RoomE10.NAME, 0),
               new Exit(0,1, Env.LEFT,  5,0, "#g",0, -1, RoomE09.NAME, 1),
               new Exit(0,2, Env.LEFT,  6,0, "#g",0, -1, RoomE08.NAME, 0),
               new Exit(0,2, Env.UP,    5,0, "#g",1, -1, RoomE03.NAME, 5),
@@ -177,6 +248,15 @@ public class RoomE04 extends Room {
                                                      "          ",
                                                      "          " }, 0, 20);
   
+  // which blocks in zone (0,1) are raised (0, 1 or 2)
+  private int mState01;
+  
+  // references to objects in zone (0,1)
+  private BlockArray  mBlocks01[];
+  private BlockArray  mBarriers01;
+  private FloorSwitch mSwitches01[];
+  private int         mTimer01;
+  
   // flags for zone (0,2)
   private boolean mSwitch02Done;
   
@@ -197,6 +277,7 @@ public class RoomE04 extends Room {
 
     super(NAME);
 
+    mState01 = 0;
     mSwitch02Done = false;
     mStairs12Done = false;
     
@@ -249,6 +330,35 @@ public class RoomE04 extends Room {
     spriteManager.addSprite(
                 new BlockArray(kBlocks01, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+    
+    mBlocks01 = new BlockArray[kBlockStates01.length];
+    for ( int k = 0 ; k < mBlocks01.length ; k++ ) {
+      int z = ((k == mState01 || mState01 == 2) ? 0 : -4);
+      mBlocks01[k] = new BlockArray(kBlockStates01[k], kBlockColours,
+                                    zoneX*Room.kSize, zoneY*Room.kSize-6, z); 
+      spriteManager.addSprite(mBlocks01[k]);
+    }
+
+    mBarriers01 = new BlockArray(kBlockBarriers01, kBlockColours,
+                                 zoneX*Room.kSize, zoneY*Room.kSize, 2);
+    
+    if ( mState01 < 2 ) {
+      final int xy[][] = { {2,5}, {6,5}, {4,3}, {4,7}, {10,5},
+                           {4,10}, {4,0}, {-1,5} };
+      mSwitches01 = new FloorSwitch[xy.length];
+      for ( int k = 0 ; k < mSwitches01.length ; k++ ) {
+        mSwitches01[k] = new FloorSwitch(zoneX*Room.kSize + xy[k][0],
+                                         zoneY*Room.kSize + xy[k][1],
+                                         0, (k<7 ? "#q" : "#g" ), "#g");
+        if ( mState01 == 1 || k <= 4 ) {
+          spriteManager.addSprite(mSwitches01[k]);
+        }
+      }
+    } else {
+      mSwitches01 = null;
+    }
+
+    mTimer01 = 0;
     
     // zone (1,1)
 
@@ -371,11 +481,13 @@ public class RoomE04 extends Room {
     // check for scrolling
     
     EventRoomScroll scroll = checkHorizontalScroll();
-    if ( scroll != null ) {
+    if ( scroll != null && mTimer01 == 0 ) {
       storyEvents.add(scroll);
     }
     
     // process the story event list
+    
+    FloorSwitch switch01 = null;
     
     for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
       StoryEvent event = it.next();
@@ -391,7 +503,10 @@ public class RoomE04 extends Room {
           s.freezeState(true);
           Env.sounds().play(Sounds.SWITCH_ON);
         } else {
-          assert(false);
+          for ( FloorSwitch fs : mSwitches01 ) {
+            if ( s == fs ) switch01 = s;
+          }
+          assert(switch01 != null);
         }
         it.remove();
       }
@@ -416,6 +531,52 @@ public class RoomE04 extends Room {
 
     } // for (event)
 
+    // switches and blocks in zone (0,1)
+    if ( switch01 != null ) {
+      Env.sounds().play(Sounds.SWITCH_ON);
+      for ( FloorSwitch fs : mSwitches01 ) {
+        if ( fs == switch01 ) fs.freezeState(true);
+        else                  fs.unfreezeState();
+      }
+      if ( switch01 == mSwitches01[5] ) {
+        mState01 = 2;
+        Env.sounds().play(Sounds.SUCCESS, 10);
+        for ( FloorSwitch fs : mSwitches01 ) {
+          spriteManager.removeSprite(fs);
+        }
+        mSwitches01 = null;
+      } else {
+        mState01 = 1 - mState01;
+        if ( mState01 == 0 ) {
+          spriteManager.removeSprite(mSwitches01[5]);
+          spriteManager.removeSprite(mSwitches01[6]);
+          spriteManager.removeSprite(mSwitches01[7]);
+        }
+        spriteManager.addSprite(mBarriers01);
+      }
+      mTimer01 = 8;
+    }
+    if ( mTimer01 > 0 ) {
+      mTimer01 -= 1;
+      if ( mTimer01 % 2 == 0 ) {
+        for ( int k = 0 ; k < mBlocks01.length ; k++ ) {
+          int z = mBlocks01[k].getZPos();
+          int dz = (k == mState01 || mState01 == 2 ? +1 : -1);
+          if ( z + dz <= 0 && z + dz >= -4 ) {
+            mBlocks01[k].shiftPos(0, 0, dz);
+          }
+        }
+      }
+      if ( mTimer01 == 2 && mState01 < 2 ) {
+        spriteManager.removeSprite(mBarriers01);
+      }
+      if ( mTimer01 == 0 && mState01 == 1 ) {
+        spriteManager.addSprite(mSwitches01[5]);
+        spriteManager.addSprite(mSwitches01[6]);
+        spriteManager.addSprite(mSwitches01[7]);
+      }
+    }
+    
     // critters in zone (0,2)
     if ( mSwitch02Done ) {
       mCritterTimer02--;

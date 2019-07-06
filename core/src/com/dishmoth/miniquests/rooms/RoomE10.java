@@ -47,7 +47,7 @@ public class RoomE10 extends Room {
                                                  "         0",
                                                  "         0",
                                                  "         0",
-                                                 "          ",
+                                                 "         0",
                                                  "          ",
                                                  "          ",
                                                  "          " } };
@@ -58,7 +58,7 @@ public class RoomE10 extends Room {
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.RIGHT, 5,42, "#X",0, 3, RoomE04.NAME, 0), 
+          = { new Exit(Env.RIGHT, 4,42, "#X",0, 3, RoomE04.NAME, 0), 
               new Exit(Env.RIGHT, 5,0,  "#X",0, 0, RoomE11.NAME, 0) };
 
   // details of different camera height levels
