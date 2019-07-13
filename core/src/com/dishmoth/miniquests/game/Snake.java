@@ -28,7 +28,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
                                                      { 'G', 'm' },   // green
                                                      { 'D', 'z' },   // pink
                                                      { 'q', '4' },   // orange 
-                                                     { 'o', 'o' } }; // ? (flash) 
+                                                     { 's', 's' } }; // yellow (flash)
 
   // snake images
   protected static SnakeImage kSnakeImages[] = null;
@@ -137,6 +137,9 @@ abstract public class Snake extends Sprite3D implements Obstacle {
    
   } // constructor
   
+  // snake identity (1, 2 or 3)
+  abstract public int snakeType();
+
   // accessors
   public int getXPos() { return mXPos; }
   public int getYPos() { return mYPos; }
@@ -372,7 +375,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
       // at the start of a step
       if ( mHibernating && mBody.size() == 0 ) {
         killTheseSprites.add(this);
-        addTheseSprites.add(new SnakeEgg(mXPos, mYPos, mZPos, 1));
+        addTheseSprites.add(new SnakeEgg(mXPos, mYPos, mZPos, snakeType()));
         return;
       }
 

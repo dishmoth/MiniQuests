@@ -22,7 +22,9 @@ import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
-import com.dishmoth.miniquests.game.SnakeC;
+import com.dishmoth.miniquests.game.Snake;
+import com.dishmoth.miniquests.game.SnakeBoss2;
+import com.dishmoth.miniquests.game.SnakeEgg;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
@@ -268,6 +270,9 @@ public class RoomE04 extends Room {
   // flags for zone (1,2)
   private boolean mStairs12Done;
 
+  // flags for zone (1,1)
+  private boolean mSnakeDone;
+  
   // references to objects in zone (1,2)
   private BlockStairs mStairs12;
   private ZoneSwitch  mStairSwitch12;
@@ -279,6 +284,7 @@ public class RoomE04 extends Room {
 
     mState01 = 0;
     mSwitch02Done = false;
+    mSnakeDone = false;
     mStairs12Done = false;
     
   } // constructor
@@ -354,6 +360,9 @@ public class RoomE04 extends Room {
           spriteManager.addSprite(mSwitches01[k]);
         }
       }
+      if ( mState01 == 1 && mSnakeDone ) {
+        mSwitches01[4].freezeState(true);
+      }
     } else {
       mSwitches01 = null;
     }
@@ -369,8 +378,9 @@ public class RoomE04 extends Room {
                 new BlockArray(kBlocks11, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, -2) );
 
-    //spriteManager.addSprite( new SnakeC(3,3,0, Env.DOWN) );
-    
+    if ( !mSnakeDone ) {
+      spriteManager.addSprite(new SnakeEgg(16, 13, 0, 2));
+    }
 
     // zone (0,2)
     
@@ -438,7 +448,7 @@ public class RoomE04 extends Room {
     FenceGate gate = new FenceGate(zoneX*Room.kSize+5, 
                                    zoneY*Room.kSize+4, 
                                    0, Env.RIGHT, 1);
-    gate.setClosed(true);
+    gate.setClosed(!mSnakeDone);
     spriteManager.addSprite(gate);
     
     // zone (2,2)
@@ -481,8 +491,17 @@ public class RoomE04 extends Room {
     // check for scrolling
     
     EventRoomScroll scroll = checkHorizontalScroll();
-    if ( scroll != null && mTimer01 == 0 ) {
-      storyEvents.add(scroll);
+    if ( scroll != null ) {
+      if ( mTimer01 > 0 ) {
+        // wait until the blocks have finished moving
+        scroll = null;
+      } else if ( !mSnakeDone && mPlayer != null &&
+                  mPlayer.getXPos() == 16 && mPlayer.getYPos() < 24 ) {
+        // don't scroll away from the snake until it's beaten
+        scroll = null;
+      } else {
+        storyEvents.add(scroll);
+      }
     }
     
     // process the story event list
@@ -526,6 +545,12 @@ public class RoomE04 extends Room {
         } else {
           assert(false);
         }
+        it.remove();
+      }
+
+      if ( event instanceof Snake.EventKilled ) {
+        mSnakeDone = true;
+        Env.sounds().play(Sounds.SUCCESS);
         it.remove();
       }
 

@@ -1,5 +1,5 @@
 /*
- *  SnakeC.java
+ *  SnakeBoss2.java
  *  Copyright (c) 2018 Simon Hern
  *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
@@ -7,11 +7,10 @@
 package com.dishmoth.miniquests.game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
-// a specific snake
-public class SnakeC extends Snake {
+// the second snake boss
+public class SnakeBoss2 extends Snake {
   
   // the snake is specialized to a particular path
   private static final Track kTrack = new CritterTrack
@@ -24,9 +23,10 @@ public class SnakeC extends Snake {
                                                               "##########",
                                                               "#  #  #  #",
                                                               "#  #  #  #",
-                                                              "##########"});
+                                                              "##########"},
+                                                 10, 10);
   
-  // true if the snake is headless and un-moving
+  // true if the snake is a headless and un-moving body segment
   private boolean mDead;
   
   // position where the snake has been hit (or -1)
@@ -45,7 +45,7 @@ public class SnakeC extends Snake {
                                  { 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
   
   // constructor (alive)
-  public SnakeC(int x, int y, int z, int direc) {
+  public SnakeBoss2(int x, int y, int z, int direc) {
 
     super(x, y, z, direc, kTrack);
 
@@ -53,29 +53,33 @@ public class SnakeC extends Snake {
     mDieWhenStuck = false;
     setLength(6);
     setSpeed(5);
-    setColour(2);
+    setColour(3);
     
     mHitXPos = mHitYPos = -1;
    
   } // constructor
   
   // constructor (dead)
-  public SnakeC(int x, int y, int z, ArrayList<Integer> body) {
+  public SnakeBoss2(int x, int y, int z, ArrayList<Integer> body) {
     
     super(x, y, z, body.get(body.size()-1), kTrack);
     
     mBody = body;
     
     mDead = true;
-    setColour(2);
+    setColour(3);
 
     mHitXPos = mHitYPos = -1;
 
   } // constructor
   
+  // snake identity (1, 2 or 3)
+  public int snakeType() { return 2; }
+
   // map x or y position to its index in the waypoints array  
   private int waypointIndex(int x) { 
     
+    x -= 10;
     if ( x < 0 ) return 0;
     if ( x > 9 ) return 8;
     return (1 + 2*(x/3) + (x%3>0 ? 1 : 0));
@@ -85,8 +89,9 @@ public class SnakeC extends Snake {
   // set the array of how vacant the track way-points are
   private void prepareWaypoints() {
 
-    // clear the waypoints
     assert( !mDead );
+
+    // clear the waypoints
     for ( int ix = 0 ; ix < mWaypoints.length ; ix++ ) {
       for ( int iy = 0 ; iy < mWaypoints[ix].length ; iy++ ) {
         if ( mWaypoints[ix][iy] != 1 ) mWaypoints[ix][iy] = 0;
@@ -95,8 +100,8 @@ public class SnakeC extends Snake {
     
     // mark the dead snakes
     for ( Obstacle ob : mObstacles ) {
-      if ( !(ob instanceof SnakeC) ) continue;
-      SnakeC s = (SnakeC)ob;
+      if ( !(ob instanceof SnakeBoss2) ) continue;
+      SnakeBoss2 s = (SnakeBoss2)ob;
       assert( s.mDead );
       int x = s.mXPos,
           y = s.mYPos;
@@ -119,7 +124,12 @@ public class SnakeC extends Snake {
     assert( ix % 2 == 1 && iy % 2 == 1 );
 
     // special case: path to the gate
-    if ( ix == 5 && iy == 7 && direc == Env.UP ) return 2;
+    if ( ix == 5 && iy == 7 && direc == Env.UP &&
+         mPlayer != null &&
+         mPlayer.getXPos() >= 10 && mPlayer.getXPos() < 20 && 
+         mPlayer.getYPos() >= 10 && mPlayer.getYPos() < 20 ) {
+      return 2;
+    }
     
     final int infiniteLoop = 999;
     for ( int steps = 0 ; steps < 2 ; steps ++ ) {
@@ -138,20 +148,20 @@ public class SnakeC extends Snake {
     final int len        = Math.max(lenForward, Math.max(lenRight, lenLeft));
     return Math.min(len, infiniteLoop);
     
-  } // findLoop()
+  } // longestPath()
   
   // decide which direction to move in next
   @Override
   protected int chooseDirection() {
 
     // special case: path to the gate
-    if ( mYPos > 9 ) {
-      if ( mYPos >= 14 ) return -1;
+    if ( mYPos > 19 ) {
+      if ( mYPos >= 24 ) return -1;
       return mDirec;
     }
 
     // continue to a junction
-    if ( (mXPos % 3) != 0 || (mYPos % 3) != 0 ) {
+    if ( ((mXPos-10) % 3) != 0 || ((mYPos-10) % 3) != 0 ) {
       return ( canMove(mDirec) ? mDirec : -1 );
     }
 
@@ -186,23 +196,31 @@ public class SnakeC extends Snake {
                       LinkedList<Sprite> killTheseSprites,
                       LinkedList<StoryEvent> newStoryEvents) {
 
-    if ( mDead ) return;
+    if ( mDead ) {
+      if ( mDying ) destroyDeadBody();
+      else          checkHead();
+      return;
+    }
     
-    if ( mYPos > 9 ) mDieWhenStuck = true;
-    
-    // zap an obstacle
-    if ( !mDying && mStuck && mActionTimer == 1 ) {
-      zapTail(mXPos, mYPos, mDirec);
-      mStuck = false;
-      mActionTimer = kDeathTime1;
+    // special case: approaching the gate
+    if ( mYPos > 19 ) mDieWhenStuck = true;
+        
+    // zap a nearby body part when stuck
+    if ( mStuck && !mDying && (mActionTimer == 1 || mHibernating) ) {
+      if ( zapTail(mXPos, mYPos, mDirec) ) {
+        mStuck = false;
+        mActionTimer = kDeathTime1;
+      } else {
+        assert(mHibernating);
+      }
     }
     
     super.advance(addTheseSprites, killTheseSprites, newStoryEvents);
 
     // get ready to zap an obstacle
-    if ( !mDying && mStuck ) {
+    if ( mStuck && !mDying ) {
       mStepping = false;
-      if ( mFlashTimer == 0 ) {
+      if ( mFlashTimer == 0 && !mHibernating ) {
         mFlashTimer = kDeathTime1;
         mFlashColour = 4;
       }
@@ -211,39 +229,56 @@ public class SnakeC extends Snake {
     // get ready for the dying zap
     if ( mDying && mFlashColour == 0 ) {
       mFlashColour = 4;
-      mFlashTimer *= 2;
+      mFlashTimer *= 4;
+    }
+    
+    // break open the gate before dying
+    if ( mDying && mActionTimer == 0 ) {
+      final int x = mXPos,
+                y = mYPos,
+                z = mZPos + 1;
+      for ( Obstacle ob : mObstacles ) {
+        if ( ob instanceof FenceGate && !ob.isEmpty(x, y, z) ) {
+          FenceGate gate = (FenceGate)ob;
+          if ( gate.isClosed() ) {
+            gate.setClosed(false);
+            Env.sounds().play(Sounds.GATE);
+          }
+        }
+      }
     }
     
   } // Snake.advance()
 
-  // destroy the snake tail at a target position 
-  private void zapTail(int x0, int y0, int direc) {
+  // destroy a bit of snake tail neighbouring the target position 
+  private boolean zapTail(int x0, int y0, int direc) {
     
-    assert( x0 >= 0 && x0 < 10 && y0 >= 0 && y0 < 10 );
+    assert( !mDead );
+    assert( x0 >= 10 && x0 < 20 && y0 >= 10 && y0 < 20 );
     
     int x = x0 + Env.STEP_X[direc],
         y = y0 + Env.STEP_Y[direc];
-    if ( x < 0 || x > 9 || y < 0 || y > 9 ) {
+    if ( x < 10 || x >= 20 || y < 10 || y >= 20 ) {
       final int flip = ( Env.randomBoolean() ? +1 : -1 );
       for ( int d = -1 ; d <= +1 ; d += 2 ) {
         int dir = Env.fold(direc + flip*d, 4);
         x = x0 + Env.STEP_X[dir];
         y = y0 + Env.STEP_Y[dir];
-        if ( x >= 0 && x < 10 && y >= 0 && y < 10 ) break;
+        if ( x >= 10 && x < 20 && y >= 10 && y < 20 ) break;
       }
-      assert( x >= 0 && x < 10 && y >= 0 && y < 10 );
+      assert( x >= 10 && x < 20 && y >= 10 && y < 20 );
     }
     
     for ( Obstacle ob : mObstacles ) {
-      if ( !(ob instanceof SnakeC) ) continue;
-      SnakeC s = (SnakeC)ob;
+      if ( !(ob instanceof SnakeBoss2) ) continue;
+      SnakeBoss2 s = (SnakeBoss2)ob;
       assert( s.mDead );
       if ( s.hitsBody(x, y, mZPos)) {
         s.shotInBody(x, y);
-        return;
+        return true;
       }
     }
-    assert( false );
+    return false;
     
   } // zapTail()
   
@@ -255,16 +290,51 @@ public class SnakeC extends Snake {
     
   } // Snake.hitsHead()
   
-  //
+  // destroy a body segment
   public void shotInBody(int x, int y) {
     
-    if ( !mDying ) {
+    if ( mDead || !mDying ) {
       mHitXPos = x;
       mHitYPos = y;
     }
 
   } // Snake.shotInBody()
 
+  // if the head is dead then the body parts die
+  private void checkHead() {
+    
+    assert( mDead && !mDying );
+    for ( Obstacle ob : mObstacles ) {
+      if ( !(ob instanceof SnakeBoss2) ) continue;
+      SnakeBoss2 s = (SnakeBoss2)ob;
+      if ( !s.mDead ) return;
+    }
+    mDying = true;
+    mActionTimer = Env.randomInt(10, 20);
+    
+  } // checkHead()
+  
+  // destroy random body sections
+  private void destroyDeadBody() {
+
+    assert( mDead && mDying );
+    if ( mActionTimer > 0 ) {
+      mActionTimer--;
+    } else {
+      final int seg = Env.randomInt(mBody.size());
+      int xBody = mXPos,
+          yBody = mYPos;
+      for ( int index = mBody.size()-1 ; index >= seg ; index-- ) {
+        final int direc = mBody.get(index);
+        xBody -= Env.STEP_X[direc];
+        yBody -= Env.STEP_Y[direc];
+      }
+      shotInBody(xBody, yBody);
+      mActionTimer = Env.randomInt(1, 5);
+    }
+    
+  } // destroyDeadBody()
+  
   // break when hit
   @Override
   public void aftermath(LinkedList<Sprite>     addTheseSprites, 
@@ -299,7 +369,8 @@ public class SnakeC extends Snake {
         killTheseSprites.add(this);
       }
       if ( tailBody.size() > 0 ) {
-        addTheseSprites.add(new SnakeC(mHitXPos, mHitYPos, mZPos, tailBody));
+        addTheseSprites.add(
+                  new SnakeBoss2(mHitXPos, mHitYPos, mZPos, tailBody));
       }
     }
     mHitXPos = mHitYPos = -1;
@@ -331,4 +402,4 @@ public class SnakeC extends Snake {
     
   } // Sprite.draw()
 
-} // class SnakeC
+} // class SnakeBoss2

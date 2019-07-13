@@ -47,6 +47,9 @@ public class SnakeB extends Snake {
    
   } // constructor
   
+  // snake identity (1, 2 or 3)
+  public int snakeType() { return 3; }
+
   // set the array of how vacant the track way-points are
   private void prepareWaypoints() {
     

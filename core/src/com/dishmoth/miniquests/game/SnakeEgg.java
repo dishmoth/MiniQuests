@@ -31,7 +31,8 @@ public class SnakeEgg extends Sprite3D implements Obstacle {
   
   // different colour schemes
   private static final char kColourSchemes[][] = { { '0', 'u' },   // black
-                                                   { 'G', 'G' } }; // green
+                                                   { 'G', 'G' },   // green
+                                                   { 'q', 'q' } }; // orange
 
   // egg image objects (one for each colour scheme)
   private static final EgaImage kImages[];
@@ -144,9 +145,11 @@ public class SnakeEgg extends Sprite3D implements Obstacle {
           killTheseSprites.add(this);
           addTheseSprites.add(new Splatter(mXPos, mYPos, mZPos,
                                            -1, 4, (byte)0, -1));
+          final int direc = Env.randomInt(4);
           if ( mType == 1 ) {
-            addTheseSprites.add(new SnakeBoss1(mXPos, mYPos, mZPos,
-                                               Env.randomInt(4)));
+            addTheseSprites.add(new SnakeBoss1(mXPos, mYPos, mZPos, direc));
+          } else if ( mType == 2 ) {
+            addTheseSprites.add(new SnakeBoss2(mXPos, mYPos, mZPos, direc));
           } else {
             assert(false);
           }
