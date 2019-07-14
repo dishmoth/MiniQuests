@@ -139,7 +139,7 @@ public class RoomE10 extends Room {
     spriteManager.addSprite(mSwitchEnd);
     
     spriteManager.addSprite(new Liquid(0,0,-2, 2));
-    FlameArea flames = new FlameArea(0, 0, -2, kFlamePattern);
+    FlameArea flames = new FlameArea(0, 0, -4, kFlamePattern);
     flames.setFlame(true);
     flames.warmUp();
     spriteManager.addSprite(flames);
