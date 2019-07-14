@@ -521,7 +521,7 @@ public class RoomE03 extends Room {
               mStairs20.setZEnd(2);
               Env.sounds().play(Sounds.SWITCH_ON);
             }
-          } else {
+          } else if ( mStairs20.getZEnd() < 8 ) {
             if ( mPlayer != null && mPlayer.getZPos() == 0 ) {
               mStairs20Done = true;
               spriteManager.removeSprite(mStairSwitch20);
