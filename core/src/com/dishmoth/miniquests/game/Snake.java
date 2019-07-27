@@ -24,11 +24,13 @@ abstract public class Snake extends Sprite3D implements Obstacle {
                              kDeathTime2 = 0;
   
   // different colour schemes
-  protected static final char kColourSchemes[][] = { { 'a', 'a' },   // red (death)
-                                                     { 'G', 'm' },   // green
-                                                     { 'D', 'z' },   // pink
-                                                     { 'q', '4' },   // orange 
-                                                     { 's', 's' } }; // yellow (flash)
+  protected static final char kColourSchemes[][] =
+                                          { { 'a', 'a' },   // red (death)
+                                            { 'G', 'm' },   // green
+                                            { 'B', 'P' },   // blue
+                                            { 'q', '4' },   // orange 
+                                            { 's', 's' },   // yellow (flash)
+                                            { '5', 'e' } }; // purple
 
   // snake images
   protected static SnakeImage kSnakeImages[] = null;

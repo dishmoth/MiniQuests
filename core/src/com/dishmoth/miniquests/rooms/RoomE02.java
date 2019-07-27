@@ -12,13 +12,16 @@ import java.util.LinkedList;
 import com.dishmoth.miniquests.game.Barrier;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.BlockStairs;
+import com.dishmoth.miniquests.game.Chest;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
-import com.dishmoth.miniquests.game.SnakeB;
+import com.dishmoth.miniquests.game.Snake;
+import com.dishmoth.miniquests.game.SnakeBoss3;
+import com.dishmoth.miniquests.game.SnakeEgg;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
@@ -223,6 +226,51 @@ public class RoomE02 extends Room {
                                                   "0  0  0  0",
                                                   "0000000000" } };
   
+  // blocks for zone (1,2)
+  private static final String kBlocks21[][] = { { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "          " },
+                                                
+                                                { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "          " },
+                                                
+                                                { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "          " },
+                                                
+                                                { "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "    00000 ",
+                                                  "          " } };
+
   // blocks for zone (2,0)
   private static final String kBlocks20[][] = { { "          ",
                                                   "          ",
@@ -286,12 +334,16 @@ public class RoomE02 extends Room {
   private FloorSwitch mSwitch10;
   private BlockStairs mBridges10[];
   
-  // set of snake floor switches
-  private FloorSwitch mSnakeSwitches[];
-
-  // whether the snake floor switches are completed
+  // flags for zone (1,1)
   private boolean mSnakeDone;
-  private boolean mSnakeSwitchesDone;
+  private int     mSnakeSwitchesDone;
+  
+  // references to objects in zone (1,1)
+  private FloorSwitch mSnakeSwitches[];
+  
+  // references to objects in zone (1,2)
+  private Chest       mChest;
+  private BlockStairs mChestStairs;
   
   // constructor
   public RoomE02() {
@@ -302,7 +354,6 @@ public class RoomE02 extends Room {
     mSwitch02aDone = mSwitch02bDone = mStairs02Done = false;
     mSwitches10Done = 0;
     mSnakeDone = false;
-    mSnakeSwitchesDone = false;
     
   } // constructor
 
@@ -502,21 +553,25 @@ public class RoomE02 extends Room {
                 new BlockArray(kBlocks11, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, -2) );
 
-    //spriteManager.addSprite(
-    //            new SnakeB(zoneX*Room.kSize+3, zoneY*Room.kSize+3, 0,
-    //                       Env.DOWN) );
-    
-    if ( !mSnakeSwitchesDone ) {
+    if ( mSnakeDone ) {
+      mSnakeSwitches = null;
+      mSnakeSwitchesDone = 16;
+    } else {
+      spriteManager.addSprite(new SnakeEgg(16, 16, 0, 3));
+
       mSnakeSwitches = new FloorSwitch[16];
       int k = 0;
       for ( int i = 0 ; i <= 9 ; i += 3 ) {
         for ( int j = 0 ; j <= 9 ; j += 3 ) {
-          mSnakeSwitches[k++] = new FloorSwitch(zoneX*Room.kSize+i,
-                                                  zoneY*Room.kSize+j,
-                                                  0, "#S", "#k");
+          mSnakeSwitches[k] = new FloorSwitch(zoneX*Room.kSize+i,
+                                              zoneY*Room.kSize+j,
+                                              0, "#K", "#k");
+          mSnakeSwitches[k].freezeState(true);
+          spriteManager.addSprite(mSnakeSwitches[k]);
+          k++;
         }
       }
-      //for ( FloorSwitch s : mSnakeSwitches ) spriteManager.addSprite(s);
+      mSnakeSwitchesDone = -1;
     }
   
     // zone (2,0)
@@ -527,6 +582,24 @@ public class RoomE02 extends Room {
     spriteManager.addSprite(
                 new BlockArray(kBlocks20, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+
+    // zone (2,1)
+
+    zoneX = 2;
+    zoneY = 1;
+
+    spriteManager.addSprite(
+                new BlockArray(kBlocks21, kBlockColours,
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
+
+    int z = ( mSnakeDone ? 0 : 6 );
+    mChestStairs = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+3, z,
+                                   zoneX*Room.kSize+3, zoneY*Room.kSize+3, 6,
+                                   "#k", 4);
+    spriteManager.addSprite(mChestStairs);
+    
+    mChest = new Chest(zoneX*Room.kSize+5, zoneY*Room.kSize+2, 6, Env.LEFT);
+    spriteManager.addSprite(mChest);    
 
   } // Room.createSprites()
   
@@ -606,7 +679,23 @@ public class RoomE02 extends Room {
           spriteManager.removeSprite(mSwitch10);
           mSwitch10 = null;
         } else {
-          assert(false);
+          boolean snakeSwitch = false;
+          for ( FloorSwitch s : mSnakeSwitches ) {
+            if ( fs == s ) snakeSwitch = true;
+          }
+          if ( snakeSwitch ) {
+            assert( !mSnakeDone );
+            fs.freezeState(true);
+            Env.sounds().play(Sounds.SWITCH_ON);
+            mSnakeSwitchesDone += 1;
+            if ( mSnakeSwitchesDone == 16 ) {
+              SnakeBoss3 snake =
+                  (SnakeBoss3)spriteManager.findSpriteOfType(SnakeBoss3.class);
+              snake.transform();
+            }
+          } else {
+            assert(false);
+          }
         }
         it.remove();
       }
@@ -647,15 +736,20 @@ public class RoomE02 extends Room {
         }
         it.remove();
       }
-
-      if ( event instanceof Player.EventKilled ) {
-        if ( !mSnakeSwitchesDone ) {
-          for ( FloorSwitch s : mSnakeSwitches ) s.unfreezeState();
-        }
+      
+      if ( event instanceof Snake.EventKilled ) {
+        assert( !mSnakeDone );
+        mSnakeDone = true;
+        mSnakeBridge.setZStart(0);
+        mSnakeBridge.setZEnd(0);
+        mSnakeBridgeSwitch.freezeState(true);
+        spriteManager.removeSprite(mSnakeBridgeBlock);
+        it.remove();
       }
       
     } // for (event)
 
+    // enable the bridge switches in zone (1,0)
     if ( mSwitches10Done < 4 && mSwitch10 == null ) {
       assert( !mSnakeDone && mSwitches10Done > 0 );
       BlockStairs bridge = mBridges10[mSwitches10Done-1];
@@ -666,6 +760,7 @@ public class RoomE02 extends Room {
       }
     }
     
+    // hide the bridge to the snake zone
     if ( !mSnakeDone && mSwitches10Done == 4 && mSnakeBridgeSwitch.isOn() &&
          mPlayer != null && !mPlayer.isActing() ) {
       int x = mPlayer.getXPos(),
@@ -679,20 +774,25 @@ public class RoomE02 extends Room {
     }
     
     // check the snake switches
-    
-    if ( !mSnakeSwitchesDone ) {
-      boolean done = true;
-      for ( FloorSwitch s : mSnakeSwitches ) {
-        if ( !s.isOn() ) {
-          done = false;
-          break;
-        }
+    if ( !mSnakeDone ) {
+      assert( mSnakeSwitches != null );
+      if ( mSnakeSwitchesDone < 0 && mPlayer != null &&
+           mPlayer.getXPos() >= 10 && mPlayer.getXPos() < 20 &&
+           mPlayer.getYPos() >= 10 && mPlayer.getYPos() < 20 &&
+           spriteManager.findSpriteOfType(SnakeBoss3.class) != null ) {
+        for ( FloorSwitch s : mSnakeSwitches ) s.unfreezeState();
+        mSnakeSwitchesDone = 0;
       }
-      if ( done ) {
-        mSnakeSwitchesDone = true;
-        SnakeB snake = (SnakeB)spriteManager.findSpriteOfType(SnakeB.class);
-        snake.kill();
+      if ( mSnakeSwitchesDone >= 0 && mPlayer == null ) {
+        for ( FloorSwitch s : mSnakeSwitches ) s.freezeState(true);
+        mSnakeSwitchesDone = -1;
       }
+    }
+
+    // lower the stairs to the chest
+    if ( mSnakeDone && mChestStairs.getZStart() == 6 &&
+         mSnakeBridge.getZEnd() == 0 ) {
+      mChestStairs.setZStart(0);
     }
 
   } // Room.advance()
