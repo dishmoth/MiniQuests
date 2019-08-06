@@ -9,10 +9,10 @@ package com.dishmoth.miniquests.game;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-// base class for a monster
+// base class for snake bosses
 abstract public class Snake extends Sprite3D implements Obstacle {
 
-  // story event: the monster has been destroyed
+  // story event: the snake has been destroyed
   public class EventKilled extends StoryEvent {
     public Snake mSnake;
     public EventKilled(Snake s) { mSnake=s; }
@@ -75,9 +75,6 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   // snake is going back to egg form
   protected boolean mHibernating;
   
-  // possible positions where the snake can move
-  protected Track mTrack;
-  
   // which colour scheme to use
   protected int mColour;
 
@@ -111,7 +108,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   } // initialize()
   
   // constructor
-  public Snake(int x, int y, int z, int direc, Track track) {
+  public Snake(int x, int y, int z, int direc) {
 
     initialize();
     
@@ -131,8 +128,6 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     mDying = false;
     mHibernating = false;
 
-    mTrack = track;
-    
     mColour = 1;
     mFlashColour = 0;
     mFlashTimer = 0;
@@ -148,15 +143,6 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   public int getZPos() { return mZPos; }
   public int getDirec() { return mDirec; }
   
-  // modify position (ignores obstacles)
-  public void shiftPos(int dx, int dy, int dz) {
-    
-    mXPos += dx;
-    mYPos += dy;
-    mZPos += dz;
-    
-  } // shiftPos()
-
   // change speed (delay time during steps)
   public void setSpeed(int stepTime) {
     
@@ -238,15 +224,17 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   public void setLength(int len) { mFullLength = len; }
   public int length() { return mFullLength; }
   
-  // whether the monster can move in a particular direction
+  // whether the snake can move in a particular direction
+  // (location is fixed to a grid in zone (1,1))
   protected boolean canMove(int x, int y, int direc) {
 
-    if ( mTrack != null && !mTrack.canMove(x, y, mZPos, direc) ) {
-      return false;
-    }
-      
     final int xDest = x + Env.STEP_X[direc],
               yDest = y + Env.STEP_Y[direc];
+
+    if ( xDest < 10 || xDest >= 20 ||
+         yDest < 10 || yDest >= 20 ||
+         (xDest-10)%3 > 0 && (yDest-10)%3 > 0 ) return false;
+      
     if ( hitsBody(xDest, yDest, mZPos) ) return false;
 
     boolean platform = false;
@@ -297,31 +285,6 @@ abstract public class Snake extends Sprite3D implements Obstacle {
                   turnRight = canMove(direcRight),
                   turnLeft = canMove(direcLeft);
 
-    /*
-    if ( mPlayer != null ) {
-      int dx = mPlayer.getXPos() - mXPos,
-          dy = mPlayer.getYPos() - mYPos;
-      int scoreForward = forward
-                         ? (dx * Env.STEP_X[mDirec] + dy * Env.STEP_Y[mDirec])
-                         : -100,
-          scoreRight   = turnRight
-                         ? (dx * Env.STEP_X[direcRight] + dy * Env.STEP_Y[direcRight])
-                         : -100,
-          scoreLeft    = turnLeft
-                         ? (dx * Env.STEP_X[direcLeft] + dy * Env.STEP_Y[direcLeft])
-                         : -100;
-      if ( scoreForward < Math.max(scoreRight, scoreLeft) ) {
-        forward = false;
-      }
-      if ( scoreRight < Math.max(scoreForward, scoreLeft) ) {
-        turnRight = false;
-      }
-      if ( scoreLeft < Math.max(scoreRight, scoreForward) ) {
-        turnLeft = false;
-      }
-    }
-    */
-    
     return randomTurn(mDirec, forward, turnLeft, turnRight);
 
   } // chooseDirection()

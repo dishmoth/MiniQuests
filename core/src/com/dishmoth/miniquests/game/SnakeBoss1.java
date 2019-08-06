@@ -11,20 +11,6 @@ import java.util.Arrays;
 // the first snake boss
 public class SnakeBoss1 extends Snake {
   
-  // the snake is specialized to a particular path
-  private static final Track kTrack = new CritterTrack
-                                                (new String[]{"##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########"},
-                                                 10, 10);
-  
   // temporary workspace: 0 for head, increasing for body, 999 for empty
   private int mWaypoints[][] = { { 999, 999, 999, 999 },
                                  { 999, 999, 999, 999 },
@@ -34,7 +20,7 @@ public class SnakeBoss1 extends Snake {
   // constructor
   public SnakeBoss1(int x, int y, int z, int direc) {
 
-    super(x, y, z, direc, kTrack);
+    super(x, y, z, direc);
     
     mDieWhenStuck = true;
     setSpeed(4);
@@ -67,7 +53,8 @@ public class SnakeBoss1 extends Snake {
 
   } // prepareWaypoints()
   
-  //??
+  // return a score for how safe movement in a particular direction is
+  // (number of clear spaces ahead; -999 for path blocked, +999 for path clear) 
   private int rateDirection(int x, int y, int direc, int depth) {
 
     x += Env.STEP_X[direc];
@@ -93,6 +80,7 @@ public class SnakeBoss1 extends Snake {
   } // rateDirection()
   
   // decide which direction to move in next
+  @Override
   protected int chooseDirection() {
 
     // continue to a junction
@@ -121,8 +109,12 @@ public class SnakeBoss1 extends Snake {
 
   } // Snake.chooseDirection()
 
-  //
+  // register a hit on the snake's body
+  @Override
   public void shotInBody(int x, int y) { shotInHead(); }
+  
+  // register a hit on the snake's head
+  @Override  
   public void shotInHead() {
     if (!mDying && !mHibernating) {
       grow(1);

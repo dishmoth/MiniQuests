@@ -11,20 +11,6 @@ import java.util.LinkedList;
 // the third snake boss
 public class SnakeBoss3 extends Snake {
   
-  // the snake is specialized to a particular path
-  private static final Track kTrack = new CritterTrack
-                                                (new String[]{"##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########"},
-                                                 10, 10);
-  
   // temporary workspace: 0 for empty, 1 for snake/wall, 2 for player reachable
   private int mWaypoints[][] = { { 1, 1, 1, 1, 1, 1 },
                                  { 1, 0, 0, 0, 0, 1 },
@@ -36,13 +22,13 @@ public class SnakeBoss3 extends Snake {
   // true if the snake can't move because its tail is shrinking
   private boolean mFrozen = false;
   
-  // true if the snake has transformed to its final form
+  // true if the snake has assumed its final form
   private boolean mTransformed = false;
   
   // constructor
   public SnakeBoss3(int x, int y, int z, int direc) {
 
-    super(x, y, z, direc, kTrack);
+    super(x, y, z, direc);
     
     mDieWhenStuck = false;
     mFullLength = 1000;
@@ -108,6 +94,7 @@ public class SnakeBoss3 extends Snake {
   } // prepareWaypoints()
   
   // decide which direction to move in next
+  @Override
   protected int chooseDirection() {
 
     // continue to a junction
@@ -186,7 +173,8 @@ public class SnakeBoss3 extends Snake {
 
   } // Snake.advance()
 
-  //
+  // register a hit on the snake's head
+  @Override
   public void shotInHead() {
 
     if ( mTransformed ) {

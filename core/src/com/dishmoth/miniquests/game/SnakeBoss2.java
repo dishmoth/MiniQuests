@@ -12,20 +12,6 @@ import java.util.LinkedList;
 // the second snake boss
 public class SnakeBoss2 extends Snake {
   
-  // the snake is specialized to a particular path
-  private static final Track kTrack = new CritterTrack
-                                                (new String[]{"##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########",
-                                                              "#  #  #  #",
-                                                              "#  #  #  #",
-                                                              "##########"},
-                                                 10, 10);
-  
   // true if the snake is a headless and un-moving body segment
   private boolean mDead;
   
@@ -47,7 +33,7 @@ public class SnakeBoss2 extends Snake {
   // constructor (alive)
   public SnakeBoss2(int x, int y, int z, int direc) {
 
-    super(x, y, z, direc, kTrack);
+    super(x, y, z, direc);
 
     mDead = false;
     mDieWhenStuck = false;
@@ -62,7 +48,7 @@ public class SnakeBoss2 extends Snake {
   // constructor (dead)
   public SnakeBoss2(int x, int y, int z, ArrayList<Integer> body) {
     
-    super(x, y, z, body.get(body.size()-1), kTrack);
+    super(x, y, z, body.get(body.size()-1));
     
     mBody = body;
     
@@ -283,6 +269,7 @@ public class SnakeBoss2 extends Snake {
   } // zapTail()
   
   // whether the snake's head intersects a particular position
+  @Override
   public boolean hitsHead(int x, int y, int z) {
   
     if ( mDead ) return false;
@@ -291,6 +278,7 @@ public class SnakeBoss2 extends Snake {
   } // Snake.hitsHead()
   
   // destroy a body segment
+  @Override
   public void shotInBody(int x, int y) {
     
     if ( mDead || !mDying ) {

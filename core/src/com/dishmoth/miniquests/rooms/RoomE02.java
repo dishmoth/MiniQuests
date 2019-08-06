@@ -565,7 +565,7 @@ public class RoomE02 extends Room {
         for ( int j = 0 ; j <= 9 ; j += 3 ) {
           mSnakeSwitches[k] = new FloorSwitch(zoneX*Room.kSize+i,
                                               zoneY*Room.kSize+j,
-                                              0, "#K", "#k");
+                                              0, "#S", "#k");
           mSnakeSwitches[k].freezeState(true);
           spriteManager.addSprite(mSnakeSwitches[k]);
           k++;
