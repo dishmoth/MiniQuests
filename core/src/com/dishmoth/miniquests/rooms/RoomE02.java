@@ -91,37 +91,26 @@ public class RoomE02 extends Room {
                                                   "          " } };  
     
   // blocks for zone (0,1)
-  private static final String kBlocks01[][] = { { "0000      ",
+  private static final String kBlocks01[][] = { { "   0      ",
                                                   "   0      ",
                                                   "   0      ",
-                                                  "0  0      ",
-                                                  "0  0      ",
-                                                  "0  0      ",
-                                                  "0  0      ",
-                                                  "0  0      ",
-                                                  "0  0      ",
+                                                  "   0      ",
+                                                  "   0      ",
+                                                  "0000      ",
+                                                  "          ",
+                                                  "0         ",
+                                                  "0         ",
                                                   "0         " },
                                                 
-                                                { " 000      ",
+                                                { "   0      ",
                                                   "   0      ",
                                                   "   0      ",
                                                   "   0      ",
                                                   "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "          " },
-                                                
-                                                { "  00      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
+                                                  "0000      ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
                                                   "          " },
                                                 
                                                 { "   0      ",
@@ -129,21 +118,32 @@ public class RoomE02 extends Room {
                                                   "   0      ",
                                                   "   0      ",
                                                   "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "  00      ",
+                                                  "0000      ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
                                                   "          " },
                                                 
-                                                { "          ",
-                                                  "   0      ",
-                                                  "   0      ",
-                                                  "   0      ",
+                                                { "   0      ",
                                                   "   0      ",
                                                   "   0      ",
                                                   "   0      ",
                                                   "   0      ",
                                                   "0000      ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          " },
+                                                
+                                                { "   0      ",
+                                                  "   0      ",
+                                                  "   0      ",
+                                                  "   0      ",
+                                                  "   0      ",
+                                                  "0000      ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
                                                   "          " } };  
     
   // blocks for zone (0,2)
@@ -153,9 +153,9 @@ public class RoomE02 extends Room {
                                                   "0         ",
                                                   "0         ",
                                                   "00000     ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
+                                                  "0         ",
+                                                  "0         ",
+                                                  "0         ",
                                                   "          " },
                                                 
                                                 { "    1     ",
@@ -291,8 +291,8 @@ public class RoomE02 extends Room {
   private static final Exit kExits[]
           = { new Exit(0,2, Env.UP,   4,6, "#k",0, -1, RoomE01.NAME, 1),
               new Exit(0,2, Env.LEFT, 6,0, "#k",0, -1, RoomE05.NAME, 0),
-              new Exit(0,1, Env.LEFT, 6,0, "#k",0, -1, RoomE03.NAME, 1),
-              new Exit(0,1, Env.LEFT, 1,8, "#k",1, -1, RoomE03.NAME, 2),
+              new Exit(0,1, Env.LEFT, 4,8, "#k",4, -1, RoomE03.NAME, 1),
+              new Exit(0,1, Env.LEFT, 2,0, "#k",0, -1, RoomE03.NAME, 2),
               new Exit(0,0, Env.LEFT, 4,0, "#k",0, -1, RoomE03.NAME, 3), 
               new Exit(0,0, Env.DOWN, 8,0, "#k",0, -1, RoomE06.NAME, 0), 
               new Exit(2,0, Env.DOWN, 4,0, "#k",0, -1, RoomE12.NAME, 3) };
@@ -311,7 +311,7 @@ public class RoomE02 extends Room {
   // references to objects in zone (0,2) 
   private BlockStairs mStairs02a,
                       mStairs02b,
-                      mBridge02;
+                      mStairs02c;
   private ZoneSwitch  mStairSwitch02a,
                       mStairSwitch02b;
   private WallSwitch  mSwitch02a,
@@ -497,11 +497,11 @@ public class RoomE02 extends Room {
       mSwitch02b.setState(1);
     }
 
-    final int z02c = ( mSwitch02bDone ? 0 : -3 );
-    mBridge02 = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+0, z02c,
-                                zoneX*Room.kSize+0, zoneY*Room.kSize+3, z02c,
-                                "#k", 1);
-    spriteManager.addSprite(mBridge02);
+    final int z02c = ( mSwitch02bDone ? 6 : 0 );
+    mStairs02c = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+0, 0,
+                                 zoneX*Room.kSize+3, zoneY*Room.kSize+0, z02c,
+                                 "#k", 3);
+    spriteManager.addSprite(mStairs02c);
     
     // zone (1,0)
 
@@ -644,8 +644,7 @@ public class RoomE02 extends Room {
           mSwitch02aDone = true;
         } else if ( ws == mSwitch02b ) {
           assert( !mSwitch02bDone );
-          mBridge02.setZStart(0);
-          mBridge02.setZEnd(0);
+          mStairs02c.setZEnd(6);
           Env.sounds().play(Sounds.SUCCESS, 6);
           mSwitch02bDone = true;
         } else {

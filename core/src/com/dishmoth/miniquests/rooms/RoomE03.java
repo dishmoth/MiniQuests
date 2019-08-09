@@ -22,7 +22,6 @@ import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Snake;
-import com.dishmoth.miniquests.game.SnakeBoss1;
 import com.dishmoth.miniquests.game.SnakeEgg;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
@@ -89,58 +88,58 @@ public class RoomE03 extends Room {
   
   // blocks for zone (2,2)
   private static final String kBlocks22[][] = { { "00        ",
-                                                  "          ",
-                                                  "          ",
-                                                  "         0",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          " },
-  
-                                                { "          ",
-                                                  "          ",
-                                                  "         0",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "   1111   ",
-                                                  "   1  1   ",
-                                                  "   1  1   ",
-                                                  "   1111   " },
-  
-                                                { "          ",
-                                                  "         0",
-                                                  "          ",
-                                                  " 1111     ",
-                                                  " 1  1     ",
-                                                  " 1  1     ",
-                                                  " 1111     ",
-                                                  "          ",
-                                                  "       0  ",
-                                                  "          " },
-  
-                                                { "  11110000",
-                                                  "  1  1    ",
-                                                  "  1  1    ",
-                                                  "  1111    ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
+                                                  "        00",
+                                                  "   1111110",
+                                                  "   1    10",
+                                                  "   1    10",
+                                                  "   1111110",
                                                   "        0 ",
+                                                  "      0000",
+                                                  "      0000",
+                                                  "          " },
+  
+                                                { "          ",
+                                                  "        00",
+                                                  "   1111110",
+                                                  "   1    10",
+                                                  "   1    10",
+                                                  "   1111110",
+                                                  "        0 ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          " },
+  
+                                                { "          ",
+                                                  "        00",
+                                                  "   1111110",
+                                                  "   1    10",
+                                                  "   1    10",
+                                                  "   1111110",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          " },
+  
+                                                { "          ",
+                                                  "         0",
+                                                  "         0",
+                                                  "         0",
+                                                  "         0",
+                                                  "         0",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
                                                   "          " },
   
                                                 { "          ",
                                                   "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
                                                   "         0",
+                                                  "         0",
+                                                  "         0",
+                                                  "         0",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
                                                   "          " } };
   
   // block pattern for the raft
@@ -154,24 +153,18 @@ public class RoomE03 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[]
           = { new Exit(2,2, Env.UP,    1,0, "#h",0, -1, RoomE05.NAME, 1),
-              new Exit(2,2, Env.RIGHT, 6,0, "#h",0, -1, RoomE02.NAME, 2),
-              new Exit(2,2, Env.RIGHT, 1,8, "#h",0, -1, RoomE02.NAME, 3),
+              new Exit(2,2, Env.RIGHT, 4,8, "#h",4, -1, RoomE02.NAME, 2),
+              new Exit(2,2, Env.RIGHT, 2,0, "#h",0, -1, RoomE02.NAME, 3),
               new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4),
               new Exit(2,0, Env.DOWN,  4,8, "Nh",4, -1, RoomE04.NAME, 4),
               new Exit(1,0, Env.DOWN,  5,0, "#h",0, -1, RoomE04.NAME, 3) };
 
   // details of the paths followed by enemies
   private static final CritterTrack kCritterTrack22
-                    = new CritterTrack(new String[]{ "  ++++    ",
-                                                     "  +  +    ",
-                                                     "  +  +    ",
-                                                     " +++++    ",
-                                                     " +  +     ",
-                                                     " +  +     ",
-                                                     " ++++++   ",
-                                                     "   +  +   ",
-                                                     "   +  +   ",
-                                                     "   ++++   " }, 20, 20); 
+                    = new CritterTrack(new String[]{ "++++++",
+                                                     "+    +",
+                                                     "+    +",
+                                                     "++++++" }, 23, 24); 
 
   // references to objects in zone (1,0)
   private BlockStairs mStairs10;
@@ -377,10 +370,10 @@ public class RoomE03 extends Room {
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
     Critter critters[] = new Critter[] 
-             { new Critter(23,20,2, Env.RIGHT, kCritterTrack22),
-               new Critter(21,25,4, Env.UP,    kCritterTrack22),
-               new Critter(24,24,4, Env.DOWN,  kCritterTrack22),
-               new Critter(25,29,6, Env.LEFT,  kCritterTrack22) };
+             { new Critter(24,24,4, Env.RIGHT, kCritterTrack22),
+               new Critter(28,24,4, Env.RIGHT, kCritterTrack22),
+               new Critter(23,27,4, Env.LEFT,  kCritterTrack22),
+               new Critter(27,27,4, Env.LEFT,  kCritterTrack22) };
     for ( int k = 0 ; k < critters.length ; k++ ) {
       critters[k].easilyKilled(true);
       critters[k].setColour(1);
@@ -388,7 +381,7 @@ public class RoomE03 extends Room {
     }    
     
     mRaft = new BlockArray(kBlocksRaft, kBlockColours,
-                           zoneX*Room.kSize+3, zoneY*Room.kSize-2,
+                           zoneX*Room.kSize+3, zoneY*Room.kSize,
                            (mRaftDone ? 0 : -4));
     spriteManager.addSprite(mRaft);
     
@@ -423,7 +416,7 @@ public class RoomE03 extends Room {
                         dy >= 0 && dy < raftSize );
     }
     
-    final int yStart = 18,
+    final int yStart = 20,
               yEnd   = 5;
     if ( mRaft.getZPos() < 0 ) {
       mRaft.shiftPos(0, 0, 1);
