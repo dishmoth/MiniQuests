@@ -248,10 +248,11 @@ public class RoomE03 extends Room {
     zoneX = 1;
     zoneY = 0;
 
-    int z10 = (mSnakeDone ? 0 : -9);
+    int z10 = (mSnakeDone ? 0 : -18);
     mStairs10 = new BlockStairs(zoneX*Room.kSize+5, zoneY*Room.kSize+0, 0,
                                 zoneX*Room.kSize+5, zoneY*Room.kSize+9, z10,
                                 "#h", 1);
+    mStairs10.setSlopeType(+1);
     spriteManager.addSprite(mStairs10);
     
     // zone (2,0)

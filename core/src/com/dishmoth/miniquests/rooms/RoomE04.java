@@ -436,6 +436,7 @@ public class RoomE04 extends Room {
     mStairs12 = new BlockStairs(zoneX*Room.kSize+1, zoneY*Room.kSize+9, z1,
                                 zoneX*Room.kSize+4, zoneY*Room.kSize+9, z2,
                                 "Og", 4);
+    mStairs12.setSlopeType(-1);
     spriteManager.addSprite(mStairs12);
 
     spriteManager.addSprite(new Fence(zoneX*Room.kSize+0, 

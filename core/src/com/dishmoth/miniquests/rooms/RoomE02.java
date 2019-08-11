@@ -501,6 +501,7 @@ public class RoomE02 extends Room {
     mStairs02c = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+0, 0,
                                  zoneX*Room.kSize+3, zoneY*Room.kSize+0, z02c,
                                  "#k", 3);
+    mStairs02c.setSlopeType(-1);
     spriteManager.addSprite(mStairs02c);
     
     // zone (1,0)
@@ -538,6 +539,7 @@ public class RoomE02 extends Room {
     mSnakeBridge = new BlockStairs(zoneX*Room.kSize+2, zoneY*Room.kSize+3, z0,
                                    zoneX*Room.kSize+2, zoneY*Room.kSize+9, z1,
                                    "#k", 1);
+    mSnakeBridge.setSlopeType(+1);
     spriteManager.addSprite(mSnakeBridge);
     
     mSnakeBridgeBlock = new Barrier(zoneX*Room.kSize+2, zoneY*Room.kSize+9, 2,
@@ -596,6 +598,7 @@ public class RoomE02 extends Room {
     mChestStairs = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+3, z,
                                    zoneX*Room.kSize+3, zoneY*Room.kSize+3, 6,
                                    "#k", 4);
+    mChestStairs.setSlopeType(+1);
     spriteManager.addSprite(mChestStairs);
     
     mChest = new Chest(zoneX*Room.kSize+5, zoneY*Room.kSize+2, 6, Env.LEFT);

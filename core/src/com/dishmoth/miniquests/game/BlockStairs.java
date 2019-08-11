@@ -20,6 +20,9 @@ public class BlockStairs extends Sprite3D implements Obstacle {
 
   // number of blocks deep (>= 1)
   final private int mDepth;
+
+  // 0 => even slope (default), -1 => sloped at start, +1 => sloped at end
+  private int mSlopeType;
   
   // individual stair blocks
   // (note: these are owned by the BlockStairs object not the SpriteManager)
@@ -38,6 +41,7 @@ public class BlockStairs extends Sprite3D implements Obstacle {
     assert( depth >= 1 );
 
     mDepth = depth;
+    mSlopeType = 0;
     
     mZStart = zStart;
     mZEnd = zEnd;
@@ -45,7 +49,6 @@ public class BlockStairs extends Sprite3D implements Obstacle {
     buildBlocks(xStart, yStart, zStart,
                 xEnd, yEnd, zEnd,
                 blockColour);
-    updateBlocks();
     
     mTimer = 0;
     
@@ -74,16 +77,31 @@ public class BlockStairs extends Sprite3D implements Obstacle {
       mBlocks[k] = new BlockArray(blockPattern, blockColour, x, y, z);
     }
     
+    updateBlocks();
+    
   } // buildBlocks()
   
   // update block positions between start and end
   private void updateBlocks() {
 
-    final int z0 = mBlocks[0].getZPos(),
-              z1 = mBlocks[mBlocks.length-1].getZPos();
+    final int z0   = mBlocks[0].getZPos(),
+              z1   = mBlocks[mBlocks.length-1].getZPos(),
+              dz   = Math.abs(z1 - z0),
+              sign = (int)Math.signum(z1 - z0);
+    assert( mSlopeType == 0 || dz <= 2*(mBlocks.length-1) );
+    
     for ( int k = 1 ; k < mBlocks.length-1 ; k++ ) {
-      final float h = k / (mBlocks.length - 1.0f);
-      final int z = Math.round(z0 + h*(z1 - z0));
+      int z;
+      if ( mSlopeType < 0 ) {
+        final int step = Math.min(2*k, dz);
+        z = z0 + sign * step;
+      } else if ( mSlopeType > 0 ) {
+        final int step = Math.max(2*(k-mBlocks.length+1)+dz, 0);
+        z = z0 + sign * step;
+      } else {
+        final float h = k / (mBlocks.length - 1.0f);
+        z = Math.round(z0 + h*(z1 - z0));
+      }
       BlockArray b = mBlocks[k];
       b.setPos(b.getXPos(), b.getYPos(), z);
     }
@@ -117,6 +135,15 @@ public class BlockStairs extends Sprite3D implements Obstacle {
   public int getZEnd() {
     return mBlocks[mBlocks.length-1].getZPos() + 2*(mDepth-1);
   }
+
+  // change how evenly the steps are spread out (-1 => start, +1 => end)
+  public void setSlopeType(int type) {
+    
+    assert( type >= -1 && type <= +1 );
+    mSlopeType = type;
+    updateBlocks();
+    
+  } // setSlopeType()
   
   // returns true if the stair blocks are moving to target position
   public boolean moving() { return (mTimer > 0); }
