@@ -328,12 +328,6 @@ public class RoomE03 extends Room {
       mGateSwitch21 = null;
     }
     
-    RoomE02 adjacentRoom = (RoomE02)findRoom(RoomE02.NAME);
-    assert( adjacentRoom != null );
-    if ( !adjacentRoom.door4Open() ) {
-      kExits[3].mDoor.setClosed(true);
-    }
-    
     // zone (1,2)
 
     zoneX = 1;

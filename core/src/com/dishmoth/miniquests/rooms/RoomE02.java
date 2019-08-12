@@ -40,7 +40,7 @@ public class RoomE02 extends Room {
                                                   "0         ",
                                                   "0         ",
                                                   "0         ",
-                                                  "0 11   0  ",
+                                                  "01     0  ",
                                                   "0      0  ",
                                                   "0    0000 ",
                                                   "0    0  0 ",
@@ -51,7 +51,7 @@ public class RoomE02 extends Room {
                                                   "          ",
                                                   "          ",
                                                   "          ",
-                                                  "  11      ",
+                                                  " 1        ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
@@ -62,7 +62,7 @@ public class RoomE02 extends Room {
                                                   "          ",
                                                   "          ",
                                                   "          ",
-                                                  "  11      ",
+                                                  " 1        ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
@@ -73,7 +73,7 @@ public class RoomE02 extends Room {
                                                   "          ",
                                                   "          ",
                                                   "          ",
-                                                  "  11      ",
+                                                  " 1        ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
@@ -84,7 +84,7 @@ public class RoomE02 extends Room {
                                                   "          ",
                                                   "          ",
                                                   "          ",
-                                                  "1111      ",
+                                                  "11        ",
                                                   "          ",
                                                   "          ",
                                                   "          ",
@@ -302,10 +302,8 @@ public class RoomE02 extends Room {
                       mStairs00b;
   private ZoneSwitch  mStairSwitch00a,
                       mStairSwitch00b;
-  private FloorSwitch mSwitch00;
   
   // flags for zone (0,0)
-  private boolean mSwitch00Done;
   private boolean mStairs00Done;
   
   // references to objects in zone (0,2) 
@@ -350,17 +348,13 @@ public class RoomE02 extends Room {
 
     super(NAME);
     
-    mSwitch00Done = mStairs00Done = false;
+    mStairs00Done = false;
     mSwitch02aDone = mSwitch02bDone = mStairs02Done = false;
     mSwitches10Done = 0;
     mSnakeDone = false;
     
   } // constructor
 
-  // whether the door to room E02 is open yet
-  // (note: this function may be called by room E02)
-  public boolean door4Open() { return mSwitch00Done; }
-  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
@@ -427,14 +421,6 @@ public class RoomE02 extends Room {
     
     mStairSwitch00b = new ZoneSwitch(zoneX*Room.kSize+0, zoneY*Room.kSize+0, 8);
     spriteManager.addSprite(mStairSwitch00b);
-    
-    if ( mSwitch00Done ) {
-      mSwitch00 = null;
-    } else {
-      mSwitch00 = new FloorSwitch(3, 4, 8, "Pk", "Sk");
-      spriteManager.addSprite(mSwitch00);
-      kExits[4].mDoor.setClosed(true);
-    }
     
     if ( mSnakeDone ) {
       mSnakeBridgeSwitch = null;
@@ -658,13 +644,7 @@ public class RoomE02 extends Room {
       
       if ( event instanceof FloorSwitch.EventStateChange ) {
         FloorSwitch fs = ((FloorSwitch.EventStateChange)event).mSwitch;
-        if ( fs == mSwitch00 ) {
-          assert( !mSwitch00Done );
-          mSwitch00.freezeState(true);
-          kExits[4].mDoor.setClosed(false);      
-          Env.sounds().play(Sounds.SUCCESS, 3);
-          mSwitch00Done = true;
-        } else if ( fs == mSnakeBridgeSwitch ) {
+        if ( fs == mSnakeBridgeSwitch ) {
           assert( !mSnakeDone );
           mSnakeBridgeSwitch.freezeState(true);
           mSnakeBridge.setZStart(0);
