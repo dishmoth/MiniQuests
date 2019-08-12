@@ -398,7 +398,7 @@ public class RoomE04 extends Room {
     } else {
       z02 = -4;
       mSwitch02 = new FloorSwitch(zoneX*Room.kSize+5, zoneY*Room.kSize+7, 0,
-                                  "gM", "Og");
+                                  "gq", "Og");
       spriteManager.addSprite(mSwitch02);
     }
 
