@@ -10,11 +10,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.BlockArray;
+import com.dishmoth.miniquests.game.Critter;
+import com.dishmoth.miniquests.game.CritterTrack;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.FloorSwitch;
+import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.SnakeEgg;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
@@ -26,24 +30,71 @@ public class RoomE13 extends Room {
   public static final String NAME = "E13";
   
   // main blocks for the room
-  private static final String kBlocks[][] = { { "  0       ",
-                                                "  0       ",
-                                                "  0       ",
-                                                "000       ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          ",
-                                                "          " } };
+  private static final String kBlocksA[][] = { { "     11111",
+                                                 "     11111",
+                                                 "      1111",
+                                                 "      1111",
+                                                 "      1111",
+                                                 "      1111",
+                                                 "      1111",
+                                                 "       111",
+                                                 "       111",
+                                                 "         1" },
+                                              
+                                               { "        11",
+                                                 "        11",
+                                                 "        11",
+                                                 "       111",
+                                                 "       111",
+                                                 "        11",
+                                                 "        11",
+                                                 "         1",
+                                                 "          ",
+                                                 "          " },
+                                              
+                                               { "         1",
+                                                 "         1",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          " } };
+                                              
+  private static final String kBlocksB[][] = { { "  0       ",
+                                                 "  0       ",
+                                                 "  0       ",
+                                                 "000       ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          ",
+                                                 "          " } };
                                               
   // different block colours (corresponding to '0', '1', '2', etc)
-  private static final String kBlockColours[] = { "XL" }; // green
+  private static final String kBlockColours[] = { "XL",  // dark purple
+                                                  "Ll"}; // pale purple
   
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
-          = { new Exit(Env.UP,   2,0, "#L",0, -1, RoomE07.NAME, 2),
-              new Exit(Env.LEFT, 6,0, "XL",0, -1, RoomE04.NAME, 7) };
+          = { new Exit(Env.UP,   2,14, "#L",1, -1, RoomE07.NAME, 2),
+              new Exit(Env.LEFT, 6,14, "XL",1, -1, RoomE04.NAME, 7) };
+
+  // details of the paths followed by enemies
+  private static final CritterTrack kCritterTrack
+                    = new CritterTrack(new String[]{ "     +++++",
+                                                     "     +++++",
+                                                     "      ++++",
+                                                     "      ++++",
+                                                     "      ++++",
+                                                     "      ++++",
+                                                     "      ++++",
+                                                     "       +++",
+                                                     "       +++",
+                                                     "         +" }); 
 
   // whether the door is open yet
   private boolean mDone;
@@ -68,6 +119,9 @@ public class RoomE13 extends Room {
 
     assert( entryPoint >= 0 && entryPoint < kExits.length );
     setPlayerAtExit(kExits[entryPoint]);
+    
+    mCamera.shift(0, 0, +6);
+    
     return mPlayer;
     
   } // createPlayer()
@@ -76,13 +130,33 @@ public class RoomE13 extends Room {
   @Override
   public void createSprites(SpriteManager spriteManager) {
     
-    spriteManager.addSprite( new BlockArray(kBlocks, kBlockColours, 0,0,0) );
+    addBasicZone(0, 0, true, true, true, false, kExits, spriteManager);
     
-    addBasicWalls(kExits, spriteManager);
+    spriteManager.addSprite(new Liquid(0, 0, -1, 2));
+    spriteManager.addSprite(new Liquid(0, -Room.kSize, -1, 2));
 
+    spriteManager.addSprite( new BlockArray(kBlocksA, kBlockColours, 0,0,0) );
+    spriteManager.addSprite( new BlockArray(kBlocksB, kBlockColours, 0,0,14) );
+    
     if ( !mDone ) {
       kExits[1].mDoor.setClosed(true);
-      spriteManager.addSprite(new FloorSwitch(2, 6, 0, "tL", "XL"));
+      spriteManager.addSprite(new FloorSwitch(2, 6, 14, "lL", "XL"));
+    }
+    
+    spriteManager.addSprite( new SnakeEgg(7, 4, 0, 0) );
+    spriteManager.addSprite( new SnakeEgg(6, 8, 0, 0) );
+    spriteManager.addSprite( new SnakeEgg(9, 1, 0, 0) );
+    
+    spriteManager.addSprite( new SnakeEgg(8, 8, 2, 0) );
+    spriteManager.addSprite( new SnakeEgg(7, 6, 2, 0) );
+    spriteManager.addSprite( new SnakeEgg(9, 6, 2, 0) );
+    spriteManager.addSprite( new SnakeEgg(9, 3, 2, 0) );
+
+    Critter critters[] = { new Critter(8, 7, 2, Env.DOWN, kCritterTrack),
+                           new Critter(9, 4, 2, Env.LEFT, kCritterTrack) };
+    for ( Critter c : critters ) {
+      c.setColour(1);
+      spriteManager.addSprite(c);
     }
     
   } // Room.createSprites()

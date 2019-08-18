@@ -43,7 +43,7 @@ public class SnakeEgg extends Sprite3D implements Obstacle {
                     mYPos,
                     mZPos;
   
-  // which snake hatches from the egg (1, 2 or 3)
+  // which snake hatches from the egg (1, 2 or 3; 0 for inactive)
   private final int mType;
 
   // true when the egg is getting ready to hatch
@@ -82,7 +82,7 @@ public class SnakeEgg extends Sprite3D implements Obstacle {
     mYPos = y;
     mZPos = z;
     
-    assert( type >= 1 && type <= 3 );
+    assert( type >= 0 && type <= 3 );
     mType = type;
     
     mHatching = false;
@@ -137,6 +137,8 @@ public class SnakeEgg extends Sprite3D implements Obstacle {
                       LinkedList<Sprite> killTheseSprites,
                       LinkedList<StoryEvent> newStoryEvents) {
 
+    if ( mType == 0 ) return;
+    
     if ( mFlashTimer > 0 ) mFlashTimer -= 1;
     
     if ( mHatching ) {
