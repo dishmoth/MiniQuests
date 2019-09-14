@@ -165,6 +165,7 @@ public class SnakeBoss3 extends Snake {
           setColour(5);
           mActionTimer = 12;
           mFlashTimer = mActionTimer;
+          Env.sounds().play(Sounds.SNAKE_REVENGE, 6);
         }
       }
     }
@@ -173,6 +174,14 @@ public class SnakeBoss3 extends Snake {
 
   } // Snake.advance()
 
+  // register a hit on the snake's body
+  @Override  
+  public void shotInBody(int x, int y) {
+  
+    if ( !mDying ) Env.sounds().play(Sounds.SNAKE_HIT_0);
+      
+  } // Snake.shotInBody()
+  
   // register a hit on the snake's head
   @Override
   public void shotInHead() {
@@ -185,10 +194,12 @@ public class SnakeBoss3 extends Snake {
         mFlashTimer = mActionTimer;
         mFlashColour = 0;
         mStepping = false;
+        Env.sounds().play(Sounds.SNAKE_DEATH);
       }
     } else {
       if ( !mDying ) {
         flash(4);
+        if ( !mFrozen ) Env.sounds().play(Sounds.SNAKE_HIT_2);
         mFrozen = true;
       }
     }
@@ -202,6 +213,7 @@ public class SnakeBoss3 extends Snake {
     mTransformed = true;
     mFrozen = true;
     setColour(4);
+    Env.sounds().play(Sounds.SNAKE_TRANSFORM);
     
   } // transform()
 

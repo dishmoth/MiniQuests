@@ -61,15 +61,23 @@ abstract public class Sounds {
                              FLOOR_PEEK       = 45,
                              FLOOR_HIT        = 46,
                              FLOOR_DEATH      = 47,
-                             SUCCESS          = 48,
-                             QUEST_DONE       = 49,
-                             MENU_1           = 50,
-                             MENU_2           = 51,
-                             MAP              = 52,
-                             DUNGEON          = 53,
-                             TITLE            = 54,
-                             VENTURE          = 55;
-  protected static final int kNumSounds       = 56; 
+                             SNAKE_EGG        = 48,
+                             SNAKE_HATCH      = 49,
+                             SNAKE_HIT_0      = 50,
+                             SNAKE_HIT_1      = 51,
+                             SNAKE_HIT_2      = 52,
+                             SNAKE_TRANSFORM  = 53,
+                             SNAKE_REVENGE    = 54,
+                             SNAKE_DEATH      = 55,
+                             SUCCESS          = 56,
+                             QUEST_DONE       = 57,
+                             MENU_1           = 58,
+                             MENU_2           = 59,
+                             MAP              = 60,
+                             DUNGEON          = 61,
+                             TITLE            = 62,
+                             VENTURE          = 63;
+  protected static final int kNumSounds       = 64; 
   
   // true if sounds have been loaded and all is operational
   protected boolean mAvailable;
@@ -153,6 +161,14 @@ abstract public class Sounds {
     loadSound(FLOOR_PEEK, "floor_peek.ogg", 1);
     loadSound(FLOOR_HIT, "floor_hit.ogg", 1);
     loadSound(FLOOR_DEATH, "floor_death.ogg", 1);
+    loadSound(SNAKE_EGG, "snake_egg.ogg", 1);
+    loadSound(SNAKE_HATCH, "snake_hatch.ogg", 1);
+    loadSound(SNAKE_HIT_0, "snake_hit_0.ogg", 1);
+    loadSound(SNAKE_HIT_1, "snake_hit_1.ogg", 1);
+    loadSound(SNAKE_HIT_2, "snake_hit_2.ogg", 1);
+    loadSound(SNAKE_TRANSFORM, "snake_transform.ogg", 1);
+    loadSound(SNAKE_REVENGE, "snake_revenge.ogg", 1);
+    loadSound(SNAKE_DEATH, "snake_death.ogg", 1);
     loadSound(SUCCESS, "chimes.ogg", 1);
     loadSound(QUEST_DONE, "big_chimes.ogg", 1);
     loadSound(MENU_1, "menu1."+gdxType, 1);

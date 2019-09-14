@@ -260,7 +260,8 @@ public class SnakeBoss2 extends Snake {
       SnakeBoss2 s = (SnakeBoss2)ob;
       assert( s.mDead );
       if ( s.hitsBody(x, y, mZPos)) {
-        s.shotInBody(x, y);
+        s.zapDeadBody(x, y);
+        Env.sounds().play(Sounds.SNAKE_HIT_1);
         return true;
       }
     }
@@ -278,16 +279,34 @@ public class SnakeBoss2 extends Snake {
   } // Snake.hitsHead()
   
   // destroy a body segment
+  public void zapDeadBody(int x, int y) {
+    
+    assert( mDead );
+    mHitXPos = x;
+    mHitYPos = y;
+
+  } // zapDeadBody()
+
+  // destroy a body segment
   @Override
   public void shotInBody(int x, int y) {
     
     if ( mDead || !mDying ) {
       mHitXPos = x;
       mHitYPos = y;
+      Env.sounds().play(mDead ? Sounds.SNAKE_HIT_0 : Sounds.SNAKE_HIT_1);
     }
 
   } // Snake.shotInBody()
 
+  // register a hit on the snake's head
+  @Override  
+  public void shotInHead() {
+  
+    if ( !mDying ) Env.sounds().play(Sounds.SNAKE_HIT_0);
+      
+  } // Snake.shotInHead()
+  
   // if the head is dead then the body parts die
   private void checkHead() {
     
@@ -317,7 +336,7 @@ public class SnakeBoss2 extends Snake {
         xBody -= Env.STEP_X[direc];
         yBody -= Env.STEP_Y[direc];
       }
-      shotInBody(xBody, yBody);
+      zapDeadBody(xBody, yBody);
       mActionTimer = Env.randomInt(1, 5);
     }
     

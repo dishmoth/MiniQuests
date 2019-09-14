@@ -668,12 +668,13 @@ public class RoomE02 extends Room {
           if ( snakeSwitch ) {
             assert( !mSnakeDone );
             fs.freezeState(true);
-            Env.sounds().play(Sounds.SWITCH_ON);
             mSnakeSwitchesDone += 1;
             if ( mSnakeSwitchesDone == 16 ) {
               SnakeBoss3 snake =
                   (SnakeBoss3)spriteManager.findSpriteOfType(SnakeBoss3.class);
               snake.transform();
+            } else {
+              Env.sounds().play(Sounds.SWITCH_ON);
             }
           } else {
             assert(false);

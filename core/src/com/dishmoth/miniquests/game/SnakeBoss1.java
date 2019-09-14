@@ -119,6 +119,7 @@ public class SnakeBoss1 extends Snake {
     if (!mDying && !mHibernating) {
       grow(1);
       flash(0);
+      Env.sounds().play(Sounds.SNAKE_HIT_1);
     }
   } // Snake.shotInHead()
 

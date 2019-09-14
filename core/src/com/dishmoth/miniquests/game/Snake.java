@@ -332,7 +332,8 @@ abstract public class Snake extends Sprite3D implements Obstacle {
       mActionTimer = mStepTime2;
       mStepping = false;      
       
-      if ( mBody.size() > mFullLength || mStuck ) mBody.remove(0);
+      if ( mBody.size() > mFullLength || 
+           (mStuck && mBody.size() > 0) ) mBody.remove(0);
       if ( mHibernating && mBody.size() > 1 ) mBody.remove(0);
       
     } else {
@@ -371,6 +372,7 @@ abstract public class Snake extends Sprite3D implements Obstacle {
         mFlashTimer = kDeathTime1;
         mFlashColour = 0;
         mStepping = false;
+        Env.sounds().play(Sounds.SNAKE_DEATH);
       } else if ( mStuck && mHibernating ){
         mActionTimer = (mBody.size() > 0 ? 0 : mStepTime1);
         mStepping = false;

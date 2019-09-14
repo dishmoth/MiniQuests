@@ -158,10 +158,11 @@ public class SnakeEgg extends Sprite3D implements Obstacle {
           } else {
             assert(false);
           }
+          Env.sounds().play(Sounds.SNAKE_HATCH);
         } else {
           mTimer = Env.randomInt(kFlashDelayMin, kFlashDelayMax);
           mFlashTimer = kFlashTime;
-          Env.sounds().play(Sounds.TICK); // TODO
+          Env.sounds().play(Sounds.SNAKE_EGG);
         }
       }
       
