@@ -9,11 +9,8 @@ package com.dishmoth.miniquests.rooms;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.dishmoth.miniquests.game.Barrier;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.BlockStairs;
-import com.dishmoth.miniquests.game.Critter;
-import com.dishmoth.miniquests.game.CritterTrack;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Fence;
@@ -23,12 +20,11 @@ import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Snake;
-import com.dishmoth.miniquests.game.SnakeBoss2;
 import com.dishmoth.miniquests.game.SnakeEgg;
 import com.dishmoth.miniquests.game.Sounds;
-import com.dishmoth.miniquests.game.Sprite;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
+import com.dishmoth.miniquests.game.WallSwitch;
 import com.dishmoth.miniquests.game.ZoneSwitch;
 
 // the room "E04"
@@ -66,6 +62,7 @@ public class RoomE04 extends Room {
                                                            "          ",
                                                            "          ",
                                                            "          ",
+                                                           "          ",
                                                            "    0     ",
                                                            "00 000 000",
                                                            "    0     ",
@@ -81,6 +78,7 @@ public class RoomE04 extends Room {
                                                            "          " } },
   
                                                        { { "    0     ",
+                                                           "    0     ",
                                                            "    0     ",
                                                            "          ",
                                                            "          ",
@@ -100,6 +98,7 @@ public class RoomE04 extends Room {
                                                            "    0     " } },
                                                    
                                                        { { "          ",
+                                                           "          ",
                                                            "          ",
                                                            "    0     ",
                                                            "    0     ",
@@ -154,47 +153,14 @@ public class RoomE04 extends Room {
                                                   "0000000000" } };
 
   // blocks for zone (0,2)
-  private static final String kBlocks02[][] = { { "    1     ",
+  private static final String kBlocks02[][] = { { "          ",
+                                                  "  0   0   ",
+                                                  "  0   0   ",
+                                                  "000   0000",
+                                                  "  0   0   ",
+                                                  "  0   0   ",
+                                                  "  00000   ",
                                                   "          ",
-                                                  "  1       ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          " },
-                                                
-                                                { "   1      ",
-                                                  "          ",
-                                                  "   1      ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          " },
-                                                
-                                                { "  1       ",
-                                                  "          ",
-                                                  "    1     ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          " },
-                                                
-                                                { " 1   0    ",
-                                                  " 1   0    ",
-                                                  " 1   1    ",
-                                                  "01   1    ",
-                                                  " 1   1    ",
-                                                  " 1   1    ",
-                                                  " 1   1    ",
-                                                  " 11111    ",
                                                   "          ",
                                                   "          " } };
   
@@ -231,25 +197,12 @@ public class RoomE04 extends Room {
           = { new Exit(0,0, Env.LEFT,  4,0, "#g",0, -1, RoomE10.NAME, 0),
               new Exit(0,1, Env.LEFT,  5,0, "#g",0, -1, RoomE09.NAME, 1),
               new Exit(0,2, Env.LEFT,  6,0, "#g",0, -1, RoomE08.NAME, 0),
-              new Exit(0,2, Env.UP,    5,0, "#g",1, -1, RoomE03.NAME, 5),
+              new Exit(0,2, Env.UP,    6,8, "#g",0, -1, RoomE03.NAME, 5),
               new Exit(1,2, Env.UP,    4,8, "#g",0, -1, RoomE03.NAME, 4),
               new Exit(2,2, Env.UP,    1,0, "#g",1, -1, RoomE06.NAME, 3),
               new Exit(2,2, Env.UP,    8,0, "#g",1, -1, RoomE06.NAME, 2),
               new Exit(2,2, Env.RIGHT, 6,0, "#g",1, -1, RoomE13.NAME, 1)};
 
-  // details of the paths followed by enemies
-  private static final CritterTrack kCritterTrack02
-                    = new CritterTrack(new String[]{ " ++++     ",
-                                                     " +        ",
-                                                     " +++++    ",
-                                                     " +   +    ",
-                                                     " +   +    ",
-                                                     " +   +    ",
-                                                     " +   +    ",
-                                                     " +++++    ",
-                                                     "          ",
-                                                     "          " }, 0, 20);
-  
   // which blocks in zone (0,1) are raised (0, 1 or 2)
   private int mState01;
   
@@ -260,12 +213,15 @@ public class RoomE04 extends Room {
   private int         mTimer01;
   
   // flags for zone (0,2)
-  private boolean mSwitch02Done;
+  private int     mStairs02State;
+  private boolean mDoor02Done;
   
   // references to objects in zone (0,2)
-  private BlockStairs mPath02;
-  private FloorSwitch mSwitch02;
-  private int         mCritterTimer02;
+  private BlockStairs mStairs02;
+  private ZoneSwitch  mSwitch02a,
+                      mSwitch02b,
+                      mSwitch02c;
+  private WallSwitch  mDoorSwitch02;
   
   // flags for zone (1,2)
   private boolean mStairs12Done;
@@ -283,7 +239,8 @@ public class RoomE04 extends Room {
     super(NAME);
 
     mState01 = 0;
-    mSwitch02Done = false;
+    mStairs02State = 0;
+    mDoor02Done = false;
     mSnakeDone = false;
     mStairs12Done = false;
     
@@ -389,30 +346,31 @@ public class RoomE04 extends Room {
 
     spriteManager.addSprite(
                 new BlockArray(kBlocks02, kBlockColours,
-                               zoneX*Room.kSize, zoneY*Room.kSize, -6) );
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
-    int z02;
-    if ( mSwitch02Done ) {
-      z02 = 0;
-      mSwitch02 = null;
+    int z02a = ( mStairs02State > 1 ? 0 : 8 ),
+        z02b = ( mStairs02State > 0 ? 0 : 8 );
+    mStairs02 = new BlockStairs(zoneX*Room.kSize+6, zoneY*Room.kSize+9, z02a,
+                                zoneX*Room.kSize+2, zoneY*Room.kSize+9, z02b,
+                                kBlockColours[1], 5);
+    spriteManager.addSprite(mStairs02);
+    
+    mSwitch02a = new ZoneSwitch(zoneX*Room.kSize+2, zoneY*Room.kSize+9);
+    mSwitch02b = new ZoneSwitch(zoneX*Room.kSize+6, zoneY*Room.kSize+9);
+    mSwitch02c = new ZoneSwitch(zoneX*Room.kSize+6, zoneY*Room.kSize+10);
+    spriteManager.addSprite(mSwitch02a);
+    spriteManager.addSprite(mSwitch02b);
+    spriteManager.addSprite(mSwitch02c);
+
+    mDoorSwitch02 = new WallSwitch(zoneX, zoneY, Env.UP, 6, 2, 
+                                   new String[]{"q7","u7"}, false);
+    spriteManager.addSprite(mDoorSwitch02);
+    
+    if ( mDoor02Done ) {
+      mDoorSwitch02.setState(1);
     } else {
-      z02 = -4;
-      mSwitch02 = new FloorSwitch(zoneX*Room.kSize+5, zoneY*Room.kSize+7, 0,
-                                  "gq", "Og");
-      spriteManager.addSprite(mSwitch02);
+      kExits[2].mDoor.setClosed(true);
     }
-
-    mPath02 = new BlockStairs(zoneX*Room.kSize+6, zoneY*Room.kSize+7, z02,
-                              zoneX*Room.kSize+9, zoneY*Room.kSize+7, z02,
-                              kBlockColours[0], 1);
-    spriteManager.addSprite(mPath02);
-    
-    spriteManager.addSprite(new Barrier(zoneX*Room.kSize+3, zoneY*Room.kSize+7,
-                                        0, Player.class));
-    spriteManager.addSprite(new Barrier(zoneX*Room.kSize+3, zoneY*Room.kSize+9,
-                                        0, Player.class));
-    
-    mCritterTimer02 = 15;
     
     // zone (1,2)
     
@@ -515,26 +473,39 @@ public class RoomE04 extends Room {
       if ( event instanceof FloorSwitch.EventStateChange ) {
         FloorSwitch s = (FloorSwitch)
                         ((FloorSwitch.EventStateChange)event).mSwitch;
-        if ( s == mSwitch02 ) {
-          assert( !mSwitch02Done );
-          mPath02.setZStart(0);
-          mPath02.setZEnd(0);
-          mSwitch02Done = true;
-          s.freezeState(true);
-          Env.sounds().play(Sounds.SWITCH_ON);
-        } else {
-          for ( FloorSwitch fs : mSwitches01 ) {
-            if ( s == fs ) switch01 = s;
-          }
-          assert(switch01 != null);
+        for ( FloorSwitch fs : mSwitches01 ) {
+          if ( s == fs ) switch01 = s;
         }
+        assert(switch01 != null);
         it.remove();
       }
       
       if ( event instanceof ZoneSwitch.EventStateChange ) {
         ZoneSwitch s = (ZoneSwitch)
                        ((ZoneSwitch.EventStateChange)event).mSwitch;
-        if ( s == mStairSwitch12 ) {
+        if ( s == mSwitch02a ) {
+          if ( s.isOn() && mStairs02State == 0 ) {
+            mStairs02.setSlopeType(+1);
+            mStairs02.setZEnd(0);
+            mStairs02State = 1;
+            Env.sounds().play(Sounds.SWITCH_ON);          
+          }
+        } else if ( s == mSwitch02b ) {
+          if ( s.isOn() && mStairs02State == 1 ) {
+            mStairs02.setSlopeType(-1);
+            mStairs02.setZStart(0);
+            mStairs02State = 2;
+            Env.sounds().play(Sounds.SWITCH_ON);          
+          }
+        } else if ( s == mSwitch02c ) {
+          if ( s.isOn() && mStairs02State > 0 ) {
+            mStairs02.setSlopeType(+1);
+            mStairs02.setZStart(8);
+            mStairs02.setZEnd(8);
+            mStairs02State = 0;
+            Env.sounds().play(Sounds.SWITCH_ON);          
+          }
+        } else if ( s == mStairSwitch12 ) {
           if ( s.isOn() ) {
             mStairs12Done = true;
             mStairs12.setZStart(2);
@@ -549,6 +520,14 @@ public class RoomE04 extends Room {
         it.remove();
       }
 
+      if ( event instanceof WallSwitch.EventStateChange ) {
+        assert( !mDoor02Done );
+        mDoor02Done = true;
+        kExits[2].mDoor.setClosed(false);
+        Env.sounds().play(Sounds.SUCCESS, 3);
+        it.remove();
+      }
+      
       if ( event instanceof Snake.EventKilled ) {
         mSnakeDone = true;
         Env.sounds().play(Sounds.SUCCESS);
@@ -600,27 +579,6 @@ public class RoomE04 extends Room {
         spriteManager.addSprite(mSwitches01[5]);
         spriteManager.addSprite(mSwitches01[6]);
         spriteManager.addSprite(mSwitches01[7]);
-      }
-    }
-    
-    // critters in zone (0,2)
-    if ( mSwitch02Done ) {
-      mCritterTimer02--;
-      if ( mCritterTimer02 <= 0 ) {
-        Critter c = new Critter(4,29,-6, Env.DOWN, kCritterTrack02);
-        c.setColour(3);
-        c.easilyKilled(true);
-        spriteManager.addSprite(c);
-        mCritterTimer02 = 100;
-      }
-      for ( Sprite s : spriteManager.list() ) {
-        if ( s instanceof Critter ) {
-          Critter c = (Critter)s;
-          if ( c.getXPos() == 2 && c.getYPos() == 27 && !c.isActing() ) {
-            spriteManager.removeSprite(c);
-            break;
-          }
-        }
       }
     }
     

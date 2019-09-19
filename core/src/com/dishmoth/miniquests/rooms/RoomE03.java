@@ -157,7 +157,7 @@ public class RoomE03 extends Room {
               new Exit(2,2, Env.RIGHT, 2,0, "#h",0, -1, RoomE02.NAME, 3),
               new Exit(2,1, Env.RIGHT, 4,0, "#h",0, -1, RoomE02.NAME, 4),
               new Exit(2,0, Env.DOWN,  4,8, "Nh",4, -1, RoomE04.NAME, 4),
-              new Exit(1,0, Env.DOWN,  5,0, "#h",0, -1, RoomE04.NAME, 3) };
+              new Exit(1,0, Env.DOWN,  6,8, "#h",4, -1, RoomE04.NAME, 3) };
 
   // details of the paths followed by enemies
   private static final CritterTrack kCritterTrack22
@@ -166,8 +166,14 @@ public class RoomE03 extends Room {
                                                      "+    +",
                                                      "++++++" }, 23, 24); 
 
+  // flags for zone (0,1)
+  private boolean mStairs10Done;
+  
   // references to objects in zone (1,0)
-  private BlockStairs mStairs10;
+  private BlockStairs mPath10,
+                      mStairs10a,
+                      mStairs10b;
+  private ZoneSwitch  mSwitch10;
   
   // flags for zone (1,1)
   private boolean mSnakeDone;
@@ -209,6 +215,7 @@ public class RoomE03 extends Room {
     mRaftDone = false;
     mGatesDone = false;
     mSnakeDone = false;
+    mStairs10Done = false;
     mStairs20Done = false;
     
   } // constructor
@@ -249,11 +256,27 @@ public class RoomE03 extends Room {
     zoneY = 0;
 
     int z10 = (mSnakeDone ? 0 : -18);
-    mStairs10 = new BlockStairs(zoneX*Room.kSize+5, zoneY*Room.kSize+0, 0,
-                                zoneX*Room.kSize+5, zoneY*Room.kSize+9, z10,
-                                "#h", 1);
-    mStairs10.setSlopeType(+1);
-    spriteManager.addSprite(mStairs10);
+    mPath10 = new BlockStairs(zoneX*Room.kSize+4, zoneY*Room.kSize+0, 0,
+                              zoneX*Room.kSize+4, zoneY*Room.kSize+9, z10,
+                              "#h", 1);
+    mPath10.setSlopeType(+1);
+    spriteManager.addSprite(mPath10);
+    
+    int z10a1 = (mStairs10Done ? 2 : 0),
+        z10a2 = (mStairs10Done ? 6 : 0),
+        z10b  = (mStairs10Done ? 8 : 0);
+    mStairs10a = new BlockStairs(zoneX*Room.kSize+5, zoneY*Room.kSize+0, z10a1,
+                                 zoneX*Room.kSize+5, zoneY*Room.kSize+2, z10a2,
+                                 "#h", 4);
+    mStairs10b = new BlockStairs(zoneX*Room.kSize+6, zoneY*Room.kSize+0, z10b,
+                                 zoneX*Room.kSize+6, zoneY*Room.kSize+2, z10b,
+                                 "#h", 5);
+    mStairs10a.setSlopeType(+1);
+    spriteManager.addSprite(mStairs10a);
+    spriteManager.addSprite(mStairs10b);
+
+    mSwitch10 = new ZoneSwitch(zoneX*Room.kSize+4, zoneY*Room.kSize+9);
+    spriteManager.addSprite(mSwitch10);
     
     // zone (2,0)
 
@@ -284,7 +307,9 @@ public class RoomE03 extends Room {
                 new BlockArray(kBlocks11, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, -2) );
     
-    spriteManager.addSprite(new SnakeEgg(13, 13, 0, 1));
+    if ( !mSnakeDone ) {
+      spriteManager.addSprite(new SnakeEgg(13, 13, 0, 1));
+    }
     
     // zone (2,1)
 
@@ -528,6 +553,11 @@ public class RoomE03 extends Room {
             mStairs12.setZEnd(8);
             Env.sounds().play(Sounds.SWITCH_OFF);        
           }
+        } else if ( s == mSwitch10 ) {
+          if ( s.isOn() && !mStairs10Done ) {
+            mStairs10Done = true;
+            Env.sounds().play(Sounds.SWITCH_ON);
+          }
         } else {
           assert(false);
         }
@@ -538,7 +568,7 @@ public class RoomE03 extends Room {
         mSnakeDone = true;
         mGate21a.setClosed(false);
         mGate21b.setClosed(false);
-        mStairs10.setZEnd(0);
+        mPath10.setZEnd(0);
         Env.sounds().play(Sounds.SUCCESS);
         it.remove();
       }
@@ -579,6 +609,15 @@ public class RoomE03 extends Room {
           mGate21b.setClosed(false);
         }
       }
+    }
+
+    // raise the stairs in zone (1,0) when scrolling is complete
+    if ( mStairs10Done && mStairs10b.getZEnd() == 0 &&
+         !mStairs10b.moving() && mCamera.yPos() == 0 ) {
+      mStairs10a.setZStart(2);
+      mStairs10a.setZEnd(6);
+      mStairs10b.setZStart(8);
+      mStairs10b.setZEnd(8);
     }
     
     // finalize scrolling
