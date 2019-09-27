@@ -306,21 +306,23 @@ public class RoomE06 extends Room {
           mCursorTimer = kCursorActiveTime;
           paintPuzzle();
         }
+        Env.sounds().play(Sounds.PUZZLE_ON);
       } else {
         mCursorTimer -= 1;
         if ( mCursorActive && mCursorTimer == kCursorActiveTime/2 ) {
           rotatePuzzle();
           paintPuzzle();
           puzzleCheck();
-          Env.sounds().play(Sounds.SWITCH_ON);
+          Env.sounds().play(Sounds.PUZZLE_CHANGE);
         } else if ( mCursorTimer == 0 ) {
           if ( mCursorActive ) {
             mCursorActive = false;
             mCursorTimer = kCursorMoveTime;
+            Env.sounds().play(Sounds.PUZZLE_OFF);
             if ( puzzleCheck() ) {
               mGate.setClosed(false);
               mDone = true;
-              Env.sounds().play(Sounds.SUCCESS);
+              Env.sounds().play(Sounds.SUCCESS, 5);
             }
           } else {
             mCursorPos = (mCursorPos + 1) % 4;
