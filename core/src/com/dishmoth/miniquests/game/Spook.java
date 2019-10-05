@@ -275,7 +275,7 @@ public class Spook extends Sprite3D {
         for ( int dir = 0 ; dir < 4 ; dir++ ) {
           if ( dir != mDirecFrom && validDirecs[dir] ) randomDirec.add(dir);
         }
-        shuffle(randomDirec);
+        Env.shuffle(randomDirec);
         if ( validDirecs[mDirecFrom] ) randomDirec.add(mDirecFrom);
         if ( randomDirec.size() > 0 ) {
           direc = randomDirec.getFirst();          
@@ -304,18 +304,6 @@ public class Spook extends Sprite3D {
 
   } // Sprite.advance()
 
-  // utility to rearrange the list (can't use Collections.shuffle() due to GWT)
-  static private void shuffle(LinkedList<Integer> list) {
-
-    for ( int k = list.size() - 1 ; k >= 0 ; k-- ) {
-      int i = Env.randomInt(k+1);
-      int temp = list.get(k);
-      list.set(k, list.get(i));
-      list.set(i, temp);
-    }
-    
-  } // shuffle()
-  
   // which directions are possible to step in from here 
   private boolean[] checkDirections(int x, int y, int z) {
 

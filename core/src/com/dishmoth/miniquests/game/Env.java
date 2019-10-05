@@ -248,4 +248,16 @@ public class Env {
     
   } // copyOf(String[])
   
+  // utility to rearrange a list (can't use Collections.shuffle() due to GWT)
+  static public void shuffle(LinkedList<Integer> list) {
+
+    for ( int k = list.size() - 1 ; k >= 0 ; k-- ) {
+      int i = Env.randomInt(k+1);
+      int temp = list.get(k);
+      list.set(k, list.get(i));
+      list.set(i, temp);
+    }
+    
+  } // shuffle()
+
 } // class Env

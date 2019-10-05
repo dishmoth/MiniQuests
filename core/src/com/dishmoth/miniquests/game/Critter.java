@@ -84,6 +84,9 @@ public class Critter extends Sprite3D implements Obstacle {
   private boolean mDestroyed;
   private int mDestroyDirec;
 
+  // true for a critter than makes no sound
+  private boolean mSilent;
+  
   // possible positions where the Critter can walk (or null)
   private Track mTrack;
   
@@ -138,6 +141,7 @@ public class Critter extends Sprite3D implements Obstacle {
     mFreezeTimer = 0;
 
     mColour = 0;
+    mSilent = false;
     
     mInstantKill = false;
     
@@ -176,7 +180,7 @@ public class Critter extends Sprite3D implements Obstacle {
       return;
     }
     mFreezeTimer = mFreezeTime; 
-    Env.sounds().play(Sounds.CRITTER_STUN);
+    if ( !mSilent ) Env.sounds().play(Sounds.CRITTER_STUN);
     
   } // stun()
 
@@ -212,6 +216,9 @@ public class Critter extends Sprite3D implements Obstacle {
     mDestroyDirec = direc;
 
   } // destroy()
+  
+  // set whether the critter makes any sound
+  public void setSilent(boolean v) { mSilent = v; }
   
   // check for Sprites we want to keep track of
   @Override
@@ -296,7 +303,7 @@ public class Critter extends Sprite3D implements Obstacle {
         for ( int dir = 0 ; dir < 4 ; dir++ ) {
           if ( dir != mDirecFrom && zDests[dir] != null ) randomDirec.add(dir);
         }
-        shuffle(randomDirec);
+        Env.shuffle(randomDirec);
         if ( zDests[mDirecFrom] != null ) randomDirec.add(mDirecFrom);
         if ( randomDirec.size() > 0 ) {
           direc = randomDirec.getFirst();          
@@ -354,18 +361,6 @@ public class Critter extends Sprite3D implements Obstacle {
 
   } // Sprite.advance()
 
-  // utility to rearrange the list (can't use Collections.shuffle() due to GWT)
-  static private void shuffle(LinkedList<Integer> list) {
-
-    for ( int k = list.size() - 1 ; k >= 0 ; k-- ) {
-      int i = Env.randomInt(k+1);
-      int temp = list.get(k);
-      list.set(k, list.get(i));
-      list.set(i, temp);
-    }
-    
-  } // shuffle()
-  
   // check isPlatform() on all obstacles
   private boolean checkIsPlatform(int x, int y, int z) {
     
@@ -481,7 +476,7 @@ public class Critter extends Sprite3D implements Obstacle {
       addTheseSprites.add(new Splatter(mXPos, mYPos, mZPos,
                                        (mStepping ? mDirec : -1),
                                        kHeight, colour, mDestroyDirec));
-      Env.sounds().play(Sounds.CRITTER_DEATH);
+      if ( !mSilent ) Env.sounds().play(Sounds.CRITTER_DEATH);
     }
     
   } // Sprite.aftermath()
