@@ -18,6 +18,7 @@ import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Snake;
 import com.dishmoth.miniquests.game.SnakeBoss3;
@@ -297,6 +298,11 @@ public class RoomE02 extends Room {
               new Exit(0,0, Env.DOWN, 8,0, "#k",0, -1, RoomE06.NAME, 0), 
               new Exit(2,0, Env.DOWN, 4,0, "#k",0, -1, RoomE12.NAME, 3) };
   
+  // times at which things happen
+  private static final int kGameEndsDelay   = 50,
+                           kChestSoundDelay = kGameEndsDelay - 5,
+                           kChestOpenDelay  = kChestSoundDelay - 10;  
+
   // references to objects in zone (0,0)
   private BlockStairs mStairs00a,
                       mStairs00b;
@@ -342,6 +348,9 @@ public class RoomE02 extends Room {
   // references to objects in zone (1,2)
   private Chest       mChest;
   private BlockStairs mChestStairs;
+  
+  // countdown once the chest is opened
+  private int mEndTimer;
   
   // constructor
   public RoomE02() {
@@ -590,6 +599,8 @@ public class RoomE02 extends Room {
     mChest = new Chest(zoneX*Room.kSize+5, zoneY*Room.kSize+2, 6, Env.LEFT);
     spriteManager.addSprite(mChest);    
 
+    mEndTimer = 0;
+    
   } // Room.createSprites()
   
   // room is no longer current, delete any unnecessary references 
@@ -778,6 +789,25 @@ public class RoomE02 extends Room {
       mChestStairs.setZStart(0);
     }
 
+    // once the chest is open
+    if ( mEndTimer > 0 ) {
+      mEndTimer--;
+      if ( mEndTimer == kChestSoundDelay ) {
+        Env.sounds().play(Sounds.CHEST);        
+      } else if ( mEndTimer == kChestOpenDelay ) {
+        mChest.setOpen(true);
+      } else if ( mEndTimer == 0 ) {
+        storyEvents.add(new QuestStory.EventPlayerWins());
+      }
+    }
+
+    // check for opening the chest
+    if ( mEndTimer == 0 && !mChest.isOpen() && mPlayer != null &&
+         mPlayer.getXPos() == 23 && mPlayer.getYPos() == 13 ) {
+      mPlayer.mAdvanceDisabled = true;
+      mEndTimer = kGameEndsDelay;
+    }
+     
   } // Room.advance()
 
 } // class RoomE02

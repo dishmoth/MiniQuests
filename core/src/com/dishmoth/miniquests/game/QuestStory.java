@@ -104,11 +104,11 @@ public class QuestStory extends Story {
   private static final int kPlayerDeathTime = 30;
 
   // range of quest results for calculating the overall rating
-  private static final int   kQuestDeathBest[]  = {    0,    0,    0,    0 },
-                             kQuestDeathWorst[] = {  100,  100,  100,  100 };
-  private static final float kQuestTimeBest[]   = {  290,  265,  380,  360 },
-                                   // personal best: 247,  216,  332,  300
-                             kQuestTimeWorst[]  = { 3000, 3000, 3000, 3000 };
+  private static final int   kQuestDeathBest[]  = {    0,    0,    0,    0,    0 },
+                             kQuestDeathWorst[] = {  100,  100,  100,  100,  100 };
+  private static final float kQuestTimeBest[]   = {  290,  265,  380,  360,  500 },
+                                   // personal best: 247,  216,  332,  300,  586
+                             kQuestTimeWorst[]  = { 3000, 3000, 3000, 3000, 3000 };
 
   // which quest we're doing
   private int mQuestNum;
