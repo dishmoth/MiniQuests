@@ -119,7 +119,9 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     mFullLength = 2;
     
     assert( direc >= 0 && direc < 4 );
+    while ( !validDirection(mXPos, mYPos, direc) ) direc = Env.randomInt(4);
     mDirec = direc;
+    
     mStepTime1 = mStepTime2 = 3;
     mActionTimer = mStepTime2;
     mStepping = false;
@@ -224,17 +226,27 @@ abstract public class Snake extends Sprite3D implements Obstacle {
   public void setLength(int len) { mFullLength = len; }
   public int length() { return mFullLength; }
   
+  // whether the grid allows movement in a particular direction
+  // (location is fixed to a grid in zone (1,1))
+  static protected boolean validDirection(int x, int y, int direc) {
+    
+    final int xDest = x + Env.STEP_X[direc],
+              yDest = y + Env.STEP_Y[direc];
+    if ( xDest < 10 || xDest >= 20 || yDest < 10 || yDest >= 20 ) return false;
+    if ( (xDest-10)%3 > 0 && (yDest-10)%3 > 0 ) return false;
+    return true;
+
+  } // validDirection()
+  
   // whether the snake can move in a particular direction
   // (location is fixed to a grid in zone (1,1))
   protected boolean canMove(int x, int y, int direc) {
 
+    if ( !validDirection(x, y, direc) ) return false;
+    
     final int xDest = x + Env.STEP_X[direc],
               yDest = y + Env.STEP_Y[direc];
 
-    if ( xDest < 10 || xDest >= 20 ||
-         yDest < 10 || yDest >= 20 ||
-         (xDest-10)%3 > 0 && (yDest-10)%3 > 0 ) return false;
-      
     if ( hitsBody(xDest, yDest, mZPos) ) return false;
 
     boolean platform = false;
@@ -289,13 +301,24 @@ abstract public class Snake extends Sprite3D implements Obstacle {
 
   } // chooseDirection()
   
+  // player is no longer playing (having died and respawned off the grid)
+  protected boolean playerHasDied() {
+    
+    final int gridMin = 5,
+              gridMax = 24;
+    return ( mPlayer == null ||
+             mPlayer.getXPos() < gridMin || mPlayer.getXPos() > gridMax ||
+             mPlayer.getYPos() < gridMin || mPlayer.getYPos() > gridMax );
+    
+  } // playerHasDied()
+  
   // move the snake
   @Override
   public void advance(LinkedList<Sprite> addTheseSprites,
                       LinkedList<Sprite> killTheseSprites,
                       LinkedList<StoryEvent> newStoryEvents) {
 
-    if ( mPlayer == null && !mHibernating ) {
+    if ( playerHasDied() && !mHibernating ) {
       mFullLength = 2;
       mDieWhenStuck = false;
       mHibernating = true;
@@ -339,7 +362,9 @@ abstract public class Snake extends Sprite3D implements Obstacle {
     } else {
 
       // at the start of a step
-      if ( mHibernating && mBody.size() == 0 ) {
+      final boolean atJunction = ( (mXPos-10)%3 == 0 && (mYPos-10)%3 == 0 );
+
+      if ( mHibernating && mBody.size() == 0 && atJunction ) {
         killTheseSprites.add(this);
         addTheseSprites.add(new SnakeEgg(mXPos, mYPos, mZPos, snakeType()));
         return;
@@ -349,7 +374,6 @@ abstract public class Snake extends Sprite3D implements Obstacle {
  
       int direc = chooseDirection();
       
-      final boolean atJunction = ( (mXPos-10)%3 == 0 && (mYPos-10)%3 == 0 );
       if ( mHibernating && atJunction ) {
         direc = -1;
         mFullLength = 0;
