@@ -15,6 +15,7 @@ import com.dishmoth.miniquests.game.BlockStairs;
 import com.dishmoth.miniquests.game.Chest;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
+import com.dishmoth.miniquests.game.FlameArea;
 import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
@@ -259,17 +260,6 @@ public class RoomE02 extends Room {
                                                   "    00000 ",
                                                   "    00000 ",
                                                   "    00000 ",
-                                                  "          " },
-                                                
-                                                { "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "          ",
-                                                  "    00000 ",
-                                                  "    00000 ",
-                                                  "    00000 ",
-                                                  "    00000 ",
-                                                  "    00000 ",
                                                   "          " } };
 
   // blocks for zone (2,0)
@@ -302,6 +292,15 @@ public class RoomE02 extends Room {
   private static final int kGameEndsDelay   = 50,
                            kChestSoundDelay = kGameEndsDelay - 5,
                            kChestOpenDelay  = kChestSoundDelay - 10;  
+
+  // pattern of flames around the chest
+  private static final String kFlamePattern[] = { "ooooooo",
+                                                  "o     o",
+                                                  "o     o",
+                                                  "      o",
+                                                  "o     o",
+                                                  "o     o",
+                                                  "ooooooo" };
 
   // references to objects in zone (0,0)
   private BlockStairs mStairs00a,
@@ -589,15 +588,20 @@ public class RoomE02 extends Room {
                 new BlockArray(kBlocks21, kBlockColours,
                                zoneX*Room.kSize, zoneY*Room.kSize, 0) );
 
-    int z = ( mSnakeDone ? 0 : 6 );
+    int z = ( mSnakeDone ? 0 : 4 );
     mChestStairs = new BlockStairs(zoneX*Room.kSize+0, zoneY*Room.kSize+3, z,
-                                   zoneX*Room.kSize+3, zoneY*Room.kSize+3, 6,
+                                   zoneX*Room.kSize+3, zoneY*Room.kSize+3, 4,
                                    "#k", 4);
     mChestStairs.setSlopeType(+1);
     spriteManager.addSprite(mChestStairs);
     
-    mChest = new Chest(zoneX*Room.kSize+5, zoneY*Room.kSize+2, 6, Env.LEFT);
+    mChest = new Chest(zoneX*Room.kSize+5, zoneY*Room.kSize+2, 4, Env.LEFT);
     spriteManager.addSprite(mChest);    
+
+    FlameArea flames = new FlameArea(zoneX*Room.kSize+3, zoneY*Room.kSize+0,
+                                     -2, kFlamePattern);
+    flames.warmUp();
+    spriteManager.addSprite(flames);
 
     mEndTimer = 0;
     
@@ -784,7 +788,7 @@ public class RoomE02 extends Room {
     }
 
     // lower the stairs to the chest
-    if ( mSnakeDone && mChestStairs.getZStart() == 6 &&
+    if ( mSnakeDone && mChestStairs.getZStart() == 4 &&
          mSnakeBridge.getZEnd() == 0 ) {
       mChestStairs.setZStart(0);
     }
