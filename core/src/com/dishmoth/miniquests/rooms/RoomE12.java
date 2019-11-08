@@ -40,7 +40,7 @@ public class RoomE12 extends Room {
   private static final String kBlocks2[][] = { { "    3     ",
                                                  "    3     ",
                                                  "    3     ",
-                                                 "33333     ",
+                                                 "3333333333",
                                                  "          ",
                                                  "          ",
                                                  "          ",
