@@ -31,7 +31,7 @@ public class RoomE09 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { new Exit(Env.UP,    5,0, "#6",0, -1, RoomE08.NAME, 1),
-              new Exit(Env.RIGHT, 5,0, "#6",0, -1, RoomE04.NAME, 1) };
+              new Exit(Env.RIGHT, 5,4, "#6",0, -1, RoomE04.NAME, 1) };
 
   // stair heights for the different room states
   // for each position, hex value shows which of the incoming stairs are raised
@@ -44,20 +44,20 @@ public class RoomE09 extends Room {
                                                      "BF6",
                                                      "000" },
                                                   
-                                                   { "05C", // 2 (down-right)
-                                                     "05E",
-                                                     "056" },
+                                                   { "000", // 2 (down-right)
+                                                     "000",
+                                                     "000" },
                                                   
                                                    { "000", // 3 (mid-left)
                                                      "AAA",
                                                      "222" },
                                                   
-                                                   { "008", // 4 (mid)
-                                                     "0FA",
+                                                   { "00C", // 4 (mid)
+                                                     "00A",
                                                      "156" },
                                                   
                                                    { "000", // 5 (mid-right)
-                                                     "000",
+                                                     "004",
                                                      "000" },
                                                   
                                                    { "00C", // 6 (up-left)
@@ -65,7 +65,7 @@ public class RoomE09 extends Room {
                                                      "060" },
                                                   
                                                    { "000", // 7 (up-mid)
-                                                     "000",
+                                                     "004",
                                                      "000" },
                                                   
                                                    { "804", // 8 (up-right)
