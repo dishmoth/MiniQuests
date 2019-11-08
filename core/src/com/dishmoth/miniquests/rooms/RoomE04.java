@@ -33,7 +33,7 @@ public class RoomE04 extends Room {
   // unique identifier for this room
   public static final String NAME = "E04";
   
-  // main blocks for zone (0,1)
+  // main blocks for zones (0,0) and (0,1)
   private static final String kBlocks01[][] = { { "0    0    ",
                                                   "          ",
                                                   "          ",
@@ -44,9 +44,18 @@ public class RoomE04 extends Room {
                                                   "     0    ",
                                                   "          ",
                                                   "          ",
-                                                  "0    0    " } };
+                                                  "0    0    ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "          ",
+                                                  "     0000 ",
+                                                  "     0  0 ",
+                                                  "     0  0 ",
+                                                  "     0000 ",
+                                                  "          " } };
 
-  // changing blocks for zone (0,1)
+  // changing blocks for zones (0,0) and(0,1)
   private static final String kBlockStates01[][][] = { { { "          ",
                                                            "          ",
                                                            " 0000     ",
@@ -64,6 +73,10 @@ public class RoomE04 extends Room {
                                                            "          ",
                                                            "          ",
                                                            "          ",
+                                                           "          ",
+                                                           "      00  ",
+                                                           "      00  ",
+                                                           "          ",
                                                            "          " },
     
                                                          { "          ",
@@ -74,6 +87,10 @@ public class RoomE04 extends Room {
                                                            "          ",
                                                            "          ",
                                                            "0         ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
                                                            "          ",
                                                            "          ",
                                                            "          ",
@@ -103,16 +120,30 @@ public class RoomE04 extends Room {
                                                            "     0    ",
                                                            "     0    ",
                                                            "     0    ",
-                                                           "000000    " } } };
+                                                           "00000     ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          ",
+                                                           "          " } } };
 
-  // invisible (temporary) blocks for zone (0,1)
+  // invisible (temporary) blocks for zones (0,0) and (0,1)
   private static final String kBlockBarriers01[][] = { { "          ",
+                                                         "          ",
                                                          "          ",
                                                          "    * *   ",
                                                          "   *   *  ",
                                                          "  * * * * ",
                                                          "   *   *  ",
                                                          "    * *   ",
+                                                         "          ",
+                                                         "          ",
+                                                         "          ",
+                                                         "          ",
+                                                         "          ",
+                                                         "          ",
+                                                         "     *    ",
+                                                         "    *     ",
+                                                         "          ",
                                                          "          ",
                                                          "          ",
                                                          "          " } };
@@ -264,43 +295,41 @@ public class RoomE04 extends Room {
       }
     }
     
-    // zone (0,0)
+    // zone (0,0) / (0,1)
 
     zoneX = 0;
     zoneY = 0;
     
-    // zone (0,1)
-
-    zoneX = 0;
-    zoneY = 1;
-    
     spriteManager.addSprite(
                 new BlockArray(kBlocks01, kBlockColours,
-                               zoneX*Room.kSize, zoneY*Room.kSize-1, 0) );
+                               zoneX*Room.kSize, zoneY*Room.kSize, 0) );
     
     mBlocks01 = new BlockArray[kBlockStates01.length];
     for ( int k = 0 ; k < mBlocks01.length ; k++ ) {
       int z = (k == mState01 ? 0 : -4);
       mBlocks01[k] = new BlockArray(kBlockStates01[k], kBlockColours,
-                                    zoneX*Room.kSize, zoneY*Room.kSize-6, z); 
+                                    zoneX*Room.kSize, zoneY*Room.kSize, z); 
       spriteManager.addSprite(mBlocks01[k]);
     }
 
     mBarriers01 = new BlockArray(kBlockBarriers01, kBlockColours,
-                                 zoneX*Room.kSize, zoneY*Room.kSize-1, 2);
+                                 zoneX*Room.kSize, zoneY*Room.kSize, 2);
     
-    final int xy[][] = { {3,4}, {7,4}, {5,2}, {5,6}, {10,4},
-                         {5,9}, {5,-1}, {0,9}, {0,-1}, {-1,4,4}, {-1,-6} };
+    final int xy[][] = { {3,14}, {7,14}, {5,12}, {5,16}, {10,14},
+                         {5,19}, {5,9}, {0,19}, {0,9},
+                         {5,4}, {8,4}, {5,1}, {8,1},
+                         {-1,14,4}, {-1,4} };
     mSwitches01 = new FloorSwitch[xy.length];
     for ( int k = 0 ; k < mSwitches01.length ; k++ ) {
       int z = (xy[k].length > 2 ? xy[k][2] : 0);
       mSwitches01[k] = new FloorSwitch(zoneX*Room.kSize + xy[k][0],
                                        zoneY*Room.kSize + xy[k][1],
-                                       z, (k<9 ? "#q" : "#g" ), "#g");
+                                       z,
+                                       (k<xy.length-2 ? "#q" : "#g" ), "#g");
       spriteManager.addSprite(mSwitches01[k]);
     }
-    if ( mState01 == 0 ) mSwitches01[9].freezeState(true);
-    if ( mState01 == 1 ) mSwitches01[10].freezeState(true);
+    if ( mState01 == 0 ) mSwitches01[xy.length-2].freezeState(true);
+    if ( mState01 == 1 ) mSwitches01[xy.length-1].freezeState(true);
 
     mTimer01 = 0;
     
@@ -522,8 +551,9 @@ public class RoomE04 extends Room {
         else                  fs.unfreezeState();
       }
       mState01 = 1 - mState01;
-      if ( mState01 == 0 ) mSwitches01[9].freezeState(true);
-      if ( mState01 == 1 ) mSwitches01[10].freezeState(true);
+      final int num = mSwitches01.length;
+      if ( mState01 == 0 ) mSwitches01[num-2].freezeState(true);
+      if ( mState01 == 1 ) mSwitches01[num-1].freezeState(true);
       spriteManager.addSprite(mBarriers01);
       mTimer01 = 8;
     }
