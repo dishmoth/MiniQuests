@@ -130,7 +130,7 @@ public class RoomE10 extends Room {
 
     mStairs = new BlockStairs(3, 7, kStairsTop,
                               8, 7, kStairsTop,
-                              "LX", 10);
+                              "LX", 16);
     spriteManager.addSprite(mStairs);
     
     mSwitchStart = new ZoneSwitch(3, 7);
