@@ -121,7 +121,7 @@ public class RoomE06 extends Room {
     spriteManager.addSprite(new Fence(5,3,0, 7, Env.UP, 1));
 
     mSwitches = new WallSwitch[] { 
-              new WallSwitch(Env.UP, 1, 2, new String[]{"37","u7"}, false),
+              new WallSwitch(Env.UP, 1, 2, new String[]{"27","u7"}, false),
               new WallSwitch(Env.UP, 2, 2, new String[]{"b7","u7"}, false),
               new WallSwitch(Env.UP, 3, 2, new String[]{"c7","u7"}, false) };
     for ( WallSwitch s : mSwitches ) {
@@ -180,7 +180,7 @@ public class RoomE06 extends Room {
       }
     }
     
-    final byte colours[] = { EgaTools.decodePixel('3'),
+    final byte colours[] = { EgaTools.decodePixel('2'),
                              EgaTools.decodePixel('b'),
                              EgaTools.decodePixel('c') };
     for ( int iy = 0 ; iy < mPuzzle.length ; iy++ ) {
