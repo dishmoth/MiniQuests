@@ -63,11 +63,11 @@ public class RoomE13 extends Room {
                                                  "          ",
                                                  "          " } };
                                               
-  private static final String kBlocksB[][] = { { "  0       ",
-                                                 "  0       ",
-                                                 "  0       ",
-                                                 "000       ",
-                                                 "          ",
+  private static final String kBlocksB[][] = { { "000       ",
+                                                 "0         ",
+                                                 "0         ",
+                                                 "0         ",
+                                                 "0         ",
                                                  "          ",
                                                  "          ",
                                                  "          ",
@@ -81,7 +81,7 @@ public class RoomE13 extends Room {
   // details of exit/entry points for the room 
   private static final Exit kExits[] 
           = { new Exit(Env.UP,   2,14, "#L",1, -1, RoomE07.NAME, 2),
-              new Exit(Env.LEFT, 6,14, "XL",1, -1, RoomE04.NAME, 7) };
+              new Exit(Env.LEFT, 5,14, "XL",1, -1, RoomE04.NAME, 7) };
 
   // details of the paths followed by enemies
   private static final CritterTrack kCritterTrack
@@ -140,7 +140,7 @@ public class RoomE13 extends Room {
     
     if ( !mDone ) {
       kExits[1].mDoor.setClosed(true);
-      spriteManager.addSprite(new FloorSwitch(2, 6, 14, "lL", "XL"));
+      spriteManager.addSprite(new FloorSwitch(0, 9, 14, "lL", "XL"));
     }
     
     spriteManager.addSprite( new SnakeEgg(7, 4, 0, 0) );

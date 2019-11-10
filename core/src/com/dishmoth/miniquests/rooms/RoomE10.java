@@ -48,9 +48,20 @@ public class RoomE10 extends Room {
                                                  "         0",
                                                  "         0",
                                                  "         0",
+                                                 "         0",
+                                                 "         0",
+                                                 "          " },
+                                               
+                                               { "          ",
                                                  "          ",
-                                                 "          ",
-                                                 "          " } };
+                                                 "         0",
+                                                 "        00",
+                                                 "        00",
+                                                 "        00",
+                                                 "        00",
+                                                 "        00",
+                                                 "        00",
+                                                 "          " }};
 
   // different block colours (corresponding to '0', '1', '2', etc)
   private static final String kBlockColours[] = { "#X",   // purple
@@ -125,7 +136,7 @@ public class RoomE10 extends Room {
   public void createSprites(SpriteManager spriteManager) {
 
     spriteManager.addSprite(new BlockArray(kBlocks1, kBlockColours, 0,0,0));
-    spriteManager.addSprite(new BlockArray(kBlocks2, kBlockColours, 0,0,42));
+    spriteManager.addSprite(new BlockArray(kBlocks2, kBlockColours, 0,0,40));
     addBasicWalls(kExits, spriteManager);
 
     mStairs = new BlockStairs(3, 7, kStairsTop,

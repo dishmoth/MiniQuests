@@ -220,7 +220,7 @@ public class RoomE04 extends Room {
               new Exit(1,2, Env.UP,    4,8, "#g",0, -1, RoomE03.NAME, 4),
               new Exit(2,2, Env.UP,    1,0, "#g",1, -1, RoomE06.NAME, 3),
               new Exit(2,2, Env.UP,    8,0, "#g",1, -1, RoomE06.NAME, 2),
-              new Exit(2,2, Env.RIGHT, 6,0, "#g",1, -1, RoomE13.NAME, 1)};
+              new Exit(2,2, Env.RIGHT, 5,0, "#g",1, -1, RoomE13.NAME, 1)};
 
   // which blocks in zone (0,1) are raised (0 or 1)
   private int mState01;
