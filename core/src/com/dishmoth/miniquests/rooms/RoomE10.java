@@ -185,7 +185,8 @@ public class RoomE10 extends Room {
           int zStart = mStairs.getZStart(),
               zEnd   = mStairs.getZEnd();
           if ( s == mSwitchStart ) {
-            if ( zEnd >= zStart && zStart-10 >= kStairsBottom ) {
+            if ( zEnd >= zStart && zStart-10 >= kStairsBottom &&
+                 zStart < kStairsTop ) {
               mStairs.setZEnd(zStart-10);
               Env.sounds().play(Sounds.SWITCH_ON);
             } else if ( zEnd <= zStart && zStart+10 <= kStairsTop ) {
