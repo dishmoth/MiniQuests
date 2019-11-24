@@ -9,6 +9,7 @@ package com.dishmoth.miniquests.rooms;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.Critter;
 import com.dishmoth.miniquests.game.CritterTrack;
@@ -108,6 +109,25 @@ public class RoomE13 extends Room {
     
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.writeBit(mDone);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 1 ) return false;
+    mDone = buffer.readBit();
+    return true;
+    
+  } // Room.restore() 
+  
   // access to the room's status
   // (note: this function may be called by room E04)
   public boolean completed() { return mDone; }

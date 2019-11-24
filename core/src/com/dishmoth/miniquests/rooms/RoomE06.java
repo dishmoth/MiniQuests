@@ -8,6 +8,7 @@ package com.dishmoth.miniquests.rooms;
 
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.Bullet;
 import com.dishmoth.miniquests.game.EgaImage;
@@ -17,6 +18,7 @@ import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Fence;
 import com.dishmoth.miniquests.game.FenceGate;
 import com.dishmoth.miniquests.game.Player;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.Sprite;
@@ -93,6 +95,25 @@ public class RoomE06 extends Room {
     
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.writeBit(mDone);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 1 ) return false;
+    mDone = buffer.readBit();
+    return true;
+    
+  } // Room.restore() 
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
@@ -323,6 +344,7 @@ public class RoomE06 extends Room {
               mGate.setClosed(false);
               mDone = true;
               Env.sounds().play(Sounds.SUCCESS, 5);
+              storyEvents.add(new QuestStory.EventSaveGame());
             }
           } else {
             mCursorPos = (mCursorPos + 1) % 4;

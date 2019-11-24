@@ -9,6 +9,7 @@ package com.dishmoth.miniquests.rooms;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.BlockStairs;
 import com.dishmoth.miniquests.game.Critter;
@@ -20,6 +21,7 @@ import com.dishmoth.miniquests.game.FenceGate;
 import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Snake;
 import com.dishmoth.miniquests.game.SnakeEgg;
@@ -220,6 +222,33 @@ public class RoomE03 extends Room {
     
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.writeBit(mRaftDone);
+    buffer.writeBit(mGatesDone);
+    buffer.writeBit(mSnakeDone);
+    buffer.writeBit(mStairs10Done);
+    buffer.writeBit(mStairs20Done);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 5 ) return false;
+    mRaftDone = buffer.readBit();
+    mGatesDone = buffer.readBit();
+    mSnakeDone = buffer.readBit();
+    mStairs10Done = buffer.readBit();
+    mStairs20Done = buffer.readBit();
+    return true;
+    
+  } // Room.restore() 
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
@@ -489,6 +518,7 @@ public class RoomE03 extends Room {
 
     // process the story event list
     
+    boolean save = false;
     for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
       StoryEvent event = it.next();
       
@@ -499,6 +529,7 @@ public class RoomE03 extends Room {
         Env.sounds().play(Sounds.SWITCH_ON);
         if ( s == mRaftSwitch22 ) {
           mRaftDone = true;
+          storyEvents.add(new QuestStory.EventSaveGame());
         } else if ( s == mGateSwitch21 ) {
           mGatesDone = true;
           mGate21a.setClosed(false);
@@ -569,12 +600,15 @@ public class RoomE03 extends Room {
         mGate21a.setClosed(false);
         mGate21b.setClosed(false);
         mPath10.setZEnd(0);
+        save = true;
         Env.sounds().play(Sounds.SUCCESS);
         it.remove();
       }
       
     } // for (event)
 
+    if ( save ) storyEvents.add(new QuestStory.EventSaveGame());
+    
     // move the raft (and check for scrolling)
 
     if ( mRaftDone ) {
@@ -612,6 +646,7 @@ public class RoomE03 extends Room {
     }
 
     // raise the stairs in zone (1,0) when scrolling is complete
+    
     if ( mStairs10Done && mStairs10b.getZEnd() == 0 &&
          !mStairs10b.moving() && mCamera.yPos() == 0 ) {
       mStairs10a.setZStart(2);

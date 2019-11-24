@@ -9,6 +9,7 @@ package com.dishmoth.miniquests.rooms;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
@@ -109,7 +110,7 @@ public class RoomE07 extends Room {
   // references to the wall switches
   private WallSwitch mSwitches[];
 
-  // number of switches that have been shot
+  // number of switches that have been shot (0 to 4)
   private int mSwitchesHit;
   
   // reference to blocks for the bridge
@@ -131,6 +132,26 @@ public class RoomE07 extends Room {
 
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.write(mSwitchesHit, 3);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 3 ) return false;
+    mSwitchesHit = buffer.read(3);
+    if ( mSwitchesHit > 4 ) return false;
+    return true;
+    
+  } // Room.restore() 
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.dishmoth.miniquests.game.Barrier;
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.BlockStairs;
 import com.dishmoth.miniquests.game.Chest;
@@ -339,9 +340,9 @@ public class RoomE02 extends Room {
   
   // flags for zone (1,1)
   private boolean mSnakeDone;
-  private int     mSnakeSwitchesDone;
   
   // references to objects in zone (1,1)
+  private int         mSnakeSwitchesDone;
   private FloorSwitch mSnakeSwitches[];
   
   // references to objects in zone (1,2)
@@ -363,6 +364,36 @@ public class RoomE02 extends Room {
     
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.writeBit(mStairs00Done);
+    buffer.writeBit(mSwitch02aDone);
+    buffer.writeBit(mSwitch02bDone);
+    buffer.writeBit(mStairs02Done);
+    buffer.write(mSwitches10Done, 3);
+    buffer.writeBit(mSnakeDone);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 8 ) return false;
+    mStairs00Done = buffer.readBit();
+    mSwitch02aDone = buffer.readBit();
+    mSwitch02bDone = buffer.readBit();
+    mStairs02Done = buffer.readBit();
+    mSwitches10Done = buffer.read(3);
+    mSnakeDone = buffer.readBit();
+    if ( mSwitches10Done > 4 ) return false;
+    return true;
+    
+  } // Room.restore() 
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
@@ -636,6 +667,7 @@ public class RoomE02 extends Room {
 
     // process the story event list
     
+    boolean save = false;
     for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
       StoryEvent event = it.next();
       
@@ -741,12 +773,15 @@ public class RoomE02 extends Room {
         mSnakeBridge.setZStart(0);
         mSnakeBridge.setZEnd(0);
         mSnakeBridgeSwitch.freezeState(true);
+        save = true;
         spriteManager.removeSprite(mSnakeBridgeBlock);
         it.remove();
       }
       
     } // for (event)
 
+    if ( save ) storyEvents.add(new QuestStory.EventSaveGame());
+    
     // enable the bridge switches in zone (1,0)
     if ( mSwitches10Done < 4 && mSwitch10 == null ) {
       assert( !mSnakeDone && mSwitches10Done > 0 );

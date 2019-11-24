@@ -9,6 +9,7 @@ package com.dishmoth.miniquests.rooms;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.dishmoth.miniquests.game.BitBuffer;
 import com.dishmoth.miniquests.game.BlockArray;
 import com.dishmoth.miniquests.game.BlockStairs;
 import com.dishmoth.miniquests.game.Env;
@@ -18,6 +19,7 @@ import com.dishmoth.miniquests.game.FenceGate;
 import com.dishmoth.miniquests.game.FloorSwitch;
 import com.dishmoth.miniquests.game.Liquid;
 import com.dishmoth.miniquests.game.Player;
+import com.dishmoth.miniquests.game.QuestStory;
 import com.dishmoth.miniquests.game.Room;
 import com.dishmoth.miniquests.game.Snake;
 import com.dishmoth.miniquests.game.SnakeEgg;
@@ -265,6 +267,34 @@ public class RoomE04 extends Room {
     
   } // constructor
 
+  // serialize the room state by writing bits to the specified buffer
+  @Override
+  public void save(BitBuffer buffer) {
+    
+    buffer.write(mState01, 1);
+    buffer.write(mStairs02State, 2);
+    buffer.writeBit(mDoor02Done);
+    buffer.writeBit(mSnakeDone);
+    buffer.writeBit(mStairs12Done);
+    
+  } // Room.save()
+
+  // de-serialize the room state from the bits in the buffer 
+  // (returns false if the version is not supported, or something goes wrong)
+  @Override
+  public boolean restore(int version, BitBuffer buffer) { 
+    
+    if ( buffer.numBitsToRead() < 6 ) return false;
+    mState01 = buffer.read(1);
+    mStairs02State = buffer.read(2);
+    mDoor02Done = buffer.readBit();
+    mSnakeDone = buffer.readBit();
+    mStairs12Done = buffer.readBit();
+    if ( mStairs02State > 2 ) return false;
+    return true;
+    
+  } // Room.restore() 
+  
   // create the player at the specified entry point to the room
   // (this function should also set the camera position) 
   @Override
@@ -473,6 +503,7 @@ public class RoomE04 extends Room {
     // process the story event list
     
     FloorSwitch switch01 = null;
+    boolean save = false;
     
     for ( Iterator<StoryEvent> it = storyEvents.iterator() ; it.hasNext() ; ) {
       StoryEvent event = it.next();
@@ -510,6 +541,7 @@ public class RoomE04 extends Room {
             mStairs02.setZStart(8);
             mStairs02.setZEnd(8);
             mStairs02State = 0;
+            save = true;
             Env.sounds().play(Sounds.SWITCH_ON);          
           }
         } else if ( s == mStairSwitch12 ) {
@@ -537,6 +569,7 @@ public class RoomE04 extends Room {
       
       if ( event instanceof Snake.EventKilled ) {
         mSnakeDone = true;
+        save = true;
         Env.sounds().play(Sounds.SUCCESS);
         it.remove();
       }
@@ -554,6 +587,7 @@ public class RoomE04 extends Room {
       final int num = mSwitches01.length;
       if ( mState01 == 0 ) mSwitches01[num-2].freezeState(true);
       if ( mState01 == 1 ) mSwitches01[num-1].freezeState(true);
+      if ( mPlayer != null && mPlayer.getXPos() < 0 ) save = true;
       spriteManager.addSprite(mBarriers01);
       mTimer01 = 8;
     }
@@ -572,6 +606,8 @@ public class RoomE04 extends Room {
         spriteManager.removeSprite(mBarriers01);
       }
     }
+    
+    if ( save ) storyEvents.add(new QuestStory.EventSaveGame());
     
   } // Room.advance()
 

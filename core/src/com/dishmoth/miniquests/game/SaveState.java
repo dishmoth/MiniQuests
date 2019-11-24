@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class SaveState {
   
   // current save version number
-  private static final int kVersion = 3;
+  private static final int kVersion = 4;
   
   // how much prompting is needed based on player's progress 
   // (0 => none, 1 => reminders, 2 => new game, 3 => hero training)
@@ -164,7 +164,8 @@ public class SaveState {
     final int numQuestsToRead = (version == 0) ? 2
                               : (version == 1) ? 3
                               : (version == 2) ? 4
-                                               : 4;
+                              : (version == 3) ? 4
+                                               : 5;
     for ( int k = 0 ; k < numQuestsToRead ; k++ ) {
       int score = buffer.read(4);
       if ( score < 0 || score > 5 ) {
