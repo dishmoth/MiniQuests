@@ -98,7 +98,7 @@ public class QuestStory extends Story {
   } // class QuestStory.EventSaveGame
   
   // how many quests there are
-  public static final int NUM_QUESTS = 4;
+  public static final int NUM_QUESTS = 5;
   
   // times for certain actions
   private static final int kPlayerDeathTime = 30;
@@ -106,8 +106,8 @@ public class QuestStory extends Story {
   // range of quest results for calculating the overall rating
   private static final int   kQuestDeathBest[]  = {    0,    0,    0,    0,    0 },
                              kQuestDeathWorst[] = {  100,  100,  100,  100,  100 };
-  private static final float kQuestTimeBest[]   = {  290,  265,  380,  360,  500 },
-                                   // personal best: 247,  216,  332,  300,  586
+  private static final float kQuestTimeBest[]   = {  290,  265,  380,  360,  480 },
+                                   // personal best: 247,  216,  332,  300,  401
                              kQuestTimeWorst[]  = { 3000, 3000, 3000, 3000, 3000 };
 
   // which quest we're doing
