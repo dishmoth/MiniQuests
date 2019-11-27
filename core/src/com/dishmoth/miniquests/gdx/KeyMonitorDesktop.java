@@ -123,7 +123,7 @@ public class KeyMonitorDesktop extends KeyMonitorGdx {
     
     return ( (mControllers != null && mControllers.any()) || 
              Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) ||
-             Gdx.input.isKeyPressed(Input.Keys.DPAD_CENTER) );
+             fire() );
     
   } // KeyMonitor.any()
   
