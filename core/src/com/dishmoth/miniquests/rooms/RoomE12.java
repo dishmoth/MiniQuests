@@ -16,6 +16,7 @@ import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Exit;
 import com.dishmoth.miniquests.game.Player;
 import com.dishmoth.miniquests.game.Room;
+import com.dishmoth.miniquests.game.Sounds;
 import com.dishmoth.miniquests.game.SpriteManager;
 import com.dishmoth.miniquests.game.StoryEvent;
 
@@ -343,7 +344,11 @@ public class RoomE12 extends Room {
         if ( !c.isStunned() ) allStunned = false;
       }
       if ( allStunned ) {
-        for ( Critter c : mCritters ) c.destroy(-1);
+        for ( Critter c : mCritters ) {
+          c.setSilent(true);
+          c.destroy(-1);
+        }
+        Env.sounds().play(Sounds.CRITTER_DEATH);
         mCritters = null;
         mCompleted = true;
         mStairBlocks = new BlockArray(kStairBlocks, kBlockColours, 
