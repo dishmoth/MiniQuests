@@ -23,7 +23,8 @@ public class MapDataMain extends MapData {
   private static final int kQuestPos[] = { 1*kNumX + 1, 
                                            3*kNumX + 0,
                                            0*kNumX + 5,
-                                           1*kNumX + 5 };
+                                           1*kNumX + 5,
+                                           4*kNumX + 5 };
   private static final int kStonesPos  =   3*kNumX + 3;
   
   // constructor

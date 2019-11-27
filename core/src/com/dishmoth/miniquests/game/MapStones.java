@@ -12,10 +12,11 @@ import java.util.LinkedList;
 public class MapStones extends Sprite {
 
   // where the stones are within the image
-  private final static int kStonePos[][] = { { 17,  7 },
-                                             { 10, 18 },
-                                             { 29, 12 },
-                                             { 21, 21 } };
+  private final static int kStonePos[][] = { { 13, 10 },
+                                             { 10, 19 },
+                                             { 22,  7 },
+                                             { 29, 13 },
+                                             { 22, 21 } };
   
   // depth for the images
   private static final float kDepth = -1;
@@ -23,7 +24,10 @@ public class MapStones extends Sprite {
   // times for stone flashing on and off
   private static final int kFlashTime = 3,
                            kStartTime = 20;
-  private static final int kTimes[]   = { 60, 30, 15, 10 };
+  private static final int kTimes[]   = { 60, 30, 15, 10, 2 };
+  
+  // which quest each stone corresponds to
+  private static final int kRemap[] = { 0, 4, 2, 1, 3 };
   
   // details of the image
   private static final int    kImageWidth   = 4,
@@ -37,9 +41,10 @@ public class MapStones extends Sprite {
   
   // different colours for different stones
   private static final char kImageColours[][] = { {'4','a'},
-                                                  {'5','j'},
+                                                  {'H','h'},
                                                   {'K','c'},
-                                                  {'Y','o'} };
+                                                  {'Y','o'},
+                                                  {'5','j'} };
   
   // flash images for each stone
   private static final EgaImage kImages[];
@@ -93,7 +98,7 @@ public class MapStones extends Sprite {
     if ( --mTimer < 0 ) {
       do {
         mStone = (mStone+1) % mQuests.length;
-      } while ( mQuests[mStone] == false);
+      } while ( mQuests[kRemap[mStone]] == false);
       mTimer = kTimes[mNumQuests-1];
     }
     
@@ -108,8 +113,8 @@ public class MapStones extends Sprite {
     boolean flash = ( mTimer < kFlashTime );
     if ( !flash ) return;
     
-    int xy[] = kStonePos[ mStone ];
-    EgaImage image = kImages[ mStone ];
+    int xy[] = kStonePos[kRemap[ mStone ]];
+    EgaImage image = kImages[kRemap[ mStone ]];
     image.draw(canvas, xy[0], xy[1], kDepth);
     
   } // Sprite.draw()
