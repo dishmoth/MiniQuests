@@ -443,6 +443,18 @@ public class RoomE03 extends Room {
   @Override
   public void discardResources() {
 
+    mPath10 = mStairs10a = mStairs10b = null;
+    mSwitch10 = null;
+    mStairs12 = null;
+    mStairSwitch12 = null;
+    mSwitches12 = null;
+    mStairs20 = null;
+    mStairSwitch20 = null;
+    mGate21a = mGate21b = null;
+    mGateSwitch21 = null;
+    mRaftSwitch22 = null;
+    mRaft = null;
+
   } // Room.discardResources()
   
   // move the raft, return true if the player is on it
@@ -529,7 +541,7 @@ public class RoomE03 extends Room {
         Env.sounds().play(Sounds.SWITCH_ON);
         if ( s == mRaftSwitch22 ) {
           mRaftDone = true;
-          storyEvents.add(new QuestStory.EventSaveGame());
+          save = true;
         } else if ( s == mGateSwitch21 ) {
           mGatesDone = true;
           mGate21a.setClosed(false);

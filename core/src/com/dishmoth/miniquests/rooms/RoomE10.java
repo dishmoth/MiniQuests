@@ -129,6 +129,9 @@ public class RoomE10 extends Room {
   @Override
   public void discardResources() {
 
+    mStairs = null;
+    mSwitchStart = mSwitchEnd = null;
+    
   } // Room.discardResources()
   
   // create the sprites for this room

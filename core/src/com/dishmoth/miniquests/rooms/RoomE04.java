@@ -468,6 +468,15 @@ public class RoomE04 extends Room {
   @Override
   public void discardResources() {
 
+    mBlocks01 = null;
+    mBarriers01 = null;
+    mSwitches01 = null;
+    mStairs02 = null;
+    mSwitch02a = mSwitch02b = mSwitch02c = null;
+    mDoorSwitch02 = null;
+    mStairs12 = null;
+    mStairSwitch12 = null;
+
   } // Room.discardResources()
   
   // update the room (events may be added or processed)

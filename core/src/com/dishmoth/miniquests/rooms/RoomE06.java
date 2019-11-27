@@ -169,6 +169,7 @@ public class RoomE06 extends Room {
   public void discardResources() {
 
     mPuzzleImage = null;
+    mPuzzle = null;
     mFloor = null;
     mGate = null;
     mSwitches = null;
