@@ -229,9 +229,12 @@ public class SnakeBoss2 extends Snake {
           if ( gate.isClosed() ) {
             gate.setClosed(false);
             Env.sounds().play(Sounds.GATE);
+            Env.sounds().play(Sounds.SNAKE_DEATH);
           }
         }
       }
+      mColour = 0;
+      mFlashTimer = 0;
     }
     
   } // Snake.advance()

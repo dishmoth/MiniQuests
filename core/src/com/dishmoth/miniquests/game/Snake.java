@@ -396,7 +396,9 @@ abstract public class Snake extends Sprite3D implements Obstacle {
         mFlashTimer = kDeathTime1;
         mFlashColour = 0;
         mStepping = false;
-        Env.sounds().play(Sounds.SNAKE_DEATH);
+        if ( !(this instanceof SnakeBoss2) ) {
+          Env.sounds().play(Sounds.SNAKE_DEATH);
+        }
       } else if ( mStuck && mHibernating ){
         mActionTimer = (mBody.size() > 0 ? 0 : mStepTime1);
         mStepping = false;
