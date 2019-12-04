@@ -285,7 +285,8 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
   @Override
   public boolean escape() {
     
-    return ( Gdx.input.isKeyPressed(Input.Keys.BACK) ||
+    return ( (mControllers != null && mControllers.escape()) || 
+             Gdx.input.isKeyPressed(Input.Keys.BACK) ||
              Gdx.input.isKeyPressed(Input.Keys.ESCAPE) );
     
   } // KeyMonitor.escape()

@@ -10,6 +10,8 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.controllers.mappings.Ouya;
+import com.badlogic.gdx.controllers.mappings.Xbox;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.dishmoth.miniquests.game.Env;
@@ -62,14 +64,14 @@ public class KeyControllers implements ControllerListener {
     for ( int index = 0 ; index < controllers.size ; index++  ) {
       Controller c = controllers.get(index);
       Env.debug("Controller " + index + ": " + c.getName()
-                + " (" + typeString(c.getName()) + ")");
+                + " (" + typeString(c) + ")");
     }
     
     Controllers.addListener(this);
 
     if ( controllers.size > 0 ) {
       mControllerIndex = 0;
-      mControllerType = identifyType(controllers.get(0).getName());      
+      mControllerType = identifyType(controllers.get(0));      
     } else {
       mControllerIndex = -1;
       mControllerType = kTypeUnknown;
@@ -172,14 +174,6 @@ public class KeyControllers implements ControllerListener {
     
   } // setMode()
   
-  // device identity
-  private boolean runningOnOuya() { 
-    
-    //return Ouya.runningOnOuya; // <- waiting on an update to libgdx
-    return (Env.platform() == Env.Platform.OUYA);
-    
-  } // runningOnOuya()
-  
   // controller number
   private int controllerIndex(Controller controller) {
     
@@ -192,11 +186,11 @@ public class KeyControllers implements ControllerListener {
   public void connected(Controller controller) {
     
     Env.debug("Controller connected: " + controller.getName()
-              + " (" + typeString(controller.getName()) + ")");
+              + " (" + typeString(controller) + ")");
     
     if ( mControllerIndex < 0 ) {
       mControllerIndex = controllerIndex(controller);
-      mControllerType = identifyType(controller.getName());
+      mControllerType = identifyType(controller);
     }
     
   } // ControllerListener.connected()
@@ -210,20 +204,19 @@ public class KeyControllers implements ControllerListener {
   } // ControllerListener.disconnected()
 
   // see if we recognize the controller's type (enumerated above)
-  private int identifyType(String name) {
+  private int identifyType(Controller controller) {
     
-    String id = name.toLowerCase();
-    if      ( id.contains("ouya") ) return kTypeOuya;
-    else if ( id.contains("xbox") ) return kTypeXBox;
-    //else if ( id.contains("broadcom bluetooth hid") ) return kTypeOuya;
-    else                            return kTypeUnknown;        
+    String id = controller.getName().toLowerCase();
+    if      ( id.contains("ouya") )               return kTypeOuya;
+    else if ( Xbox.isXboxController(controller) ) return kTypeXBox;
+    else                                          return kTypeUnknown;
     
   } // identifyType()
   
   // for debugging, return the type of the controller as a string
-  private String typeString(String name) {
+  private String typeString(Controller controller) {
     
-    int type = identifyType(name);
+    int type = identifyType(controller);
     if      ( type == kTypeOuya ) return "OUYA";
     else if ( type == kTypeXBox ) return "XBOX";
     else                          return "UNKNOWN";
@@ -232,22 +225,14 @@ public class KeyControllers implements ControllerListener {
   
   // decode buttons for DPad directions, enumerated in Env (or -1)
   private int dPadDirection(int buttonCode) {
-    
-    if ( runningOnOuya() ) {
-      if ( mControllerType == kTypeOuya ) {
-        if      ( buttonCode == 19 ) return Env.UP;
-        else if ( buttonCode == 20 ) return Env.DOWN;
-        else if ( buttonCode == 21 ) return Env.LEFT;
-        else if ( buttonCode == 22 ) return Env.RIGHT;
-        else                         return -1;
-      }
-    } else {
-      if ( mControllerType == kTypeOuya ) {
-        if      ( buttonCode == 104 ) return Env.UP;
-        else if ( buttonCode == 105 ) return Env.DOWN;
-        else if ( buttonCode == 109 ) return Env.LEFT;
-        else if ( buttonCode == 108 ) return Env.RIGHT;
-        else                          return -1;
+
+    if ( mControllerType == kTypeOuya ) {
+      if ( Env.platform() == Env.Platform.OUYA ) {
+        if      ( buttonCode == Ouya.BUTTON_DPAD_UP    ) return Env.UP;
+        else if ( buttonCode == Ouya.BUTTON_DPAD_DOWN  ) return Env.DOWN;
+        else if ( buttonCode == Ouya.BUTTON_DPAD_LEFT  ) return Env.LEFT;
+        else if ( buttonCode == Ouya.BUTTON_DPAD_RIGHT ) return Env.RIGHT;
+        else                                             return -1;
       }
     }
     return -1;
@@ -257,24 +242,13 @@ public class KeyControllers implements ControllerListener {
   // whether the button is 'home', 'menu', 'start', etc.
   private boolean isEscapeButton(int buttonCode) {
 
-    if ( runningOnOuya() ) {
-      if ( mControllerType == kTypeOuya ) {
-        return ( buttonCode == 82 );
-      } 
-      if ( mControllerType == kTypeXBox ) {
-          return ( buttonCode == 82 || 
-                   buttonCode == 108 );
+    if ( mControllerType == kTypeOuya ) {
+      if ( Env.platform() == Env.Platform.OUYA ) {
+        return ( buttonCode == Ouya.BUTTON_MENU );
       }
-    } else {
-      if ( mControllerType == kTypeOuya ) {
-        return ( buttonCode == 107 ||
-                 buttonCode == 108 );
-      }
-      if ( mControllerType == kTypeXBox ) {
-          return ( buttonCode == 108 || 
-                   buttonCode == 109 ||
-                   buttonCode == 110 );
-      }
+    } else if ( mControllerType == kTypeXBox ) {
+      return ( buttonCode == Xbox.START ||
+               buttonCode == Xbox.BACK );
     }
     return false;
     
@@ -283,9 +257,14 @@ public class KeyControllers implements ControllerListener {
   // decode the axis (0 => x-axis, 1 => y-axis, -1 => unknown)
   private int axisNumber(int axisCode) {
 
-    if      ( axisCode == 0 ) return 0;
-    else if ( axisCode == 1 ) return 1;
-    else                      return -1;
+    if ( mControllerType == kTypeXBox ) {
+      if      ( axisCode == Xbox.L_STICK_HORIZONTAL_AXIS ) return 0;
+      else if ( axisCode == Xbox.L_STICK_VERTICAL_AXIS )   return 1;
+    } else {
+      if      ( axisCode == 0 ) return 0;
+      else if ( axisCode == 1 ) return 1;
+    }
+    return -1;
     
   } // whichAxis()
   
@@ -302,7 +281,7 @@ public class KeyControllers implements ControllerListener {
     int index = controllerIndex(controller);
     if ( index != -1 && index != mControllerIndex ) {
       mControllerIndex = index;
-      mControllerType = identifyType(controller.getName());
+      mControllerType = identifyType(controller);
       reset();
     }
 
