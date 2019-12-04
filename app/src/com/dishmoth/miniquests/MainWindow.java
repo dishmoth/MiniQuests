@@ -67,7 +67,7 @@ public class MainWindow extends Frame implements Runnable {
     
     EnvBitsApp envBits = new EnvBitsApp(); 
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v4.1.0, 19th November 2017)");
+      envBits.debug("Mini Quests (v5.0.0, 4th December 2019)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
       
@@ -84,6 +84,7 @@ public class MainWindow extends Frame implements Runnable {
     //Env.saveState().load("000000900083D3FFA0"); // <- dragon
     //Env.saveState().load("02000030104000644400"); // <- garden 
     //Env.saveState().load("010030"); // <- done dungeon C
+    //Env.saveState().load("040E1300000004401141DAF7A7FBE7"); // <- end of dungeon E
     
     addWindowListener(
       new WindowAdapter() {
@@ -115,7 +116,7 @@ public class MainWindow extends Frame implements Runnable {
     //mGameManager = new GameManager(new MenuStory());
     //mGameManager = new GameManager(new TrainingStory());
     //mGameManager = new GameManager(new MapStory(-1));
-    //mGameManager = new GameManager(new QuestStory(3));
+    //mGameManager = new GameManager(new QuestStory(4));
     mGameManager.advance();
     
     mTimingControl = new TimingControl();

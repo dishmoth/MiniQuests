@@ -8,6 +8,7 @@ package com.dishmoth.miniquests;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Version;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -50,10 +51,11 @@ public class MiniQuestsGame extends ApplicationAdapter {
 
     EnvBitsGdx envBits = new EnvBitsGdx();
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v4.1.0, 19th November 2017)");
+      envBits.debug("Mini Quests (v5.0.0, 4th December 2019)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
  
+      envBits.debug("LibGDX " + Version.VERSION);
       envBits.debug("ApplicationListener.create()");      
     }
 
@@ -86,7 +88,7 @@ public class MiniQuestsGame extends ApplicationAdapter {
     //mGameManager = new GameManager(new MenuStory());
     //mGameManager = new GameManager(new TrainingStory());
     //mGameManager = new GameManager(new MapStory(-1));
-    //mGameManager = new GameManager(new QuestStory(3));
+    //mGameManager = new GameManager(new QuestStory(4));
     mGameManager.advance();
     
     mScreenBatch = new SpriteBatch();
@@ -116,8 +118,10 @@ public class MiniQuestsGame extends ApplicationAdapter {
     
     Env.saveState().save();
     
-    mScreenTexture.dispose();
-    mScreenTexture = null;
+    if ( mScreenTexture != null ) {
+      mScreenTexture.dispose();
+      mScreenTexture = null;
+    }
     
   } // ApplicationListener.pause()
 
