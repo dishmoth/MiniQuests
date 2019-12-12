@@ -6,13 +6,12 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.dishmoth.miniquests.MiniQuestsGame;
 
-public class MainActivity extends AndroidApplication {
+public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        //? cfg.useGL20 = false;
+		config.useWakelock = true;
 		initialize(new MiniQuestsGame(), config);
-        //? getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 }
