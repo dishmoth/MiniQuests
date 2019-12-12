@@ -225,6 +225,7 @@ public class MiniQuestsGame extends ApplicationAdapter {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     mScreenBatch.enableBlending();
     mScreenBatch.begin();
+    mScreenBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
     mScreenBatch.draw(mScreenTexture, 
                       xOffset, yOffset, xSize, ySize,
                       0, 0, Env.screenWidth(), Env.screenHeight(), 
