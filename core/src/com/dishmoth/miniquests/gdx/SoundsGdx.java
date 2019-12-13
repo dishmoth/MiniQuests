@@ -12,6 +12,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.dishmoth.miniquests.game.Env;
 import com.dishmoth.miniquests.game.Sounds;
 
+import java.util.Arrays;
+
 // class for controlling audio
 public class SoundsGdx extends Sounds {
 
@@ -20,15 +22,20 @@ public class SoundsGdx extends Sounds {
   
   // the sound clips
   private Sound mSounds[];
-  private Music mLoops[];
+  private Music mLongSounds[];
+
+  // libGDX codes for the looping sounds (-1 if not looping/playing)
+  private long mLoopId[];
   
   // constructor
   public SoundsGdx() {
 
     super();
     
-    mSounds = new Sound[kNumSounds];
-    mLoops  = new Music[kNumSounds];
+    mSounds      = new Sound[kNumSounds];
+    mLongSounds  = new Music[kNumSounds];
+    mLoopId      = new long[kNumSounds];
+    Arrays.fill(mLoopId, -1);
 
   } // constructor
   
@@ -53,14 +60,10 @@ public class SoundsGdx extends Sounds {
 
     try {
 
-      if ( isLooped(id) ) {
-        if ( mLoops[id] != null ) return; // already loaded
-        mLoops[id] = Gdx.audio.newMusic(Gdx.files.internal(file));
-        mLoops[id].setLooping(true);
-      } else if ( playAsMusic(id) ) {
-        if ( mLoops[id] != null ) return; // already loaded
-        mLoops[id] = Gdx.audio.newMusic(Gdx.files.internal(file));
-        mLoops[id].setLooping(false);
+      if ( playAsMusic(id) ) {
+        if ( mLongSounds[id] != null ) return; // already loaded
+        mLongSounds[id] = Gdx.audio.newMusic(Gdx.files.internal(file));
+        mLongSounds[id].setLooping(false);
       } else {
         if ( mSounds[id] != null ) return; // already loaded
         mSounds[id] = Gdx.audio.newSound(Gdx.files.internal(file));
@@ -69,7 +72,7 @@ public class SoundsGdx extends Sounds {
     } catch (Exception ex) {
       Env.debug(ex.getMessage());
       mSounds[id] = null;
-      mLoops[id] = null;
+      mLongSounds[id] = null;
     }
 
   } // Sounds.loadSound()
@@ -81,7 +84,7 @@ public class SoundsGdx extends Sounds {
     mAvailable = true;
     
     for ( int id = 0 ; id < kNumSounds ; id++ ) {
-      if ( mSounds[id] == null && mLoops[id] == null ) {
+      if ( mSounds[id] == null && mLongSounds[id] == null ) {
         mAvailable = false;
         return;
       }
@@ -89,7 +92,7 @@ public class SoundsGdx extends Sounds {
     
   } // Sounds.checkSound()
 
-  // play a sound effect
+  // play a (non-looping) sound effect
   @Override
   public void play(int id) {
     
@@ -98,8 +101,8 @@ public class SoundsGdx extends Sounds {
     assert( id >= 0 && id < kNumSounds );
     assert( !isLooped(id) );
 
-    if      ( mSounds[id] != null ) mSounds[id].play();
-    else if ( mLoops[id]  != null ) mLoops[id].play();
+    if      ( mSounds[id]     != null ) mSounds[id].play();
+    else if ( mLongSounds[id] != null ) mLongSounds[id].play();
     
   } // Sounds.play()
 
@@ -111,8 +114,9 @@ public class SoundsGdx extends Sounds {
     
     assert( id >= 0 && id < kNumSounds );
     assert( isLooped(id) );
+    assert( mSounds[id] != null );
     
-    if ( !mLoops[id].isPlaying() ) mLoops[id].play();
+    if ( mLoopId[id] == -1 ) mLoopId[id] = mSounds[id].loop();
     
   } // Sounds.loop()
   
@@ -124,8 +128,10 @@ public class SoundsGdx extends Sounds {
     
     assert( id >= 0 && id < kNumSounds );
     assert( isLooped(id) );
-    
-    if ( mLoops[id].isPlaying() ) mLoops[id].stop();
+    assert( mSounds[id] != null );
+
+    mSounds[id].stop();
+    mLoopId[id] = -1;
     
   } // Sounds.stop()
 
