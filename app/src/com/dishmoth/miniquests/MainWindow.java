@@ -67,7 +67,7 @@ public class MainWindow extends Frame implements Runnable {
     
     EnvBitsApp envBits = new EnvBitsApp(); 
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v5.0.0, 4th December 2019)");
+      envBits.debug("Mini Quests (v5.0.0, 13th December 2019)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
       
