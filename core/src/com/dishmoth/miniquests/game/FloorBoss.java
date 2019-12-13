@@ -59,7 +59,7 @@ public class FloorBoss extends BlockArray {
   
   // different modes of behaviour
   private enum State { kSleeping, kWaking, kHunting, kBlasting, 
-                       kPeeking, kDying, kDead };
+                       kPeeking, kDying, kDead }
   
   // current centre position (between 0 and Room.kSize)
   private float mXPos,
@@ -402,8 +402,8 @@ public class FloorBoss extends BlockArray {
       case kPeeking: {
         // head pops up and looks around
         if ( mHead == null ) {
-          mHead = new FloorBossHead((int)Math.round(mXPos)-1,
-                                    (int)Math.round(mYPos)-1);
+          mHead = new FloorBossHead(Math.round(mXPos)-1,
+                                    Math.round(mYPos)-1);
           addTheseSprites.add(mHead);
           if ( mHeadHits >= kNumHeadLives-1 ) mHead.setKillable();
         }

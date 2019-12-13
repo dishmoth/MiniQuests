@@ -35,7 +35,7 @@ public class Triffid extends Sprite3D implements Obstacle {
   private static final byte kBulletColour = 32;
   
   // different states
-  enum TriffidState { kGrowing, kNormal, kSleeping, kDying };
+  enum TriffidState { kGrowing, kNormal, kSleeping, kDying }
   
   // time (ticks) for recovery after being hit
   private static final int kHitDelay = 6;

@@ -535,8 +535,7 @@ public class RoomE03 extends Room {
       StoryEvent event = it.next();
       
       if ( event instanceof FloorSwitch.EventStateChange ) {
-        FloorSwitch s = (FloorSwitch)
-                        ((FloorSwitch.EventStateChange)event).mSwitch;
+        FloorSwitch s = ((FloorSwitch.EventStateChange)event).mSwitch;
         s.freezeState(true);
         Env.sounds().play(Sounds.SWITCH_ON);
         if ( s == mRaftSwitch22 ) {
@@ -568,8 +567,7 @@ public class RoomE03 extends Room {
       }
       
       if ( event instanceof ZoneSwitch.EventStateChange ) {
-        ZoneSwitch s = (ZoneSwitch)
-                       ((ZoneSwitch.EventStateChange)event).mSwitch;
+        ZoneSwitch s = ((ZoneSwitch.EventStateChange)event).mSwitch;
         if ( s == mStairSwitch20 ) {
           if ( s.isOn() ) {
             if ( mPlayer != null && mPlayer.getZPos() > 0 ) {

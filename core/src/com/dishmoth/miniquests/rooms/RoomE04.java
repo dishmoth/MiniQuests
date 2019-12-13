@@ -518,8 +518,7 @@ public class RoomE04 extends Room {
       StoryEvent event = it.next();
       
       if ( event instanceof FloorSwitch.EventStateChange ) {
-        FloorSwitch s = (FloorSwitch)
-                        ((FloorSwitch.EventStateChange)event).mSwitch;
+        FloorSwitch s = ((FloorSwitch.EventStateChange)event).mSwitch;
         for ( FloorSwitch fs : mSwitches01 ) {
           if ( s == fs ) switch01 = s;
         }
@@ -528,8 +527,7 @@ public class RoomE04 extends Room {
       }
       
       if ( event instanceof ZoneSwitch.EventStateChange ) {
-        ZoneSwitch s = (ZoneSwitch)
-                       ((ZoneSwitch.EventStateChange)event).mSwitch;
+        ZoneSwitch s = ((ZoneSwitch.EventStateChange)event).mSwitch;
         if ( s == mSwitch02a ) {
           if ( s.isOn() && mStairs02State == 0 ) {
             mStairs02.setSlopeType(+1);

@@ -96,7 +96,7 @@ public class FloorBossHead extends Sprite3D implements Obstacle {
         int ind = iy*kWidth + ix;
         char ch = kBasicDepths.charAt(ind);
         if ( ch == ' ' ) continue;
-        float val = kBasicDepth - 0.5f*(int)(ch-'5');
+        float val = kBasicDepth - 0.5f*(ch-'5');
         depths[ind] = val;
       }
     }

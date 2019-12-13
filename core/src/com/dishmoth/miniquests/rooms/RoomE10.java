@@ -182,8 +182,7 @@ public class RoomE10 extends Room {
       StoryEvent event = it.next();
 
       if ( event instanceof ZoneSwitch.EventStateChange ) {
-        ZoneSwitch s = (ZoneSwitch)
-                       ((ZoneSwitch.EventStateChange)event).mSwitch;
+        ZoneSwitch s = ((ZoneSwitch.EventStateChange)event).mSwitch;
         if ( s.isOn() ) {
           int zStart = mStairs.getZStart(),
               zEnd   = mStairs.getZEnd();

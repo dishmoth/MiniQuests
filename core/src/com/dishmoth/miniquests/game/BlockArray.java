@@ -70,7 +70,7 @@ public class BlockArray extends Sprite3D implements Obstacle {
           char ch = yRow.charAt(ix);
           if ( ch == ' ' || ch == '-' || ch == '*' ) continue;
           assert( ch >= '0' && ch <= '9' );
-          numColours = Math.max(numColours, (int)(ch - '0')+1);
+          numColours = Math.max(numColours, (ch - '0')+1);
         }
       }
     }
@@ -242,7 +242,7 @@ public class BlockArray extends Sprite3D implements Obstacle {
         for ( int ix = 0 ; ix < mXSize ; ix++ ) {
           final char ch = getBlock(ix, iy, iz);
           if ( ch == ' ' || ch == '-' || ch == '*' ) continue;
-          final int colIndex = (int)(ch -'0');
+          final int colIndex = (ch - '0');
 
           edgeIndex[iy  ][ix  ] = Math.max(edgeIndex[iy  ][ix  ], colIndex);
           edgeIndex[iy  ][ix+1] = Math.max(edgeIndex[iy  ][ix+1], colIndex);
@@ -255,7 +255,7 @@ public class BlockArray extends Sprite3D implements Obstacle {
         for ( int ix = 0 ; ix < mXSize ; ix++ ) {
           final char ch = getBlock(ix, iy, iz);
           if ( ch == ' ' || ch == '-' || ch == '*' ) continue;
-          final int colIndex = (int)(ch -'0');
+          final int colIndex = (ch - '0');
 
           final int depth = ix + iy;
           final int x = 2*ix - 2*iy,

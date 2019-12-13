@@ -225,9 +225,9 @@ public class QuestStats {
   static private int charToInt(char ch) {
 
     int i = -1;
-    if      ( ch >= '0' && ch <= '9' ) i = (int)(ch-'0');
-    else if ( ch >= 'A' && ch <= 'Z' ) i = (int)(ch-'A') + 10;
-    else if ( ch >= 'a' && ch <= 'z' ) i = (int)(ch-'a') + 36;
+    if      ( ch >= '0' && ch <= '9' ) i = (ch-'0');
+    else if ( ch >= 'A' && ch <= 'Z' ) i = (ch-'A') + 10;
+    else if ( ch >= 'a' && ch <= 'z' ) i = (ch-'a') + 36;
     assert( i >= 0 && i < kNumEncodeChars );
     return i;
     

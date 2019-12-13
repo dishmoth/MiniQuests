@@ -47,9 +47,9 @@ public class EgaTools {
       gg += Env.randomFloat() - 0.5f;
       bb += Env.randomFloat() - 0.5f;
     }
-    final int r = (int)Math.round( rr ),
-              g = (int)Math.round( gg ),
-              b = (int)Math.round( bb );
+    final int r = Math.round( rr ),
+              g = Math.round( gg ),
+              b = Math.round( bb );
     final int lo = ((r & 0x2) << 1) + (g & 0x2) + ((b & 0x2) >> 1),
               hi = ((r & 0x1) << 2) + ((g & 0x1) << 1) + (b & 0x1);
     final int ega = ((hi << 3) + lo);
@@ -117,7 +117,7 @@ public class EgaTools {
       if ( ch == ' ' ) {
         colours[k] = ' ';
       } else {
-        final int index = (int)(ch - '0');
+        final int index = (ch - '0');
         assert( index >= 0 && index < colourMap.length );
         colours[k] = colourMap[index];
       }

@@ -745,8 +745,7 @@ public class RoomE02 extends Room {
       }
 
       if ( event instanceof ZoneSwitch.EventStateChange ) {
-        ZoneSwitch s = (ZoneSwitch)
-                       ((ZoneSwitch.EventStateChange)event).mSwitch;
+        ZoneSwitch s = ((ZoneSwitch.EventStateChange)event).mSwitch;
         if ( s == mStairSwitch00a ) {
           if ( s.isOn() && mStairs00a.getZStart() == 8 ) {
             Env.sounds().play(Sounds.SWITCH_ON);

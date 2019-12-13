@@ -129,7 +129,7 @@ public class Dragon extends Sprite3D implements Obstacle {
                           kHitAttackImages[];
 
   // different modes of behaviour
-  enum DragonState { kRising, kWaiting, kAttacking, kSinking, kDying };
+  enum DragonState { kRising, kWaiting, kAttacking, kSinking, kDying }
   
   // final height above liquid
   private static final int kFullHeight = 9,
@@ -241,7 +241,7 @@ public class Dragon extends Sprite3D implements Obstacle {
         int ind = iy*kWidth + ix;
         char ch = depthString.charAt(ind);
         if ( ch == ' ' ) continue;
-        float val = kBasicDepth - 0.5f*(int)(ch-'5');
+        float val = kBasicDepth - 0.5f*(ch-'5');
         depths[ind] = val;
       }
     }

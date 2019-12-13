@@ -173,7 +173,7 @@ abstract public class Room {
   public Room findRoom(String name) {
     
     for ( Room room : mRoomList ) {
-      if ( room.mName == name ) return room;
+      if ( room.mName.equals(name) ) return room;
     }
     assert( false );
     return null;

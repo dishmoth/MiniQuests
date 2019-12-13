@@ -253,7 +253,7 @@ public class Liquid extends Sprite3D {
     
     byte pixels[] = mImage.pixels();
     
-    final int num = (int)Math.round( kColourChange * pixels.length );
+    final int num = Math.round( kColourChange * pixels.length );
     for ( int k = 0 ; k < num ; k++ ) {
       final int index = Env.randomInt(pixels.length);
       int c = pixels[index];

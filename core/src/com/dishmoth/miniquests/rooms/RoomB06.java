@@ -52,7 +52,7 @@ public class RoomB06 extends Room {
                            kScrollSize = 12;
 
   // different patterns of movement for the squares
-  enum MoveMode { HORIZONTAL, VERTICAL, REVERSE_VERTICAL };
+  enum MoveMode { HORIZONTAL, VERTICAL, REVERSE_VERTICAL }
 
   // repeated pattern for square movement
   private static final MoveMode kMovePattern[] = { MoveMode.HORIZONTAL, 

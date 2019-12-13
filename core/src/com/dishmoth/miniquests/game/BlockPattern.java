@@ -200,9 +200,9 @@ public class BlockPattern extends BlockArray {
     
     if ( ch == ' ' ) return -1;
     
-    if ( ch >= '0' && ch <= '9' ) return (int)(ch - '0');
-    if ( ch >= 'A' && ch <= 'Z' ) return (int)(ch - 'A' + 10);
-    if ( ch >= 'a' && ch <= 'z' ) return (int)(ch - 'a' + 36);
+    if ( ch >= '0' && ch <= '9' ) return (ch - '0');
+    if ( ch >= 'A' && ch <= 'Z' ) return (ch - 'A' + 10);
+    if ( ch >= 'a' && ch <= 'z' ) return (ch - 'a' + 36);
     
     assert( false );
     return -1;

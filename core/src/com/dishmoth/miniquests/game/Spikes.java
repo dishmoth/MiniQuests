@@ -182,7 +182,7 @@ public class Spikes extends Sprite3D {
     
     float depth = depth0 - 0.01f;
     
-    byte colour = (mState==0) ? mBaseColour : mSpikeColour;;
+    byte colour = (mState==0) ? mBaseColour : mSpikeColour;
 
     for ( int iy = 0 ; iy < mYSize ; iy++ ) {
       for ( int ix = 0 ; ix < mXSize ; ix++ ) {

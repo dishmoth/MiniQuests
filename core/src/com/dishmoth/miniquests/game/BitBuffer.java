@@ -254,9 +254,9 @@ public class BitBuffer {
     for ( int k = 0 ; k < str.length() ; k++ ) {
       char ch = str.charAt(k);
       int val;
-      if      ( ch >= '0' && ch <= '9' ) val = (int)(ch - '0');
-      else if ( ch >= 'A' && ch <= 'F' ) val = (int)(ch - 'A') + 10;
-      else if ( ch >= 'a' && ch <= 'f' ) val = (int)(ch - 'a') + 10;
+      if      ( ch >= '0' && ch <= '9' ) val = (ch - '0');
+      else if ( ch >= 'A' && ch <= 'F' ) val = (ch - 'A') + 10;
+      else if ( ch >= 'a' && ch <= 'f' ) val = (ch - 'a') + 10;
       else                               val = 15;
       assert( val >= 0 && val <= 15 );
       if ( k%2 == 0 ) val = (val<<4);

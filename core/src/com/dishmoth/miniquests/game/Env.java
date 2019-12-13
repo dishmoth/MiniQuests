@@ -28,7 +28,7 @@ public class Env {
                          ANDROID, // libgdx, Android phone or tablet
                          OUYA,    // libgdx, Android console
                          IOS,     // libgdx, iOS phone or tablet
-                         HTML };  // HTML5/WebGL through GWT
+                         HTML }   // HTML5/WebGL through GWT
   
   // whether to display debug messages, timing statistics, etc.
   static private boolean kDebugMode = true;

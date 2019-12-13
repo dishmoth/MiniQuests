@@ -395,8 +395,7 @@ public class RoomA03 extends Room {
       StoryEvent event = it.next();
       
       if ( event instanceof FloorSwitch.EventStateChange ) {
-        FloorSwitch s = (FloorSwitch)
-                        ((FloorSwitch.EventStateChange)event).mSwitch;
+        FloorSwitch s = ((FloorSwitch.EventStateChange)event).mSwitch;
         s.freezeState(true);
         Env.sounds().play(Sounds.SWITCH_ON);
         it.remove();

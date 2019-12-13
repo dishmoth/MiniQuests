@@ -20,10 +20,10 @@ public class Block {
                              kDepthBase  = -0.01f;
   
   // bounds for the image (pixels relative to the reference position)
-  public static final int boundXMin() { return -1; } 
-  public static final int boundXMax() { return +2; } 
-  public static final int boundYMin() { return -1; } 
-  public static final int boundYMax() { return +1; } 
+  public static int boundXMin() { return -1; }
+  public static int boundXMax() { return +2; }
+  public static int boundYMin() { return -1; }
+  public static int boundYMax() { return +1; }
   
   // draw a block (reference point at x, y in pixels)
   public static void draw(EgaImage image, int x, int y, int depth,

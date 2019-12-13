@@ -197,7 +197,7 @@ public class RoomA12 extends Room {
           if ( mXPos >= 1 && mXPos <= 7 && mYPos >= 1 && mYPos <= 7 ) {
             char ch = kBlocks[1][Room.kSize-1-mYPos].charAt(mXPos);
             assert( ch >= '1' && ch <= '4' );
-            int index = (int)(ch - '1');
+            int index = (ch - '1');
             boolean isOn = mFlames[index].isOn();
             if ( isOn ) Env.sounds().play(Sounds.SWITCH_OFF);
             else        Env.sounds().play(Sounds.SWITCH_ON);

@@ -485,8 +485,7 @@ public class RoomB01 extends Room {
 
       if ( event instanceof FloorSwitch.EventStateChange ) {
         assert( !mSwitchDone );
-        FloorSwitch s = (FloorSwitch)
-                        ((FloorSwitch.EventStateChange)event).mSwitch;
+        FloorSwitch s = ((FloorSwitch.EventStateChange)event).mSwitch;
         s.freezeState(true);
         Env.sounds().play(Sounds.SWITCH_ON);
         mSwitchDone = true;

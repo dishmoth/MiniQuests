@@ -46,7 +46,7 @@ public class FadeOut extends Sprite {
         float d = (float)Math.hypot(x, y);
         float f = 1.0f - d/maxDist;
         float r = kFadeDelta*Env.randomFloat();
-        int t = (int)Math.round(f*kFadeTime + r);
+        int t = Math.round(f*kFadeTime + r);
         mFadeTimes[iy][ix] = t;
       }
     }

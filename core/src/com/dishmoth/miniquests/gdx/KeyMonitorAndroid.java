@@ -273,10 +273,10 @@ public class KeyMonitorAndroid extends KeyMonitorGdx {
   public static boolean isTouchedFrac(float x, float y, 
                                       float width, float height) {
 
-    int xx = (int)Math.round(x * Gdx.graphics.getWidth()),
-        yy = (int)Math.round(y * Gdx.graphics.getHeight()),
-        ww = (int)Math.round(width * Gdx.graphics.getWidth()),
-        hh = (int)Math.round(height * Gdx.graphics.getHeight());
+    int xx = Math.round(x * Gdx.graphics.getWidth()),
+        yy = Math.round(y * Gdx.graphics.getHeight()),
+        ww = Math.round(width * Gdx.graphics.getWidth()),
+        hh = Math.round(height * Gdx.graphics.getHeight());
     return isTouched(xx, yy, ww, hh);
     
   } // isTouchedFrac()

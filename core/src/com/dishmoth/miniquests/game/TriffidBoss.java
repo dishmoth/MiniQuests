@@ -284,7 +284,7 @@ public class TriffidBoss extends Sprite3D implements Obstacle {
                           kHitGrowImages[];
 
   // different states
-  enum TriffidState { kGrowing, kSearching, kHurting, kAttacking, kDying };
+  enum TriffidState { kGrowing, kSearching, kHurting, kAttacking, kDying }
 
   // time (ticks) that the boss searches for
   private static final int kSearchDelay      = 200,

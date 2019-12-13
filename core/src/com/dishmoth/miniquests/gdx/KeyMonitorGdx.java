@@ -7,6 +7,7 @@
 package com.dishmoth.miniquests.gdx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dishmoth.miniquests.game.KeyMonitor;
 
@@ -25,7 +26,7 @@ abstract public class KeyMonitorGdx implements KeyMonitor {
     mMode = 0;
     mControllers = null;
 
-    Gdx.input.setCatchBackKey(true);
+    Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
   } // constructor
   

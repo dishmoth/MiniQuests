@@ -392,7 +392,7 @@ public class Spook extends Sprite3D {
     int prevDirec = (mState==2) ? Env.NONE : mPrevDirec;
 
     if ( mState == 6 ) {
-      assert( mStepping = true );
+      assert( mStepping == true );
       image.drawBasic(canvas, mXPos-x0, mYPos-y0, mZPos-z0, 
                       mDirec, Env.NONE, true);
     } else if ( mStepping ) {
