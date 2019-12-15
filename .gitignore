@@ -130,3 +130,5 @@ Thumbs.db
 
 ## Project specific
 /resources/
+/android/release/
+/html/*.zip
