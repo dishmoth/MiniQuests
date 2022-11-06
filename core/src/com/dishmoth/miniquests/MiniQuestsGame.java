@@ -1,6 +1,6 @@
 /*
  *  MiniQuestsGame.java
- *  Copyright (c) 2017 Simon Hern
+ *  Copyright (c) 2022 Simon Hern
  *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
 
@@ -51,7 +51,7 @@ public class MiniQuestsGame extends ApplicationAdapter {
 
     EnvBitsGdx envBits = new EnvBitsGdx();
     if ( Env.debugMode() ) {
-      envBits.debug("Mini Quests (v5.0.0, 13th December 2019)");
+      envBits.debug("Mini Quests (v5.0.1, 30th October 2022)");
       envBits.debug("Contact: dishmoth@yahoo.co.uk, www.dishmoth.com");
       envBits.debug("");
  

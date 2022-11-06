@@ -16,7 +16,6 @@ import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.controllers.mappings.Ouya;
 
 // platform-dependent code for Env (libgdx version)
 public class EnvBitsGdx implements EnvBits {
@@ -43,12 +42,12 @@ public class EnvBitsGdx implements EnvBits {
     } else if ( Gdx.app.getType() == ApplicationType.Android ) {
       mPlatform = Env.Platform.ANDROID;
     
+      /*
       if ( Ouya.runningOnOuya ) {
           debug("Running on Ouya");
           mPlatform = Env.Platform.OUYA;        
       }
       
-      /*
       String device = null;
       try {
         Class<?> buildClass = Class.forName("android.os.Build");
