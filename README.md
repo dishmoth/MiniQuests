@@ -32,7 +32,7 @@ The project follows the usual libGDX layout, with a main folder for the source c
 - `core` -  the main source code, common to all targets 
 - `desktop` - specifics for desktop targets (Windows, OSX, Linux)
 - `android` - specifics for Android
-- `android/assets` - image and audio assets, common to all targets
+- `assets` - image and audio assets, common to all targets
 - `html` - specifics for HTML
 - `ios` - specifics for iOS (untested)
 - `app` - specifics for pure Java (only partially supported)
