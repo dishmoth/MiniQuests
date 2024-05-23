@@ -156,8 +156,8 @@ public class EgaImage {
     
     assert( colour >= 0 && colour < 64 );
 
-    x -= mRefXPos;
-    y -= mRefYPos;
+    x += mRefXPos;
+    y += mRefYPos;
     
     if ( x < 0 || x >= mWidth || y < 0 || y >= mHeight ) return;
     final int index = x + y*mWidth;

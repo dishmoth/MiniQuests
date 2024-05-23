@@ -195,8 +195,8 @@ public class RoomE06 extends Room {
 
     for ( int iy = 0 ; iy < 4 ; iy++ ) {
       for ( int ix = 0 ; ix < 4 ; ix++ ) {
-        int x = 10 + 2*(iy + ix),
-            y = 12 + (iy - ix);
+        int x = 2*(iy + ix) - 6,
+            y = (iy - ix) - 4;
         mPuzzleImage.plot(x, y, (byte)7);
         mPuzzleImage.plot(x+1, y, (byte)7);
       }
@@ -208,8 +208,8 @@ public class RoomE06 extends Room {
     for ( int iy = 0 ; iy < mPuzzle.length ; iy++ ) {
       for ( int ix = 0 ; ix < mPuzzle[iy].length ; ix++ ) {
         byte col = colours[ mPuzzle[iy][ix] ];
-        int x = 12 + 2*(iy + ix),
-            y = 12 + (iy - ix);
+        int x = 2*(iy + ix) - 4,
+            y = (iy - ix) - 4;
         mPuzzleImage.plot(x, y, col);
         mPuzzleImage.plot(x+1, y, col);
       }
@@ -218,8 +218,8 @@ public class RoomE06 extends Room {
     if ( !mDone ) {
       int ix = (mCursorPos == 1 || mCursorPos == 2) ? 1 : 0,
           iy = (mCursorPos == 2 || mCursorPos == 3) ? 1 : 0;
-      int x = 14 + 2*(iy + ix),
-          y = 12 + (iy - ix);
+      int x = 2*(iy + ix) - 2,
+          y = (iy - ix) - 4;
       if ( mCursorActive ) {
         for ( int ky = -1 ; ky <= +1 ; ky++ ) {
           for ( int kx = -1 ; kx <= +1 ; kx++ ) {
