@@ -408,7 +408,7 @@ public class Critter extends Sprite3D implements Obstacle {
       for ( int k = 0 ; k < 5 ; k++ ) {
         final int zDest = z + ((k<=2) ? k : (2-k));
         if ( standingPosition(xDest, yDest, zDest) ) {
-          zResults[direc] = new Integer(zDest);
+          zResults[direc] = zDest;
           break;
         }
       }

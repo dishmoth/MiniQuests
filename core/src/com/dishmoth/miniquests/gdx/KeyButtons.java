@@ -269,6 +269,7 @@ public class KeyButtons {
     
     prepare();
 
+    // TODO: This returns a reference to the current colour, which changes?
     Color oldColour = spriteBatch.getColor();
     
     float c = (float)Math.sin(2*Math.PI*((Env.ticks()/kColourPeriod)%1.0f));
