@@ -1,6 +1,6 @@
 /*
  *  Hedge.java
- *  Copyright (c) 2017 Simon Hern
+ *  Copyright (c) 2024 Simon Hern
  *  Contact: dishmoth@yahoo.co.uk, dishmoth.com, github.com/dishmoth
  */
 
@@ -12,24 +12,27 @@ import java.util.LinkedList;
 public class Hedge extends Sprite3D implements Obstacle {
 
   // colour schemes for the wall
-  private static final byte kColours[][] = { { 16, 16, 2 },   // hedge
-                                             { 56, 56, 7 } }; // stone
+  private static final byte kColours[][] = { { 16, 2 },   // hedge
+                                             { 56, 7 } }; // stone
 
-  // position of base point of wall
+  // colour patterns for different block styles
+  private static final int kPixels[][] = { { 1,0, 0,0 },
+                                           { 1,0, 1,1 },
+                                           { 0,1, 0,1 },
+                                           { 1,0, 1,0 } };
+
+  // position of base point (bottom-left) of wall
   final private int mXPos,
                     mYPos,
                     mZPos;
-  
-  // number of wall units
-  final private int mLength;
-  
-  // whether the wall rights horizontally or vertically
-  final private int mDirec;
 
-  // index of the colour to use
+  // array of block styles (-1 for empty)
+  final private int mPattern[][];
+
+  // index of the colours to use
   final private int mColourScheme;
-  
-  // constructor
+
+  // constructor for a straight wall section (all blocks the same style)
   public Hedge(int xPos, int yPos, int zPos, 
                int length, int direc, int colourScheme) {
     
@@ -38,16 +41,69 @@ public class Hedge extends Sprite3D implements Obstacle {
     mZPos = zPos;
   
     assert( length > 0 );
-    mLength = length;
-    
     assert( direc == Env.UP || direc == Env.RIGHT );
-    mDirec = direc;
+    if ( direc == Env.UP ) {
+      mPattern = new int[length][1];
+    } else {
+      mPattern = new int[1][length];
+    }
+
+    for ( int iy = 0 ; iy < mPattern.length ; iy++ ) {
+      for ( int ix = 0 ; ix < mPattern[iy].length ; ix++ ) {
+        mPattern[iy][ix] = 0;
+      }
+    }
 
     assert ( colourScheme >= 0 && colourScheme < kColours.length );
     mColourScheme = colourScheme;
-    
+
   } // constructor
-  
+
+  // constructor for a pattern of walls (block style based on neighbours)
+  public Hedge(int xPos, int yPos, int zPos,
+               String pattern[], int colourScheme) {
+
+    mXPos = xPos;
+    mYPos = yPos;
+    mZPos = zPos;
+
+    assert( pattern != null && pattern.length > 0 && pattern[0].length() > 0 );
+    final int numY = pattern.length,
+              numX = pattern[0].length();
+
+    boolean solid[][] = new boolean[numY][numX];
+    for ( int iy = 0 ; iy < numY ; iy++ ) {
+      for ( int ix = 0 ; ix < numX ; ix++ ) {
+        solid[iy][ix] = (pattern[numY-1-iy].charAt(ix) != ' ');
+      }
+    }
+
+    mPattern = new int[numY][numX];
+    for ( int iy = 0 ; iy < numY ; iy++ ) {
+      for ( int ix = 0 ; ix < numX ; ix++ ) {
+        if (solid[iy][ix]) {
+          boolean sL = (ix > 0      && solid[iy][ix-1]),
+                  sR = (ix < numX-1 && solid[iy][ix+1]),
+                  sD = (iy > 0      && solid[iy-1][ix]),
+                  sU = (iy < numY-1 && solid[iy+1][ix]);
+          if      ( sL && sD ) mPattern[iy][ix] = 2;
+          else if ( sL )       mPattern[iy][ix] = 0;
+          else if ( sD )       mPattern[iy][ix] = 1;
+          else if ( sR && sU ) mPattern[iy][ix] = 3;
+          else if ( sR )       mPattern[iy][ix] = 0;
+          else if ( sU )       mPattern[iy][ix] = 1;
+          else                 mPattern[iy][ix] = 0;
+        } else {
+          mPattern[iy][ix] = -1;
+        }
+      }
+    }
+
+    assert ( colourScheme >= 0 && colourScheme < kColours.length );
+    mColourScheme = colourScheme;
+
+  } // constructor
+
   // whether the player can stand at the specified position
   public boolean isPlatform(int x, int y, int z) {
 
@@ -59,13 +115,14 @@ public class Hedge extends Sprite3D implements Obstacle {
   public boolean isEmpty(int x, int y, int z) {
 
     if ( z != mZPos+1 ) return true;
-    if ( mDirec == Env.RIGHT ) {
-      if ( x >= mXPos && x < mXPos+mLength && y == mYPos ) return false;
-    } else {
-      if ( x == mXPos && y >= mYPos && y < mYPos+mLength ) return false;      
-    }
-    return true;
-  
+
+    int ix = x - mXPos,
+        iy = y - mYPos;
+    if ( ix < 0 || ix >= mPattern[0].length ) return true;
+    if ( iy < 0 || iy >= mPattern.length )    return true;
+
+    return (mPattern[iy][ix] < 0);
+
   } // Obstacle.isEmpty()
 
   // whether the position is outside of the game world
@@ -93,30 +150,26 @@ public class Hedge extends Sprite3D implements Obstacle {
 
     final int x0 = Env.originXPixel() + 2*xPos - 2*yPos,
               y0 = Env.originYPixel() - xPos - yPos - zPos;
-    final float depth0 = xPos + yPos;
-    
-    int x = x0,
-        y = y0;
-    float depth = depth0 - 0.01f;
+    final float depth0 = xPos + yPos - 0.01f;
     
     byte colours[] = kColours[mColourScheme];
-    
-    for ( int k = 0 ; k < mLength ; k++ ) {
-      canvas.plot(x,   y,   depth, colours[1]);
-      canvas.plot(x+1, y,   depth, colours[0]);
-      canvas.plot(x,   y-1, depth, colours[2]);
-      canvas.plot(x+1, y-1, depth, colours[1]);
-      if ( mDirec == Env.RIGHT ) {
-        x += 2;
-        y -= 1;
-        depth += 1.0f;
-      } else {
-        x -= 2;
-        y -= 1;
-        depth += 1.0f;
+
+    for ( int iy = 0 ; iy < mPattern.length ; iy++ ) {
+      for ( int ix = 0 ; ix < mPattern[iy].length ; ix++ ) {
+        int block = mPattern[iy][ix];
+        if ( block >= 0 ) {
+          int x = x0 + 2*ix - 2*iy,
+              y = y0 - ix - iy;
+          float depth = depth0 + ix + iy;
+          int pixels[] = kPixels[block];
+          canvas.plot(x,   y,   depth, colours[pixels[2]]);
+          canvas.plot(x+1, y,   depth, colours[pixels[3]]);
+          canvas.plot(x,   y-1, depth, colours[pixels[0]]);
+          canvas.plot(x+1, y-1, depth, colours[pixels[1]]);
+        }
       }
     }
-    
+
   } // Sprite.draw()
 
 } // class Hedge
