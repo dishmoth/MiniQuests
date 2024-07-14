@@ -228,7 +228,7 @@ public class FlameArea extends FlameParticles {
   // whether the flames hit a point
   public boolean hits(int x, int y, int z) {
 
-    if ( !mIsOn || mStrength < 0.75f ) return false;
+    if ( !mIsOn || !mIsLethal || mStrength < 0.75f ) return false;
     
     if ( x < mXPos || x >= mXPos + mXSize ||
          y < mYPos || y >= mYPos + mYSize ||

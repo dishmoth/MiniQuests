@@ -137,7 +137,7 @@ public class FlameBeam extends FlameParticles {
   // whether the beam hits a point (within certain tolerances)
   public boolean hits(float x, float y, float z, float xyTol, float zTol) {
 
-    if ( !mIsOn ) return false;
+    if ( !mIsOn || !mIsLethal ) return false;
     
     assert( xyTol > 0 && zTol > 0 );
     

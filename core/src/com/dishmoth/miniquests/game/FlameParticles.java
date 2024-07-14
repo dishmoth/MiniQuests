@@ -30,6 +30,9 @@ abstract public class FlameParticles extends Particles {
   // whether the flame is currently active
   protected boolean mIsOn;
 
+  // whether the flame is dangerous
+  protected boolean mIsLethal;
+
   // constructor
   public FlameParticles() {
 
@@ -44,6 +47,7 @@ abstract public class FlameParticles extends Particles {
     mColours = new byte[]{ 54, 52, 4 }; 
     
     mIsOn = true;
+    mIsLethal = true;
     
   } // constructor
   
@@ -52,7 +56,10 @@ abstract public class FlameParticles extends Particles {
   
   // change the state of the flame
   public void setFlame(boolean on) { mIsOn = on; }
-  
+
+  // change whether the flame is dangerous
+  public void setLethal(boolean lethal) { mIsLethal = lethal; }
+
   // change physical constants for the particles
   public void setPhysics(float speed, float gravity) {
   
