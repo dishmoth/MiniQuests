@@ -97,6 +97,7 @@ public class Bullet extends Sprite3D {
          newSprite instanceof Dragon ||
          newSprite instanceof FloorBossHead ||
          newSprite instanceof Player ||
+         newSprite instanceof PortalStone ||
          newSprite instanceof Spinner ||
          newSprite instanceof Snake ||
          newSprite instanceof Spook ||
@@ -244,7 +245,16 @@ public class Bullet extends Sprite3D {
           target.destroy(mDirec);
         }
       }
-      
+
+      else if ( sp instanceof PortalStone ) {
+        PortalStone target = (PortalStone)sp;
+        if ( !target.isEmpty(mXPos, mYPos, mZPos+1) ) {
+          mHitTarget = true;
+          Env.sounds().play(Sounds.ARROW_HIT);
+          target.hit();
+        }
+      }
+
       else if ( sp instanceof Snake ) {
         Snake target = (Snake)sp;
         if ( target.hitsHead(mXPos, mYPos, mZPos) ) {
