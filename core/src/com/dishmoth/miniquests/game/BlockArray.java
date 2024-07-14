@@ -145,7 +145,10 @@ public class BlockArray extends Sprite3D implements Obstacle {
     return mBlocks[z][mYSize-1-y].charAt(x);
     
   } // getBlock()
-  
+
+  // access to the image data
+  public EgaImage getImage() { return mImage; }
+
   // paint the image onto the blocks ignoring depths
   // the image's ref point applies to the (x,y,z) blocks 
   public void paint(EgaImage colours, int x, int y, int z) {
