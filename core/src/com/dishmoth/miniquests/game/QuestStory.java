@@ -9,80 +9,7 @@ package com.dishmoth.miniquests.game;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.dishmoth.miniquests.rooms.RoomA01;
-import com.dishmoth.miniquests.rooms.RoomA02;
-import com.dishmoth.miniquests.rooms.RoomA03;
-import com.dishmoth.miniquests.rooms.RoomA04;
-import com.dishmoth.miniquests.rooms.RoomA05;
-import com.dishmoth.miniquests.rooms.RoomA06;
-import com.dishmoth.miniquests.rooms.RoomA07;
-import com.dishmoth.miniquests.rooms.RoomA08;
-import com.dishmoth.miniquests.rooms.RoomA09;
-import com.dishmoth.miniquests.rooms.RoomA10;
-import com.dishmoth.miniquests.rooms.RoomA11;
-import com.dishmoth.miniquests.rooms.RoomA12;
-import com.dishmoth.miniquests.rooms.RoomA13;
-import com.dishmoth.miniquests.rooms.RoomB01;
-import com.dishmoth.miniquests.rooms.RoomB02;
-import com.dishmoth.miniquests.rooms.RoomB03;
-import com.dishmoth.miniquests.rooms.RoomB04;
-import com.dishmoth.miniquests.rooms.RoomB05;
-import com.dishmoth.miniquests.rooms.RoomB06;
-import com.dishmoth.miniquests.rooms.RoomB07;
-import com.dishmoth.miniquests.rooms.RoomB08;
-import com.dishmoth.miniquests.rooms.RoomB09;
-import com.dishmoth.miniquests.rooms.RoomB10;
-import com.dishmoth.miniquests.rooms.RoomB11;
-import com.dishmoth.miniquests.rooms.RoomB12;
-import com.dishmoth.miniquests.rooms.RoomB13;
-import com.dishmoth.miniquests.rooms.RoomC01;
-import com.dishmoth.miniquests.rooms.RoomC02;
-import com.dishmoth.miniquests.rooms.RoomC03;
-import com.dishmoth.miniquests.rooms.RoomC04;
-import com.dishmoth.miniquests.rooms.RoomC05;
-import com.dishmoth.miniquests.rooms.RoomC06;
-import com.dishmoth.miniquests.rooms.RoomC07;
-import com.dishmoth.miniquests.rooms.RoomC08;
-import com.dishmoth.miniquests.rooms.RoomC09;
-import com.dishmoth.miniquests.rooms.RoomC10;
-import com.dishmoth.miniquests.rooms.RoomC11;
-import com.dishmoth.miniquests.rooms.RoomC12;
-import com.dishmoth.miniquests.rooms.RoomC13;
-import com.dishmoth.miniquests.rooms.RoomC14;
-import com.dishmoth.miniquests.rooms.RoomC15;
-import com.dishmoth.miniquests.rooms.RoomC16;
-import com.dishmoth.miniquests.rooms.RoomD01;
-import com.dishmoth.miniquests.rooms.RoomD02;
-import com.dishmoth.miniquests.rooms.RoomD03;
-import com.dishmoth.miniquests.rooms.RoomD04;
-import com.dishmoth.miniquests.rooms.RoomD05;
-import com.dishmoth.miniquests.rooms.RoomD06;
-import com.dishmoth.miniquests.rooms.RoomD07;
-import com.dishmoth.miniquests.rooms.RoomD08;
-import com.dishmoth.miniquests.rooms.RoomD09;
-import com.dishmoth.miniquests.rooms.RoomD10;
-import com.dishmoth.miniquests.rooms.RoomD11;
-import com.dishmoth.miniquests.rooms.RoomD12;
-import com.dishmoth.miniquests.rooms.RoomD13;
-import com.dishmoth.miniquests.rooms.RoomD14;
-import com.dishmoth.miniquests.rooms.RoomD15;
-import com.dishmoth.miniquests.rooms.RoomD16;
-import com.dishmoth.miniquests.rooms.RoomD17;
-import com.dishmoth.miniquests.rooms.RoomD18;
-import com.dishmoth.miniquests.rooms.RoomD19;
-import com.dishmoth.miniquests.rooms.RoomE01;
-import com.dishmoth.miniquests.rooms.RoomE02;
-import com.dishmoth.miniquests.rooms.RoomE03;
-import com.dishmoth.miniquests.rooms.RoomE04;
-import com.dishmoth.miniquests.rooms.RoomE05;
-import com.dishmoth.miniquests.rooms.RoomE06;
-import com.dishmoth.miniquests.rooms.RoomE07;
-import com.dishmoth.miniquests.rooms.RoomE08;
-import com.dishmoth.miniquests.rooms.RoomE09;
-import com.dishmoth.miniquests.rooms.RoomE10;
-import com.dishmoth.miniquests.rooms.RoomE11;
-import com.dishmoth.miniquests.rooms.RoomE12;
-import com.dishmoth.miniquests.rooms.RoomE13;
+import com.dishmoth.miniquests.rooms.*;
 
 // the main game class controlling a quest
 public class QuestStory extends Story {
@@ -244,6 +171,9 @@ public class QuestStory extends Story {
                                 new RoomE11(),
                                 new RoomE12(),
                                 new RoomE13() };
+      } break;
+      case 5: {
+        mRoomList = new Room[]{ new RoomF01() };
       } break;
       default: {
         assert( false );
