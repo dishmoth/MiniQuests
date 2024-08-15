@@ -101,26 +101,6 @@ public class CritterImage {
     
   } // constructor
 
-  // convert from colour scheme to EGA colours
-  /*
-  static private String convertColours(String source, char colourMap[]) {
-    
-    char colours[] = new char[source.length()];
-    for ( int k = 0 ; k < colours.length ; k++ ) {
-      final char ch = source.charAt(k);
-      if ( ch == ' ' ) {
-        colours[k] = ' ';
-      } else {
-        final int index = (int)(ch - '0');
-        assert( index >= 0 && index < colourMap.length );
-        colours[k] = colourMap[index];
-      }
-    }
-    return new String(colours);
-    
-  } // convertColours()
-  */
-  
   // construct a depth array for the stepping critter image
   static private float[] stepDepths(float depthsInfo[]) {
     
@@ -137,6 +117,22 @@ public class CritterImage {
     return depths;
     
   } // stepDepths()
+
+  // direct access
+  public EgaImage getBasicImage(int direc) {
+
+    assert( direc >= 0 && direc < 4 );
+    return mBasicImages[direc];
+
+  } // getBasicImage()
+
+  // direct access
+  public EgaImage getStepImage(int direc) {
+
+    assert( direc >= 0 && direc < 4 );
+    return mStepImages[direc];
+
+  } // getStepImage()
 
   // display the basic critter
   public void drawBasic(EgaCanvas canvas,

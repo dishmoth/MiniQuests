@@ -179,4 +179,66 @@ abstract public class PortalSightBase extends Sprite3D {
 
   } // Sprite.draw()
 
+  // version of EgaImage.draw3D() that applies the sight effect
+  public void draw3D(EgaCanvas canvas, EgaImage image,
+                     int xPos, int yPos, int zPos, boolean inside) {
+
+    final int depth = (int)Math.floor(0.5f*xPos) + (int)Math.ceil(0.5f*yPos);
+    final int xPix  = Env.originXPixel() + xPos - yPos,
+              yPix  = Env.originYPixel() - depth - zPos;
+    final int x0    = xPix - image.refXPos() + canvas.refXPos(),
+              y0    = yPix - image.refYPos() + canvas.refYPos();
+
+    final int sx = Math.max(0, -x0),
+              sy = Math.max(0, -y0),
+              nx = Math.min(image.width(), canvas.width()-x0) - sx,
+              ny = Math.min(image.height(), canvas.height()-y0) - sy,
+              dx = Math.max(0, x0),
+              dy = Math.max(0, y0);
+    if ( nx <= 0 || ny <= 0 ) return;
+
+    byte  srcPixels[]  = image.pixels(),
+          destPixels[] = canvas.pixels();
+    float srcDepths[]  = image.depths(),
+          destDepths[] = canvas.depths();
+
+    final int sGap = image.width() - nx;
+    assert( sGap >= 0 );
+    int sInd = sy*image.width() + sx;
+
+    final float ix0 = Env.originXPixel() + 0.5f;
+    final float iy0 = Env.originYPixel();
+
+    for ( int ky = 0 ; ky < ny ; ky++, sInd+=sGap ) {
+      for ( int kx = 0 ; kx < nx ; kx++, sInd++ ) {
+        final byte pixel = srcPixels[sInd];
+        if ( pixel < 0 ) continue;
+
+        final int ix = dx + kx,
+                  iy = dy + ky;
+        final int dInd = iy*canvas.width() + ix;
+        final float pixDepth = srcDepths[sInd] + depth;
+        if ( pixDepth > destDepths[dInd] ) continue;
+
+        final int bx = (ix % kNoiseWidth) + kNoiseWidth *(iy % kNoiseWidth);
+        final int by = bx + kNoiseWidth * kNoiseWidth;
+        final float jx = (ix - ix0) + 0.5f*(mNoise[bx] ? +1 : -1);
+        final float jy = (iy - iy0) + 0.5f*(mNoise[by] ? +1 : -1);
+
+        final float x = 0.5f*depth + 0.25f*jx + mCamera.xPos();
+        final float y = 0.5f*depth - 0.25f*jx + mCamera.yPos();
+        final float z = -(depth + jy) + mCamera.zPos();
+
+        final float rx = x - mXPos;
+        final float ry = y - mYPos;
+        final boolean in = ( rx*rx + ry*ry < mRadius*mRadius );
+        if ( in != inside ) continue;
+
+        destPixels[dInd] = pixel;
+        destDepths[dInd] = pixDepth;
+      }
+    }
+
+  } // draw3D()
+
 } // class PortalSightBase

@@ -38,12 +38,12 @@ public class Critter extends Sprite3D implements Obstacle {
   private static final int kHeight = 4;
 
   // current position (x, y in block units, z in pixels)
-  private int mXPos,
-              mYPos,
-              mZPos;
+  protected int mXPos,
+                mYPos,
+                mZPos;
 
   // current direction (see enumeration in Env)
-  private int mDirec;
+  protected int mDirec;
   
   // direction critter most recently came from
   private int mDirecFrom;
@@ -55,7 +55,7 @@ public class Critter extends Sprite3D implements Obstacle {
   private boolean mTurning;
   
   // whether current action is to take a step forward
-  private boolean mStepping;
+  protected boolean mStepping;
   
   // expected position at the end of a step (only defined if mStepping)
   private int mStepXPos,
@@ -155,7 +155,23 @@ public class Critter extends Sprite3D implements Obstacle {
   public int getYPos() { return mYPos; }
   public int getZPos() { return mZPos; }
   public int getDirec() { return mDirec; }
-  
+
+  // current position taking stepping into account
+  protected int getZPosStepping() {
+
+    if ( mStepping ) {
+      if (mStepZPos <= mZPos) {
+        return mZPos;
+      } else {
+        return (mActionTimer > kHalfStepTime1)
+                ? (mStepZPos + mZPos) / 2
+                : mStepZPos;
+      }
+    }
+    return mZPos;
+
+  } // getZPosStepping()
+
   // modify position (ignores obstacles)
   public void shiftPos(int dx, int dy, int dz) {
     
@@ -480,30 +496,29 @@ public class Critter extends Sprite3D implements Obstacle {
     }
     
   } // Sprite.aftermath()
-  
+
+  // the current display object for the critter (including colour and flash)
+  protected CritterImage getCritterImage() {
+
+    boolean flash = (mFreezeTimer > Math.max(0, mFreezeTime-kFlashTime));
+    return (flash ? kCritterFlashImages[mColour] : kCritterImages[mColour]);
+
+  } // getCritterImage()
+
   // display the critter
   @Override
   public void draw(EgaCanvas canvas) {
 
-    final int x0 = mCamera.xPos(),
-              y0 = mCamera.yPos(),
-              z0 = mCamera.zPos();
+    final int x = mXPos - mCamera.xPos(),
+              y = mYPos - mCamera.yPos(),
+              z = getZPosStepping() - mCamera.zPos();
 
-    final boolean flash = (mFreezeTimer > Math.max(0, mFreezeTime-kFlashTime));
-    CritterImage image = flash 
-                       ? kCritterFlashImages[mColour] 
-                       : kCritterImages[mColour];
+    CritterImage image = getCritterImage();
     
     if ( mStepping ) {
-      int z;
-      if ( mStepZPos <= mZPos ) {
-        z = mZPos;
-      } else {
-        z = (mActionTimer > kHalfStepTime1) ? (mStepZPos+mZPos)/2 : mStepZPos;
-      }
-      image.drawStep(canvas, mXPos-x0, mYPos-y0, z-z0, mDirec);
+      image.drawStep(canvas, x, y, z, mDirec);
     } else {
-      image.drawBasic(canvas, mXPos-x0, mYPos-y0, mZPos-z0, mDirec);
+      image.drawBasic(canvas, x, y, z, mDirec);
     }
     
   } // Sprite.draw()
